@@ -6,7 +6,6 @@ import app.Bugatti;
 import app.Car;
 import app.interfaces.I_Bugatti;
 import app.interfaces.I_Car;
-import core.libs._Math;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -27,7 +26,7 @@ public class Main {
         bugatti2.printInfo();
         bugatti3.printInfo();
 
-        List<Integer> list = _Math.<Integer>generateArray(20, () -> { return random(0, 20); });
+        List<Integer> list = generateArray(20, () -> random(0, 20));
         out.println(list);
 
         for (Integer el : list) {
