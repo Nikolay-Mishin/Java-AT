@@ -1,4 +1,0 @@
-echo %JAVA_HOME%
-allure --version
-java --version
-mvn -v
