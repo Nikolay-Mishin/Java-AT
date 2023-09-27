@@ -1,12 +1,13 @@
 package app.factories;
 
-public class CarFactory<T> {
+import core.utils.Instance;
 
-    T instance;
+import java.lang.reflect.InvocationTargetException;
 
-    public CarFactory() {
-        CarFactory<T> instance = new CarFactory<>();
-        this.instance = (T) instance;
+public class CarFactory<T> extends Instance<T> {
+
+    public CarFactory(Class<T> t) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        super(t);
     }
 
 }

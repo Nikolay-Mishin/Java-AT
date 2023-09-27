@@ -1,13 +1,13 @@
-package app;
+package app.models;
 
-import static core.libs._Math.random;
 import static java.lang.System.out;
 
 import app.interfaces.I_Bugatti;
 import app.interfaces.I_Car;
 
-public class Car<T> implements I_Car {
-    private T instance;
+import java.lang.reflect.Type;
+
+public class Car<T extends I_Car> implements I_Car {
     String model; // модель
     int maxSpeed; // максимальная скорость
     int wheels; // ширина дисков
@@ -26,10 +26,6 @@ public class Car<T> implements I_Car {
     int accelerationTo100km; // разгон до 100 км/час в секундах
 
     public Car() {
-        this.init();
-    }
-
-    public void init() {
         this.model = this._model;
         this.maxSpeed = this._maxSpeed;
         this.color = String.valueOf(_color.Black);
@@ -42,6 +38,24 @@ public class Car<T> implements I_Car {
         this.price = 2000000;
         this.isNew = false;
         this.placesInTheSalon = 2;
+
+        out.println(this.getClass());
+        Type[] interfaces = this.getClass().getGenericInterfaces();
+        Type _interface = interfaces[0];
+        out.println(_interface);
+        out.println(T._model);
+        /*
+        ParameterizedType eventHandlerInterface = (ParameterizedType) _interface;
+        out.println(eventHandlerInterface);
+        Type[] types = eventHandlerInterface.getActualTypeArguments();
+        out.println(types);
+        T dataType = (T) types[0]; // <--String or Date, in your case
+        out.println(dataType);
+        */
+    }
+
+    public <I extends T> void init() {
+        out.println(I._model);
     }
 
     public void printInfo() {

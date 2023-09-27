@@ -6,6 +6,4 @@ public interface I_Bugatti extends I_Car {
     enum _color {
         Blue, Green, Black
     }
-
-    void printInfo();
 }
