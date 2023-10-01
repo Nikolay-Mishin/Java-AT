@@ -1,12 +1,9 @@
 package app.models;
 
 import static java.lang.System.out;
+import java.lang.reflect.Type;
 
 import app.interfaces.I_Car;
-import core.utils.Instance;
-import core.utils.ReflectionUtils;
-
-import java.lang.reflect.Type;
 
 public class Car<T extends I_Car> /*extends Instance<I_Car>*/ implements I_Car {
     String model; // модель
@@ -63,6 +60,7 @@ public class Car<T extends I_Car> /*extends Instance<I_Car>*/ implements I_Car {
         out.println(I._model);
     }
 
+    @Override
     public void printInfo() {
         out.println("Модель: " + this.model + ". Цвет: " + this.color + ", макс. скорость: " + this.maxSpeed + ", объем двигателя - " + this.engineVolume +
             ", багажника - " + this.trunkVolume + ", салон сделан из " + this.salonMaterial + ", ширина дисков - " + this.wheels +

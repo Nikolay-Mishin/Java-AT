@@ -12,13 +12,7 @@ import app.interfaces.*;
 
 public class App {
 
-    public App() {
-
-    }
-
     public static void generateRandomArray() throws Exception {
-        out.println("Hello and welcome!");
-
         out.println("Псевдослучайное целое число: " + random(10, 75));
 
         List<Integer> list = generateArray(20, () -> random(0, 20));
