@@ -7,7 +7,7 @@ import static java.lang.System.out;
 // импорт класса Random
 import java.util.Random;
 
-import main.java.Employee;
+import test.java.Employee;
 
 public class Test {
 
