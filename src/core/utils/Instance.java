@@ -1,5 +1,7 @@
 package core.utils;
 
+import app.models.Car;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Supplier;
@@ -16,6 +18,8 @@ public class Instance<T> {
         this.register(t, this.instance);
     }
 
+    public Instance() {}
+
     public final T newInstance(Class<T> t) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         return t.getConstructor().newInstance();
     }
@@ -31,6 +35,12 @@ public class Instance<T> {
 
     public T instantiate(Supplier<? extends T> supplier) {
         return supplier.get();
+    }
+
+    public Class getEntityClass() {
+        out.println(this.getClass());
+        out.println(Instance.class);
+        return ReflectionUtils.getGenericParameterClass(this.getClass(), Instance.class, 0);
     }
 
 }

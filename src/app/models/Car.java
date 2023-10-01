@@ -2,12 +2,13 @@ package app.models;
 
 import static java.lang.System.out;
 
-import app.interfaces.I_Bugatti;
 import app.interfaces.I_Car;
+import core.utils.Instance;
+import core.utils.ReflectionUtils;
 
 import java.lang.reflect.Type;
 
-public class Car<T extends I_Car> implements I_Car {
+public class Car<T extends I_Car> /*extends Instance<I_Car>*/ implements I_Car {
     String model; // модель
     int maxSpeed; // максимальная скорость
     int wheels; // ширина дисков
@@ -26,6 +27,7 @@ public class Car<T extends I_Car> implements I_Car {
     int accelerationTo100km; // разгон до 100 км/час в секундах
 
     public Car() {
+        super();
         this.model = this._model;
         this.maxSpeed = this._maxSpeed;
         this.color = String.valueOf(_color.Black);
@@ -52,6 +54,9 @@ public class Car<T extends I_Car> implements I_Car {
         T dataType = (T) types[0]; // <--String or Date, in your case
         out.println(dataType);
         */
+
+        //Class _class = getEntityClass();
+        //out.println("Class: " + _class);
     }
 
     public <I extends T> void init() {
