@@ -1,6 +1,5 @@
 import static java.lang.System.out;
 
-import static app.App.*;
 import test.Test;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -13,11 +12,6 @@ public class Main {
         // IntelliJ IDEA suggests fixing it.
         out.println("Hello and welcome!");
 
-        Test test = new Test();
-        test.createPersons();
-
-        generateRandomArray();
-        createCars();
-        createCarsFactory();
+        new Test();
     }
 }

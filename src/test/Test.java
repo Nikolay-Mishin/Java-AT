@@ -7,11 +7,12 @@ import static java.lang.System.out;
 // импорт класса Random
 import java.util.Random;
 
+import static app.App.*;
 import test.java.Employee;
 
 public class Test {
 
-    public Test() {
+    public Test() throws Exception {
         testTypes();
         testCycles();
         testArithmeticOperators();
@@ -25,6 +26,12 @@ public class Test {
 
         setValue("text");
         setValue(5);
+
+        this.createPersons();
+
+        generateRandomArray();
+        createCars();
+        createCarsFactory();
     }
 
     public static void testTypes() {
