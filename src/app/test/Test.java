@@ -1,5 +1,5 @@
 // пакет - путь (вложенность папок) до класса
-package test;
+package app.test;
 
 // импорт статичного свойства out из класса System
 import static java.lang.System.out;
@@ -8,7 +8,7 @@ import static java.lang.System.out;
 import java.util.Random;
 
 import static app.App.*;
-import test.java.Employee;
+import app.test.java.Employee;
 
 public class Test {
 

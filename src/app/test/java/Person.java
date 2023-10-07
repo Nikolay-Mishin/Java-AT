@@ -1,4 +1,4 @@
-package test.java;
+package app.test.java;
 
 import static java.lang.System.out;
 

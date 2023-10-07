@@ -1,4 +1,4 @@
-package test.java;
+package app.test.java;
 
 public class Staff extends Person {
 
