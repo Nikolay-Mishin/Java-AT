@@ -24,7 +24,7 @@ public class Request {
     private final String endpoint;
     private Object body;
 
-    @ConstructorProperties("")
+    @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, String... pathList) {
         this.spec = getRequestSpec();
         this.method = method;
