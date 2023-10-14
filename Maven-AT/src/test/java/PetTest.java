@@ -11,7 +11,4 @@ import org.junit.runner.RunWith;
     plugin = {"html:results.html"} // формат вывода результата
 )
 public class PetTest {
-
-
-
 }
