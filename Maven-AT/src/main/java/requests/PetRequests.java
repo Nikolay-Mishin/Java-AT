@@ -19,7 +19,7 @@ public class PetRequests {
 
     private final RequestSpecification spec;
 
-    @ConstructorProperties({"method", "pathList"})
+    @ConstructorProperties({})
     public PetRequests() {
         this.spec = getRequestSpec();
     }
