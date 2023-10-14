@@ -12,4 +12,5 @@ public class PetStep {
         Response resp = new PetRequests().getPet(arg0);
         assertEquals(arg1, resp.getStatusCode());
     }
+
 }
