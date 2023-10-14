@@ -10,24 +10,30 @@ import java.lang.reflect.InvocationTargetException;
 
 import static constant.UrlConstants.PET_URL;
 import static io.restassured.RestAssured.given;
-import static utils.constant.RequestConstants.METHOD.POST;
+import static utils.constant.RequestConstants.METHOD.*;
 
 public class PetRequests {
 
     // запрос создания животного
     @Description("Add a new pet to the store")
-    public Response postPet(Pet pet) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response postPet_2(Pet pet) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Request request = new Request(POST, PET_URL);
-        request.getEndpoint();
-        request.getUrl();
-        request.getMethod();
+        request.print();
         return request
             .setBody(pet)
             .getResponse();
     }
 
+    @Description("Find pet by ID")
+    public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Request request = new Request(GET, PET_URL + petId);
+        request.print();
+        return request
+            .getResponse();
+    }
+
     @Description("Add a new pet to the store")
-    public Response postPet_2(Pet pet) {
+    public Response postPet(Pet pet) {
         return given()
             .contentType(ContentType.JSON)
             .body(pet)
@@ -51,7 +57,7 @@ public class PetRequests {
         return given()
             .contentType(ContentType.JSON)
             .when()
-            .get(PET_URL + "/" + petId)
+            .get(PET_URL /*+ "/"*/ + petId)
             .andReturn();
     }
 

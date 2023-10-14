@@ -17,11 +17,21 @@ public class Reflection {
         return _prop;
     }
 
-    @Description("Get object property")
-    public static Object getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    @Description("Get object property value of String")
+    private static Object _getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Object _prop = getProperty(obj, prop);
         if (print) out.println(_prop);
         return _prop;
+    }
+
+    @Description("Get object property value of String")
+    public static Object getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _getPropStr(obj, prop, print);
+    }
+
+    @Description("Get object property value of String")
+    public static Object getPropStr(Object obj, String prop) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _getPropStr(obj, prop, false);
     }
 
     @Description("Get object property")
