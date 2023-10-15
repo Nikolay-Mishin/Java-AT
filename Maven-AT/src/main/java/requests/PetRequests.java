@@ -24,24 +24,6 @@ public class PetRequests {
         this.spec = getRequestSpec();
     }
 
-    // запрос создания животного
-    @Description("Add a new pet to the store")
-    public Response postPet_2(Pet pet) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Request request = new Request(POST, PET_URL);
-        request.print();
-        return request
-            .setBody(pet)
-            .getResponse();
-    }
-
-    @Description("Find pet by ID")
-    public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Request request = new Request(GET, PET_URL + petId);
-        //request.print();
-        request.printFullPath();
-        return request.getResponse();
-    }
-
     @Description("Add a new pet to the store")
     public Response postPet(Pet pet) {
         return given(this.spec)
@@ -78,6 +60,24 @@ public class PetRequests {
             .when()
             .delete(PET_URL /*+ "/"*/  + petId)
             .andReturn();
+    }
+
+    // запрос создания животного
+    @Description("Add a new pet to the store")
+    public Response postPet_2(Pet pet) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Request request = new Request(POST, PET_URL);
+        //request.print();
+        return request
+            .setBody(pet)
+            .getResponse();
+    }
+
+    @Description("Find pet by ID")
+    public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Request request = new Request(GET, PET_URL + petId);
+        //request.print();
+        request.printFullPath();
+        return request.getResponse();
     }
 
 }

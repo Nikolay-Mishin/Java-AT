@@ -35,7 +35,7 @@ public class PetStep {
         PetRequests petReq = new PetRequests();
         //Response newPet = petReq.postPet(this.pet);
         //out.println(newPet);
-        Response resp = petReq.getPet(arg0);
+        //Response resp = petReq.getPet(arg0);
         Response resp2 = petReq.getPet_2(arg0);
         assertEquals(arg1, resp2.getStatusCode());
     }
