@@ -10,7 +10,6 @@ import utils.constant.RequestConstants.METHOD;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
@@ -55,7 +54,7 @@ public class Request {
 
     @Description("Send request")
     private Response send() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method _method = getMethod(this.request, GET.toString().toLowerCase(), true);
+        Method _method = getMethod(this.request, this.method.toString().toLowerCase(), true);
         //Method _method2 = getMethod(this.request, GET.toString().toLowerCase(), true, this.url.getClass());
         this.response = (Response) _method.invoke(this.request, this.url);
         out.println(this.response);
