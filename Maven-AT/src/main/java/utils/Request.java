@@ -33,7 +33,7 @@ public class Request {
         this.method = method;
         this.url = getUrl(pathList);
         this.endpoint = this.method + " " + this.url;
-        this.request = given(this.spec).contentType(ContentType.JSON); // header
+        this.request = given(this.spec);
     }
 
     @Description("Generate url path")
@@ -43,6 +43,7 @@ public class Request {
 
     @Description("Get response")
     public Response getResponse() {
+        this.request = this.request.contentType(ContentType.JSON); // header
         return (this.body != null && (this.method == POST || this.method == PUT) ? this.request.body(body) : this.request) // body json
             .when()
             .get(this.url) // endpoint
