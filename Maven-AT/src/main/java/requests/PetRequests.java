@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import static config.ApiConfig.getRequestSpec;
 import static constant.UrlConstants.PET_URL;
 import static io.restassured.RestAssured.given;
+import static utils.Request.getUrl;
 import static utils.constant.RequestConstants.METHOD.*;
 
 public class PetRequests {
@@ -49,7 +50,7 @@ public class PetRequests {
         return given(this.spec)
             .contentType(ContentType.JSON)
             .when()
-            .get(PET_URL /*+ "/"*/ + petId)
+            .get(getUrl(PET_URL, petId))
             .andReturn();
     }
 
@@ -58,7 +59,7 @@ public class PetRequests {
         return given(this.spec)
             .contentType(ContentType.JSON)
             .when()
-            .delete(PET_URL /*+ "/"*/  + petId)
+            .delete(getUrl(PET_URL, petId))
             .andReturn();
     }
 
@@ -68,16 +69,16 @@ public class PetRequests {
         Request request = new Request(POST, PET_URL);
         //request.print();
         return request
-            .setBody(pet)
-            .getResponse();
+            .body(pet)
+            .response();
     }
 
     @Description("Find pet by ID")
     public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Request request = new Request(GET, PET_URL + petId);
+        Request request = new Request(GET, PET_URL, petId);
         //request.print();
         request.printFullPath();
-        return request.getResponse();
+        return request.response();
     }
 
 }

@@ -7,21 +7,24 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
 import jdk.jfr.Description;
 import utils.constant.RequestConstants.METHOD;
-
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
 import static utils.Reflection.getPropStr;
 import static utils.Reflection.getProp;
+import static utils.Reflection.getMethod;
 import static utils.constant.RequestConstants.METHOD.*;
 
 public class Request {
 
     private final RequestSpecification spec;
     private RequestSpecification request;
+    private Response response;
     private final METHOD method;
     private final String url;
     private final String endpoint;
@@ -34,6 +37,7 @@ public class Request {
         this.url = getUrl(pathList);
         this.endpoint = this.method + " " + this.url;
         this.request = given(this.spec);
+        out.println(this.endpoint);
     }
 
     @Description("Generate url path")
@@ -41,17 +45,25 @@ public class Request {
         return String.join("/", pathList);
     }
 
-    @Description("Get response")
-    public Response getResponse() {
+    @Description("Builder: get response")
+    public Response response() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         this.request = this.request.contentType(ContentType.JSON); // header
-        return (this.body != null && (this.method == POST || this.method == PUT) ? this.request.body(body) : this.request) // body json
-            .when()
-            .get(this.url) // endpoint
-            .andReturn();
+        this.request = (this.body != null && (this.method == POST || this.method == PUT) ? this.request.body(this.body) : this.request) // body json
+            .when();
+        return this.send().andReturn();
+    }
+
+    @Description("Send request")
+    private Response send() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Method _method = getMethod(this.request, GET.toString().toLowerCase(), true);
+        //Method _method2 = getMethod(this.request, GET.toString().toLowerCase(), true, this.url.getClass());
+        this.response = (Response) _method.invoke(this.request, this.url);
+        out.println(this.response);
+        return this.response;
     }
 
     @Description("Builder: set body request")
-    public Request setBody(Object body) {
+    public Request body(Object body) {
         this.body = body;
         return this;
     }
@@ -78,11 +90,6 @@ public class Request {
         return (String) getProp(this, "endpoint");
     }
 
-    @Description("Get method")
-    public METHOD getMethod() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return (METHOD) getProp(this, "method");
-    }
-
     @Description("Get url")
     public String getUrl() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return (String) getProp(this, "url");
@@ -95,8 +102,12 @@ public class Request {
 
     @Description("Print method")
     public METHOD printMethod() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        getPropStr(this, "method", true);
         return (METHOD) getProp(this, "method", true);
+    }
+
+    @Description("Print method string")
+    public METHOD printMethodStr() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return (METHOD) getPropStr(this, "method", true);
     }
 
     @Description("Print url")
@@ -109,9 +120,11 @@ public class Request {
         String endpoint = this.printEndpoint();
         String url = this.printUrl();
         METHOD method = this.printMethod();
+        //METHOD methodStr = this.printMethodStr();
         out.println(endpoint);
         out.println(url);
         out.println(method);
+        //out.println(methodStr);
     }
 
 }
