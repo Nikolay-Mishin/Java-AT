@@ -37,9 +37,9 @@ public class PetRequests {
     @Description("Find pet by ID")
     public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Request request = new Request(GET, PET_URL + petId);
-        request.print();
-        return request
-            .getResponse();
+        //request.print();
+        request.printFullPath();
+        return request.getResponse();
     }
 
     @Description("Add a new pet to the store")

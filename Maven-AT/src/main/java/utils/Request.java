@@ -2,7 +2,9 @@ package utils;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.SpecificationQuerier;
 import jdk.jfr.Description;
 import utils.constant.RequestConstants.METHOD;
 
@@ -19,6 +21,7 @@ import static utils.constant.RequestConstants.METHOD.*;
 public class Request {
 
     private final RequestSpecification spec;
+    private RequestSpecification request;
     private final METHOD method;
     private final String url;
     private final String endpoint;
@@ -30,6 +33,7 @@ public class Request {
         this.method = method;
         this.url = getUrl(pathList);
         this.endpoint = this.method + " " + this.url;
+        this.request = given(this.spec).contentType(ContentType.JSON); // header
     }
 
     @Description("Generate url path")
@@ -37,13 +41,11 @@ public class Request {
         return String.join("/", pathList);
     }
 
-    @Description("Base request")
+    @Description("Get response")
     public Response getResponse() {
-        RequestSpecification request = given(this.spec)
-            .contentType(ContentType.JSON); // header
-        return (this.body != null && (this.method == POST || this.method == PUT) ? request.body(body) : request) // body json
+        return (this.body != null && (this.method == POST || this.method == PUT) ? this.request.body(body) : this.request) // body json
             .when()
-            .post(this.url) // endpoint
+            .get(this.url) // endpoint
             .andReturn();
     }
 
@@ -51,6 +53,23 @@ public class Request {
     public Request setBody(Object body) {
         this.body = body;
         return this;
+    }
+
+    @Description("Get query request")
+    public QueryableRequestSpecification getQuery() {
+        this.request.get();
+        return SpecificationQuerier.query(this.request);
+    }
+
+    @Description("Get full path")
+    public String getFullPath() {
+        return getQuery().getURI();
+    }
+
+    @Description("Print full path")
+    public void printFullPath() {
+        String retrievePath = getFullPath();
+        out.println("Full PATH is: " + retrievePath);
     }
 
     @Description("Get endpoint")
