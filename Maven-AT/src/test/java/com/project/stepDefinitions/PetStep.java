@@ -39,6 +39,7 @@ public class PetStep {
         //out.println(newPet);
         //Response resp = petReq.getPet(arg0);
         Response resp2 = petReq.getPet_2(arg0);
+        out.println(resp2.getStatusCode());
         assertEquals(arg1, resp2.getStatusCode());
     }
 
