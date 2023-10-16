@@ -49,10 +49,11 @@ public class Reflection {
 
     @Description("Get object method")
     public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        out.println(obj);
         out.println(Arrays.toString(args));
         Class<?>[] argTypes = Arrays.stream(args)
             .map(arg -> arg.getClass())
-            .toArray(Class[]::new);
+            .toArray(Class<?>[]::new);
         out.println(Arrays.toString(argTypes));
         Method _method = obj.getClass().getDeclaredMethod(method, argTypes);
         out.println(_method);
