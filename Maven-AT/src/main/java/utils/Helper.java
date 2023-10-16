@@ -1,6 +1,9 @@
 package utils;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.function.Function;
+import java.util.function.IntFunction;
 
 import static java.lang.System.out;
 

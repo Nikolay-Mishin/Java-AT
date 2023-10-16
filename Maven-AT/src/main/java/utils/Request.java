@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Arrays;
 
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
@@ -36,7 +37,7 @@ public class Request {
     private Object body;
 
     @ConstructorProperties({"method", "pathList"})
-    public Request(METHOD method, String... pathList) throws MalformedURLException, URISyntaxException {
+    public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         this.spec = getRequestSpec();
         this.request = given(this.spec);
         this.methodSend = method.toString().toLowerCase();
@@ -63,8 +64,8 @@ public class Request {
     }
 
     @Description("Generate url path")
-    public static String getPath(String... pathList) {
-        return String.join("/", pathList);
+    public static String getPath(Object... pathList) {
+        return String.join("/", Arrays.stream(pathList).map(path -> path.toString()).toArray(String[]::new));
     }
 
     @Description("Builder: get response")

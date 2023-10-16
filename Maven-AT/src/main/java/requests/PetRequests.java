@@ -28,7 +28,7 @@ public class PetRequests {
     // запрос получения животного
     @Description("Find pet by ID")
     public Response getPet(Long petId) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Request request = new Request(GET, PET_URL, petId.toString());
+        Request request = new Request(GET, PET_URL, petId);
         //request.print();
         return request.response();
     }
@@ -50,7 +50,7 @@ public class PetRequests {
 
     @Description("Deletes a pet")
     public Response deletePet(Long petId) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return new Request(PUT, PET_URL, petId.toString()).response();
+        return new Request(DELETE, PET_URL, petId).response();
     }
 
 }
