@@ -44,9 +44,9 @@ public class PetStep {
         out.println(id);
         //out.println(categoryId);
 
-        Response resp2 = petReq.getPet(id);
-        out.println(resp2.getStatusCode());
-        assertEquals(arg1, resp2.getStatusCode());
+        Response resp = petReq.getPet(id);
+        out.println(resp.getStatusCode());
+        assertEquals(arg1, resp.getStatusCode());
     }
 
 }
