@@ -14,9 +14,7 @@ import java.lang.reflect.Method;
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
-import static utils.Reflection.getPropStr;
-import static utils.Reflection.getProp;
-import static utils.Reflection.getMethod;
+import static utils.Reflection.*;
 import static utils.constant.RequestConstants.METHOD.*;
 
 public class Request {
@@ -54,10 +52,17 @@ public class Request {
 
     @Description("Send request")
     private Response send() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method _method = getMethod(this.request, this.method.toString().toLowerCase(), true);
-        //Method _method2 = getMethod(this.request, GET.toString().toLowerCase(), true, this.url.getClass());
+        Method _method = getMethod(this.request, this.method.toString().toLowerCase());
+        this.request.basePath(this.url);
+        out.println(getBaseUri());
+        out.println(getBasePath());
+        this.response = (Response) _method.invoke(this.request);
+        out.println(this.response);
+
+        Method _method2 = getMethod(this.request, GET.toString().toLowerCase(), this.url);
         this.response = (Response) _method.invoke(this.request, this.url);
         out.println(this.response);
+
         return this.response;
     }
 
@@ -71,6 +76,16 @@ public class Request {
     public QueryableRequestSpecification getQuery() {
         this.request.get();
         return SpecificationQuerier.query(this.request);
+    }
+
+    @Description("Get base path")
+    public String getBaseUri() {
+        return getQuery().getBaseUri();
+    }
+
+    @Description("Get base path")
+    public String getBasePath() {
+        return getQuery().getBasePath();
     }
 
     @Description("Get full path")

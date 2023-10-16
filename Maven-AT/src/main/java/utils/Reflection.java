@@ -27,15 +27,6 @@ public class Reflection {
         return _prop;
     }
 
-    @Description("Get object property")
-    private static Method _getMethod(Object obj, String method, boolean print, Class<?>... args) throws NoSuchMethodException {
-        out.println(Arrays.toString(args));
-        Method _method = obj.getClass().getDeclaredMethod(method, args);
-        out.println(Arrays.toString(_method.getParameterTypes()));
-        if (print) out.println(_method);
-        return _method;
-    }
-
     @Description("Get object property value of String")
     public static Object getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return _getPropStr(obj, prop, print);
@@ -56,14 +47,17 @@ public class Reflection {
         return _getProp(obj, prop, false);
     }
 
-    @Description("Get object property")
-    public static Method getMethod(Object obj, String method, boolean print, Class<?>... args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return _getMethod(obj, method, print, args);
-    }
-
-    @Description("Get object property")
-    public static Method getMethod(Object obj, String method, Class<?>... args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return _getMethod(obj, method, false, args);
+    @Description("Get object method")
+    public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        out.println(Arrays.toString(args));
+        Class<?>[] argTypes = Arrays.stream(args)
+            .map(arg -> arg.getClass())
+            .toArray(Class[]::new);
+        out.println(Arrays.toString(argTypes));
+        Method _method = obj.getClass().getDeclaredMethod(method, argTypes);
+        out.println(_method);
+        out.println(Arrays.toString(_method.getParameterTypes()));
+        return _method;
     }
 
 }
