@@ -60,7 +60,7 @@ public class Request {
         out.println(this.response);
 
         Method _method2 = getMethod(this.request, GET.toString().toLowerCase(), this.url);
-        this.response = (Response) _method.invoke(this.request, this.url);
+        this.response = (Response) _method2.invoke(this.request, this.url);
         out.println(this.response);
 
         return this.response;
