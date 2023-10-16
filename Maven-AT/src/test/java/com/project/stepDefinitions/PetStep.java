@@ -18,14 +18,14 @@ import static org.junit.Assert.assertEquals;
 
 public class PetStep {
 
-    private Pet pet;
+    private final Pet pet;
 
-    private List<String> photoUrls = List.of("string");
-    private String name = "doggie";
-    private int id = 0;
-    private Category category = new Category("string", 0);
-    private List<TagsItem> tags = List.of(new TagsItem("string", 0));
-    private String status = "available";
+    private final List<String> photoUrls = List.of("string");
+    private final String name = "doggie";
+    private final int id = 0;
+    private final Category category = new Category("string", 0);
+    private final List<TagsItem> tags = List.of(new TagsItem("string", 0));
+    private final String status = "available";
 
     @ConstructorProperties({})
     public PetStep() {

@@ -10,12 +10,12 @@ import lombok.Data;
 @Builder
 public class Pet {
 
-	private List<String> photoUrls;
-	private String name;
-	private int id;
-	private Category category;
-	private List<TagsItem> tags;
-	private String status;
+	private final List<String> photoUrls;
+	private final String name;
+	private final int id;
+	private final Category category;
+	private final List<TagsItem> tags;
+	private final String status;
 
     @ConstructorProperties({"name", "id", "status"})
     public Pet(List<String> photoUrls, String name, int id, Category category, List<TagsItem> tags, String status) {

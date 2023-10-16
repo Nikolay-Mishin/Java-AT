@@ -9,8 +9,8 @@ import java.beans.ConstructorProperties;
 @Builder
 public class TagsItem {
 
-	private String name;
-	private int id;
+	private final String name;
+	private final int id;
 
     @ConstructorProperties({"name", "id"})
     public TagsItem(String name, int id) {
