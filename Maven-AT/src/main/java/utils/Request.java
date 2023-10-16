@@ -22,6 +22,7 @@ public class Request {
     private final RequestSpecification spec;
     private RequestSpecification request;
     private Response response;
+    private String methodSend;
     private final METHOD method;
     private final String url;
     private final String endpoint;
@@ -30,10 +31,11 @@ public class Request {
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, String... pathList) {
         this.spec = getRequestSpec();
+        this.request = given(this.spec);
+        this.methodSend = method.toString().toLowerCase();
         this.method = method;
         this.url = getUrl(pathList);
         this.endpoint = this.method + " " + this.url;
-        this.request = given(this.spec);
         out.println(this.endpoint);
     }
 
@@ -52,14 +54,14 @@ public class Request {
 
     @Description("Send request")
     private Response send() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method _method = getMethod(this.request, this.method.toString().toLowerCase());
+        Method _method = getMethod(this.request, this.methodSend);
         this.request.basePath(this.url);
         out.println(getBaseUri());
         out.println(getBasePath());
         this.response = (Response) _method.invoke(this.request);
         out.println(this.response);
 
-        Method _method2 = getMethod(this.request, GET.toString().toLowerCase(), this.url);
+        Method _method2 = getMethod(this.request, this.methodSend, this.url);
         this.response = (Response) _method2.invoke(this.request, this.url);
         out.println(this.response);
 
