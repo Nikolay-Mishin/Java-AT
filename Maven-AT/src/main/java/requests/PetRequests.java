@@ -42,7 +42,7 @@ public class PetRequests {
     }
 
     @Description("Update an existing pet")
-    public Response putPet(Pet pet) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response updatePet(Pet pet) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return new Request(PUT, PET_URL)
             .body(pet)
             .response();
