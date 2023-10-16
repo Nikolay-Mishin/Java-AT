@@ -9,11 +9,13 @@ import utils.Request;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static config.ApiConfig.getRequestSpec;
 import static constant.UrlConstants.PET_URL;
 import static io.restassured.RestAssured.given;
-import static utils.Request.getUrl;
+import static utils.Request.getPath;
 import static utils.constant.RequestConstants.METHOD.*;
 
 public class PetRequests {
@@ -50,7 +52,7 @@ public class PetRequests {
         return given(this.spec)
             .contentType(ContentType.JSON)
             .when()
-            .get(getUrl(PET_URL, petId))
+            .get(getPath(PET_URL, petId))
             .andReturn();
     }
 
@@ -59,13 +61,13 @@ public class PetRequests {
         return given(this.spec)
             .contentType(ContentType.JSON)
             .when()
-            .delete(getUrl(PET_URL, petId))
+            .delete(getPath(PET_URL, petId))
             .andReturn();
     }
 
     // запрос создания животного
     @Description("Add a new pet to the store")
-    public Response postPet_2(Pet pet) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response postPet_2(Pet pet) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Request request = new Request(POST, PET_URL);
         //request.print();
         return request
@@ -74,10 +76,9 @@ public class PetRequests {
     }
 
     @Description("Find pet by ID")
-    public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Request request = new Request(GET, PET_URL, petId);
         //request.print();
-        request.printFullPath();
         return request.response();
     }
 

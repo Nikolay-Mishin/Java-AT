@@ -9,6 +9,8 @@ import requests.PetRequests;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import static java.lang.System.out;
@@ -31,7 +33,7 @@ public class PetStep {
     }
 
     @Когда("получено животное с id {string} статус {int}")
-    public void getPetByID(String arg0, int arg1) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public void getPetByID(String arg0, int arg1) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         PetRequests petReq = new PetRequests();
         //Response newPet = petReq.postPet(this.pet);
         //out.println(newPet);
