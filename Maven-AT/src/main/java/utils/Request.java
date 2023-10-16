@@ -28,15 +28,15 @@ public class Request {
     private Response response;
     private final String methodSend;
     private final METHOD method;
-    private final String url;
-    private final URI URI;
-    private final URL URL;
     private final String path;
+    private final String url;
+    private final URL URL;
+    private final URI URI;
     private final String endpoint;
     private Object body;
 
     @ConstructorProperties({"method", "pathList"})
-    public Request(METHOD method, String... pathList) throws URISyntaxException, MalformedURLException {
+    public Request(METHOD method, String... pathList) throws MalformedURLException, URISyntaxException {
         this.spec = getRequestSpec();
         this.request = given(this.spec);
         this.methodSend = method.toString().toLowerCase();
@@ -44,8 +44,8 @@ public class Request {
         this.path = getPath(pathList);
         this.request.basePath(this.path); // задаем базовый путь для запроса
         this.url = getFullPath();
-        this.URI = new URI(this.path);
         this.URL = new URL(this.url);
+        this.URI = new URI(this.path);
         this.endpoint = this.method + " " + this.path;
         out.println(this.endpoint);
         out.println(getBaseUri());
@@ -56,7 +56,7 @@ public class Request {
     }
 
     @Description("Send request")
-    private Response send() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private Response send() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method methodWithArgs = getMethod(this.request, this.methodSend, this.URL); // получение метода отправки запроса с аргументами
         this.response = (Response) methodWithArgs.invoke(this.request, this.URL); // вызов метода с аргументами
         return this.response;
@@ -68,7 +68,7 @@ public class Request {
     }
 
     @Description("Builder: get response")
-    public Response response() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response response() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         this.request = this.request.contentType(ContentType.JSON); // header
         this.request = (this.body != null && (this.method == POST || this.method == PUT) ? this.request.body(this.body) : this.request) // body json
             .when();

@@ -12,13 +12,13 @@ public class Pet {
 
 	private final List<String> photoUrls;
 	private final String name;
-	private final int id;
+	private final Long id;
 	private final Category category;
 	private final List<TagsItem> tags;
 	private final String status;
 
     @ConstructorProperties({"name", "id", "status"})
-    public Pet(List<String> photoUrls, String name, int id, Category category, List<TagsItem> tags, String status) {
+    public Pet(List<String> photoUrls, String name, Long id, Category category, List<TagsItem> tags, String status) {
         this.photoUrls = photoUrls;
         this.name = name;
         this.id = id;

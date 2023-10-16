@@ -22,7 +22,7 @@ public class PetStep {
 
     private final List<String> photoUrls = List.of("string");
     private final String name = "doggie";
-    private final int id = 0;
+    private final Long id = 0L;
     private final Category category = new Category("string", 0);
     private final List<TagsItem> tags = List.of(new TagsItem("string", 0));
     private final String status = "available";
@@ -32,13 +32,19 @@ public class PetStep {
         this.pet = new Pet(this.photoUrls, this.name, this.id, this.category, this.tags, this.status);
     }
 
-    @Когда("получено животное с id {string} статус {int}")
-    public void getPetByID(String arg0, int arg1) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    @Когда("получено животное с id {long} статус {int}")
+    public void getPetByID(Long arg0, int arg1) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         PetRequests petReq = new PetRequests();
-        //Response newPet = petReq.postPet(this.pet);
-        //out.println(newPet);
-        //Response resp = petReq.getPet(arg0);
-        Response resp2 = petReq.getPet_2(arg0);
+
+        Response newPet = petReq.postPet(this.pet);
+        out.println(newPet);
+        out.println(newPet.getStatusCode());
+        Long id = newPet.path("id");
+        //int categoryId = newPet.path("category", "id");
+        out.println(id);
+        //out.println(categoryId);
+
+        Response resp2 = petReq.getPet(id);
         out.println(resp2.getStatusCode());
         assertEquals(arg1, resp2.getStatusCode());
     }

@@ -14,8 +14,6 @@ import java.net.URISyntaxException;
 
 import static config.ApiConfig.getRequestSpec;
 import static constant.UrlConstants.PET_URL;
-import static io.restassured.RestAssured.given;
-import static utils.Request.getPath;
 import static utils.constant.RequestConstants.METHOD.*;
 
 public class PetRequests {
@@ -27,59 +25,32 @@ public class PetRequests {
         this.spec = getRequestSpec();
     }
 
-    @Description("Add a new pet to the store")
-    public Response postPet(Pet pet) {
-        return given(this.spec)
-            .contentType(ContentType.JSON)
-            .body(pet)
-            .when()
-            .post(PET_URL)
-            .andReturn();
-    }
-
-    @Description("Update an existing pet")
-    public Response updatePet(Pet pet) {
-        return given(this.spec)
-            .contentType(ContentType.JSON)
-            .body(pet)
-            .when()
-            .put(PET_URL)
-            .andReturn();
-    }
-
+    // запрос получения животного
     @Description("Find pet by ID")
-    public Response getPet(String petId) {
-        return given(this.spec)
-            .contentType(ContentType.JSON)
-            .when()
-            .get(getPath(PET_URL, petId))
-            .andReturn();
-    }
-
-    @Description("Deletes a pet")
-    public Response deletePet(String petId) {
-        return given(this.spec)
-            .contentType(ContentType.JSON)
-            .when()
-            .delete(getPath(PET_URL, petId))
-            .andReturn();
+    public Response getPet(Long petId) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Request request = new Request(GET, PET_URL, petId.toString());
+        //request.print();
+        return request.response();
     }
 
     // запрос создания животного
     @Description("Add a new pet to the store")
-    public Response postPet_2(Pet pet) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Request request = new Request(POST, PET_URL);
-        //request.print();
-        return request
+    public Response postPet(Pet pet) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return new Request(POST, PET_URL)
             .body(pet)
             .response();
     }
 
-    @Description("Find pet by ID")
-    public Response getPet_2(String petId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Request request = new Request(GET, PET_URL, petId);
-        //request.print();
-        return request.response();
+    @Description("Update an existing pet")
+    public Response putPet(Pet pet) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return new Request(PUT, PET_URL)
+            .body(pet)
+            .response();
+    }
+
+    @Description("Deletes a pet")
+    public Response deletePet(Long petId) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return new Request(PUT, PET_URL, petId.toString()).response();
     }
 
 }
