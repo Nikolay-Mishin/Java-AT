@@ -55,6 +55,13 @@ public class Request {
         out.println(this.URL);
     }
 
+    @Description("Send request")
+    private Response send() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        Method methodWithArgs = getMethod(this.request, this.methodSend, this.URL); // получение метода отправки запроса с аргументами
+        this.response = (Response) methodWithArgs.invoke(this.request, this.URL); // вызов метода с аргументами
+        return this.response;
+    }
+
     @Description("Generate url path")
     public static String getPath(String... pathList) {
         return String.join("/", pathList);
@@ -66,13 +73,6 @@ public class Request {
         this.request = (this.body != null && (this.method == POST || this.method == PUT) ? this.request.body(this.body) : this.request) // body json
             .when();
         return this.send().andReturn();
-    }
-
-    @Description("Send request")
-    private Response send() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Method methodWithArgs = getMethod(this.request, this.methodSend, this.URL); // получение метода отправки запроса с аргументами
-        this.response = (Response) methodWithArgs.invoke(this.request, this.URL); // вызов метода с аргументами
-        return this.response;
     }
 
     @Description("Builder: set body request")
