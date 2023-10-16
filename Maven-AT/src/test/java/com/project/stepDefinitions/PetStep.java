@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PetStep {
 
+    private final PetRequests petReq;
     private final Pet pet;
 
     private final List<String> photoUrls = List.of("string");
@@ -29,24 +30,27 @@ public class PetStep {
 
     @ConstructorProperties({})
     public PetStep() {
+        this.petReq = new PetRequests();
         this.pet = new Pet(this.photoUrls, this.name, this.id, this.category, this.tags, this.status);
     }
 
     @Когда("получено животное с id {long} статус {int}")
     public void getPetByID(Long arg0, int arg1) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        PetRequests petReq = new PetRequests();
+        Response resp = this.petReq.getPet(arg0);
+        out.println(resp.getStatusCode());
+        assertEquals(arg1, resp.getStatusCode());
+    }
 
-        Response newPet = petReq.postPet(this.pet);
+    @Когда("получено созданное животное статус {int}")
+    public void getCreatedPetByID(int arg0) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        Response newPet = this.petReq.postPet(this.pet);
         out.println(newPet);
         out.println(newPet.getStatusCode());
         Long id = newPet.path("id");
         //int categoryId = newPet.path("category", "id");
         out.println(id);
         //out.println(categoryId);
-
-        Response resp = petReq.getPet(id);
-        out.println(resp.getStatusCode());
-        assertEquals(arg1, resp.getStatusCode());
+        getPetByID(id, arg0);
     }
 
 }
