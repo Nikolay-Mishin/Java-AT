@@ -47,7 +47,7 @@ public class Reflection {
         return _getProp(obj, prop, false);
     }
 
-    @Description("Get object method")
+    @Description("Get method of object")
     public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
         out.println(obj);
         out.println(Arrays.toString(args));
@@ -59,6 +59,12 @@ public class Reflection {
         out.println(_method);
         out.println(Arrays.toString(_method.getParameterTypes()));
         return _method;
+    }
+
+    @Description("Invoke method of object")
+    public static <T> T invoke(Object obj, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method methodWithArgs = getMethod(obj, method, args); // получение метода с аргументами
+        return (T) methodWithArgs.invoke(obj, args); // вызов метода с аргументами
     }
 
 }

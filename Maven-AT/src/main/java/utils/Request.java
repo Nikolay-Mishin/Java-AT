@@ -9,12 +9,12 @@ import jdk.jfr.Description;
 import utils.constant.RequestConstants.METHOD;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
+import utils.Reflection;
 
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
@@ -58,9 +58,7 @@ public class Request {
 
     @Description("Send request")
     private Response send() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method methodWithArgs = getMethod(this.request, this.methodSend, this.URL); // получение метода отправки запроса с аргументами
-        this.response = (Response) methodWithArgs.invoke(this.request, this.URL); // вызов метода с аргументами
-        return this.response;
+        return Reflection.<Response>invoke(this.request, this.methodSend, this.URL); // вызов метода с аргументами
     }
 
     @Description("Generate url path")
