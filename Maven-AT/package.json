@@ -1,0 +1,30 @@
+{
+	"name": "maven-at",
+	"version": "6.2.0",
+	"license": "ISC",
+	"author": {
+		"name": "Nikolay Mishin",
+		"url": "https://github.com/Nikolay-Mishin"
+	},
+	"description": "Library of development Java automatization",
+	"keywords": [
+		"java",
+		"auto-qa"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nikolay-Mishin/Java-AT",
+		"directory": ""
+	},
+	"engines": {
+		"node": ">=16.7.0"
+	},
+	"scripts": {
+        "start": "npm test & npm run serve",
+        "start-with-reports": "npm test & npm run report & npm run serve",
+        "test": "mvn clean test -Denv=stand",
+		"serve": "mvn allure:serve",
+		"report": "mvn allure:report",
+        "allure": "allure serve target/allure-results"
+    }
+}

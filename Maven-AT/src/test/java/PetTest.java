@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     features = "src/test/resources", // директория тестов
     glue = "com.project", // название проекта
-    plugin = {"html:results.html"} // формат вывода результата
+    plugin = {"pretty", "html:results.html", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"} // формат вывода результата
 )
 public class PetTest {
 }
