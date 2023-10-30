@@ -7,17 +7,21 @@ import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
+import utils.base.Model;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
+import static utils.Helper.getHashMap;
 
 public class PetStep {
 
@@ -36,31 +40,29 @@ public class PetStep {
         return resp;
     }
 
-    private Response сreatePet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        out.println(dataTable.get(2).get(0));
-        out.println(parseLong(dataTable.get(2).get(1)));
-        pet = Pet.builder()
-            .photoUrls(List.of(dataTable.get(0).get(1)))
-            .name(dataTable.get(1).get(1))
-            .id(parseLong(dataTable.get(2).get(1)))
-            .category(new Category(dataTable.get(3).get(1), parseInt(dataTable.get(3).get(2))))
-            .tags(List.of(new TagsItem(dataTable.get(4).get(1), parseInt(dataTable.get(4).get(2)))))
-            .status(dataTable.get(5).get(1))
-            .build();
+    private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        HashMap<Integer, List<Object>> hashMap = getHashMap(List.of(3, 4), List.of(
+            List.of(Category.class, Category.builder()),
+            List.of(TagsItem.class, TagsItem.builder())
+        ));
+        pet = Pet.getModel(Pet.class, Pet.builder(), dataTable, hashMap);
         Response resp = petReq.postPet(pet);
         petId = resp.path("id");
+        out.println(pet);
+        out.println(resp.getStatusCode());
         out.println(petId);
         //Category category = resp.jsonPath().get("category");
         //out.println(category);
         int categoryId = resp.path("category.id");
         out.println(categoryId);
-        out.println(resp.getStatusCode());
         return resp;
     }
 
     @Когда("создать животное статус {int}")
-    public void сreatePet(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = сreatePet(dataTable);
+    public void createPet(int statusCode, List<List<String>> dataTable)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException
+    {
+        Response resp = createPet(dataTable);
         assertEquals(statusCode, resp.getStatusCode());
     }
 
