@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 // настройки Cucumber
 @CucumberOptions(
-    features = "src/test/resources", // директория тестов
+    features = "src/test/resources/features/pet", // директория тестов
     glue = "com.project", // название проекта
     plugin = {"pretty", "html:results.html", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"} // формат вывода результата
 )
