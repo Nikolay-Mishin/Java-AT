@@ -36,7 +36,7 @@ public class Test {
 
     public static void testTypes() {
         // тип данных / название переменной / присвоение значения
-        boolean         result              = true;
+        boolean result = true;
         char capitalC = 'C';
         String str = "Hello world!";
         byte b = 100;

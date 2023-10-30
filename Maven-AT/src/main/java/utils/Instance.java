@@ -5,24 +5,25 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import static java.lang.System.out;
+import static utils.Reflection.newInstance;
 
 public class Instance<T> {
 
     public T instance;
     protected final Map<Class<T>, T> registry = new HashMap<>();
 
-    public Instance(Class<T> t) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        this.instance = newInstance(t);
-        this.register(t, this.instance);
+    public Instance(Class<T> t, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        this.instance = _newInstance(t, args);
+        this._register(t, this.instance);
     }
 
     public Instance() {}
 
-    public final T newInstance(Class<T> t) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        return t.getConstructor().newInstance();
+    private T _newInstance(Class<T> t, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return newInstance(t, args);
     }
 
-    public void register(Class<T> t, T instance) {
+    private void _register(Class<T> t, T instance) {
         registry.put(t, instance);
     }
 
