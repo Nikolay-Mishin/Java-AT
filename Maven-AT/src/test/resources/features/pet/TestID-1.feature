@@ -11,4 +11,6 @@
             | category  | string    | 0 |
             | tags      | string    | 0 |
             | status    | available |   |
+            | petId     | 0         |   |
+            | bool      | true      |   |
         Тогда получить животное статус 200
