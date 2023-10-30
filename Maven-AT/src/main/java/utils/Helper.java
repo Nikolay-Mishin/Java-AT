@@ -1,13 +1,17 @@
 package utils;
 
 import java.nio.charset.Charset;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.function.Function;
-import java.util.function.IntFunction;
 
 import static java.lang.System.out;
 
 public class Helper {
+
+    private static Boolean is(Object type, Class<?> clazz) {
+        return type == clazz;
+    }
 
     public static Charset getDefaultCharset() {
         return Charset.defaultCharset();
@@ -16,4 +20,72 @@ public class Helper {
     public static void DefaultCharsetPrinter() {
         out.println(getDefaultCharset());
     }
+
+    public static StackTraceElement[] getStackTraceList() {
+        return new RuntimeException().getStackTrace();
+    }
+
+    public static StackTraceElement getStackTrace(int index) {
+        return getStackTraceList()[index];
+    }
+
+    public static StackTraceElement getStackTrace() {
+        return getStackTrace(3);
+    }
+
+    public static String getCallingClassname(int index) {
+        return getStackTrace(index).getClassName();
+    }
+
+    public static String getCallingClassname() {
+        return getCallingClassname(4);
+    }
+
+    public static <T, V> HashMap<T, V> getHashMap(List<T> nameList, List<V> valueList) {
+        HashMap<T, V> hashMap = new HashMap<>();
+        for (int i = 0; i < nameList.size(); i++) {
+            hashMap.put(nameList.get(i), valueList.get(i));
+        }
+        return hashMap;
+    }
+
+    public static Boolean isClass(Object obj) {
+        return obj instanceof Class<?>;
+    }
+
+    public static Boolean isParseType(Object type) {
+        return isBool(type) || isInt(type) || isFloat(type)  || isLong(type) || isDouble(type) || isShort(type) || isByte(type);
+    }
+
+    public static Boolean isBool(Object type) {
+        return is(type, boolean.class) || is(type, Boolean.class);
+    }
+
+    public static Boolean isInt(Object type) {
+        return is(type, int.class) || is(type, Integer.class);
+    }
+
+    public static Boolean isFloat(Object type) {
+        return is(type, float.class) || is(type, Float.class);
+    }
+
+    public static Boolean isLong(Object type) {
+        return is(type, long.class) || is(type, Long.class);
+    }
+
+    public static Boolean isDouble(Object type) {
+        return is(type, double.class) || is(type, Double.class);
+    }
+
+    public static Boolean isShort(Object type) {
+        return is(type, short.class) || is(type, Short.class);
+    }
+
+    public static Boolean isByte(Object type) {
+        return is(type, byte.class) || is(type, Byte.class);
+    }
+
+    public static String toUpperCaseFirst(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    };
 }
