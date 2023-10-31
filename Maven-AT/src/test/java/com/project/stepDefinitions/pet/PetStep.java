@@ -7,6 +7,7 @@ import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
+import utils.base.Model;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +16,9 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.Boolean.parseBoolean;
+import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
@@ -36,11 +40,28 @@ public class PetStep {
     }
 
     private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        HashMap<Integer, List<Object>> hashMap = new utils.base.HashMap<Integer, List<Object>>(3, 4).values(List.of(Category.class, Category.builder()), List.of(TagsItem.class, TagsItem.builder()));
-        pet = Pet.getModel(Pet.class, Pet.builder(), dataTable, hashMap);
+        HashMap<Integer, Class<? extends Model>> hashMap = new utils.base.HashMap<Integer, Class<? extends Model>>(3, 4).values(Category.class, TagsItem.class);
+        pet = Pet.getModel(Pet.class, dataTable, hashMap);
+        out.println(pet);
+        pet = Pet.builder()
+            .photoUrls(List.of(dataTable.get(0).get(0)))
+            .name(dataTable.get(1).get(0))
+            .id(parseLong(dataTable.get(2).get(0)))
+            .category(Category.builder()
+                .name(dataTable.get(3).get(0))
+                .id(parseInt(dataTable.get(3).get(1)))
+                .build())
+            .tags(List.of(TagsItem.builder()
+                .name(dataTable.get(4).get(0))
+                .id(parseInt(dataTable.get(4).get(1)))
+                .build()))
+            .status(dataTable.get(5).get(0))
+            .petId(parseInt(dataTable.get(6).get(0)))
+            .bool(parseBoolean(dataTable.get(7).get(0)))
+            .build();
+        out.println(pet);
         Response resp = petReq.postPet(pet);
         petId = resp.path("id");
-        out.println(pet);
         out.println(resp.getStatusCode());
         out.println(petId);
         //Category category = resp.jsonPath().get("category");

@@ -9,7 +9,7 @@ import utils.base.Model;
 
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 public class Pet extends Model {
 	private List<String> photoUrls;
 	private String name;

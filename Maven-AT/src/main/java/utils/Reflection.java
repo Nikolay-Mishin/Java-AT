@@ -51,6 +51,52 @@ public class Reflection {
         return argTypes;
     }
 
+    public static Class<?> getParseType(Class<?> type, String name) {
+        return switch (name) {
+            case ("boolean") -> Boolean.class;
+            case ("int") -> Integer.class;
+            case ("float") -> Float.class;
+            case ("long") -> Long.class;
+            case ("double") -> Double.class;
+            case ("short") -> Short.class;
+            case ("byte") -> Byte.class;
+            default -> type;
+        };
+    }
+
+    public static Class<?> getPrimitiveType(Class<?> clazz) {
+        String name = getClassSimpleName(clazz);
+        return switch (name) {
+            case ("Boolean") -> boolean.class;
+            case ("Integer") -> int.class;
+            case ("Float") -> float.class;
+            case ("Long") -> long.class;
+            case ("Double") -> double.class;
+            case ("Short") -> short.class;
+            case ("Byte") -> byte.class;
+            case ("List12") -> List.class;
+            default -> clazz;
+        };
+    }
+
+    public static Class<?> _getClass(Object obj) {
+        Class<?> clazz = isClass(obj) ? (Class<?>) obj : obj.getClass();
+        out.println(clazz);
+        return clazz;
+    }
+
+    public static String getClassName(Object obj) {
+        String name = _getClass(obj).getName();
+        out.println(name);
+        return name;
+    }
+
+    public static String getClassSimpleName(Object obj) {
+        String name = _getClass(obj).getSimpleName();
+        out.println(name);
+        return name;
+    }
+
     public static StackTraceElement[] getStackTraceList() {
         return new RuntimeException().getStackTrace();
     }
@@ -158,6 +204,7 @@ public class Reflection {
 
     @Description("Invoke parse number method")
     public static <T> T invokeParse(Class<?> type, Object value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        if (!isParseType(type)) return (T) value;
         Class<?> _type = type;
         String name = getClassSimpleName(type);
         type = getParseType(type, name);
@@ -166,52 +213,6 @@ public class Reflection {
         out.println(_type == type);
         out.println(method);
         return (T) invoke(type, method, value); // вызов метода с аргументами
-    }
-
-    public static Class<?> _getClass(Object obj) {
-        Class<?> clazz = isClass(obj) ? (Class<?>) obj : obj.getClass();
-        out.println(clazz);
-        return clazz;
-    }
-
-    public static String getClassName(Object obj) {
-        String name = _getClass(obj).getName();
-        out.println(name);
-        return name;
-    }
-
-    public static String getClassSimpleName(Object obj) {
-        String name = _getClass(obj).getSimpleName();
-        out.println(name);
-        return name;
-    }
-
-    public static Class<?> getParseType(Class<?> type, String name) {
-        return switch (name) {
-            case ("boolean") -> Boolean.class;
-            case ("int") -> Integer.class;
-            case ("float") -> Float.class;
-            case ("long") -> Long.class;
-            case ("double") -> Double.class;
-            case ("short") -> Short.class;
-            case ("byte") -> Byte.class;
-            default -> type;
-        };
-    }
-
-    public static Class<?> getPrimitiveType(Class<?> clazz) {
-        String name = getClassSimpleName(clazz);
-        return switch (name) {
-            case ("Boolean") -> boolean.class;
-            case ("Integer") -> int.class;
-            case ("Float") -> float.class;
-            case ("Long") -> long.class;
-            case ("Double") -> double.class;
-            case ("Short") -> short.class;
-            case ("Byte") -> byte.class;
-            case ("List12") -> List.class;
-            default -> clazz;
-        };
     }
 
 }
