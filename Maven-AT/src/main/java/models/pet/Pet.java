@@ -4,13 +4,11 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import utils.base.Model;
 
 @Data
 @Builder
-//@EqualsAndHashCode(callSuper = true)
-public class Pet extends Model {
+public class Pet {
 	private List<String> photoUrls;
 	private String name;
 	private Long id;

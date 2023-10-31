@@ -34,24 +34,24 @@ public class Reflection {
     }
 
     @Description("Get property descriptor by name")
-    private static PropertyDescriptor _getPropDescriptor(List<PropertyDescriptor> descList, String name) throws NullPointerException {
+    private static PropertyDescriptor _getPropDescriptor(List<PropertyDescriptor> descList, String name) {
         PropertyDescriptor[] _descList = descList.stream().filter(s -> s.getName().equals(name)).toArray(PropertyDescriptor[]::new);
-        PropertyDescriptor desc = _descList.length > 0 ? _descList[0]: null;
+        PropertyDescriptor desc = _descList.length > 0 ? _descList[0] : null;
         out.println(desc);
-        new AssertException(desc).notNull();
         return desc;
     }
 
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
         out.println(Arrays.toString(args));
         Class<?>[] argTypes = Arrays.stream(args)
-            .map(arg -> getPrimitive ? getPrimitiveType(arg.getClass()) : arg.getClass())
+            .map(arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass())
             .toArray(Class<?>[]::new);
         out.println(Arrays.toString(argTypes));
         return argTypes;
     }
 
-    public static Class<?> getParseType(Class<?> type, String name) {
+    public static Class<?> getParseType(Class<?> type) {
+        String name = getClassSimpleName(type);
         return switch (name) {
             case ("boolean") -> Boolean.class;
             case ("int") -> Integer.class;
@@ -64,7 +64,8 @@ public class Reflection {
         };
     }
 
-    public static Class<?> getPrimitiveType(Class<?> clazz) {
+    public static Class<?> getPrimitiveType(Object obj) {
+        Class<?> clazz = isInstance(obj, List.class) ? List.class : _getClass(obj);
         String name = getClassSimpleName(clazz);
         return switch (name) {
             case ("Boolean") -> boolean.class;
@@ -74,7 +75,6 @@ public class Reflection {
             case ("Double") -> double.class;
             case ("Short") -> short.class;
             case ("Byte") -> byte.class;
-            case ("List12") -> List.class;
             default -> clazz;
         };
     }
@@ -207,7 +207,7 @@ public class Reflection {
         if (!isParseType(type)) return (T) value;
         Class<?> _type = type;
         String name = getClassSimpleName(type);
-        type = getParseType(type, name);
+        type = getParseType(type);
         String methodPostfix = _type == type ? name : getClassSimpleName(type);
         String method = isInt(type) ? "parseInt" : ("parse" + methodPostfix);
         out.println(_type == type);

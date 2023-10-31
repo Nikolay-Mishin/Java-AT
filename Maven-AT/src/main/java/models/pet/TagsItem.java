@@ -6,7 +6,7 @@ import utils.base.Model;
 
 @Data
 @Builder
-public class TagsItem extends Model {
+public class TagsItem {
 	private String name;
 	private int id;
 }

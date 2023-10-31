@@ -22,6 +22,14 @@ public class Helper {
         return obj instanceof Class<?>;
     }
 
+    public static Boolean isInstance(Object obj, Class<?> clazz) {
+        return clazz.isInstance(obj);
+    }
+
+    public static Boolean isInstance(Object obj, Object classInstance) {
+        return isInstance(classInstance.getClass(), obj);
+    }
+
     public static Boolean isParseType(Object type) {
         return isBool(type) || isInt(type) || isFloat(type)  || isLong(type) || isDouble(type) || isShort(type) || isByte(type);
     }
@@ -56,5 +64,9 @@ public class Helper {
 
     public static String toUpperCaseFirst(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1);
+    };
+
+    public static String toLowerCaseFirst(String str) {
+        return str.substring(0, 1).toLowerCase() + str.substring(1);
     };
 }

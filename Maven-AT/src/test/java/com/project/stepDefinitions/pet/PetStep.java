@@ -10,6 +10,7 @@ import requests.PetRequests;
 import utils.base.Model;
 
 import java.beans.ConstructorProperties;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -39,9 +40,9 @@ public class PetStep {
         return resp;
     }
 
-    private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        HashMap<Integer, Class<? extends Model>> hashMap = new utils.base.HashMap<Integer, Class<? extends Model>>(3, 4).values(Category.class, TagsItem.class);
-        pet = Pet.getModel(Pet.class, dataTable, hashMap);
+    private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+        HashMap<Integer, Class<?>> hashMap = new utils.base.HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class);
+        pet = new Model<>(Pet.class, dataTable, hashMap).get();
         out.println(pet);
         pet = Pet.builder()
             .photoUrls(List.of(dataTable.get(0).get(0)))
@@ -73,7 +74,7 @@ public class PetStep {
 
     @Когда("создать животное статус {int}")
     public void createPet(int statusCode, List<List<String>> dataTable)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException
     {
         Response resp = createPet(dataTable);
         assertEquals(statusCode, resp.getStatusCode());
