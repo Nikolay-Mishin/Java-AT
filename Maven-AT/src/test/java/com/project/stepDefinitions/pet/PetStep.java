@@ -7,7 +7,6 @@ import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
-import utils.base.Model;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
@@ -16,12 +15,8 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.lang.Boolean.parseBoolean;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
-import static utils.Helper.getHashMap;
 
 public class PetStep {
 
@@ -41,10 +36,7 @@ public class PetStep {
     }
 
     private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        HashMap<Integer, List<Object>> hashMap = getHashMap(List.of(3, 4), List.of(
-            List.of(Category.class, Category.builder()),
-            List.of(TagsItem.class, TagsItem.builder())
-        ));
+        HashMap<Integer, List<Object>> hashMap = new utils.base.HashMap<Integer, List<Object>>(3, 4).values(List.of(Category.class, Category.builder()), List.of(TagsItem.class, TagsItem.builder()));
         pet = Pet.getModel(Pet.class, Pet.builder(), dataTable, hashMap);
         Response resp = petReq.postPet(pet);
         petId = resp.path("id");
