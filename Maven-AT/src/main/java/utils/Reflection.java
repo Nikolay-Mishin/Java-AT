@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import utils.exceptions.AssertException;
 
 import static java.lang.System.out;
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
@@ -33,11 +34,11 @@ public class Reflection {
     }
 
     @Description("Get property descriptor by name")
-    private static PropertyDescriptor _getPropDescriptor(List<PropertyDescriptor> descList, String name) {
+    private static PropertyDescriptor _getPropDescriptor(List<PropertyDescriptor> descList, String name) throws NullPointerException {
         PropertyDescriptor[] _descList = descList.stream().filter(s -> s.getName().equals(name)).toArray(PropertyDescriptor[]::new);
         PropertyDescriptor desc = _descList.length > 0 ? _descList[0]: null;
         out.println(desc);
-        _assertNull(desc);
+        new AssertException(desc).notNull();
         return desc;
     }
 
@@ -50,12 +51,24 @@ public class Reflection {
         return argTypes;
     }
 
-    public static <T> void _assert(Object value, T compare) {
-        assert value != compare;
+    public static StackTraceElement[] getStackTraceList() {
+        return new RuntimeException().getStackTrace();
     }
 
-    public static void _assertNull(Object value) {
-        _assert(value, null);
+    public static StackTraceElement getStackTrace(int index) {
+        return getStackTraceList()[index];
+    }
+
+    public static StackTraceElement getStackTrace() {
+        return getStackTrace(3);
+    }
+
+    public static String getCallingClassname(int index) {
+        return getStackTrace(index).getClassName();
+    }
+
+    public static String getCallingClassname() {
+        return getCallingClassname(4);
     }
 
     @Description("Get object property value of String")
@@ -95,7 +108,7 @@ public class Reflection {
         return _getPropDescriptor(getPropDescriptors(obj), name);
     }
 
-    public static Constructor<?> getConstructor(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public static Constructor<?> getConstructor(Class<?> clazz, Object... args) throws NoSuchMethodException {
         Constructor<?> сonstructor = clazz.getConstructor(getPrimitiveTypes(args));
         out.println(сonstructor);
         return сonstructor;
@@ -116,7 +129,7 @@ public class Reflection {
     }
 
     @Description("Get method of object")
-    public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+    public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException, NullPointerException {
         Class<?> clazz = _getClass(obj);
         out.println(obj);
         out.println(Arrays.toString(args));
@@ -131,8 +144,8 @@ public class Reflection {
             out.println(isNoSuchMethod);
             if (isNoSuchMethod) _method = clazz.getDeclaredMethod(method, getPrimitiveTypes(args));
         }
-        _assertNull(_method);
         out.println(_method);
+        new AssertException(_method).notNull();
         out.println(Arrays.toString(_method.getParameterTypes()));
         return _method;
     }

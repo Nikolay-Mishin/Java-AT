@@ -1,9 +1,6 @@
 package utils;
 
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.Function;
 
 import static java.lang.System.out;
 
@@ -19,34 +16,6 @@ public class Helper {
 
     public static void DefaultCharsetPrinter() {
         out.println(getDefaultCharset());
-    }
-
-    public static StackTraceElement[] getStackTraceList() {
-        return new RuntimeException().getStackTrace();
-    }
-
-    public static StackTraceElement getStackTrace(int index) {
-        return getStackTraceList()[index];
-    }
-
-    public static StackTraceElement getStackTrace() {
-        return getStackTrace(3);
-    }
-
-    public static String getCallingClassname(int index) {
-        return getStackTrace(index).getClassName();
-    }
-
-    public static String getCallingClassname() {
-        return getCallingClassname(4);
-    }
-
-    public static <T, V> HashMap<T, V> getHashMap(List<T> nameList, List<V> valueList) {
-        HashMap<T, V> hashMap = new HashMap<>();
-        for (int i = 0; i < nameList.size(); i++) {
-            hashMap.put(nameList.get(i), valueList.get(i));
-        }
-        return hashMap;
     }
 
     public static Boolean isClass(Object obj) {

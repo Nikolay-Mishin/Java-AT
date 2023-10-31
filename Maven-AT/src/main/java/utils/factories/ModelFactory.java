@@ -1,4 +1,4 @@
-package utils.factory;
+package utils.factories;
 
 import utils.Instance;
 
