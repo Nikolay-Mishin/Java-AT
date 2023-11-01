@@ -17,12 +17,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import static constant.UrlConstants.ORDER_URL;
-import static java.lang.Boolean.parseBoolean;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
-import static utils.constant.RequestConstants.METHOD_LOWER_CASE.post;
 
 public class OrderStep extends Step<OrderRequests, Order> {
 
@@ -40,19 +36,7 @@ public class OrderStep extends Step<OrderRequests, Order> {
     }
 
     private Response createOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        out.println(dataTable.get(0).get(0));
-        out.println(parseInt(dataTable.get(0).get(1)));
-        Order order = Order.builder()
-            .id(parseInt(dataTable.get(0).get(1)))
-            .petId(parseLong(dataTable.get(1).get(1)))
-            .quantity(parseInt(dataTable.get(2).get(1)))
-            .shipDate(dataTable.get(3).get(1))
-            .status(dataTable.get(4).get(1))
-            .complete(parseBoolean(dataTable.get(5).get(1)))
-            .build();
-        out.println(order);
-        Order order2 = new Model<>(modelClass, dataTable, ORDER_URL).get();
-        out.println(order2);
+        Order order = new Model<>(modelClass, dataTable, ORDER_URL).get();
         Response resp = req.postOrder(order);
         orderId = resp.jsonPath().get("id");
         out.println(orderId);
