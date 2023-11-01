@@ -1,10 +1,18 @@
 package utils.fs;
 
+import jdk.jfr.Description;
+
 import java.io.*;
+import java.util.Arrays;
 
 import static java.lang.System.out;
 
 public class FS {
+
+    @Description("Generate url path")
+    public static String getPath(Object... pathList) {
+        return String.join("/", Arrays.stream(pathList).map(Object::toString).toArray(String[]::new));
+    }
 
     private static String readFromInputStream(InputStream inputStream)
         throws IOException {

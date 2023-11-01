@@ -13,13 +13,13 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
 import static utils.Reflection.*;
 import static utils.constant.RequestConstants.METHOD.*;
+import static utils.fs.FS.getPath;
 
 public class Request {
 
@@ -58,11 +58,6 @@ public class Request {
     @Description("Send request")
     private Response send() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         return Reflection.<Response>invoke(this.request, this.methodSend, this.URL); // вызов метода с аргументами
-    }
-
-    @Description("Generate url path")
-    public static String getPath(Object... pathList) {
-        return String.join("/", Arrays.stream(pathList).map(path -> path.toString()).toArray(String[]::new));
     }
 
     @Description("Builder: get response")
