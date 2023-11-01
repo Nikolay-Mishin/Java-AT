@@ -28,6 +28,7 @@ public class Model<T> {
     public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<?>> hashMap)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
         jsonData = new JsonParser().path("src/test/resources/jsonSchema/" + getClassSimpleName(clazz) + ".json");
+        builder = getBuilder(clazz);
         setModel(clazz, dataTable, hashMap);
     }
 
@@ -37,6 +38,10 @@ public class Model<T> {
 
     private T setModel(Class<?> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return setModel(clazz, dataTable, null);
+    }
+
+    private Object getBuilder(Class<?> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return invoke(clazz, "builder");
     }
 
     private void setData(String key, boolean isList) {
@@ -51,10 +56,10 @@ public class Model<T> {
     {
         out.println("_getModel");
 
-        builder = invoke(clazz, "builder");
+        Object _builder = getBuilder(clazz);
 
         out.println(clazz);
-        out.println(builder);
+        out.println(_builder);
         out.println(dataTable);
         out.println(hashMap);
 
@@ -65,6 +70,7 @@ public class Model<T> {
 
             boolean isTable = dataTable.get(i) instanceof List;
             Class<?> hashEl = hashMap != null ? hashMap.get(i) : null;
+            boolean isModel = hashEl != null;
             out.println(hashEl);
 
             List<String> row = (List<String>) (isTable ? dataTable.get(i) : dataTable);
@@ -82,23 +88,26 @@ public class Model<T> {
 
             if (isTable) {
                 row.remove(0);
-                if (hashEl != null) setData(name, isList);
+                if (isModel) setData(name, isList);
             }
 
             row = row.stream().filter(Objects::nonNull).toList();
-            out.println(row);
-            out.println(row.get(0));
+            Object value = invokeParse(type, isList || isModel ? row : row.get(isTable ? 0 : i));
 
-            Object value = invokeParse(type, isList || hashEl != null ? row : row.get(isTable ? 0 : i));
-
+            if (isModel) {
+                value = setModel(hashEl, row);
+                if (isList) value = List.of(value);
+            }
             out.println(value);
-            out.println(value.getClass());
-            out.println(getClassSimpleName(value));
+            getClassSimpleName(value);
 
-            builder = hashEl == null ? invoke(builder, name, value) : setModel(hashEl, row);
+            _builder = invoke(isTable ? builder : _builder, name, value);
+            out.println(_builder);
         }
 
-        return model = invoke(builder, "build");
+        model = invoke(_builder, "build");
+        out.println(model);
+        return model;
     }
 
 }

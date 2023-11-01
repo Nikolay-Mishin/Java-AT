@@ -7,6 +7,7 @@ import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
+import utils.base.HashMap;
 import utils.base.Model;
 
 import java.beans.ConstructorProperties;
@@ -14,12 +15,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.List;
 
-import static java.lang.Boolean.parseBoolean;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
@@ -41,26 +38,7 @@ public class PetStep {
     }
 
     private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        HashMap<Integer, Class<?>> hashMap = new utils.base.HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class);
-        pet = new Model<>(Pet.class, dataTable, hashMap).get();
-        out.println(pet);
-        pet = Pet.builder()
-            .photoUrls(List.of(dataTable.get(0).get(0)))
-            .name(dataTable.get(1).get(0))
-            .id(parseLong(dataTable.get(2).get(0)))
-            .category(Category.builder()
-                .name(dataTable.get(3).get(0))
-                .id(parseInt(dataTable.get(3).get(1)))
-                .build())
-            .tags(List.of(TagsItem.builder()
-                .name(dataTable.get(4).get(0))
-                .id(parseInt(dataTable.get(4).get(1)))
-                .build()))
-            .status(dataTable.get(5).get(0))
-            .petId(parseInt(dataTable.get(6).get(0)))
-            .bool(parseBoolean(dataTable.get(7).get(0)))
-            .build();
-        out.println(pet);
+        pet = new Model<>(Pet.class, dataTable, new HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class)).get();
         Response resp = petReq.postPet(pet);
         petId = resp.path("id");
         out.println(resp.getStatusCode());

@@ -15,6 +15,4 @@ public class Pet {
     private Category category;
 	private List<TagsItem> tags;
 	private String status;
-    private int petId;
-    private boolean bool;
 }
