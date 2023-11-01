@@ -19,6 +19,7 @@ import java.util.List;
 
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
+import static utils.Reflection.getClassSimpleName;
 
 public class PetStep {
 
@@ -38,7 +39,8 @@ public class PetStep {
     }
 
     private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        pet = new Model<>(Pet.class, dataTable, new HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class)).get();
+        pet = new Model<>(Pet.class, dataTable, new HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class),
+            "src/test/resources/jsonSchema/", getClassSimpleName(Pet.class)).get();
         Response resp = petReq.postPet(pet);
         petId = resp.path("id");
         out.println(resp.getStatusCode());

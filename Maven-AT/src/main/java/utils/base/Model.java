@@ -2,7 +2,7 @@ package utils.base;
 
 import org.json.JSONObject;
 import utils.exceptions.AssertException;
-import utils.fs.JsonParser;
+import utils.fs.JsonSchema;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.lang.System.out;
-import static utils.Helper.isInstance;
-import static utils.Helper.toLowerCaseFirst;
 import static utils.Reflection.*;
 
 public class Model<T> {
@@ -25,9 +23,9 @@ public class Model<T> {
     private JSONObject obj;
     private String[] keys;
 
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<?>> hashMap)
+    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<?>> hashMap, Object... pathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-        jsonData = new JsonParser().path("src/test/resources/jsonSchema/" + getClassSimpleName(clazz) + ".json");
+        jsonData = new JsonSchema().path(pathList);
         builder = getBuilder(clazz);
         setModel(clazz, dataTable, hashMap);
     }

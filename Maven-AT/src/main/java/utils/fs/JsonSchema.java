@@ -5,26 +5,27 @@ import org.json.*;
 import java.io.IOException;
 
 import static java.lang.System.out;
+import static utils.fs.FS.getPath;
 import static utils.fs.FS.readFile;
 
-public class JsonParser {
+public class JsonSchema {
 
     private JSONObject jsonData;
     private JSONObject obj;
     private JSONArray arr;
 
-    public JsonParser(String jsonString) {
+    public JsonSchema(String jsonString) {
         setData(jsonString);
     }
 
-    public JsonParser() {}
+    public JsonSchema() {}
 
     private void setData(String jsonString) {
         jsonData = new JSONObject(jsonString);
     }
 
-    public JSONObject path(String path) throws IOException {
-        setData(readFile(path));
+    public JSONObject path(Object... pathList) throws IOException {
+        if (pathList.length > 0) setData(readFile(getPath(pathList) + ".json"));
         return data();
     }
 
@@ -33,17 +34,17 @@ public class JsonParser {
         return jsonData;
     }
 
-    public JsonParser object(String key) {
+    public JsonSchema object(String key) {
         obj = (obj == null ? jsonData : obj).getJSONObject(key);
         return this;
     }
 
-    public JsonParser array(String key) {
+    public JsonSchema array(String key) {
         arr = arr == null ? jsonData.getJSONArray(key) : arr;
         return this;
     }
 
-    public JsonParser array(int key) {
+    public JsonSchema array(int key) {
         arr = arr.getJSONArray(key);
         return this;
     }
