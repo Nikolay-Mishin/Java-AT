@@ -2,7 +2,6 @@ package models.pet;
 
 import lombok.Builder;
 import lombok.Data;
-import utils.base.Model;
 
 @Data
 @Builder

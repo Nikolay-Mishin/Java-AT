@@ -1,18 +1,8 @@
 {
     "id": 0,
-    "category": {
-        "id": 0,
-        "name": "string"
-    },
-    "name": "doggie",
-    "photoUrls": [
-        "string"
-    ],
-    "tags": [
-        {
-            "id": 0,
-            "name": "string"
-        }
-    ],
-    "status": "available"
+    "petId": 0,
+    "quantity": 0,
+    "shipDate": "2023-11-01T10:34:54.558Z",
+    "status": "placed",
+    "complete": true
 }

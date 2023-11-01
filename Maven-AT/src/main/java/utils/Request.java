@@ -23,12 +23,10 @@ import static utils.fs.FS.getPath;
 
 public class Request {
 
-    private final RequestSpecification spec;
     private RequestSpecification request;
     private Response response;
     private final String methodSend;
     private final METHOD method;
-    private final String path;
     private final String url;
     private final URL URL;
     private final URI URI;
@@ -37,16 +35,15 @@ public class Request {
 
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
-        this.spec = getRequestSpec();
-        this.request = given(this.spec);
+        this.request = given(getRequestSpec());
         this.methodSend = method.toString().toLowerCase();
         this.method = method;
-        this.path = getPath(pathList);
-        this.request.basePath(this.path); // задаем базовый путь для запроса
+        String path = getPath(pathList);
+        this.request.basePath(path); // задаем базовый путь для запроса
         this.url = getFullPath();
         this.URL = new URL(this.url);
-        this.URI = new URI(this.path);
-        this.endpoint = this.method + " " + this.path;
+        this.URI = new URI(path);
+        this.endpoint = this.method + " " + path;
         out.println(this.endpoint);
         out.println(getBaseUri());
         out.println(getBasePath());
@@ -57,7 +54,7 @@ public class Request {
 
     @Description("Send request")
     private Response send() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        return Reflection.<Response>invoke(this.request, this.methodSend, this.URL); // вызов метода с аргументами
+        return invoke(this.request, this.methodSend, this.URL); // вызов метода с аргументами
     }
 
     @Description("Builder: get response")

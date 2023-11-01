@@ -18,9 +18,8 @@ import static utils.Reflection.*;
 public class Model<T> {
 
     private T model;
-    private Object builder;
+    private final Object builder;
     private final JSONObject jsonData;
-    private JSONObject obj;
     private String[] keys;
 
     public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<?>> hashMap, Object... pathList)
@@ -43,7 +42,7 @@ public class Model<T> {
     }
 
     private void setData(String key, boolean isList) {
-        obj = isList ? jsonData.getJSONArray(key).getJSONObject(0) : jsonData.getJSONObject(key);
+        JSONObject obj = isList ? jsonData.getJSONArray(key).getJSONObject(0) : jsonData.getJSONObject(key);
         keys = obj.keySet().toArray(String[]::new);
         out.println(obj);
         out.println(Arrays.toString(keys));

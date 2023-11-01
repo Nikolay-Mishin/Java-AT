@@ -29,16 +29,14 @@ import static utils.fs.JsonSchema.getJsonSchemaPath;
 public class PetStep {
 
     private final PetRequests petReq;
-    private Pet pet;
     private Long petId;
     private final Class<Pet> clazz = Pet.class;
-    private final String modelName = getClassSimpleName(clazz);
     private final String jsonSchemaPath;
 
     @ConstructorProperties({})
     public PetStep() {
         petReq = new PetRequests();
-        jsonSchemaPath = getJsonSchemaPath(PET_URL, post + modelName);
+        jsonSchemaPath = getJsonSchemaPath(PET_URL, post + getClassSimpleName(clazz));
     }
 
     private Response getPet() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
@@ -48,7 +46,7 @@ public class PetStep {
     }
 
     private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        pet = new Model<>(clazz, dataTable, new HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class), jsonSchemaPath).get();
+        Pet pet = new Model<>(clazz, dataTable, new HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class), jsonSchemaPath).get();
         Response resp = petReq.postPet(pet);
         petId = resp.path("id");
         out.println(resp.getStatusCode());

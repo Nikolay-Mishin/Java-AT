@@ -212,7 +212,7 @@ public class Reflection {
         String method = isInt(type) ? "parseInt" : ("parse" + methodPostfix);
         out.println(_type == type);
         out.println(method);
-        return (T) invoke(type, method, value); // вызов метода с аргументами
+        return invoke(type, method, value); // вызов метода с аргументами
     }
 
 }

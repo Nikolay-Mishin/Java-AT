@@ -4,7 +4,6 @@ import java.util.List;
 
 import lombok.Builder;
 import lombok.Data;
-import utils.base.Model;
 
 @Data
 @Builder

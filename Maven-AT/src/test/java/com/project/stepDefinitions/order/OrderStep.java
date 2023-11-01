@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 public class OrderStep {
 
     private final OrderRequests orderReq;
-    private Order order;
     private Long orderId;
 
     @ConstructorProperties({})
@@ -35,10 +34,10 @@ public class OrderStep {
         return resp;
     }
 
-    private Response сreateOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    private Response createOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         out.println(dataTable.get(0).get(0));
         out.println(parseInt(dataTable.get(0).get(1)));
-        order = Order.builder()
+        Order order = Order.builder()
             .id(parseInt(dataTable.get(0).get(1)))
             .petId(parseInt(dataTable.get(1).get(1)))
             .quantity(parseInt(dataTable.get(2).get(1)))
@@ -60,8 +59,8 @@ public class OrderStep {
     }
 
     @Когда("создать заказ статус {int}")
-    public void сreateOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = сreateOrder(dataTable);
+    public void createOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        Response resp = createOrder(dataTable);
         assertEquals(statusCode, resp.getStatusCode());
     }
 

@@ -5,9 +5,7 @@ import org.json.*;
 import java.io.IOException;
 
 import static config.WebConfig.BASE_CONFIG;
-import static constant.UrlConstants.PET_URL;
 import static java.lang.System.out;
-import static utils.constant.RequestConstants.METHOD_LOWER_CASE.post;
 import static utils.fs.FS.getPath;
 import static utils.fs.FS.readFile;
 
@@ -34,7 +32,7 @@ public class JsonSchema {
     public JSONObject path(Object... pathList) throws IOException {
         String path = getPath(pathList) + ".json";
         out.println(path);
-        if (pathList.length > 0) setData(readFile(path));
+        setData(readFile(path));
         return data();
     }
 
