@@ -38,6 +38,16 @@ public class Model<T extends Model<?>> {
         _setModel(clazz, dataTable, null, method, jsonSchemaPathList);
     }
 
+    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap, Object... jsonSchemaPathList)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        _setModel(clazz, dataTable, hashMap, null, jsonSchemaPathList);
+    }
+
+    public Model(Class<T> clazz, List<List<String>> dataTable, Object... jsonSchemaPathList)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        _setModel(clazz, dataTable, null, null, jsonSchemaPathList);
+    }
+
     public Model(Class<T> clazz, List<List<String>> dataTable)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
         _setModel(clazz, dataTable, null, null);
@@ -49,9 +59,17 @@ public class Model<T extends Model<?>> {
 
     private void _setModel(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-            jsonData = new JsonSchema().path(method, clazz, jsonSchemaPathList);
+            jsonData = method != null ? setJsonData(method, clazz, jsonSchemaPathList) : setJsonData(clazz, jsonSchemaPathList);
             builder = getBuilder(clazz);
             setModel(clazz, dataTable, hashMap);
+    }
+
+    private JSONObject setJsonData(METHOD_LOWER_CASE method, Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
+        return new JsonSchema().path(method, clazz, jsonSchemaPathList);
+    }
+
+    private JSONObject setJsonData(Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
+        return new JsonSchema().path(clazz, jsonSchemaPathList);
     }
 
     private T setModel(Class<T> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {

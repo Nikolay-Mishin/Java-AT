@@ -21,11 +21,9 @@ import java.util.List;
 import static constant.UrlConstants.PET_URL;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
-import static utils.constant.RequestConstants.METHOD_LOWER_CASE.post;
 
 public class PetStep extends Step<PetRequests, Pet> {
 
-    protected final Class<Pet> modelClass = Pet.class;
     private Long petId;
 
     @ConstructorProperties({})
@@ -40,7 +38,7 @@ public class PetStep extends Step<PetRequests, Pet> {
     }
 
     private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        Pet pet = new Model<>(modelClass, dataTable, new HashMap<Integer, Class<? extends Model<?>>>(3, 4).values(Category.class, TagsItem.class), post, PET_URL).get();
+        Pet pet = new Model<>(modelClass, dataTable, new HashMap<Integer, Class<? extends Model<?>>>(3, 4).values(Category.class, TagsItem.class), PET_URL).get();
         Response resp = req.postPet(pet);
         petId = resp.path("id");
         out.println(resp.getStatusCode());

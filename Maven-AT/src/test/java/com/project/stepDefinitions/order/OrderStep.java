@@ -19,6 +19,7 @@ import java.util.List;
 import static constant.UrlConstants.ORDER_URL;
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 import static utils.constant.RequestConstants.METHOD_LOWER_CASE.post;
@@ -43,14 +44,14 @@ public class OrderStep extends Step<OrderRequests, Order> {
         out.println(parseInt(dataTable.get(0).get(1)));
         Order order = Order.builder()
             .id(parseInt(dataTable.get(0).get(1)))
-            .petId(parseInt(dataTable.get(1).get(1)))
+            .petId(parseLong(dataTable.get(1).get(1)))
             .quantity(parseInt(dataTable.get(2).get(1)))
             .shipDate(dataTable.get(3).get(1))
             .status(dataTable.get(4).get(1))
             .complete(parseBoolean(dataTable.get(5).get(1)))
             .build();
         out.println(order);
-        Order order2 = new Model<>(modelClass, dataTable, post, ORDER_URL).get();
+        Order order2 = new Model<>(modelClass, dataTable, ORDER_URL).get();
         out.println(order2);
         Response resp = req.postOrder(order);
         orderId = resp.jsonPath().get("id");

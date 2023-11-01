@@ -29,6 +29,10 @@ public class JsonSchema {
         return _path(getJsonSchemaPath(method, modelClass, pathList), pathList);
     }
 
+    public JSONObject path(Class<? extends Model<?>> modelClass, Object... pathList) throws IOException {
+        return _path(getJsonSchemaPath(modelClass, pathList), pathList);
+    }
+
     public JSONObject path(Object... pathList) throws IOException {
         return _path(getJsonSchemaPath(pathList), pathList);
     }
@@ -53,6 +57,10 @@ public class JsonSchema {
         return _getJsonSchemaPath(pathList, getJsonSchemaName(method, modelClass));
     }
 
+    private static String getJsonSchemaPath(Class<? extends Model<?>> modelClass, Object... pathList){
+        return _getJsonSchemaPath(pathList, getJsonSchemaName(modelClass));
+    }
+
     private static String getJsonSchemaPath(Object... pathList) {
         return _getJsonSchemaPath(pathList);
     }
@@ -62,7 +70,11 @@ public class JsonSchema {
     }
 
     private static String getJsonSchemaName(METHOD_LOWER_CASE method, Class<? extends Model<?>> modelClass){
-        return method + getClassSimpleName(modelClass);
+        return method + getJsonSchemaName(modelClass).toLowerCase();
+    }
+
+    private static String getJsonSchemaName(Class<? extends Model<?>> modelClass){
+        return getClassSimpleName(modelClass);
     }
 
     public JsonSchema object(String key) {
