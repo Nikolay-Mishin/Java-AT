@@ -4,7 +4,10 @@ import org.json.*;
 
 import java.io.IOException;
 
+import static config.WebConfig.BASE_CONFIG;
+import static constant.UrlConstants.PET_URL;
 import static java.lang.System.out;
+import static utils.constant.RequestConstants.METHOD_LOWER_CASE.post;
 import static utils.fs.FS.getPath;
 import static utils.fs.FS.readFile;
 
@@ -24,8 +27,14 @@ public class JsonSchema {
         jsonData = new JSONObject(jsonString);
     }
 
+    public static String getJsonSchemaPath(Object... pathList){
+        return getPath(BASE_CONFIG.getJsonSchemaRoot(), pathList);
+    }
+
     public JSONObject path(Object... pathList) throws IOException {
-        if (pathList.length > 0) setData(readFile(getPath(pathList) + ".json"));
+        String path = getPath(pathList) + ".json";
+        out.println(path);
+        if (pathList.length > 0) setData(readFile(path));
         return data();
     }
 

@@ -3,15 +3,22 @@ package utils.fs;
 import jdk.jfr.Description;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import static java.lang.String.join;
 import static java.lang.System.out;
+import static utils.Helper.isInstance;
 
 public class FS {
 
     @Description("Generate url path")
     public static String getPath(Object... pathList) {
-        return String.join("/", Arrays.stream(pathList).map(Object::toString).toArray(String[]::new));
+        return join("/", Arrays.stream(pathList.length == 1 && !(pathList[0] instanceof String) ? (Object[]) pathList[0] : pathList)
+            .map(path -> isInstance(path, Object[].class) ? getPath(path) : path.toString())
+            .toArray(String[]::new));
     }
 
     private static String readFromInputStream(InputStream inputStream)
