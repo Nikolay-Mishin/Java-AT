@@ -1,6 +1,7 @@
 package utils.base;
 
 import org.json.JSONObject;
+import utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import utils.exceptions.AssertException;
 import utils.fs.JsonSchema;
 
@@ -15,29 +16,49 @@ import java.util.Objects;
 import static java.lang.System.out;
 import static utils.Reflection.*;
 
-public class Model<T> {
+public class Model<T extends Model<?>> {
 
     private T model;
-    private final Object builder;
-    private final JSONObject jsonData;
+    private Object builder;
+    private JSONObject jsonData;
     private String[] keys;
 
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<?>> hashMap, Object... pathList)
+    public Model() {
+        builder = null;
+        jsonData = null;
+    }
+
+    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-        jsonData = new JsonSchema().path(pathList);
-        builder = getBuilder(clazz);
-        setModel(clazz, dataTable, hashMap);
+        _setModel(clazz, dataTable, hashMap, method, jsonSchemaPathList);
+    }
+
+    public Model(Class<T> clazz, List<List<String>> dataTable, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        _setModel(clazz, dataTable, null, method, jsonSchemaPathList);
+    }
+
+    public Model(Class<T> clazz, List<List<String>> dataTable)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        _setModel(clazz, dataTable, null, null);
     }
 
     public T get() {
         return model;
     }
 
-    private T setModel(Class<?> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private void _setModel(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+            jsonData = new JsonSchema().path(method, clazz, jsonSchemaPathList);
+            builder = getBuilder(clazz);
+            setModel(clazz, dataTable, hashMap);
+    }
+
+    private T setModel(Class<T> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return setModel(clazz, dataTable, null);
     }
 
-    private Object getBuilder(Class<?> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private Object getBuilder(Class<T> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return invoke(clazz, "builder");
     }
 
@@ -48,7 +69,7 @@ public class Model<T> {
         out.println(Arrays.toString(keys));
     }
 
-    private T setModel(Class<?> clazz, List<?> dataTable, HashMap<Integer, Class<?>> hashMap)
+    private T setModel(Class<T> clazz, List<?> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
         out.println("_getModel");
@@ -66,7 +87,7 @@ public class Model<T> {
             out.println("parseRow");
 
             boolean isTable = dataTable.get(i) instanceof List;
-            Class<?> hashEl = hashMap != null ? hashMap.get(i) : null;
+            Class<T> hashEl = hashMap != null ? (Class<T>) hashMap.get(i) : null;
             boolean isModel = hashEl != null;
             out.println(hashEl);
 

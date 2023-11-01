@@ -6,35 +6,39 @@ import io.cucumber.java.ru.Тогда;
 import io.restassured.response.Response;
 import models.order.Order;
 import requests.OrderRequests;
+import utils.base.Model;
+import utils.base.Step;
 
 import java.beans.ConstructorProperties;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static constant.UrlConstants.ORDER_URL;
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
+import static utils.constant.RequestConstants.METHOD_LOWER_CASE.post;
 
-public class OrderStep {
+public class OrderStep extends Step<OrderRequests, Order> {
 
-    private final OrderRequests orderReq;
     private Long orderId;
 
     @ConstructorProperties({})
     public OrderStep() {
-        orderReq = new OrderRequests();
+        super(new OrderRequests(), Order.class);
     }
 
     private Response getOrder() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = orderReq.getOrder(orderId);
+        Response resp = req.getOrder(orderId);
         out.println(resp.getStatusCode());
         return resp;
     }
 
-    private Response createOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    private Response createOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
         out.println(dataTable.get(0).get(0));
         out.println(parseInt(dataTable.get(0).get(1)));
         Order order = Order.builder()
@@ -45,7 +49,10 @@ public class OrderStep {
             .status(dataTable.get(4).get(1))
             .complete(parseBoolean(dataTable.get(5).get(1)))
             .build();
-        Response resp = orderReq.postOrder(order);
+        out.println(order);
+        Order order2 = new Model<>(modelClass, dataTable, post, ORDER_URL).get();
+        out.println(order2);
+        Response resp = req.postOrder(order);
         orderId = resp.jsonPath().get("id");
         out.println(orderId);
         out.println(resp.getStatusCode());
@@ -53,13 +60,13 @@ public class OrderStep {
     }
 
     private Response deleteOrder() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = orderReq.deleteOrder(orderId);
+        Response resp = req.deleteOrder(orderId);
         out.println(resp.getStatusCode());
         return resp;
     }
 
     @Когда("создать заказ статус {int}")
-    public void createOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    public void createOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
         Response resp = createOrder(dataTable);
         assertEquals(statusCode, resp.getStatusCode());
     }

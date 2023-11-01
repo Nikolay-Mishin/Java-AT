@@ -9,6 +9,7 @@ import models.pet.TagsItem;
 import requests.PetRequests;
 import utils.base.HashMap;
 import utils.base.Model;
+import utils.base.Step;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -17,37 +18,30 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static config.WebConfig.BASE_CONFIG;
 import static constant.UrlConstants.PET_URL;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
-import static utils.Reflection.getClassSimpleName;
 import static utils.constant.RequestConstants.METHOD_LOWER_CASE.post;
-import static utils.fs.FS.getPath;
-import static utils.fs.JsonSchema.getJsonSchemaPath;
 
-public class PetStep {
+public class PetStep extends Step<PetRequests, Pet> {
 
-    private final PetRequests petReq;
+    protected final Class<Pet> modelClass = Pet.class;
     private Long petId;
-    private final Class<Pet> clazz = Pet.class;
-    private final String jsonSchemaPath;
 
     @ConstructorProperties({})
     public PetStep() {
-        petReq = new PetRequests();
-        jsonSchemaPath = getJsonSchemaPath(PET_URL, post + getClassSimpleName(clazz));
+        super(new PetRequests(), Pet.class);
     }
 
     private Response getPet() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = petReq.getPet(petId);
+        Response resp = req.getPet(petId);
         out.println(resp.getStatusCode());
         return resp;
     }
 
     private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        Pet pet = new Model<>(clazz, dataTable, new HashMap<Integer, Class<?>>(3, 4).values(Category.class, TagsItem.class), jsonSchemaPath).get();
-        Response resp = petReq.postPet(pet);
+        Pet pet = new Model<>(modelClass, dataTable, new HashMap<Integer, Class<? extends Model<?>>>(3, 4).values(Category.class, TagsItem.class), post, PET_URL).get();
+        Response resp = req.postPet(pet);
         petId = resp.path("id");
         out.println(resp.getStatusCode());
         out.println(petId);

@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import static constant.UrlConstants.ORDER_URL;
 import static utils.constant.RequestConstants.METHOD.*;
 
-public class OrderRequests {
+public class OrderRequests extends Request {
 
     // запрос создания заказа
     @Description("Place an order for a pet")

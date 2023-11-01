@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import static constant.UrlConstants.PET_URL;
 import static utils.constant.RequestConstants.METHOD.*;
 
-public class PetRequests {
+public class PetRequests extends Request {
 
     // запрос создания животного
     @Description("Add a new pet to the store")

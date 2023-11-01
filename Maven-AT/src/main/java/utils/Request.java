@@ -24,20 +24,29 @@ import static utils.fs.FS.getPath;
 public class Request {
 
     private RequestSpecification request;
-    private Response response;
-    private final String methodSend;
     private final METHOD method;
+    private final String methodSend;
     private final String url;
     private final URL URL;
     private final URI URI;
     private final String endpoint;
     private Object body;
 
+    @ConstructorProperties({})
+    public Request() {
+        this.method = null;
+        this.methodSend = null;
+        this.url = null;
+        this.URL = null;
+        this.URI = null;
+        this.endpoint = null;
+    }
+
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         this.request = given(getRequestSpec());
-        this.methodSend = method.toString().toLowerCase();
         this.method = method;
+        this.methodSend = method.toString().toLowerCase();
         String path = getPath(pathList);
         this.request.basePath(path); // задаем базовый путь для запроса
         this.url = getFullPath();
