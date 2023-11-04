@@ -22,4 +22,28 @@ public class Auth extends SingleInstance<Auth> {
         return (Auth) SingleInstance.instance();
     }
 
+    public static String getToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return instance().token;
+    }
+
+    public static String getFileToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return instance().fileToken;
+    }
+
+    public static String getRefreshToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return instance().refreshToken;
+    }
+
+    public static String setToken(String token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return instance().token = token;
+    }
+
+    public static String setFileToken(String fileToken) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return instance().fileToken = fileToken;
+    }
+
+    public static String setRefreshToken(String refreshToken) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return instance().refreshToken = refreshToken;
+    }
+
 }
