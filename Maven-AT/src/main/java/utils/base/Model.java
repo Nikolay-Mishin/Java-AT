@@ -65,11 +65,11 @@ public class Model<T extends Model<?>> {
     }
 
     private JSONObject setJsonData(METHOD_LOWER_CASE method, Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
-        return new JsonSchema().path(method, clazz, jsonSchemaPathList);
+        return new JsonSchema().path(method, clazz, jsonSchemaPathList).data();
     }
 
     private JSONObject setJsonData(Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
-        return new JsonSchema().path(clazz, jsonSchemaPathList);
+        return new JsonSchema().path(clazz, jsonSchemaPathList).data();
     }
 
     private T setModel(Class<T> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {

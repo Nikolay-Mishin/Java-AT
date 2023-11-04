@@ -28,15 +28,15 @@ public class JsonSchema {
 
     public JsonSchema() {}
 
-    public JSONObject path(METHOD_LOWER_CASE method, Class<? extends Model<?>> modelClass, Object... pathList) throws IOException {
+    public JsonSchema path(METHOD_LOWER_CASE method, Class<? extends Model<?>> modelClass, Object... pathList) throws IOException {
         return _path(getJsonSchemaPath(method, modelClass, pathList), pathList);
     }
 
-    public JSONObject path(Class<? extends Model<?>> modelClass, Object... pathList) throws IOException {
+    public JsonSchema path(Class<? extends Model<?>> modelClass, Object... pathList) throws IOException {
         return _path(getJsonSchemaPath(modelClass, pathList), pathList);
     }
 
-    public JSONObject path(Object... pathList) throws IOException {
+    public JsonSchema path(Object... pathList) throws IOException {
         return _path(getJsonSchemaPath(pathList), pathList);
     }
 
@@ -49,11 +49,11 @@ public class JsonSchema {
         jsonData = new JSONObject(jsonString);
     }
 
-    private JSONObject _path(String path, Object... pathList) throws IOException {
+    private JsonSchema _path(String path, Object... pathList) throws IOException {
         path +=  ".json";
         out.println(path);
         if (pathList.length > 0) setData(readFile(path));
-        return data();
+        return this;
     }
 
     private static String getJsonSchemaPath(METHOD_LOWER_CASE method, Class<? extends Model<?>> modelClass, Object... pathList){
@@ -89,10 +89,10 @@ public class JsonSchema {
     }
 
     private <T> T _get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        String[] pathList = path.split(".");
+        String[] pathList = path.split("\\.");
         boolean isValue = pathList.length == 1;
         Object value = pathList[pathList.length - 1];
-        ArrayUtils.remove(pathList, pathList.length - 1);
+        pathList = (String[]) ArrayUtils.remove(pathList, pathList.length - 1);
         for (String key : pathList) object(key);
         value = invoke(isValue ? jsonData : obj, "get" + type, value);
         obj = null;

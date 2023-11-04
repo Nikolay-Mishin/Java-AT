@@ -6,6 +6,7 @@ import utils.fs.JsonSchema;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
+import static java.lang.System.out;
 import static utils.Helper.isInstance;
 import static utils.Helper.isNull;
 import static utils.reflections.Reflection.invoke;
@@ -90,6 +91,12 @@ public class Token {
 
     private void setFileToken(String fileToken) {
         this.fileToken = fileToken;
+    }
+
+    public void printTokens() {
+        out.println(getToken());
+        out.println(getRefreshToken());
+        out.println(getFileToken());
     }
 
 }

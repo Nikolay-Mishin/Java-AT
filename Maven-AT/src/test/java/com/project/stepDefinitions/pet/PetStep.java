@@ -8,6 +8,7 @@ import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
 import utils.base.*;
+import utils.fs.JsonSchema;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -47,7 +48,8 @@ public class PetStep extends Step<PetRequests, Pet> {
         //out.println(category);
         int categoryId = resp.path("category.id");
         out.println(categoryId);
-        Auth.instance(new Token("", "", ""));
+        Auth.instance(new Token(new JsonSchema().path("auth", "token"), "access.value", "refresh.value", "file.value"));
+        Auth.printTokens();
         return resp;
     }
 

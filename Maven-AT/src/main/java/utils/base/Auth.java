@@ -38,4 +38,8 @@ public class Auth extends SingleInstance<Auth> {
         return instance().token.getFileToken();
     }
 
+    public static void printTokens() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        instance().token.printTokens();
+    }
+
 }

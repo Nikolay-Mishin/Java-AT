@@ -36,7 +36,7 @@ public class SingleInstance<T extends SingleInstance<?>> {
     protected static SingleInstance<? extends SingleInstance<?>> _instance(Class<? extends SingleInstance<?>> clazz, Object... args)
         throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
     {
-        return notNull(instance) ? instance : new Instance<>(clazz, args).instance();
+        return notNull(instance) ? instance : (instance = new Instance<>(clazz, args).instance());
     }
 
     protected static Class<? extends SingleInstance<?>> _getGenericClass() throws ClassNotFoundException {
