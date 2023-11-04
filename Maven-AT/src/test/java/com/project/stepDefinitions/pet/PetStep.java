@@ -7,6 +7,7 @@ import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
+import utils.base.Auth;
 import utils.base.HashMap;
 import utils.base.Model;
 import utils.base.Step;
@@ -37,7 +38,9 @@ public class PetStep extends Step<PetRequests, Pet> {
         return resp;
     }
 
-    private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+    private Response createPet(List<List<String>> dataTable)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException, ClassNotFoundException
+    {
         Pet pet = new Model<>(modelClass, dataTable, new HashMap<Integer, Class<? extends Model<?>>>(3, 4).values(Category.class, TagsItem.class), PET_URL).get();
         Response resp = req.postPet(pet);
         petId = resp.path("id");
@@ -47,13 +50,13 @@ public class PetStep extends Step<PetRequests, Pet> {
         //out.println(category);
         int categoryId = resp.path("category.id");
         out.println(categoryId);
+        Auth.instance();
         return resp;
     }
 
     @Когда("создать животное статус {int}")
     public void createPet(int statusCode, List<List<String>> dataTable)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException
-    {
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException, ClassNotFoundException {
         Response resp = createPet(dataTable);
         assertEquals(statusCode, resp.getStatusCode());
     }

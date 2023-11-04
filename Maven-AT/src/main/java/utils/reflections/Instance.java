@@ -9,7 +9,7 @@ import static utils.reflections.Reflection.newInstance;
 
 public class Instance<T> {
 
-    public T instance;
+    protected T instance;
     protected final Map<Class<T>, T> registry = new HashMap<>();
 
     public Instance(Class<T> t, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
@@ -18,6 +18,10 @@ public class Instance<T> {
     }
 
     public Instance() {}
+
+    public T instance() {
+        return instance;
+    }
 
     private T _newInstance(Class<T> t, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         return newInstance(t, args);

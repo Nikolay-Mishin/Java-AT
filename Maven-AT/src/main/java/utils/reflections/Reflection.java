@@ -1,6 +1,8 @@
 package utils.reflections;
 
 import jdk.jfr.Description;
+import org.apache.commons.beanutils.BeanUtils;
+import utils.exceptions.AssertException;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
@@ -8,9 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.beanutils.BeanUtils;
-import utils.exceptions.AssertException;
 
 import static java.lang.System.out;
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
@@ -97,24 +96,32 @@ public class Reflection {
         return name;
     }
 
-    public static StackTraceElement[] getStackTraceList() {
+    public static StackTraceElement[] getStackTrace() {
         return new RuntimeException().getStackTrace();
     }
 
-    public static StackTraceElement getStackTrace(int index) {
-        return getStackTraceList()[index];
+    public static StackTraceElement getStackTraceEl(int index) {
+        return getStackTrace()[index + 2];
     }
 
-    public static StackTraceElement getStackTrace() {
-        return getStackTrace(3);
+    public static StackTraceElement getStackTraceEl() {
+        return getStackTraceEl(1);
     }
 
-    public static String getCallingClassname(int index) {
-        return getStackTrace(index).getClassName();
+    public static Class<?> getCallingClass(int index) throws ClassNotFoundException {
+        return Class.forName(getStackTraceEl(++index).getClassName());
     }
 
-    public static String getCallingClassname() {
-        return getCallingClassname(4);
+    public static Class<?> getCallingClass() throws ClassNotFoundException {
+        return getCallingClass(1);
+    }
+
+    public static String getCallingClassName(int index) {
+        return getStackTraceEl(++index).getClassName();
+    }
+
+    public static String getCallingClassName() {
+        return getCallingClassName(1);
     }
 
     @Description("Get object property value of String")
