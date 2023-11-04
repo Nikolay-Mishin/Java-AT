@@ -49,6 +49,14 @@ public class Reflection {
         return argTypes;
     }
 
+    private static Class<?> _getGenericClass(Class<?> genericClass, int index) throws ClassNotFoundException {
+        Class<?> clazz = getCallingClass(2);
+        Class<?> actualClass = isInstance(clazz, genericClass) ? clazz : getCallingClass(3);
+        Class<?> genericType = ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
+        out.println(genericType);
+        return genericType;
+    }
+
     public static Class<?> getParseType(Class<?> type) {
         String name = getClassSimpleName(type);
         return switch (name) {
@@ -122,6 +130,18 @@ public class Reflection {
 
     public static String getCallingClassName() {
         return getCallingClassName(1);
+    }
+
+    public static Class<?> getGenericClass(Class<?> genericClass, int index) throws ClassNotFoundException {
+        return _getGenericClass(genericClass, index);
+    }
+
+    public static Class<?> getGenericClass(int index) throws ClassNotFoundException {
+        return _getGenericClass(getCallingClass(1), index);
+    }
+
+    public static Class<?> getGenericClass() throws ClassNotFoundException {
+        return _getGenericClass(getCallingClass(1), 0);
     }
 
     @Description("Get object property value of String")
