@@ -7,15 +7,15 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Auth extends SingleInstance<Auth> {
 
-    private String token;
-    private String fileToken;
-    private String refreshToken;
+    private Token token;
 
     @ConstructorProperties({"token", "fileToken", "refreshToken"})
-    public Auth(String token, String fileToken, String refreshToken) {
+    public Auth(Token token) {
         this.token = token;
-        this.fileToken = fileToken;
-        this.refreshToken = refreshToken;
+    }
+
+    public static void refreshTokens(Token token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        instance().token.refreshTokens(token);
     }
 
     public static Auth instance() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -23,27 +23,15 @@ public class Auth extends SingleInstance<Auth> {
     }
 
     public static String getToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return instance().token;
+        return instance().token.getToken();
     }
 
     public static String getFileToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return instance().fileToken;
+        return instance().token.getFileToken();
     }
 
     public static String getRefreshToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return instance().refreshToken;
-    }
-
-    public static String setToken(String token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return instance().token = token;
-    }
-
-    public static String setFileToken(String fileToken) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return instance().fileToken = fileToken;
-    }
-
-    public static String setRefreshToken(String refreshToken) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return instance().refreshToken = refreshToken;
+        return instance().token.getRefreshToken();
     }
 
 }
