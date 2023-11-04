@@ -27,8 +27,8 @@ public class Token {
     }
 
     @ConstructorProperties({"jsonString"})
-    public Token(String jsonString, String... keys) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        _init(jsonString, keys);
+    public Token(JsonSchema jsonSchema, String... keys) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        _init(jsonSchema, keys);
     }
 
     private void init(String token, String refreshToken, String fileToken) {
@@ -38,12 +38,13 @@ public class Token {
     }
 
     private void _init(Object tokens, String... keys) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        boolean isJson = isInstance(tokens, Response.class);
-        String method = !isJson ? "path" : "getString";
-        tokens = !isJson ? tokens : new JsonSchema((String) tokens).data();
-        String token = invoke(tokens, method, getKey("token", keys));
-        String refreshToken = invoke(tokens, method, getKey("refreshToken", keys));
-        String fileToken = invoke(tokens, method, getKey("fileToken", keys));
+        boolean isJson = isInstance(tokens, JsonSchema.class);
+        String tokenKey = getKey("token", keys);
+        String refreshTokenKey = getKey("refreshToken", keys);
+        String fileTokenKey = getKey("fileToken", keys);
+        String token = !isJson ? invoke(tokens, "path", tokenKey) : invoke(tokens, "get", tokenKey, "String");
+        String refreshToken = !isJson ? invoke(tokens, "path", refreshTokenKey) : invoke(tokens, "get", refreshTokenKey, "String");
+        String fileToken = !isJson ? invoke(tokens, "path", fileTokenKey) : invoke(tokens, "get", fileTokenKey, "String");
         init(token, refreshToken, fileToken);
     }
 

@@ -1,17 +1,20 @@
 package utils.fs;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.base.Model;
 import utils.constant.RequestConstants.METHOD_LOWER_CASE;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
-import static utils.reflections.Reflection.getClassSimpleName;
 import static utils.fs.FS.getPath;
 import static utils.fs.FS.readFile;
+import static utils.reflections.Reflection.getClassSimpleName;
+import static utils.reflections.Reflection.invoke;
 
 public class JsonSchema {
 
@@ -75,6 +78,25 @@ public class JsonSchema {
 
     private static String getJsonSchemaName(Class<? extends Model<?>> modelClass){
         return getClassSimpleName(modelClass);
+    }
+
+    public <T> T get(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return _get(path, null);
+    }
+
+    public <T> T get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return _get(path, type);
+    }
+
+    private <T> T _get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        String[] pathList = path.split(".");
+        boolean isValue = pathList.length == 1;
+        Object value = pathList[pathList.length - 1];
+        ArrayUtils.remove(pathList, pathList.length - 1);
+        for (String key : pathList) object(key);
+        value = invoke(isValue ? jsonData : obj, "get" + type, value);
+        obj = null;
+        return (T) value;
     }
 
     public JsonSchema object(String key) {
