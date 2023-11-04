@@ -39,7 +39,8 @@ public class PetStep extends Step<PetRequests, Pet> {
     }
 
     private Response createPet(List<List<String>> dataTable)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException, ClassNotFoundException, InstantiationException {
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException, ClassNotFoundException, InstantiationException
+    {
         Pet pet = new Model<>(modelClass, dataTable, new HashMap<Integer, Class<? extends Model<?>>>(3, 4).values(Category.class, TagsItem.class), PET_URL).get();
         Response resp = req.postPet(pet);
         petId = resp.path("id");

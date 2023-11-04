@@ -12,7 +12,19 @@ public class SingleInstance<T extends SingleInstance<?>> {
     public static SingleInstance<? extends SingleInstance<?>> instance()
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
     {
-        return instance((Class<? extends SingleInstance<?>>) getGenericClass());
+        return _instance(_getGenericClass());
+    }
+
+    public static SingleInstance<? extends SingleInstance<?>> instance(Object... args)
+        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException
+    {
+        return _instance(_getGenericClass(), args);
+    }
+
+    public static SingleInstance<? extends SingleInstance<?>> instance(Class<? extends SingleInstance<?>> clazz)
+        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+    {
+        return _instance(clazz);
     }
 
     public static SingleInstance<? extends SingleInstance<?>> instance(Class<? extends SingleInstance<?>> clazz, Object... args)
@@ -25,6 +37,10 @@ public class SingleInstance<T extends SingleInstance<?>> {
         throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
     {
         return notNull(instance) ? instance : new Instance<>(clazz, args).instance();
+    }
+
+    protected static Class<? extends SingleInstance<?>> _getGenericClass() throws ClassNotFoundException {
+        return (Class<? extends SingleInstance<?>>) getGenericClass();
     }
 
 }
