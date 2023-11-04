@@ -50,8 +50,13 @@ public class Reflection {
     }
 
     private static Class<?> _getGenericClass(Class<?> genericClass, int index) throws ClassNotFoundException {
-        Class<?> clazz = getCallingClass(2);
-        Class<?> actualClass = isInstance(clazz, genericClass) ? clazz : getCallingClass(3);
+        out.println(genericClass);
+        int traceDepth = 0;
+        Class<?> clazz = getCallingClass(traceDepth);
+        while (clazz != genericClass) clazz = getCallingClass(++traceDepth);
+        Class<?> actualClass = getCallingClass(++traceDepth);
+        while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
+        new AssertException(actualClass).notNull();
         Class<?> genericType = ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
         out.println(genericType);
         return genericType;
@@ -211,7 +216,7 @@ public class Reflection {
             _method = clazz.getDeclaredMethod(method, getTypes(args));
         } catch (NoSuchMethodException e) {
             Throwable err = e.getCause();
-            String errMsg = err.toString();
+            String errMsg = notNull(err) ? err.toString() : e.toString();
             Boolean isNoSuchMethod = errMsg.contains("NoSuchMethodException");
             out.println("catch getMethod");
             out.println(err);
