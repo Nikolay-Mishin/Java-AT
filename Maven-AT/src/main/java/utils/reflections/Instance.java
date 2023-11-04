@@ -1,11 +1,11 @@
-package utils;
+package utils.reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Supplier;
 
 import static java.lang.System.out;
-import static utils.Reflection.newInstance;
+import static utils.reflections.Reflection.newInstance;
 
 public class Instance<T> {
 

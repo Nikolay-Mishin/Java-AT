@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
-import static utils.Reflection.getClassSimpleName;
+import static utils.reflections.Reflection.getClassSimpleName;
 import static utils.fs.FS.getPath;
 import static utils.fs.FS.readFile;
 

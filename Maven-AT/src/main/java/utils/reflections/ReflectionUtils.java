@@ -1,4 +1,4 @@
-package utils;
+package utils.reflections;
 
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.ParameterizedType;

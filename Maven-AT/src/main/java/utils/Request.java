@@ -17,7 +17,7 @@ import java.net.URL;
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
-import static utils.Reflection.*;
+import static utils.reflections.Reflection.*;
 import static utils.constant.RequestConstants.METHOD.*;
 import static utils.fs.FS.getPath;
 

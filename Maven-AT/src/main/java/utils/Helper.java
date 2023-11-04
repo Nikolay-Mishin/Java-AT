@@ -18,6 +18,14 @@ public class Helper {
         out.println(getDefaultCharset());
     }
 
+    public static boolean isNull(Object value) {
+        return value == null;
+    }
+
+    public static boolean notNull(Object value) {
+        return value != null;
+    }
+
     public static Boolean isClass(Object obj) {
         return obj instanceof Class<?>;
     }

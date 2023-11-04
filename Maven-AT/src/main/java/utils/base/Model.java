@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.lang.System.out;
-import static utils.Reflection.*;
+import static utils.reflections.Reflection.*;
 
 public class Model<T extends Model<?>> {
 
