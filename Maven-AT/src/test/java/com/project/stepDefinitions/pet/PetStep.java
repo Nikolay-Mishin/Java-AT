@@ -50,8 +50,7 @@ public class PetStep extends Step<PetRequests, Pet> {
         //out.println(category);
         int categoryId = resp.path("category.id");
         out.println(categoryId);
-        Auth auth = Auth.instance();
-        out.println(auth);
+        out.println(Auth.instance());
         return resp;
     }
 
