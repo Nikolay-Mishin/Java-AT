@@ -209,10 +209,12 @@ public class Reflection {
         Method _method = null;
         try {
             _method = clazz.getDeclaredMethod(method, getTypes(args));
-        } catch (Exception e) {
-            String errMsg = e.toString();
+        } catch (NoSuchMethodException e) {
+            Throwable err = e.getCause();
+            String errMsg = err.toString();
             Boolean isNoSuchMethod = errMsg.contains("NoSuchMethodException");
             out.println("catch getMethod");
+            out.println(err);
             out.println(errMsg);
             out.println(isNoSuchMethod);
             if (isNoSuchMethod) _method = clazz.getDeclaredMethod(method, getPrimitiveTypes(args));
