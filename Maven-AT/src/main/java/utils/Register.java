@@ -20,8 +20,11 @@ public class Register<K, V> {
     }
 
     public V getRegister(K key) {
-        out.println(register);
         return register.get(key);
+    }
+
+    public void printRegister() {
+        out.println(register);
     }
 
 }

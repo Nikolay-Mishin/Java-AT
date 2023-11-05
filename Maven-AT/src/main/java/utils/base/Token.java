@@ -8,7 +8,6 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
 import static config.WebConfig.BASE_CONFIG;
-import static java.lang.System.out;
 import static utils.Helper.isInstance;
 import static utils.Helper.isNull;
 import static utils.reflections.Reflection.invoke;
@@ -76,7 +75,7 @@ public class Token extends Register<String, String> {
     }
 
     public void printTokens() {
-        out.println(register);
+        printRegister();
     }
 
 }
