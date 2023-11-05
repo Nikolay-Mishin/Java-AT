@@ -48,7 +48,7 @@ public class PetStep extends Step<PetRequests, Pet> {
         //out.println(category);
         int categoryId = resp.path("category.id");
         out.println(categoryId);
-        Auth.instance(new Token(new JsonSchema().path("auth", "token"), "access.value", "refresh.value", "file.value"));
+        Auth.instance(new Token(new JsonSchema().path("auth", "token")));
         Auth.printTokens();
         return resp;
     }

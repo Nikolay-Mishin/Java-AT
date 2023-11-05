@@ -1,102 +1,82 @@
 package utils.base;
 
 import io.restassured.response.Response;
+import utils.Register;
 import utils.fs.JsonSchema;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
+import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
 import static utils.Helper.isInstance;
 import static utils.Helper.isNull;
 import static utils.reflections.Reflection.invoke;
 
-public class Token {
+public class Token extends Register<String, String> {
 
-    private String token;
-    private String refreshToken;
-    private String fileToken;
-
-    @ConstructorProperties({"token", "fileToken", "refreshToken"})
-    public Token(String token, String refreshToken, String fileToken) {
-        init(token, refreshToken, fileToken);
-    }
+    private static String[] keys;
+    private static java.util.HashMap<String, String> keysMap;
 
     @ConstructorProperties({"resp"})
-    public Token(Response resp, String... keys) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        _init(resp, keys);
+    public Token(Response resp) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        init(resp);
     }
 
     @ConstructorProperties({"jsonString"})
-    public Token(JsonSchema jsonSchema, String... keys) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        _init(jsonSchema, keys);
+    public Token(JsonSchema jsonSchema) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        init(jsonSchema);
     }
 
-    private void init(String token, String refreshToken, String fileToken) {
-        this.token = token;
-        this.refreshToken = refreshToken;
-        this.fileToken = fileToken;
+    private void init(Object tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        if (isNull(keys)) setKeys();
+        _refreshTokens(tokens);
     }
 
-    private void _init(Object tokens, String... keys) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    private static void setKeys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        JsonSchema jsonData = new JsonSchema(BASE_CONFIG.getTokenKeys());
+        keys = jsonData.keys();
+        keysMap = new HashMap<String, String>(keys).values(jsonData, "string");
+    }
+
+    private String getKey(String key) {
+        return keysMap.get(key);
+    }
+
+    public void refreshTokens(Response tokens) {
+        _refreshTokens(tokens);
+    }
+
+    public void refreshTokens(JsonSchema tokens) {
+        _refreshTokens(tokens);
+    }
+
+    private void _refreshTokens(Object tokens) {
         boolean isJson = isInstance(tokens, JsonSchema.class);
-        String tokenKey = getKey("token", keys);
-        String refreshTokenKey = getKey("refreshToken", keys);
-        String fileTokenKey = getKey("fileToken", keys);
-        String token = !isJson ? invoke(tokens, "path", tokenKey) : invoke(tokens, "get", tokenKey, "String");
-        String refreshToken = !isJson ? invoke(tokens, "path", refreshTokenKey) : invoke(tokens, "get", refreshTokenKey, "String");
-        String fileToken = !isJson ? invoke(tokens, "path", fileTokenKey) : invoke(tokens, "get", fileTokenKey, "String");
-        init(token, refreshToken, fileToken);
+        for (String key : keys) {
+            String path = getKey(key);
+            String token = null;
+            try {
+                token = !isJson ? invoke(tokens, "path", path) : invoke(tokens, "get", path, "string");
+            } catch (NoSuchMethodException ignored) {}
+            catch (InvocationTargetException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+            setToken(key, token);
+        }
     }
 
-    private String getKey(String key, String... keys) {
-        return switch (key) {
-            case ("token") -> _getKey(key, 0, keys);
-            case ("refreshToken") -> _getKey(key, 1, keys);
-            case ("fileToken") -> _getKey(key, 2, keys);
-            default -> throw new IllegalStateException("Unexpected value: " + key);
-        };
+    public String getToken(String key) {
+        return getRegister(key);
     }
 
-    private String _getKey(String key, int i, String... keys) {
-        String value = keys[i];
-        return isNull(value) ? key : value;
-    }
-
-    public void refreshTokens(Token token) {
-        this.setToken(token.token);
-        this.setFileToken(token.fileToken);
-        this.setRefreshToken(token.refreshToken);
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public String getFileToken() {
-        return fileToken;
-    }
-
-    private void setToken(String token) {
-        this.token = token;
-    }
-
-    private void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    private void setFileToken(String fileToken) {
-        this.fileToken = fileToken;
+    private void setToken(String key, String token) {
+        register(key, token);
     }
 
     public void printTokens() {
-        out.println(getToken());
-        out.println(getRefreshToken());
-        out.println(getFileToken());
+        out.println(register);
     }
 
 }

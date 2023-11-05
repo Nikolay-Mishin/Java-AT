@@ -32,4 +32,8 @@ public interface WebConfig extends Config {
     @Key("JSON_SCHEMA_ROOT")
     String getJsonSchemaRoot();
 
+    //tokens
+    @Key("TOKEN_KEYS")
+    String getTokenKeys();
+
 }

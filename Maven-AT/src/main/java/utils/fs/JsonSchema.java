@@ -11,6 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
+import static utils.Helper.isNull;
+import static utils.Helper.toUpperCaseFirst;
 import static utils.fs.FS.getPath;
 import static utils.fs.FS.readFile;
 import static utils.reflections.Reflection.getClassSimpleName;
@@ -80,21 +82,34 @@ public class JsonSchema {
         return getClassSimpleName(modelClass);
     }
 
+    public String[] keys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return _keys(null);
+    }
+
+    public String[] keys(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return _keys(path);
+    }
+
     public <T> T get(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return _get(path, null);
+        return _get(path, "object");
     }
 
     public <T> T get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return _get(path, type);
     }
 
+    private String[] _keys(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return (isNull(path) ? jsonData : (JSONObject) get(path)).keySet().toArray(String[]::new);
+    }
+
     private <T> T _get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        type = type.toLowerCase();
         String[] pathList = path.split("\\.");
         boolean isValue = pathList.length == 1;
         Object value = pathList[pathList.length - 1];
         pathList = (String[]) ArrayUtils.remove(pathList, pathList.length - 1);
         for (String key : pathList) object(key);
-        value = invoke(isValue ? jsonData : obj, "get" + type, value);
+        value = invoke(isValue ? jsonData : obj, "get" + (type.equals("object") || type.equals("array") ? "JSON" : "") + toUpperCaseFirst(type), value);
         obj = null;
         return (T) value;
     }
