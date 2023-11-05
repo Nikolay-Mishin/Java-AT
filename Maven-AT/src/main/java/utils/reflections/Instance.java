@@ -1,39 +1,32 @@
 package utils.reflections;
 
+import utils.Register;
+
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 import java.util.function.Supplier;
 
 import static java.lang.System.out;
 import static utils.reflections.Reflection.newInstance;
+import static utils.reflections.ReflectionUtils.getGenericParameterClass;
 
-public class Instance<T> {
+public class Instance<T> extends Register<Class<T>, T> {
 
     protected T instance;
-    protected final Map<Class<T>, T> registry = new HashMap<>();
 
     public Instance(Class<T> t, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        this.instance = _newInstance(t, args);
-        this._register(t, this.instance);
+        register(t, instance = _newInstance(t, args));
     }
-
-    public Instance() {}
 
     public T instance() {
         return instance;
     }
 
-    private T _newInstance(Class<T> t, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    protected T _newInstance(Class<T> t, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         return newInstance(t, args);
     }
 
-    private void _register(Class<T> t, T instance) {
-        registry.put(t, instance);
-    }
-
     public T getInstance(Class<T> t) {
-        out.println(registry);
-        return registry.get(t);
+        return getRegister(t);
     }
 
     public T instantiate(Supplier<? extends T> supplier) {
@@ -41,9 +34,8 @@ public class Instance<T> {
     }
 
     public Class<?> getEntityClass() {
-        out.println(this.getClass());
-        out.println(Instance.class);
-        return ReflectionUtils.getGenericParameterClass(this.getClass(), Instance.class, 0);
+        out.println(getClass());
+        return getGenericParameterClass(getClass(), Instance.class, 0);
     }
 
 }
