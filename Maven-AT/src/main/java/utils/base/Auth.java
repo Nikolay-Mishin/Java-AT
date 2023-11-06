@@ -3,30 +3,34 @@ package utils.base;
 import io.restassured.response.Response;
 import utils.fs.JsonSchema;
 import utils.reflections.SingleInstance;
+import utils.tokens.AuthToken;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
-import static java.lang.System.out;
-
 public class Auth extends SingleInstance<Auth> {
 
-    private final Token token;
+    protected final AuthToken token;
 
     @ConstructorProperties({"token"})
-    public Auth(Token token) {
+    public Auth(AuthToken token) {
         this.token = token;
     }
 
+    @ConstructorProperties({})
+    public Auth() {
+        this.token = null;
+    }
+
     public static Auth instance() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return (Auth) SingleInstance.instance();
+        return SingleInstance.instance();
     }
 
-    public static Auth instance(Token token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return (Auth) SingleInstance.instance(token);
+    public static Auth instance(AuthToken token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return SingleInstance.instance(token);
     }
 
-    private static Token token() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected static AuthToken token() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return instance().token;
     }
 
@@ -38,23 +42,20 @@ public class Auth extends SingleInstance<Auth> {
         token().refreshTokens(tokens);
     }
 
-    public static String getToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return token().getToken("access");
+    public static String getAccessToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return token().getAccessToken();
     }
 
     public static String getRefreshToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return token().getToken("refresh");
+        return token().getRefreshToken();
     }
 
     public static String getFileToken() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return token().getToken("file");
+        return token().getFileToken();
     }
 
     public static void printTokens() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         token().printTokens();
-        out.println(getToken());
-        out.println(getRefreshToken());
-        out.println(getFileToken());
     }
 
 }

@@ -4,12 +4,13 @@ import utils.exceptions.AssertException;
 import utils.fs.JsonSchema;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
 
 import static java.lang.System.out;
 import static utils.Helper.isNull;
 import static utils.reflections.Reflection.invoke;
 
-public class HashMap<K, V> {
+public class HashMap<K, V> extends java.util.HashMap<K, V> {
 
     private final K[] keys;
 
@@ -19,23 +20,23 @@ public class HashMap<K, V> {
     }
 
     @SafeVarargs
-    public final java.util.HashMap<K, V> values(V... values) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public final HashMap<K, V> values(V... values) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return _values(null, null, values);
     }
 
-    public final java.util.HashMap<K, V> values(JsonSchema jsonSchema) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public HashMap<K, V> values(JsonSchema jsonSchema) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return _values(jsonSchema, "object");
     }
 
-    public final java.util.HashMap<K, V> values(JsonSchema jsonSchema, String type) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public HashMap<K, V> values(JsonSchema jsonSchema, String type) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return _values(jsonSchema, type);
     }
 
     @SafeVarargs
-    private java.util.HashMap<K, V> _values(JsonSchema jsonSchema, String type, V... values)
+    private HashMap<K, V> _values(JsonSchema jsonSchema, String type, V... values)
         throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
     {
-        java.util.HashMap<K, V> hashMap = new java.util.HashMap<>();
+        HashMap<K, V> hashMap = new HashMap<>();
         boolean valuesNotJson = isNull(jsonSchema);
         int valuesLength = valuesNotJson ? values.length : keys.length;
         new AssertException(keys.length)._equals(valuesLength);
@@ -46,6 +47,14 @@ public class HashMap<K, V> {
         }
         out.println(hashMap);
         return hashMap;
+    }
+
+    public String[] keys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return HashMap.keys(this);
+    }
+
+    public static String[] keys(Object obj) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return ((Set<String>) invoke(obj, "keySet")).toArray(String[]::new);
     }
 
 }

@@ -3,6 +3,7 @@ package utils.fs;
 import org.apache.commons.lang.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.base.HashMap;
 import utils.base.Model;
 import utils.constant.RequestConstants.METHOD_LOWER_CASE;
 
@@ -99,7 +100,7 @@ public class JsonSchema {
     }
 
     private String[] _keys(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return (isNull(path) ? jsonData : (JSONObject) get(path)).keySet().toArray(String[]::new);
+        return HashMap.keys(isNull(path) ? jsonData : (JSONObject) get(path));
     }
 
     private <T> T _get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
