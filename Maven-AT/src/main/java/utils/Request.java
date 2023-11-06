@@ -34,44 +34,44 @@ public class Request {
 
     @ConstructorProperties({})
     public Request() {
-        this.method = null;
-        this.methodSend = null;
-        this.url = null;
-        this.URL = null;
-        this.URI = null;
-        this.endpoint = null;
+        method = null;
+        methodSend = null;
+        url = null;
+        URL = null;
+        URI = null;
+        endpoint = null;
     }
 
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
-        this.request = given(getRequestSpec());
+        request = given(getRequestSpec());
         this.method = method;
-        this.methodSend = method.toString().toLowerCase();
+        methodSend = method.toString().toLowerCase();
         String path = getPath(pathList);
-        this.request.basePath(path); // задаем базовый путь для запроса
-        this.url = getFullPath();
-        this.URL = new URL(this.url);
-        this.URI = new URI(path);
-        this.endpoint = this.method + " " + path;
+        request.basePath(path); // задаем базовый путь для запроса
+        url = getFullPath();
+        URL = new URL(url);
+        URI = new URI(path);
+        endpoint = this.method + " " + path;
         out.println(this.endpoint);
         out.println(getBaseUri());
         out.println(getBasePath());
-        this.printFullPath();
-        out.println(this.URI);
-        out.println(this.URL);
+        printFullPath();
+        out.println(URI);
+        out.println(URL);
     }
 
     @Description("Send request")
     private Response send() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        return invoke(this.request, this.methodSend, this.URL); // вызов метода с аргументами
+        return invoke(request, methodSend, URL); // вызов метода с аргументами
     }
 
     @Description("Builder: get response")
     public Response response() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        this.request = this.request.contentType(ContentType.JSON); // header
-        this.request = (this.body != null && (this.method == POST || this.method == PUT) ? this.request.body(this.body) : this.request) // body json
+        request = request.contentType(ContentType.JSON); // header
+        request = (body != null && (method == POST || method == PUT) ? request.body(body) : request) // body json
             .when();
-        return this.send().andReturn();
+        return send().andReturn();
     }
 
     @Description("Builder: set body request")
@@ -82,8 +82,8 @@ public class Request {
 
     @Description("Get query request")
     public QueryableRequestSpecification getQuery() {
-        this.request.get();
-        return SpecificationQuerier.query(this.request);
+        request.get();
+        return SpecificationQuerier.query(request);
     }
 
     @Description("Get base path")
@@ -103,7 +103,7 @@ public class Request {
 
     @Description("Print full path")
     public void printFullPath() {
-        out.println("Full PATH is: " + this.url);
+        out.println("Full PATH is: " + url);
     }
 
     @Description("Get endpoint")
@@ -138,10 +138,10 @@ public class Request {
 
     @Description("Print request")
     public void print() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        String endpoint = this.printEndpoint();
-        String url = this.printUrl();
-        METHOD method = this.printMethod();
-        //METHOD methodStr = this.printMethodStr();
+        String endpoint = printEndpoint();
+        String url = printUrl();
+        METHOD method = printMethod();
+        //METHOD methodStr = printMethodStr();
         out.println(endpoint);
         out.println(url);
         out.println(method);
