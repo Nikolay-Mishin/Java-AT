@@ -95,6 +95,7 @@ public class Token extends Register<String, String> {
 
     protected void setToken(String key, String token) {
         register(key, token);
+        registerMap(Token.class, key, token);
     }
 
 }

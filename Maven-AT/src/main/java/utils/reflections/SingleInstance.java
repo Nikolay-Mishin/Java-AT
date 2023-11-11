@@ -21,12 +21,16 @@ public class SingleInstance<T extends SingleInstance<?>> {
         return _instance(clazz, args);
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, Object... args)
         throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
     {
-        return (T) (notNull(instance) ? instance : (instance = new Instance<>(clazz, args).instance()));
+        T _instance = (T) (notNull(instance) ? instance : (instance = new Instance<>(clazz, args).instance()));
+        Instance.instance(clazz);
+        return _instance;
     }
 
+    @SuppressWarnings("unchecked")
     protected static <T extends SingleInstance<?>> Class<T> _getGenericClass() throws ClassNotFoundException {
         return (Class<T>) getGenericClass();
     }

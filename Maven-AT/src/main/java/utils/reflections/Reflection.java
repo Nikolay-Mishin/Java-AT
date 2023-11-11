@@ -190,6 +190,7 @@ public class Reflection {
         return сonstructor;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T newInstance(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         T instance = (T) getConstructor(clazz, args).newInstance(args);
         out.println(instance);
@@ -226,12 +227,14 @@ public class Reflection {
     }
 
     @Description("Invoke method of object")
+    @SuppressWarnings("unchecked")
     public static <T> T invoke(Object obj, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method methodWithArgs = getMethod(obj, method, args); // получение метода с аргументами
         return (T) methodWithArgs.invoke(obj, args); // вызов метода с аргументами
     }
 
     @Description("Invoke parse number method")
+    @SuppressWarnings("unchecked")
     public static <T> T invokeParse(Class<?> type, Object value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         if (!isParseType(type)) return (T) value;
         Class<?> _type = type;

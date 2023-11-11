@@ -7,12 +7,9 @@ import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
-import utils.base.Auth;
 import utils.base.HashMap;
 import utils.base.Model;
 import utils.base.Step;
-import utils.fs.JsonSchema;
-import utils.tokens.AuthToken;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -52,8 +49,6 @@ public class PetStep extends Step<PetRequests, Pet> {
         //out.println(category);
         int categoryId = resp.path("category.id");
         out.println(categoryId);
-        Auth.instance(new AuthToken(new JsonSchema().path("auth", "token")));
-        Auth.printTokens();
         return resp;
     }
 

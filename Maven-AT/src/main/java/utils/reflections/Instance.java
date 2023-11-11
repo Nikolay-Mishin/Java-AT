@@ -3,6 +3,7 @@ package utils.reflections;
 import utils.Register;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import static java.lang.System.out;
@@ -15,10 +16,17 @@ public class Instance<T> extends Register<Class<T>, T> {
 
     public Instance(Class<T> t, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         register(t, instance = _newInstance(t, args));
+        registerMap(Instance.class, t, instance);
     }
 
     public T instance() {
         return instance;
+    }
+
+    public static <T> T instance(Class<T> key) {
+        T _instance = getRegisterMap(Instance.class, key);
+        out.println(Optional.ofNullable(_instance));
+        return _instance;
     }
 
     protected T _newInstance(Class<T> t, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

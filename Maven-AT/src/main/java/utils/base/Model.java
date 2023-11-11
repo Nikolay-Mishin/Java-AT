@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.lang.System.out;
+import static utils.base.HashMap.keys;
 import static utils.reflections.Reflection.*;
 
 public class Model<T extends Model<?>> {
@@ -80,13 +81,14 @@ public class Model<T extends Model<?>> {
         return invoke(clazz, "builder");
     }
 
-    private void setData(String key, boolean isList) {
+    private void setData(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         JSONObject obj = isList ? jsonData.getJSONArray(key).getJSONObject(0) : jsonData.getJSONObject(key);
-        keys = obj.keySet().toArray(String[]::new);
+        keys = keys(obj, String[]::new);
         out.println(obj);
         out.println(Arrays.toString(keys));
     }
 
+    @SuppressWarnings("unchecked")
     private T setModel(Class<T> clazz, List<?> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
