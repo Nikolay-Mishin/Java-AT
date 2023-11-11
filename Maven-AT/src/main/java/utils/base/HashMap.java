@@ -5,6 +5,7 @@ import utils.fs.JsonSchema;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
+import java.util.function.IntFunction;
 
 import static java.lang.System.out;
 import static utils.Helper.isNull;
@@ -49,12 +50,13 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> {
         return hashMap;
     }
 
-    public String[] keys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return HashMap.keys(this);
+    public K[] keys(IntFunction<K[]> generator) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return HashMap.keys(this, generator);
     }
 
-    public static String[] keys(Object obj) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return ((Set<String>) invoke(obj, "keySet")).toArray(String[]::new);
+    @SuppressWarnings("unchecked")
+    public static <T> T[] keys(Object obj, IntFunction<T[]> generator) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return ((Set<T>) invoke(obj, "keySet")).toArray(generator);
     }
 
 }

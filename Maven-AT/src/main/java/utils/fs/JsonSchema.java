@@ -100,9 +100,10 @@ public class JsonSchema {
     }
 
     private String[] _keys(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return HashMap.keys(isNull(path) ? jsonData : (JSONObject) get(path));
+        return HashMap.keys(isNull(path) ? jsonData : (JSONObject) get(path), String[]::new);
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T _get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         type = type.toLowerCase();
         String[] pathList = path.split("\\.");
