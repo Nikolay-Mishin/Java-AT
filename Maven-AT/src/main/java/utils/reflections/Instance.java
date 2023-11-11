@@ -12,32 +12,19 @@ import static utils.reflections.ReflectionUtils.getGenericParameterClass;
 
 public class Instance<T> extends Register<Class<T>, T> {
 
-    protected T instance;
-
-    public Instance(Class<T> t, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        register(t, instance = _newInstance(t, args));
-        registerMap(Instance.class, t, instance);
+    public static <T> T create(Class<T> clazz, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        T _instance = newInstance(clazz, args);
+        registerMap(Instance.class, clazz, _instance);
+        return _instance;
     }
 
-    public T instance() {
-        return instance;
-    }
-
-    public static <T> T instance(Class<T> key) {
-        T _instance = getRegisterMap(Instance.class, key);
+    public static <T> T getInstance(Class<T> clazz) {
+        T _instance = getRegister(Instance.class, clazz);
         out.println(Optional.ofNullable(_instance));
         return _instance;
     }
 
-    protected T _newInstance(Class<T> t, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        return newInstance(t, args);
-    }
-
-    public T getInstance(Class<T> t) {
-        return getRegister(t);
-    }
-
-    public T instantiate(Supplier<? extends T> supplier) {
+    public static <T> T instantiate(Supplier<? extends T> supplier) {
         return supplier.get();
     }
 

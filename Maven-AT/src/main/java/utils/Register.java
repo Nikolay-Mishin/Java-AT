@@ -18,7 +18,7 @@ public class Register<K, V> {
         return value;
     }
 
-    public Map<K, V> register() {
+    public Map<K, V> getRegister() {
         return register;
     }
 
@@ -31,31 +31,31 @@ public class Register<K, V> {
     }
 
     protected static <K, V> Register<K, V> registerMap(Class<?> clazz, K key, V value) {
-        Register<K, V> registerValue = getRegisterMap(clazz);
+        Register<K, V> registerValue = getRegister(clazz);
         Register<K, V> register = notNull(registerValue) ? registerValue : new Register<>();
         register.register(key, value);
         registerMap.put(clazz, register);
         return register;
     }
 
-    public static Map<Class<?>, Register<?, ?>> registerMap() {
+    public static Map<Class<?>, Register<?, ?>> getRegisterMap() {
         return registerMap;
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> Register<K, V> getRegisterMap(Class<?> key) {
+    public static <K, V> Register<K, V> getRegister(Class<?> key) {
         return (Register<K, V>) registerMap.get(key);
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> V getRegisterMap(Class<?> clazz, K key) {
-        return (V) getRegisterMap(clazz).getRegister(key);
+    public static <K, V> V getRegister(Class<?> clazz, K key) {
+        return (V) getRegister(clazz).getRegister(key);
     }
 
     public static void printRegisterMap() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         out.println(registerMap);
         for (Class<?> key : keys(registerMap, Class<?>[]::new)) {
-            getRegisterMap(key).printRegister();
+            getRegister(key).printRegister();
         }
     }
 

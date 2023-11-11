@@ -17,11 +17,6 @@ public class Auth extends SingleInstance<Auth> {
         this.token = token;
     }
 
-    @ConstructorProperties({})
-    public Auth() {
-        this.token = null;
-    }
-
     public static Auth instance() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         return SingleInstance.instance();
     }

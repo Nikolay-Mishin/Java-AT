@@ -5,9 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import static utils.Helper.notNull;
 import static utils.reflections.Reflection.getGenericClass;
 
-public class SingleInstance<T extends SingleInstance<?>> {
+public class SingleInstance<T> extends Instance<T> {
 
-    protected static SingleInstance<? extends SingleInstance<?>> instance;
+    protected static SingleInstance<?> instance;
 
     public static <T extends SingleInstance<?>> T instance(Object... args)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
@@ -25,9 +25,7 @@ public class SingleInstance<T extends SingleInstance<?>> {
     protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, Object... args)
         throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
     {
-        T _instance = (T) (notNull(instance) ? instance : (instance = new Instance<>(clazz, args).instance()));
-        Instance.instance(clazz);
-        return _instance;
+        return (T) (notNull(instance) ? instance : (instance = create(clazz, args)));
     }
 
 }
