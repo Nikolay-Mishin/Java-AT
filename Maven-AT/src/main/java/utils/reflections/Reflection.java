@@ -49,15 +49,15 @@ public class Reflection {
         return argTypes;
     }
 
-    private static Class<?> _getGenericClass(Class<?> genericClass, int index) throws ClassNotFoundException {
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T> _getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
         int traceDepth = 0;
         Class<?> clazz = getCallingClass(traceDepth);
         while (clazz != genericClass) clazz = getCallingClass(++traceDepth);
         Class<?> actualClass = getCallingClass(++traceDepth);
         while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
         new AssertException(actualClass).notNull();
-        Class<?> genericType = ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
-        return genericType;
+        return (Class<T>) ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
     }
 
     public static Class<?> getParseType(Class<?> type) {
@@ -119,11 +119,12 @@ public class Reflection {
         return getStackTraceEl(1);
     }
 
-    public static Class<?> getCallingClass(int index) throws ClassNotFoundException {
-        return Class.forName(getStackTraceEl(++index).getClassName());
+    @SuppressWarnings("unchecked")
+    public static <T> Class<T> getCallingClass(int index) throws ClassNotFoundException {
+        return (Class<T>) Class.forName(getStackTraceEl(++index).getClassName());
     }
 
-    public static Class<?> getCallingClass() throws ClassNotFoundException {
+    public static <T> Class<T> getCallingClass() throws ClassNotFoundException {
         return getCallingClass(1);
     }
 
@@ -135,15 +136,15 @@ public class Reflection {
         return getCallingClassName(1);
     }
 
-    public static Class<?> getGenericClass(Class<?> genericClass, int index) throws ClassNotFoundException {
+    public static <T> Class<T> getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
         return _getGenericClass(genericClass, index);
     }
 
-    public static Class<?> getGenericClass(int index) throws ClassNotFoundException {
+    public static <T> Class<T> getGenericClass(int index) throws ClassNotFoundException {
         return _getGenericClass(getCallingClass(1), index);
     }
 
-    public static Class<?> getGenericClass() throws ClassNotFoundException {
+    public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
         return _getGenericClass(getCallingClass(1), 0);
     }
 
