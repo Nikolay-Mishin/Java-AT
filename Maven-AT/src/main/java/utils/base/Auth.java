@@ -8,6 +8,8 @@ import utils.tokens.AuthToken;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
+import static java.lang.System.out;
+
 public class Auth extends SingleInstance<Auth> {
 
     protected final AuthToken token;
@@ -51,6 +53,7 @@ public class Auth extends SingleInstance<Auth> {
 
     public static void printTokens() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         token().printTokens();
+        out.println(getInstance(Auth.class));
     }
 
 }

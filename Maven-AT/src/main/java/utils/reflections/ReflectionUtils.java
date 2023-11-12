@@ -63,7 +63,6 @@ public class ReflectionUtils {
 
         while (result instanceof TypeVariable && !genericClasses.empty()) {
             // Похоже наш параметр задан где-то ниже по иерархии, спускаемся вниз.
-
             // Получаем индекс параметра в том классе, в котором он задан.
             int actualArgumentIndex = getParameterTypeDeclarationIndex((TypeVariable<?>) result);
             // Берем соответствующий класс, содержащий метаинформацию о нашем параметре.
@@ -75,8 +74,7 @@ public class ReflectionUtils {
         if (result instanceof TypeVariable) {
             // Мы спустились до самого низа, но даже там нужный параметр не имеет явного задания.
             // Следовательно из-за "Type erasure" узнать класс для параметра невозможно.
-            throw new IllegalStateException("Unable to resolve type variable " + result + "."
-                + " Try to replace instances of parametrized class with its non-parameterized subtype.");
+            throw new IllegalStateException("Unable to resolve type variable " + result + "." + " Try to replace instances of parametrized class with its non-parameterized subtype.");
         }
 
         if (result instanceof ParameterizedType) {
@@ -87,8 +85,7 @@ public class ReflectionUtils {
 
         if (result == null) {
             // Should never happen. :)
-            throw new IllegalStateException("Unable to determine actual parameter type for "
-                + actualClass.getName() + ".");
+            throw new IllegalStateException("Unable to determine actual parameter type for " + actualClass.getName() + ".");
         }
 
         if (!(result instanceof Class)) {
@@ -114,8 +111,7 @@ public class ReflectionUtils {
         if (actualArgumentIndex != null) {
             return actualArgumentIndex;
         } else {
-            throw new IllegalStateException("Argument " + typeVariable.toString() + " is not found in "
-                + genericDeclaration.toString() + ".");
+            throw new IllegalStateException("Argument " + typeVariable.toString() + " is not found in " + genericDeclaration.toString() + ".");
         }
     }
 }

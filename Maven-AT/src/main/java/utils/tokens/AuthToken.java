@@ -16,19 +16,19 @@ public class AuthToken extends Token {
         super(tokens);
     }
 
-    public Token getAccessToken() {
+    public Token getAccessToken() throws ClassNotFoundException {
         return getToken("access");
     }
 
-    public Token getRefreshToken() {
+    public Token getRefreshToken() throws ClassNotFoundException {
         return getToken("refresh");
     }
 
-    public Token getFileToken() {
+    public Token getFileToken() throws ClassNotFoundException {
         return getToken("file");
     }
 
-    public void printTokens() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public void printTokens() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         super.printTokens();
         getAccessToken().print();
         getRefreshToken().print();

@@ -6,6 +6,7 @@ import utils.fs.JsonSchema;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
@@ -58,7 +59,9 @@ public class Token extends Register<String, Token> {
         _refreshTokens(tokens);
     }
 
-    public Token getToken(String key) {
+    public Token getToken(String key) throws ClassNotFoundException {
+        out.println("getToken");
+        out.println(Optional.ofNullable(getRegister(key)));
         return getRegister(Token.class, key);
     }
 
@@ -82,7 +85,7 @@ public class Token extends Register<String, Token> {
         out.println(token);
     }
 
-    public void printTokens() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public void printTokens() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         printRegister();
     }
 
