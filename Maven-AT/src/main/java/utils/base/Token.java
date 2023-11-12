@@ -6,7 +6,6 @@ import utils.fs.JsonSchema;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Optional;
 
 import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
@@ -60,9 +59,7 @@ public class Token extends Register<String, Token> {
     }
 
     public Token getToken(String key) throws ClassNotFoundException {
-        out.println("getToken");
-        out.println(Optional.ofNullable(getRegister(key)));
-        return getRegister(Token.class, key);
+        return getRegister(key);
     }
 
     public HashMap<String, String> token() {
