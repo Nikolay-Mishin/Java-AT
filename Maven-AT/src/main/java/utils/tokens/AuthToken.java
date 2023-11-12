@@ -6,35 +6,33 @@ import utils.fs.JsonSchema;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static java.lang.System.out;
-
 public class AuthToken extends Token {
 
-    public AuthToken(Response tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public AuthToken(Response tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         super(tokens);
     }
 
-    public AuthToken(JsonSchema tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public AuthToken(JsonSchema tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         super(tokens);
     }
 
-    public String getAccessToken() {
+    public Token getAccessToken() {
         return getToken("access");
     }
 
-    public String getRefreshToken() {
+    public Token getRefreshToken() {
         return getToken("refresh");
     }
 
-    public String getFileToken() {
+    public Token getFileToken() {
         return getToken("file");
     }
 
-    public void printTokens() {
+    public void printTokens() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         super.printTokens();
-        out.println(getAccessToken());
-        out.println(getRefreshToken());
-        out.println(getFileToken());
+        getAccessToken().print();
+        getRefreshToken().print();
+        getFileToken().print();
     }
 
 }

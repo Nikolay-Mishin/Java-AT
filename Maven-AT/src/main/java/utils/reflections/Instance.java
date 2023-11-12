@@ -12,7 +12,7 @@ import static utils.reflections.ReflectionUtils.getGenericParameterClass;
 
 public class Instance<T> extends Register<Class<T>, T> {
 
-    public static <T> T create(Class<T> clazz, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    public static <T> T create(Class<T> clazz, Object... args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
         T _instance = newInstance(clazz, args);
         registerMap(Instance.class, clazz, _instance);
         return _instance;

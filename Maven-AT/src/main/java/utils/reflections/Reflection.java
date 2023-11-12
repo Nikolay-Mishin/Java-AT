@@ -57,6 +57,8 @@ public class Reflection {
         Class<?> actualClass = getCallingClass(++traceDepth);
         while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
         new AssertException(actualClass).notNull();
+        out.println(actualClass);
+        out.println(genericClass);
         return (Class<T>) ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
     }
 

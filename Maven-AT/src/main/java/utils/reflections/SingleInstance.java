@@ -16,15 +16,13 @@ public class SingleInstance<T> extends Instance<T> {
     }
 
     public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Object... args)
-        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         return _instance(clazz, args);
     }
 
     @SuppressWarnings("unchecked")
     protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, Object... args)
-        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         return (T) (notNull(instance) ? instance : (instance = create(clazz, args)));
     }
 

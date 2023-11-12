@@ -8,62 +8,85 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
 import static config.WebConfig.BASE_CONFIG;
+import static java.lang.System.out;
 import static utils.Helper.isInstance;
 import static utils.Helper.isNull;
 import static utils.reflections.Reflection.invoke;
 
-public class Token extends Register<String, String> {
+public class Token extends Register<String, Token> {
 
     protected static String[] keys;
     protected static HashMap<String, String> keysMap;
 
+    protected HashMap<String, String> token;
     protected String key;
     protected String value;
     protected String path;
 
     @ConstructorProperties({"key", "value"})
-    public Token(String key, String value) {
+    public Token(String key, String value) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         init(key, value, value);
     }
 
     @ConstructorProperties({"key", "value", "path"})
-    public Token(String key, String value, String path) {
+    public Token(String key, String value, String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         init(key, value, path);
     }
 
-    protected void init(String key, String value, String path) {
+    protected void init(String key, String value, String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        token = new HashMap<String, String>("key", "value", "path").values(key, value, path);
         this.key = key;
         this.value = value;
         this.path = path;
     }
 
     @ConstructorProperties({"tokens"})
-    public Token(Response tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public Token(Response tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         init(tokens);
     }
 
     @ConstructorProperties({"tokens"})
-    public Token(JsonSchema tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public Token(JsonSchema tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         init(tokens);
     }
 
-    public void refreshTokens(Response tokens) {
+    public void refreshTokens(Response tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         _refreshTokens(tokens);
     }
 
-    public void refreshTokens(JsonSchema tokens) {
+    public void refreshTokens(JsonSchema tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         _refreshTokens(tokens);
     }
 
-    public String getToken(String key) {
-        return getRegister(key);
+    public Token getToken(String key) {
+        return getRegister(Token.class, key);
     }
 
-    public void printTokens() {
+    public HashMap<String, String> token() {
+        return token;
+    }
+
+    public String key() {
+        return key;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    public String path() {
+        return path;
+    }
+
+    public void print() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        out.println(token);
+    }
+
+    public void printTokens() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         printRegister();
     }
 
-    protected void init(Object tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected void init(Object tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         if (isNull(keys)) setKeys();
         _refreshTokens(tokens);
     }
@@ -74,18 +97,19 @@ public class Token extends Register<String, String> {
         keysMap = new HashMap<String, String>(keys).values(jsonData, "string");
     }
 
-    protected void _refreshTokens(Object tokens) {
+    protected void _refreshTokens(Object tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         boolean isJson = isInstance(tokens, JsonSchema.class);
         for (String key : keys) {
             String path = getKey(key);
             String token = null;
             try {
                 token = !isJson ? invoke(tokens, "path", path) : invoke(tokens, "get", path, "string");
-            } catch (NoSuchMethodException ignored) {}
+            }
+            catch (NoSuchMethodException ignored) {}
             catch (InvocationTargetException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-            setToken(key, token);
+            setToken(key, new Token(key, token, path));
         }
     }
 
@@ -93,8 +117,7 @@ public class Token extends Register<String, String> {
         return keysMap.get(key);
     }
 
-    protected void setToken(String key, String token) {
-        register(key, token);
+    protected void setToken(String key, Token token) throws ClassNotFoundException {
         registerMap(Token.class, key, token);
     }
 

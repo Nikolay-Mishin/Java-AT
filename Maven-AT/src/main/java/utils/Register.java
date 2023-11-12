@@ -7,6 +7,7 @@ import java.util.Map;
 import static java.lang.System.out;
 import static utils.Helper.notNull;
 import static utils.base.HashMap.keys;
+import static utils.reflections.Reflection.getGenericClass;
 
 public class Register<K, V> {
 
@@ -30,7 +31,15 @@ public class Register<K, V> {
         out.println(register);
     }
 
-    protected static <K, V> Register<K, V> registerMap(Class<?> clazz, K key, V value) {
+    protected static <K, V> Register<K, V> registerMap(Class<?> clazz, K key, V value) throws ClassNotFoundException {
+        out.println("registerMap");
+        Class<?> t1 = getGenericClass();
+        out.println("Generic#1: " + t1);
+        Class<?> t2 = t1;
+        try {
+            t2 = getGenericClass(1);
+        } catch (Exception ignored) {}
+        out.println("Generic#2: " + t2);
         Register<K, V> registerValue = getRegister(clazz);
         Register<K, V> register = notNull(registerValue) ? registerValue : new Register<>();
         register.register(key, value);
