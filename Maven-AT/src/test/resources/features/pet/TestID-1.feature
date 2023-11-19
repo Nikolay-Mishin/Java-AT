@@ -10,6 +10,7 @@
             | id            | 0         |
             | category.id   | string    |
             | category.name | 0         |
+            | tags.id       | 0         |
             | tags.id       | string    |
             | status        | available |
 
