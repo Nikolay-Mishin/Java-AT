@@ -1,6 +1,5 @@
 package utils.fs;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.base.HashMap;
@@ -12,8 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
-import static utils.Helper.isNull;
-import static utils.Helper.toUpperCaseFirst;
+import static utils.Helper.*;
 import static utils.fs.FS.getPath;
 import static utils.fs.FS.readFile;
 import static utils.reflections.Reflection.getClassSimpleName;
@@ -106,14 +104,18 @@ public class JsonSchema {
     @SuppressWarnings("unchecked")
     private <T> T _get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         type = type.toLowerCase();
-        String[] pathList = path.split("\\.");
+        String[] pathList = parsePath(path);
         boolean isValue = pathList.length == 1;
         Object value = pathList[pathList.length - 1];
-        pathList = (String[]) ArrayUtils.remove(pathList, pathList.length - 1);
+        pathList = removeLast(pathList);
         for (String key : pathList) object(key);
         value = invoke(isValue ? jsonData : obj, "get" + (type.equals("object") || type.equals("array") ? "JSON" : "") + toUpperCaseFirst(type), value);
         obj = null;
         return (T) value;
+    }
+
+    public static String[] parsePath(String path) {
+        return path.split("\\.");
     }
 
     public JsonSchema object(String key) {

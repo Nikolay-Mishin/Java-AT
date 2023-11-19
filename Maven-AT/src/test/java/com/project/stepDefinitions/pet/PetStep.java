@@ -1,7 +1,7 @@
 package com.project.stepDefinitions.pet;
 
+import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Когда;
-import io.cucumber.java.ru.Тогда;
 import io.restassured.response.Response;
 import models.pet.Category;
 import models.pet.Pet;
@@ -18,7 +18,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static constant.UrlConstants.PET_URL;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
@@ -36,27 +35,37 @@ public class PetStep extends Step<PetRequests, Pet> {
     }
 
     private Response postPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        Pet pet = new Model<>(modelClass, dataTable, new HashMap<Integer, Class<? extends Model<?>>>(3, 4).values(Category.class, TagsItem.class), PET_URL).get();
+        Pet pet = new Model<>(modelClass, dataTable, new HashMap<String, Class<? extends Model<?>>>("category", "tags").values(Category.class, TagsItem.class)).get();
         Response resp = req.postPet(pet);
         petId = resp.path("id");
         out.println(resp.getStatusCode());
         out.println(petId);
-        //Category category = resp.jsonPath().get("category");
-        //out.println(category);
+        //int categoryId = resp.jsonPath().get("category.id");
         int categoryId = resp.path("category.id");
         out.println(categoryId);
         return resp;
     }
 
+    private Response deletePet() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        Response resp = req.deletePet(petId);
+        out.println(resp.getStatusCode());
+        return resp;
+    }
+
     @Когда("создать животное статус {int}")
     public void postPet(int statusCode, List<List<String>> dataTable)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException, ClassNotFoundException, InstantiationException {
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
         assertEquals(statusCode, postPet(dataTable).getStatusCode());
     }
 
-    @Тогда("получить животное статус {int}")
-    public void getCreatedPet(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    @И("получить животное статус {int}")
+    public void getPet(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         assertEquals(statusCode, getPet().getStatusCode());
+    }
+
+    @И("удалить животное статус {int}")
+    public void deletePet(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        assertEquals(statusCode, deletePet().getStatusCode());
     }
 
 }

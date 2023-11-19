@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static constant.UrlConstants.ORDER_URL;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +33,7 @@ public class OrderStep extends Step<OrderRequests, Order> {
     }
 
     private Response postOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        Order order = new Model<>(modelClass, dataTable, ORDER_URL).get();
+        Order order = new Model<>(modelClass, dataTable).get();
         Response resp = req.postOrder(order);
         orderId = resp.jsonPath().get("id");
         out.println(orderId);

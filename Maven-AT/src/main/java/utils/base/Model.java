@@ -14,13 +14,16 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.lang.System.out;
+import static utils.Helper.*;
 import static utils.base.HashMap.keys;
+import static utils.fs.JsonSchema.parsePath;
 import static utils.reflections.Reflection.*;
 
 public class Model<T extends Model<?>> {
 
     private T model;
     private Object builder;
+    private String[] pathList;
     private JSONObject jsonData;
     private String[] keys;
 
@@ -29,7 +32,7 @@ public class Model<T extends Model<?>> {
         jsonData = null;
     }
 
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
         _setModel(clazz, dataTable, hashMap, method, jsonSchemaPathList);
     }
@@ -39,7 +42,7 @@ public class Model<T extends Model<?>> {
         _setModel(clazz, dataTable, null, method, jsonSchemaPathList);
     }
 
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap, Object... jsonSchemaPathList)
+    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
         _setModel(clazz, dataTable, hashMap, null, jsonSchemaPathList);
     }
@@ -58,7 +61,7 @@ public class Model<T extends Model<?>> {
         return model;
     }
 
-    private void _setModel(Class<T> clazz, List<List<String>> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+    private void _setModel(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
             jsonData = method != null ? setJsonData(method, clazz, jsonSchemaPathList) : setJsonData(clazz, jsonSchemaPathList);
             builder = getBuilder(clazz);
@@ -81,18 +84,22 @@ public class Model<T extends Model<?>> {
         return invoke(clazz, "builder");
     }
 
-    private void setData(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        JSONObject obj = isList ? jsonData.getJSONArray(key).getJSONObject(0) : jsonData.getJSONObject(key);
+    private String[] setData(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        out.println("setData");
+        out.println(jsonData);
+        if (isNull(jsonData)) return keys = removeFirst(pathList);
+        JSONObject obj = !isList ? jsonData.getJSONObject(key) : jsonData.getJSONArray(key).getJSONObject(0);
         keys = keys(obj, String[]::new);
         out.println(obj);
         out.println(Arrays.toString(keys));
+        return keys;
     }
 
     @SuppressWarnings("unchecked")
-    private T setModel(Class<T> clazz, List<?> dataTable, HashMap<Integer, Class<? extends Model<?>>> hashMap)
+    private T setModel(Class<T> clazz, List<?> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
-        out.println("_getModel");
+        out.println("setModel");
 
         Object _builder = getBuilder(clazz);
 
@@ -106,13 +113,11 @@ public class Model<T extends Model<?>> {
         for (int i = 0; i < dataTable.size(); i++) {
             out.println("parseRow");
 
-            boolean isTable = dataTable.get(i) instanceof List;
-            Class<T> hashEl = hashMap != null ? (Class<T>) hashMap.get(i) : null;
-            boolean isModel = hashEl != null;
-            out.println(hashEl);
-
+            boolean isTable = isList(dataTable.get(i));
             List<String> row = (List<String>) (isTable ? dataTable.get(i) : dataTable);
-            String name = isTable ? row.get(0) : keys[i];
+            String rowName = row.get(0);
+            pathList = parsePath(rowName);
+            String name = isTable ? pathList[0] : keys[i];
             out.println(name);
 
             new AssertException(name).notNull();
@@ -124,6 +129,10 @@ public class Model<T extends Model<?>> {
             boolean isList = type == List.class;
             out.println(type);
 
+            Class<T> hashEl = notNull(hashMap) ? (Class<T>) hashMap.get(name) : null;
+            boolean isModel = notNull(hashEl);
+            out.println(hashEl);
+
             if (isTable) {
                 row.remove(0);
                 if (isModel) setData(name, isList);
@@ -134,6 +143,7 @@ public class Model<T extends Model<?>> {
 
             if (isModel) {
                 value = setModel(hashEl, row);
+                //if (isList) value = singletonList(value);
                 if (isList) value = List.of(value);
             }
             out.println(value);

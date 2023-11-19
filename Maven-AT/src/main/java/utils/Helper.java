@@ -1,6 +1,11 @@
 package utils;
 
+import org.apache.commons.lang.ArrayUtils;
+
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.System.out;
 
@@ -32,6 +37,18 @@ public class Helper {
 
     public static Boolean isInstance(Object obj, Class<?> clazz) {
         return clazz.isInstance(obj);
+    }
+
+    public static Boolean isList(Object obj) {
+        return isInstance(obj, List.class);
+    }
+
+    public static Boolean isArrayList(Object obj) {
+        return isInstance(obj, ArrayList.class);
+    }
+
+    public static Boolean isArray(Object obj) {
+        return isInstance(obj, Array.class);
     }
 
     public static Boolean isParseType(Object type) {
@@ -72,5 +89,18 @@ public class Helper {
 
     public static String toLowerCaseFirst(String str) {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
+    }
+
+    public static <T> T[] removeLast(T[] arr) {
+        return remove(arr, arr.length - 1);
+    }
+
+    public static <T> T[] removeFirst(T[] arr) {
+        return remove(arr, 0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] remove(T[] arr, int index) {
+        return (T[]) ArrayUtils.remove(arr, index);
     }
 }
