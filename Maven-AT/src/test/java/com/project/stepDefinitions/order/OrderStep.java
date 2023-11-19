@@ -33,7 +33,7 @@ public class OrderStep extends Step<OrderRequests, Order> {
         return resp;
     }
 
-    private Response createOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+    private Response postOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
         Order order = new Model<>(modelClass, dataTable, ORDER_URL).get();
         Response resp = req.postOrder(order);
         orderId = resp.jsonPath().get("id");
@@ -49,21 +49,18 @@ public class OrderStep extends Step<OrderRequests, Order> {
     }
 
     @Когда("создать заказ статус {int}")
-    public void createOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
-        Response resp = createOrder(dataTable);
-        assertEquals(statusCode, resp.getStatusCode());
+    public void postOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
+        assertEquals(statusCode, postOrder(dataTable).getStatusCode());
     }
 
     @Тогда("получить заказ статус {int}")
     public void getOrder(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = getOrder();
-        assertEquals(statusCode, resp.getStatusCode());
+        assertEquals(statusCode, getOrder().getStatusCode());
     }
 
     @И("удалить заказ статус {int}")
     public void deleteOrder(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = deleteOrder();
-        assertEquals(statusCode, resp.getStatusCode());
+        assertEquals(statusCode, deleteOrder().getStatusCode());
     }
 
 }

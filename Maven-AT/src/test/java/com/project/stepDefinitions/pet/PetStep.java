@@ -35,7 +35,7 @@ public class PetStep extends Step<PetRequests, Pet> {
         return resp;
     }
 
-    private Response createPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+    private Response postPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
         Pet pet = new Model<>(modelClass, dataTable, new HashMap<Integer, Class<? extends Model<?>>>(3, 4).values(Category.class, TagsItem.class), PET_URL).get();
         Response resp = req.postPet(pet);
         petId = resp.path("id");
@@ -49,16 +49,14 @@ public class PetStep extends Step<PetRequests, Pet> {
     }
 
     @Когда("создать животное статус {int}")
-    public void createPet(int statusCode, List<List<String>> dataTable)
+    public void postPet(int statusCode, List<List<String>> dataTable)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException, ClassNotFoundException, InstantiationException {
-        Response resp = createPet(dataTable);
-        assertEquals(statusCode, resp.getStatusCode());
+        assertEquals(statusCode, postPet(dataTable).getStatusCode());
     }
 
     @Тогда("получить животное статус {int}")
     public void getCreatedPet(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        Response resp = getPet();
-        assertEquals(statusCode, resp.getStatusCode());
+        assertEquals(statusCode, getPet().getStatusCode());
     }
 
 }
