@@ -25,9 +25,7 @@ public class OrderStep extends Step<OrderRequests, Order> {
     private Long orderId;
 
     @ConstructorProperties({})
-    public OrderStep() {
-        super(new OrderRequests(), Order.class);
-    }
+    public OrderStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}
 
     private Response getOrder() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Response resp = req.getOrder(orderId);

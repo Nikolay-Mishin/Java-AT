@@ -27,9 +27,7 @@ public class PetStep extends Step<PetRequests, Pet> {
     private Long petId;
 
     @ConstructorProperties({})
-    public PetStep() {
-        super(new PetRequests(), Pet.class);
-    }
+    public PetStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}
 
     private Response getPet() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Response resp = req.getPet(petId);
