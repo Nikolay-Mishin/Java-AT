@@ -5,13 +5,13 @@
     @regress
     Сценарий: Создать и получить животное
         Когда создать животное статус 200
+            | id            | 0         |
+            | category.id   | 0         |
+            | category.name | string    |
             | photoUrls     | string    |
             | name          | doggie    |
-            | id            | 0         |
-            | category.id   | string    |
-            | category.name | 0         |
             | tags.id       | 0         |
-            | tags.id       | string    |
+            | tags.name     | string    |
             | status        | available |
 
         И получить животное статус 200
