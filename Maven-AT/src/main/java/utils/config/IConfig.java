@@ -33,6 +33,12 @@ public interface IConfig extends Config {
     @Key("JSON_SCHEMA_ROOT")
     String getJsonSchemaRoot();
 
+    @Key("POJO_ROOT")
+    String getPojoRoot();
+
+    @Key("TARGET_PACKAGE")
+    String getTargetPackage();
+
     //tokens
     @Key("TOKEN_KEYS")
     String getTokenKeys();

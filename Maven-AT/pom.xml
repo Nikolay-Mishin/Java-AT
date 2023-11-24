@@ -76,7 +76,7 @@
                 <configuration>
                     <sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
                     <outputDirectory>${basedir}/src/main/java/models/pojo</outputDirectory>
-                    <!--<targetPackage>com.project</targetPackage>-->
+                    <!--<targetPackage>com.generated</targetPackage>-->
                     <sourceType>json</sourceType>
                 </configuration>
                 <executions>
@@ -147,11 +147,11 @@
             <version>1.2.1</version>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>org.jsonschema2pojo</groupId>
             <artifactId>jsonschema2pojo-core</artifactId>
             <version>1.2.1</version>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
