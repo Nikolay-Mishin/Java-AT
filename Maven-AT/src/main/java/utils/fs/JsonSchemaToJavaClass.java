@@ -20,7 +20,7 @@ public class JsonSchemaToJavaClass {
     //private static final String schemaRoot = BASE_CONFIG.getJsonSchemaRoot();
     //private static final String outputDirectory = BASE_CONFIG.getPojoRoot();
     //private static final String packageName = BASE_CONFIG.getTargetPackage();
-    private static final String schemaRoot = "src/main/resources/schema";
+    private static final String schemaRoot = "src/main/resources/schema_generator";
     private static final String outputDirectory = "src/main/java";
     private static final String packageName = "models.pojo.com.generated";
     private String inputJsonUrl;
@@ -35,14 +35,14 @@ public class JsonSchemaToJavaClass {
     private final boolean isIncludeHashcodeAndEquals = false;
     private final boolean isIncludeToString = false;
     private final boolean isIncludeAdditionalProperties = false;
-    public final SourceType sourceType = SourceType.JSON;
+    public final SourceType sourceType = SourceType.JSONSCHEMA;
 
     public static void main(String[] args) throws Exception {
         out.println(BASE_CONFIG.getJsonSchemaRoot());
         out.println(BASE_CONFIG.getPojoRoot());
         out.println(BASE_CONFIG.getTargetPackage());
         new JsonSchemaToJavaClass("store/order", "Order");
-        new JsonSchemaToJavaClass("pet", "Pet");
+        //new JsonSchemaToJavaClass("pet", "Pet");
     }
 
     public JsonSchemaToJavaClass(String inputJsonUrl, String javaClassName) throws IOException {
