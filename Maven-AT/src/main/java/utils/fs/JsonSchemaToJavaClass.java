@@ -20,7 +20,7 @@ public class JsonSchemaToJavaClass {
     //private static final String schemaRoot = BASE_CONFIG.getJsonSchemaRoot();
     //private static final String outputDirectory = BASE_CONFIG.getPojoRoot();
     //private static final String packageName = BASE_CONFIG.getTargetPackage();
-    private static final String schemaRoot = "src/main/resources/schema_generator";
+    private static final String schemaRoot = "src/main/resources/schema";
     private static final String outputDirectory = "src/main/java";
     private static final String packageName = "models.pojo.com.generated";
     private String inputJsonUrl;

@@ -9,12 +9,27 @@ import javax.annotation.processing.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id"
+    "id",
+    "petId",
+    "quantity",
+    "shipDate",
+    "status",
+    "complete"
 })
 @Generated("jsonschema2pojo")
 public class OrderSchema {
 
     @JsonProperty("id")
     public Long id;
+    @JsonProperty("petId")
+    public Long petId;
+    @JsonProperty("quantity")
+    public Long quantity;
+    @JsonProperty("shipDate")
+    public String shipDate;
+    @JsonProperty("status")
+    public String status;
+    @JsonProperty("complete")
+    public Boolean complete;
 
 }
