@@ -48,6 +48,8 @@
                     </argLine>
                     <parallel>methods</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
+                    <!--<threadCount>16</threadCount>-->
+                    <!--<perCoreThreadCount>true</perCoreThreadCount>-->
                 </configuration>
                 <dependencies>
                     <dependency>
