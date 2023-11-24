@@ -23,8 +23,8 @@
         "start": "npm test & npm run serve",
         "start-with-reports": "npm test & npm run report & npm run serve",
         "test": "mvn clean test -Denv=stand",
-		"serve": "mvn allure:serve",
+		"allure": "mvn allure:serve",
 		"report": "mvn allure:report",
-        "allure": "allure serve target/allure-results"
+        "serve": "allure serve target/allure-results"
     }
 }

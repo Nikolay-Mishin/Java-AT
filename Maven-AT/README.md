@@ -28,7 +28,7 @@ run cucumber tests with environment
 
 -----
 run allure report
-`npm run serve` or `npm run allure`
+`npm run allure` or `npm run serve`
 
 -----
 build allure report
