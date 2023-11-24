@@ -1,11 +1,13 @@
 package utils;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.System.out;
 
@@ -29,6 +31,14 @@ public class Helper {
 
     public static boolean notNull(Object value) {
         return value != null;
+    }
+
+    public static boolean _equals(@Nullable Object a, @Nullable Object b) {
+        return Objects.equals(a, b);
+    }
+
+    public static boolean notEquals(@Nullable Object a, @Nullable Object b) {
+        return !_equals(a, b);
     }
 
     public static Boolean isClass(Object obj) {
