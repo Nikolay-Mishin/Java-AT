@@ -1,6 +1,7 @@
 package utils.fs;
 
 import com.sun.codemodel.JCodeModel;
+import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
 
@@ -22,68 +23,75 @@ public class JsonSchemaToJavaClass {
     private static final String schemaRoot = "src/main/resources/schema";
     private static final String outputDirectory = "src/main/java";
     private static final String packageName = "models.pojo.com.generated";
-    private SourceType sourceType;
     private String inputJsonUrl;
     private String outputJavaClassDirectory;
     private String _packageName = packageName;
     private String javaClassName;
+    private JCodeModel jcodeModel;
+    private final boolean isGenerateBuilders = false;
+    private final boolean isUseLongIntegers = true;
+    private final boolean isIncludeGetters = false;
+    private final boolean isIncludeSetters = false;
+    private final boolean isIncludeHashcodeAndEquals = false;
+    private final boolean isIncludeToString = false;
+    private final boolean isIncludeAdditionalProperties = false;
+    public final SourceType sourceType = SourceType.JSON;
 
     public static void main(String[] args) throws Exception {
         out.println(BASE_CONFIG.getJsonSchemaRoot());
         out.println(BASE_CONFIG.getPojoRoot());
         out.println(BASE_CONFIG.getTargetPackage());
-        new JsonSchemaToJavaClass(SourceType.JSONSCHEMA, "store/order", "Order");
-        new JsonSchemaToJavaClass(SourceType.JSON, "pet", "Pet");
+        new JsonSchemaToJavaClass("store/order", "Order");
+        new JsonSchemaToJavaClass("pet", "Pet");
     }
 
-    public JsonSchemaToJavaClass(SourceType sourceType, String inputJsonUrl, String javaClassName) throws IOException {
-        init(sourceType, inputJsonUrl, packageName, javaClassName);
+    public JsonSchemaToJavaClass(String inputJsonUrl, String javaClassName) throws IOException {
+        init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputDirectory, _packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(SourceType sourceType, URL inputJsonUrl, String javaClassName) throws IOException {
-        init(sourceType, inputJsonUrl, packageName, javaClassName);
+    public JsonSchemaToJavaClass(URL inputJsonUrl, String javaClassName) throws IOException {
+        init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(SourceType sourceType, URI inputJsonUrl, String javaClassName) throws IOException {
-        init(sourceType, inputJsonUrl, packageName, javaClassName);
+    public JsonSchemaToJavaClass(URI inputJsonUrl, String javaClassName) throws IOException {
+        init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(SourceType sourceType, String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
-        init(sourceType, inputJsonUrl, packageName, javaClassName);
+    public JsonSchemaToJavaClass(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(SourceType sourceType, URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
-        init(sourceType, inputJsonUrl, packageName, javaClassName);
+    public JsonSchemaToJavaClass(URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(SourceType sourceType, URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
-        init(sourceType, inputJsonUrl, packageName, javaClassName);
+    public JsonSchemaToJavaClass(URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    private void init(SourceType sourceType, String inputJsonUrl, String packageName, String javaClassName) {
-        _init(sourceType, inputJsonUrl, packageName, javaClassName);
+    private void init(String inputJsonUrl, String packageName, String javaClassName) {
+        _init(inputJsonUrl, packageName, javaClassName);
     }
 
-    private void init(SourceType sourceType, URL inputJsonUrl, String packageName, String javaClassName) {
-        _init(sourceType, inputJsonUrl.toString(), packageName, javaClassName);
+    private void init(URL inputJsonUrl, String packageName, String javaClassName) {
+        _init(inputJsonUrl.toString(), packageName, javaClassName);
     }
 
-    private void init(SourceType sourceType, URI inputJsonUrl, String packageName, String javaClassName) {
-        _init(sourceType, inputJsonUrl.toString(), packageName, javaClassName);
+    private void init(URI inputJsonUrl, String packageName, String javaClassName) {
+        _init(inputJsonUrl.toString(), packageName, javaClassName);
     }
 
-    private void _init(SourceType sourceType, String inputJsonUrl, String packageName, String javaClassName) {
-        this.sourceType = sourceType;
+    private void _init(String inputJsonUrl, String packageName, String javaClassName) {
         this.inputJsonUrl = inputJsonUrl;
         if (notEquals(packageName, "")) this._packageName += "." + inputJsonUrl.replace("/", ".");
         this.javaClassName = javaClassName;
-        out.println(getSchemaPath());
+        jcodeModel = new JCodeModel();
     }
 
     private String getSchemaPath() {
@@ -103,28 +111,27 @@ public class JsonSchemaToJavaClass {
     }
 
     private void _generate(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
-        JCodeModel jcodeModel = new JCodeModel();
-
-        GenerationConfig config = new DefaultGenerationConfig() {
-            @Override
-            public boolean isGenerateBuilders() {
-                return true;
-            }
-
-            @Override
-            public SourceType getSourceType() {
-                return sourceType;
-            }
-        };
-
-        SchemaMapper mapper = new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
-        URL _inputJsonUrl = new File(inputJsonUrl).toURI().toURL();
-        out.println(_inputJsonUrl);
+        out.println(inputJsonUrl);
         out.println(outputJavaClassDirectory);
         out.println(packageName);
         out.println(javaClassName);
-        mapper.generate(jcodeModel, javaClassName, packageName, _inputJsonUrl);
-        //jcodeModel.build(new File(outputJavaClassDirectory));
+        getSchemaMapper().generate(jcodeModel, javaClassName, packageName, new File(inputJsonUrl).toURI().toURL());
+        jcodeModel.build(new File(outputJavaClassDirectory));
+    }
+
+    @NotNull
+    private SchemaMapper getSchemaMapper() {
+        GenerationConfig config = new DefaultGenerationConfig() {
+            @Override public boolean isGenerateBuilders() {return isGenerateBuilders;}
+            @Override public boolean isUseLongIntegers() {return isUseLongIntegers;}
+            @Override public boolean isIncludeGetters() {return isIncludeGetters;}
+            @Override public boolean isIncludeSetters() {return isIncludeSetters;}
+            @Override public boolean isIncludeHashcodeAndEquals() {return isIncludeHashcodeAndEquals;}
+            @Override public boolean isIncludeToString() {return isIncludeToString;}
+            @Override public boolean isIncludeAdditionalProperties() {return isIncludeAdditionalProperties;}
+            @Override public SourceType getSourceType() {return sourceType;}
+        };
+        return new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
     }
 
 }

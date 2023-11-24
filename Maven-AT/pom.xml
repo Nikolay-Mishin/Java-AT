@@ -78,6 +78,13 @@
                     <outputDirectory>${basedir}/src/main/java/models/pojo</outputDirectory>
                     <!--<targetPackage>com.generated</targetPackage>-->
                     <sourceType>json</sourceType>
+                    <generateBuilders>false</generateBuilders>
+                    <useBigIntegers>true</useBigIntegers>
+                    <includeGetters>false</includeGetters>
+                    <includeSetters>false</includeSetters>
+                    <includeHashcodeAndEquals>false</includeHashcodeAndEquals>
+                    <includeToString>false</includeToString>
+                    <includeAdditionalProperties>false</includeAdditionalProperties>
                 </configuration>
                 <executions>
                     <execution>
