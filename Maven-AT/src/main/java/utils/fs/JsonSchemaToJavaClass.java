@@ -6,6 +6,7 @@ import org.jsonschema2pojo.rules.RuleFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 
 import static config.WebConfig.BASE_CONFIG;
@@ -21,19 +22,39 @@ public class JsonSchemaToJavaClass {
         new JsonSchemaToJavaClass("Pojo");
     }
 
+    public JsonSchemaToJavaClass(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        generate(getSchemaPath(inputJsonUrl), outputJavaClassDirectory, packageName, javaClassName);
+    }
+
     public JsonSchemaToJavaClass(URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
-        generate(getSchemaUrl(inputJsonUrl), new File(outputJavaClassDirectory), packageName, javaClassName);
+        generate(getSchemaPath(inputJsonUrl.toString()), outputJavaClassDirectory, packageName, javaClassName);
+    }
+
+    public JsonSchemaToJavaClass(URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        generate(getSchemaPath(inputJsonUrl.toString()), outputJavaClassDirectory, packageName, javaClassName);
     }
 
     public JsonSchemaToJavaClass(String javaClassName) throws IOException {
-        generate(getSchemaUrl(new URL(javaClassName)), new File(outputDirectory), packageName, javaClassName);
+        generate(getSchemaPath(javaClassName), outputDirectory, packageName, javaClassName);
     }
 
-    private URL getSchemaUrl(URL inputJsonUrl) throws IOException {
-        return new URL(getPath(schemaRoot, inputJsonUrl.toString()));
+    private String getSchemaPath(String inputJsonUrl) {
+        return getPath(schemaRoot, inputJsonUrl);
     }
 
-    public static void generate(URL inputJsonUrl, File outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    public static void generate(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        _generate(inputJsonUrl, outputJavaClassDirectory, packageName, javaClassName);
+    }
+
+    public static void generate(URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        _generate(inputJsonUrl.toString(), outputJavaClassDirectory, packageName, javaClassName);
+    }
+
+    public static void generate(URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+        _generate(inputJsonUrl.toString(), outputJavaClassDirectory, packageName, javaClassName);
+    }
+
+    private static void _generate(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         JCodeModel jcodeModel = new JCodeModel();
 
         GenerationConfig config = new DefaultGenerationConfig() {
@@ -51,7 +72,7 @@ public class JsonSchemaToJavaClass {
         SchemaMapper mapper = new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
         mapper.generate(jcodeModel, javaClassName, packageName, inputJsonUrl);
 
-        jcodeModel.build(outputJavaClassDirectory);
+        jcodeModel.build(new File(outputJavaClassDirectory));
     }
 
 }
