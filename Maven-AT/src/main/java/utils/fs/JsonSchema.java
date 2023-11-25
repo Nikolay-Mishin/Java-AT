@@ -70,7 +70,7 @@ public class JsonSchema {
     }
 
     private static String _getJsonSchemaPath(Object... pathList){
-        return getPath(BASE_CONFIG.getJsonSchemaRoot(), pathList);
+        return getPath(BASE_CONFIG.getJsonRoot(), pathList);
     }
 
     private static String getJsonSchemaName(METHOD_LOWER_CASE method, Class<? extends Model<?>> modelClass){

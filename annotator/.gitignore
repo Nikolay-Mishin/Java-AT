@@ -1,6 +1,6 @@
 ### IntelliJ IDEA ###
 .idea
-.allure/
+.allure
 out/
 target/
 !src/main/**/out/
@@ -31,4 +31,3 @@ bin/
 
 ### Mac OS ###
 .DS_Store
-/annotator/.allure/

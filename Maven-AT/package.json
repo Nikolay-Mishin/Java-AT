@@ -20,8 +20,8 @@
 		"node": ">=16.7.0"
 	},
 	"scripts": {
-        "start": "npm test & npm run serve",
-        "start-with-reports": "npm test & npm run report & npm run serve",
+        "start": "npm test & npm run allure",
+        "start-with-reports": "npm test & npm run report & npm run allure",
         "test": "mvn clean test -Denv=stand",
 		"allure": "mvn allure:serve",
 		"report": "mvn allure:report",

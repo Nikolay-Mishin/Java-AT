@@ -1,10 +1,10 @@
 package utils.pojo;
 
 import com.sun.codemodel.JCodeModel;
-import org.project.annotator.pojo.LombokAnnotator;
 import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
+import org.project.annotator.pojo.LombokAnnotator;
 
 import java.io.File;
 import java.io.IOException;

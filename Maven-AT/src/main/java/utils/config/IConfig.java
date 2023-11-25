@@ -30,6 +30,9 @@ public interface IConfig extends Config {
     String getDbPassword();
 
     //resources
+    @Key("JSON_ROOT")
+    String getJsonRoot();
+
     @Key("JSON_SCHEMA_ROOT")
     String getJsonSchemaRoot();
 
