@@ -10,8 +10,8 @@
 
     <packaging>pom</packaging>
     <modules>
-        <module>annotator</module>
         <module>project</module>
+        <module>annotator</module>
     </modules>
 
     <properties>
