@@ -38,7 +38,7 @@ public class JsonSchemaToJavaClass {
     private final boolean isIncludeAdditionalProperties = false;
     private final SourceType sourceType = SourceType.JSONSCHEMA;
     private final Class<? extends Annotator> customAnnotator = LombokAnnotator.class;
-    private final boolean isIncludeGeneratedAnnotation = false;
+    private final boolean isIncludeGeneratedAnnotation = true;
 
     public static void main(String[] args) throws Exception {
         out.println(BASE_CONFIG.getJsonSchemaRoot());

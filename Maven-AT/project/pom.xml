@@ -77,7 +77,6 @@
                     <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
                     <outputDirectory>src/main/java</outputDirectory>
                     <targetPackage>models.pojo.json</targetPackage>
-                    <useCommonsLang3>true</useCommonsLang3>
                     <customAnnotator>org.annotator.pojo.LombokAnnotator</customAnnotator>
                     <sourceType>json</sourceType>
                     <generateBuilders>false</generateBuilders>
@@ -185,12 +184,6 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
         </dependency>
 
         <dependency>
