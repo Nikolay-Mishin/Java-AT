@@ -1,4 +1,4 @@
-package org.project.annotator;
+package org.project.annotator.module;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.codemodel.JDefinedClass;
