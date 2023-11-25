@@ -35,7 +35,9 @@ public class JsonSchemaToJavaClass {
     private final boolean isIncludeHashcodeAndEquals = false;
     private final boolean isIncludeToString = false;
     private final boolean isIncludeAdditionalProperties = false;
-    public final SourceType sourceType = SourceType.JSONSCHEMA;
+    private final SourceType sourceType = SourceType.JSONSCHEMA;
+    private final Class<? extends Annotator> customAnnotator = LombokAnnotator.class;
+    private final boolean isIncludeGeneratedAnnotation = true;
 
     public static void main(String[] args) throws Exception {
         out.println(BASE_CONFIG.getJsonSchemaRoot());
@@ -130,6 +132,8 @@ public class JsonSchemaToJavaClass {
             @Override public boolean isIncludeToString() {return isIncludeToString;}
             @Override public boolean isIncludeAdditionalProperties() {return isIncludeAdditionalProperties;}
             @Override public SourceType getSourceType() {return sourceType;}
+            @Override public Class<? extends Annotator> getCustomAnnotator() {return customAnnotator;}
+            @Override public boolean isIncludeGeneratedAnnotation() {return isIncludeGeneratedAnnotation;}
         };
         return new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
     }
