@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         // Press Alt+Enter with your caret at the highlighted text to see how
         // IntelliJ IDEA suggests fixing it.
-        out.println("Hello and welcome!!");
+        out.println("Hello and welcome!");
 
         new Test();
     }
