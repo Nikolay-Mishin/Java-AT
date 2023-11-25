@@ -77,7 +77,7 @@
                     <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
                     <outputDirectory>src/main/java</outputDirectory>
                     <targetPackage>models.pojo.json</targetPackage>
-                    <customAnnotator>org.annotator.pojo.LombokAnnotator</customAnnotator>
+                    <customAnnotator>org.project.annotator.module.LombokAnnotator</customAnnotator>
                     <sourceType>json</sourceType>
                     <generateBuilders>false</generateBuilders>
                     <useLongIntegers>true</useLongIntegers>
