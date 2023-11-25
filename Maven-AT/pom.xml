@@ -77,6 +77,8 @@
                     <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
                     <outputDirectory>${basedir}/src/main/java</outputDirectory>
                     <targetPackage>models.pojo.json</targetPackage>
+                    <useCommonsLang3>true</useCommonsLang3>
+                    <customAnnotator>org.annotator.pojo.LombokAnnotator</customAnnotator>
                     <sourceType>json</sourceType>
                     <generateBuilders>false</generateBuilders>
                     <useLongIntegers>true</useLongIntegers>
@@ -93,6 +95,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <!--<dependencies>
+                    <dependency>
+                        <groupId>org.annotator</groupId>
+                        <artifactId>annotator</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>-->
             </plugin>
         </plugins>
     </build>
