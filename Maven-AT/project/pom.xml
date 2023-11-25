@@ -103,12 +103,6 @@
 
                     <dependency>
                         <groupId>org.project</groupId>
-                        <artifactId>annotator-module</artifactId>
-                        <version>1.0-SNAPSHOT</version>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>org.project</groupId>
                         <artifactId>annotator</artifactId>
                         <version>1.0-SNAPSHOT</version>
                     </dependency>
@@ -208,12 +202,6 @@
         <dependency>
             <groupId>org.annotator</groupId>
             <artifactId>annotator</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.project</groupId>
-            <artifactId>annotator-module</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
