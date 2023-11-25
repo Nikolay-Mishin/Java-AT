@@ -1,6 +1,7 @@
 package utils.pojo;
 
 import com.sun.codemodel.JCodeModel;
+import org.annotator.pojo.LombokAnnotator;
 import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
@@ -20,8 +21,8 @@ public class JsonSchemaToJavaClass {
     //private static final String schemaRoot = BASE_CONFIG.getJsonSchemaRoot();
     //private static final String outputDirectory = BASE_CONFIG.getPojoRoot();
     //private static final String packageName = BASE_CONFIG.getTargetPackage();
-    private static final String schemaRoot = "src/main/resources/schema";
-    private static final String outputDirectory = "src/main/java";
+    private static final String schemaRoot = "project/src/main/resources/schema";
+    private static final String outputDirectory = "project/src/main/java";
     private static final String packageName = "models.pojo.schema";
     private String inputJsonUrl;
     private String outputJavaClassDirectory;
@@ -37,7 +38,7 @@ public class JsonSchemaToJavaClass {
     private final boolean isIncludeAdditionalProperties = false;
     private final SourceType sourceType = SourceType.JSONSCHEMA;
     private final Class<? extends Annotator> customAnnotator = LombokAnnotator.class;
-    private final boolean isIncludeGeneratedAnnotation = true;
+    private final boolean isIncludeGeneratedAnnotation = false;
 
     public static void main(String[] args) throws Exception {
         out.println(BASE_CONFIG.getJsonSchemaRoot());

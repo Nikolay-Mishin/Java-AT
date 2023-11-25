@@ -31,7 +31,6 @@ public class LombokAnnotator extends AbstractAnnotator {
 
     /*@Override
     public void propertyField(JFieldVar field, JDefinedClass clazz, String property, JsonNode propertyNode) {
-        super.propertyField(field, clazz, property, propertyNode);
         setAnnotation(clazz, property);
     }*/
 

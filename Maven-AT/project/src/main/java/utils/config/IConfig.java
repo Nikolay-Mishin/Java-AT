@@ -4,7 +4,7 @@ import org.aeonbits.owner.Config;
 
 import static utils.config.Config.setConfig;
 
-@org.aeonbits.owner.Config.Sources({"classpath:${env}.properties"})
+@Config.Sources({"classpath:${env}.properties"})
 public interface IConfig extends Config {
 
     IConfig BASE_CONFIG = setConfig(IConfig.class);
