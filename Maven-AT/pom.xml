@@ -76,7 +76,7 @@
                 <configuration>
                     <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
                     <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                    <targetPackage>models.pojo</targetPackage>
+                    <targetPackage>models.pojo.json</targetPackage>
                     <sourceType>json</sourceType>
                     <generateBuilders>false</generateBuilders>
                     <useLongIntegers>true</useLongIntegers>

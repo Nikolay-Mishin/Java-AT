@@ -1,5 +1,5 @@
 
-package models.pojo.auth;
+package models.pojo.json.auth;
 
 import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -8,12 +8,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "value"
+    "access",
+    "refresh",
+    "file"
 })
 @Generated("jsonschema2pojo")
-public class File {
+public class Token {
 
-    @JsonProperty("value")
-    public String value;
+    @JsonProperty("access")
+    public Access access;
+    @JsonProperty("refresh")
+    public Refresh refresh;
+    @JsonProperty("file")
+    public File file;
 
 }

@@ -1,5 +1,5 @@
 
-package models.pojo.auth;
+package models.pojo.json.auth;
 
 import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "value"
 })
 @Generated("jsonschema2pojo")
-public class Refresh {
+public class File {
 
     @JsonProperty("value")
     public String value;

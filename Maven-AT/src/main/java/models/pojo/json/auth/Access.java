@@ -1,5 +1,5 @@
 
-package models.pojo.auth;
+package models.pojo.json.auth;
 
 import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;

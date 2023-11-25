@@ -1,5 +1,5 @@
 
-package models.pojo.pet;
+package models.pojo.json.pet;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,5 @@
 
-package models.pojo.pet;
+package models.pojo.json.pet;
 
 import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;

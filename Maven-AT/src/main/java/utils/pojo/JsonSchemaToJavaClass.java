@@ -1,4 +1,4 @@
-package utils.fs;
+package utils.pojo;
 
 import com.sun.codemodel.JCodeModel;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,7 @@ public class JsonSchemaToJavaClass {
     //private static final String packageName = BASE_CONFIG.getTargetPackage();
     private static final String schemaRoot = "src/main/resources/schema";
     private static final String outputDirectory = "src/main/java";
-    private static final String packageName = "models.pojo.com.generated";
+    private static final String packageName = "models.pojo.schema";
     private String inputJsonUrl;
     private String outputJavaClassDirectory;
     private String _packageName = packageName;

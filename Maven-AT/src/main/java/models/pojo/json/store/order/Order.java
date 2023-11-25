@@ -1,11 +1,10 @@
 
-package models.pojo.com.generated.store.order;
+package models.pojo.json.store.order;
 
+import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-import javax.annotation.processing.Generated;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -17,7 +16,7 @@ import javax.annotation.processing.Generated;
     "complete"
 })
 @Generated("jsonschema2pojo")
-public class OrderSchema {
+public class Order {
 
     @JsonProperty("id")
     public Long id;
