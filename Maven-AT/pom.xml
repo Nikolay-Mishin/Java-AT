@@ -78,7 +78,7 @@
                     <outputDirectory>${basedir}/src/main/java</outputDirectory>
                     <targetPackage>models.pojo.json</targetPackage>
                     <useCommonsLang3>true</useCommonsLang3>
-                    <customAnnotator>org.annotator.pojo.LombokAnnotator</customAnnotator>
+                    <!--<customAnnotator>org.annotator.pojo.LombokAnnotator</customAnnotator>-->
                     <sourceType>json</sourceType>
                     <generateBuilders>false</generateBuilders>
                     <useLongIntegers>true</useLongIntegers>
