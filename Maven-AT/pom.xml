@@ -12,8 +12,6 @@
     <modules>
         <module>project</module>
         <module>annotator</module>
-        <module>../annotator</module>
-        <module>../../annotator</module>
     </modules>
 
     <properties>
