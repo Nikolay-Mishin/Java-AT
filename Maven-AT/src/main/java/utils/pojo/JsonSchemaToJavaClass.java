@@ -4,7 +4,7 @@ import com.sun.codemodel.JCodeModel;
 import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
-import org.project.annotator.pojo.LombokAnnotator;
+//import org.project.annotator.pojo.LombokAnnotator;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +21,8 @@ public class JsonSchemaToJavaClass {
     //private static final String schemaRoot = BASE_CONFIG.getJsonSchemaRoot();
     //private static final String outputDirectory = BASE_CONFIG.getPojoRoot();
     //private static final String packageName = BASE_CONFIG.getTargetPackage();
-    private static final String schemaRoot = "project/src/main/resources/schema";
-    private static final String outputDirectory = "project/src/main/java";
+    private static final String schemaRoot = "src/main/resources/schema";
+    private static final String outputDirectory = "src/main/java";
     private static final String packageName = "models.pojo.schema";
     private String inputJsonUrl;
     private String outputJavaClassDirectory;
