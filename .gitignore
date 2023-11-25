@@ -1,6 +1,6 @@
 ### IntelliJ IDEA ###
 .idea
-.allure/
+.allure
 out/
 target/
 !src/main/**/out/
