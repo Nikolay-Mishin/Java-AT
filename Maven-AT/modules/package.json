@@ -13,7 +13,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Nikolay-Mishin/Java-AT",
+		"url": "https://github.com/Nikolay-Mishin/Java-AT/Maven-AT/modules",
 		"directory": ""
 	},
 	"engines": {
@@ -22,7 +22,6 @@
 	"scripts": {
         "start": "npm run init",
         "init": "mvn clean install",
-        "build": "mvn package",
-        "deploy": "mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/annotator/repo -Dfile=target/annotator-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=1.0-SNAPSHOT"
+        "build": "mvn package"
     }
 }

@@ -7,10 +7,6 @@
     <groupId>org.project</groupId>
     <artifactId>Maven-AT</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <!--<packaging>pom</packaging>
-    <modules>
-        <module>annotator</module>
-    </modules>-->
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -22,7 +18,7 @@
         <repository>
             <id>org.project</id>
             <name>annotator</name>
-            <url>file:${basedir}/annotator/repo</url>
+            <url>file:${basedir}/modules/annotator/repo</url>
         </repository>
     </repositories>
 

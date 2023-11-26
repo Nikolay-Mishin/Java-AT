@@ -1,0 +1,28 @@
+{
+	"name": "maven-at",
+	"version": "6.2.0",
+	"license": "ISC",
+	"author": {
+		"name": "Nikolay Mishin",
+		"url": "https://github.com/Nikolay-Mishin"
+	},
+	"description": "Library of development Java automatization",
+	"keywords": [
+		"java",
+		"auto-qa"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nikolay-Mishin/Java-AT/Maven-AT/modules/annnotator",
+		"directory": ""
+	},
+	"engines": {
+		"node": ">=16.7.0"
+	},
+	"scripts": {
+        "start": "npm run init",
+        "init": "mvn clean install",
+        "build": "mvn package",
+        "deploy": "mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/annotator/repo -Dfile=target/annotator-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=1.0-SNAPSHOT"
+    }
+}

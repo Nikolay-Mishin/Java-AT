@@ -1,7 +1,5 @@
-repo/
-
 ### IntelliJ IDEA ###
-.idea
+annotator/.idea
 .allure
 out/
 target/
