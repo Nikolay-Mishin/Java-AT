@@ -8,7 +8,7 @@ import static java.lang.System.out;
 import static utils.reflections.Instance.create;
 import static utils.reflections.Reflection.getGenericClass;
 
-public class Step<R extends Request, M extends Model<M>> {
+public class Step<R extends Request, M> {
 
     protected R req;
     protected Class<M> modelClass;

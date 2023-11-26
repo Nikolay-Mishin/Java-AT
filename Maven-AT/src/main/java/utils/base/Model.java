@@ -19,7 +19,7 @@ import static utils.base.HashMap.keys;
 import static utils.fs.JsonSchema.parsePath;
 import static utils.reflections.Reflection.*;
 
-public class Model<T extends Model<?>> {
+public class Model<T> {
 
     private T model;
     private Object builder;
@@ -32,7 +32,7 @@ public class Model<T extends Model<?>> {
         jsonData = null;
     }
 
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
         _setModel(clazz, dataTable, hashMap, method, jsonSchemaPathList);
     }
@@ -42,7 +42,7 @@ public class Model<T extends Model<?>> {
         _setModel(clazz, dataTable, null, method, jsonSchemaPathList);
     }
 
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap, Object... jsonSchemaPathList)
+    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
         _setModel(clazz, dataTable, hashMap, null, jsonSchemaPathList);
     }
@@ -61,7 +61,7 @@ public class Model<T extends Model<?>> {
         return model;
     }
 
-    private void _setModel(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+    private void _setModel(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
             jsonData = method != null ? setJsonData(method, clazz, jsonSchemaPathList) : setJsonData(clazz, jsonSchemaPathList);
             builder = getBuilder(clazz);
@@ -84,10 +84,13 @@ public class Model<T extends Model<?>> {
         return invoke(clazz, "builder");
     }
 
-    private void setData(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    private void setKeys(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         out.println("setData");
         out.println(jsonData);
-        if (isNull(jsonData)) keys = removeFirst(pathList);
+        if (isNull(jsonData)) {
+            keys = removeFirst(pathList);
+            return;
+        }
         JSONObject obj = !isList ? jsonData.getJSONObject(key) : jsonData.getJSONArray(key).getJSONObject(0);
         keys = keys(obj, String[]::new);
         out.println(obj);
@@ -95,7 +98,7 @@ public class Model<T extends Model<?>> {
     }
 
     @SuppressWarnings("unchecked")
-    private T setModel(Class<T> clazz, List<?> dataTable, HashMap<String, Class<? extends Model<?>>> hashMap)
+    private T setModel(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
         out.println("setModel");
@@ -134,7 +137,7 @@ public class Model<T extends Model<?>> {
 
             if (isTable) {
                 row.remove(0);
-                if (isModel) setData(name, isList);
+                if (isModel) setKeys(name, isList);
             }
 
             row = row.stream().filter(Objects::nonNull).toList();

@@ -35,7 +35,7 @@ public class PetStep extends Step<PetRequests, Pet> {
     }
 
     private Response postPet(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        Pet pet = new Model<>(modelClass, dataTable, new HashMap<String, Class<? extends Model<?>>>("category", "tags").values(Category.class, TagsItem.class)).get();
+        Pet pet = new Model<>(modelClass, dataTable, new HashMap<String, Class<?>>("category", "tags").values(Category.class, TagsItem.class)).get();
         Response resp = req.postPet(pet);
         //petId = resp.jsonPath().get("id");
         petId = resp.path("id");
