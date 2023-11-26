@@ -110,7 +110,7 @@ Or you also can add this in your `build.plugins` and change values in `configura
 
 ***********************************************
 
-set `json.schema`
+set `model.schema.json`
 -----
 
 You can set annotations:
@@ -123,7 +123,7 @@ You can set annotations:
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class YourModel {}
+public class Model {}
 ```
 
 Add this in your `json.schema`
@@ -151,7 +151,5 @@ By default set annotations `@Builder` and `@Data`, if no once annotations not se
 @Data
 public class YourModel {}
 ```
-
-***********************************************
 
 ***********************************************

@@ -2,7 +2,7 @@ package utils.base;
 
 import io.restassured.response.Response;
 import utils.Register;
-import utils.fs.JsonSchema;
+import utils.json.JsonSchema;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;

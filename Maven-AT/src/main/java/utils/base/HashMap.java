@@ -1,7 +1,7 @@
 package utils.base;
 
 import utils.exceptions.AssertException;
-import utils.fs.JsonSchema;
+import utils.json.JsonSchema;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;

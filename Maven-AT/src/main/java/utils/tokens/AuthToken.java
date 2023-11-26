@@ -2,7 +2,7 @@ package utils.tokens;
 
 import io.restassured.response.Response;
 import utils.base.Token;
-import utils.fs.JsonSchema;
+import utils.json.JsonSchema;
 
 import java.lang.reflect.InvocationTargetException;
 

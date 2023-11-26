@@ -1,4 +1,4 @@
-package utils.fs;
+package utils.json;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

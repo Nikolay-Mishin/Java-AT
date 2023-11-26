@@ -10,7 +10,17 @@
     <packaging>pom</packaging>
     <modules>
         <module>annotator</module>
+        <module>pojo</module>
+        <module>utils</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>org.project</id>
+            <name>modules</name>
+            <url>file:${basedir}/modules/repo</url>
+        </repository>
+    </repositories>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

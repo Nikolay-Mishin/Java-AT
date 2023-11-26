@@ -1,7 +1,7 @@
 package utils.base;
 
 import io.restassured.response.Response;
-import utils.fs.JsonSchema;
+import utils.json.JsonSchema;
 import utils.reflections.SingleInstance;
 import utils.tokens.AuthToken;
 

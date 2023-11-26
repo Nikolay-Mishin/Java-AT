@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.project</groupId>
-    <artifactId>annotator</artifactId>
+    <artifactId>pojo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <repositories>
         <repository>
             <id>org.project</id>
-            <name>annotator</name>
-            <url>file:${basedir}/modules/annotator/repo</url>
+            <name>pojo</name>
+            <url>file:${basedir}/modules/pojo/repo</url>
         </repository>
     </repositories>
 
@@ -36,25 +36,6 @@
                     <!-- <compilerVersion>1.3</compilerVersion> -->
                     <source>17</source>
                     <target>17</target>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>1.18.30</version>
-                        </path>
-                        <!-- This is needed when using Lombok 1.18.16 and above -->
-                        <!--<path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok-mapstruct-binding</artifactId>
-                            <version>0.2.0</version>
-                        </path>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>1.5.5.Final</version>
-                        </path>-->
-                        <!-- other annotation processors -->
-                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
@@ -68,35 +49,30 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.15.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.sun.codemodel</groupId>
             <artifactId>codemodel</artifactId>
             <version>2.6</version>
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.1.0</version>
         </dependency>
 
-        <!-- This is needed when using Lombok 1.18.16 and above -->
-        <!--<dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>0.2.0</version>
+        <!-- custom dependencies -->
+
+        <dependency>
+            <groupId>org.project</groupId>
+            <artifactId>annotator</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.5.Final</version>
-        </dependency>-->
+            <groupId>org.project</groupId>
+            <artifactId>utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!-- other dependencies -->
     </dependencies>
 

@@ -2,7 +2,7 @@ package com.project.stepDefinitions.auth;
 
 import io.cucumber.java.ru.Когда;
 import utils.base.Auth;
-import utils.fs.JsonSchema;
+import utils.json.JsonSchema;
 import utils.tokens.AuthToken;
 
 import java.io.IOException;
