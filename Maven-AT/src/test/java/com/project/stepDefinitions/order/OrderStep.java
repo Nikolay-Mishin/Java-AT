@@ -33,6 +33,7 @@ public class OrderStep extends Step<OrderRequests, Order> {
     }
 
     private Response postOrder(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+        //new JsonSchemaToJavaClass("store/order", "Order");
         Order order = new Model<>(modelClass, dataTable).get();
         Response resp = req.postOrder(order);
         orderId = resp.jsonPath().get("id");

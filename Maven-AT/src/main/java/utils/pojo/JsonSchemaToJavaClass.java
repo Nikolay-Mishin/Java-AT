@@ -41,6 +41,10 @@ public class JsonSchemaToJavaClass {
     private final boolean isIncludeGeneratedAnnotation = true;
 
     public static void main(String[] args) throws Exception {
+        new JsonSchemaToJavaClass();
+    }
+
+    public JsonSchemaToJavaClass() throws IOException {
         out.println(BASE_CONFIG.getJsonSchemaRoot());
         out.println(BASE_CONFIG.getPojoRoot());
         out.println(BASE_CONFIG.getTargetPackage());
@@ -136,7 +140,7 @@ public class JsonSchemaToJavaClass {
             @Override public Class<? extends Annotator> getCustomAnnotator() {return customAnnotator;}
             @Override public boolean isIncludeGeneratedAnnotation() {return isIncludeGeneratedAnnotation;}
         };
-        return new SchemaMapper(new RuleFactory(config, new Jackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
+        return new SchemaMapper(new RuleFactory(config, new LombokAnnotator(config), new SchemaStore()), new SchemaGenerator());
     }
 
 }

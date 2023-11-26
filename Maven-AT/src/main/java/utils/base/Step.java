@@ -17,6 +17,11 @@ public class Step<R extends Request, M extends Model<M>> {
         init(req, modelClass);
     }
 
+    public Step(Class<R> req, Class<M> modelClass)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        init(create(req), modelClass);
+    }
+
     public Step() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         Class<R> t1 = getGenericClass();
         Class<M> t2 = getGenericClass(1);

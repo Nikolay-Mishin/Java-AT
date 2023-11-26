@@ -1,36 +1,25 @@
-package org.project.annotator.pojo;
+package org.project.annotator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.codemodel.JDefinedClass;
-import lombok.*;
+import org.jsonschema2pojo.AbstractAnnotator;
 import org.jsonschema2pojo.GenerationConfig;
-import org.project.annotator.Annotator;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
 
 import static java.lang.System.out;
 
-public class LombokAnnotator extends Annotator {
+public class Annotator extends AbstractAnnotator {
 
     protected static final List<String> defaultAnnotations = List.of("lombok-builder", "lombok-data");
 
-    public LombokAnnotator(GenerationConfig generationConfig) {
+    public Annotator(GenerationConfig generationConfig) {
         super(generationConfig);
     }
 
     protected static Class<? extends Annotation> getAnnotation(String property) {
-        return switch (property) {
-            case "lombok-builder" -> Builder.class;
-            case "lombok-data" -> Data.class;
-            case "lombok-getter" -> Getter.class;
-            case "lombok-setter" -> Setter.class;
-            case "lombok-equals-and-hash-code" -> EqualsAndHashCode.class;
-            case "lombok-no-args-constructor" -> NoArgsConstructor.class;
-            case "lombok-all-args-constructor" -> AllArgsConstructor.class;
-            case "lombok-to-string" -> ToString.class;
-            default -> throw new IllegalStateException("Unexpected value: " + property);
-        };
+        return Annotation.class;
     }
 
     protected static void setAnnotation(JDefinedClass clazz, String property) {
