@@ -3,7 +3,6 @@ package org.project.annotator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.codemodel.JDefinedClass;
 import org.jsonschema2pojo.AbstractAnnotator;
-import org.jsonschema2pojo.GenerationConfig;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -15,7 +14,11 @@ public class Annotator extends AbstractAnnotator {
     protected final List<String> defaultAnnotations = List.of("lombok-builder", "lombok-data");
 
     protected Class<? extends Annotation> getAnnotation(String property) {
-        return Annotation.class;
+        return switch (property) {
+            case "default" -> Annotation.class;
+            case "annotation" -> Annotation.class;
+            default -> throw new IllegalStateException("Unexpected value: " + property);
+        };
     }
 
     protected void setAnnotation(JDefinedClass clazz, String property) {

@@ -141,7 +141,13 @@ public class JsonSchemaToJavaClass {
             @Override public Class<? extends Annotator> getCustomAnnotator() {return customAnnotator;}
             @Override public boolean isIncludeGeneratedAnnotation() {return isIncludeGeneratedAnnotation;}
         };
-        return new SchemaMapper(new RuleFactory(config, new LombokWithJackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
+        Jackson2Annotator annotator;
+        try {
+            annotator = new LombokWithJackson2Annotator(config);
+        } catch (Exception e) {
+            annotator = new Jackson2Annotator(config);
+        }
+        return new SchemaMapper(new RuleFactory(config, annotator, new SchemaStore()), new SchemaGenerator());
     }
 
 }
