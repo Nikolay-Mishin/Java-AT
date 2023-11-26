@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
 import org.project.annotator.pojo.LombokAnnotator;
+import org.project.annotator.pojo.LombokWithJackson2Annotator;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,7 +141,7 @@ public class JsonSchemaToJavaClass {
             @Override public Class<? extends Annotator> getCustomAnnotator() {return customAnnotator;}
             @Override public boolean isIncludeGeneratedAnnotation() {return isIncludeGeneratedAnnotation;}
         };
-        return new SchemaMapper(new RuleFactory(config, new LombokAnnotator(config), new SchemaStore()), new SchemaGenerator());
+        return new SchemaMapper(new RuleFactory(config, new LombokWithJackson2Annotator(config), new SchemaStore()), new SchemaGenerator());
     }
 
 }
