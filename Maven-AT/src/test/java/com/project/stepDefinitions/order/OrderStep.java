@@ -36,7 +36,7 @@ public class OrderStep extends Step<OrderRequests, Order> {
         //new JsonSchemaToJavaClass("store/order", "Order");
         Order order = new Model<>(modelClass, dataTable).get();
         Response resp = req.postOrder(order);
-        orderId = resp.jsonPath().get("id");
+        orderId = resp.path("id");
         out.println(orderId);
         out.println(resp.getStatusCode());
         return resp;

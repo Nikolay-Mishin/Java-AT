@@ -4,8 +4,11 @@ import lombok.*;
 import org.project.annotator.Annotator;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 public class LombokAnnotator extends Annotator {
+
+    protected final List<String> defaultAnnotations = List.of("lombok-builder", "lombok-data");
 
     @Override
     protected Class<? extends Annotation> getAnnotation(String property) {

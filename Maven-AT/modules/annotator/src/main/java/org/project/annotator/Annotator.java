@@ -11,7 +11,8 @@ import static java.lang.System.out;
 
 public class Annotator extends AbstractAnnotator {
 
-    protected final List<String> defaultAnnotations = List.of("lombok-builder", "lombok-data");
+    protected final List<String> defaultAnnotations = List.of();
+    protected final boolean setDefault = true;
 
     protected Class<? extends Annotation> getAnnotation(String property) {
         return switch (property) {
@@ -29,7 +30,7 @@ public class Annotator extends AbstractAnnotator {
         }
     }
 
-    protected void setDefaultAnnotation(JDefinedClass clazz) {
+    protected void setDefaultAnnotations(JDefinedClass clazz) {
         defaultAnnotations.forEach(annotation -> setAnnotation(clazz, annotation));
     }
 
@@ -37,10 +38,13 @@ public class Annotator extends AbstractAnnotator {
         JsonNode additionalProperties = schema.get("additionalProperties");
         try {
             additionalProperties.fieldNames().forEachRemaining(property -> setAnnotation(clazz, property));
+            return;
         } catch (NullPointerException e) {
             out.printf("No additionalProperties defined for %s.%n", clazz.fullName());
-            setDefaultAnnotation(clazz);
+        } catch (IllegalStateException e) {
+            out.printf("No annotations defined for %s.%n", clazz.fullName());
         }
+        if (setDefault) setDefaultAnnotations(clazz);
     }
 
     /*@Override
