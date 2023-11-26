@@ -6,8 +6,9 @@ Tests
 To run the code in your development environment:
 
 1. Download and unpack
-2. Run `npm install`
-3. Start the cucumber tests and run allure report with `npm start` or `npm run start`
+2. Run `npm install`, if this need
+3. Run `npm run init` | `mvn clean install`, if this need
+4. Start the cucumber tests and run allure report with `npm start` | `npm run start` | `mvn clean test -Denv=stand`
 
 ***********************************************
 
@@ -20,7 +21,7 @@ To run the code in your development environment:
 run tests
 -----
 run cucumber tests on development
-`npm test` or `mvn clean test`
+`npm start` | `npm run build` | `mvn clean test -Denv=stand`
 
 -----
 run cucumber tests with environment
@@ -28,7 +29,7 @@ run cucumber tests with environment
 
 -----
 run allure report
-`npm run allure` or `npm run serve`
+`npm test` | `npm run allure` | `npm run serve`
 
 -----
 build allure report

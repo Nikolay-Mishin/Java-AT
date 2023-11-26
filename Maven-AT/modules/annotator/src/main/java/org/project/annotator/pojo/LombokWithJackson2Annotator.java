@@ -24,7 +24,6 @@ public class LombokWithJackson2Annotator extends Jackson2Annotator {
     @Override
     public void propertyInclusion(JDefinedClass clazz, JsonNode schema) {
         super.propertyInclusion(clazz, schema);
-        annotator.setPropertyInclusion(clazz, schema);
         try {
             annotator.setPropertyInclusion(clazz, schema);
         } catch (NoClassDefFoundError e) {

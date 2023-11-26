@@ -3,6 +3,7 @@ package requests;
 import io.restassured.response.Response;
 import jdk.jfr.Description;
 import models.order.Order;
+import models.pojo.schema.store.order.OrderSchema;
 import utils.Request;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,10 +17,22 @@ public class OrderRequests extends Request {
 
     // запрос создания заказа
     @Description("Place an order for a pet")
-    public Response postOrder(Order order) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private Response _postOrder(Object order) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return new Request(POST, ORDER_URL)
             .body(order)
             .response();
+    }
+
+    // запрос создания заказа
+    @Description("Place an order for a pet")
+    public Response postOrder(Order order) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _postOrder(order);
+    }
+
+    // запрос создания заказа
+    @Description("Place an order for a pet")
+    public Response postOrder(OrderSchema order) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _postOrder(order);
     }
 
     // запрос получения заказа

@@ -20,10 +20,12 @@
 		"node": ">=16.7.0"
 	},
 	"scripts": {
-        "init": "mvn clean install",
-        "start": "npm test & npm run allure",
+        "start": "npm run build",
+        "test": "npm run build & npm run allure",
         "start-with-reports": "npm test & npm run report & npm run allure",
-        "test": "mvn clean test -Denv=stand",
+        "init": "mvn clean install",
+        "pkg": "mvn package",
+        "build": "mvn clean test -Denv=stand",
 		"allure": "mvn allure:serve",
 		"report": "mvn allure:report",
         "serve": "allure serve target/allure-results"

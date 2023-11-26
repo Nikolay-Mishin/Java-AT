@@ -12,7 +12,15 @@ import static java.lang.System.out;
 public class Annotator extends AbstractAnnotator {
 
     protected final List<String> defaultAnnotations = List.of();
-    protected final boolean setDefault = true;
+    protected final boolean setDefaultAnnotations;
+
+    public Annotator(boolean setDefaultAnnotations) {
+        this.setDefaultAnnotations = setDefaultAnnotations;
+    }
+
+    public Annotator() {
+        setDefaultAnnotations = true;
+    }
 
     protected Class<? extends Annotation> getAnnotation(String property) {
         return switch (property) {
@@ -44,7 +52,7 @@ public class Annotator extends AbstractAnnotator {
         } catch (IllegalStateException e) {
             out.printf("No annotations defined for %s.%n", clazz.fullName());
         }
-        if (setDefault) setDefaultAnnotations(clazz);
+        if (setDefaultAnnotations) setDefaultAnnotations(clazz);
     }
 
     /*@Override

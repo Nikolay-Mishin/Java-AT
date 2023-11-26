@@ -35,7 +35,7 @@
                             <version>1.18.30</version>
                         </path>
                         <!-- This is needed when using Lombok 1.18.16 and above -->
-                        <path>
+                        <!--<path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok-mapstruct-binding</artifactId>
                             <version>0.2.0</version>
@@ -44,7 +44,7 @@
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>1.5.5.Final</version>
-                        </path>
+                        </path>-->
                         <!-- other annotation processors -->
                     </annotationProcessorPaths>
                 </configuration>
@@ -78,7 +78,7 @@
         </dependency>
 
         <!-- This is needed when using Lombok 1.18.16 and above -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
             <version>0.2.0</version>
@@ -88,7 +88,7 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>1.5.5.Final</version>
-        </dependency>
+        </dependency>-->
         <!-- other dependencies -->
     </dependencies>
 

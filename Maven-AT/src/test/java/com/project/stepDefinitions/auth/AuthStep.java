@@ -12,17 +12,13 @@ import static utils.Register.printRegisterMap;
 
 public class AuthStep {
 
-    private void auth()
+    @Когда("авторизоваться")
+    public void auth()
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, ClassNotFoundException, InstantiationException
     {
         Auth.instance(new AuthToken(new JsonSchema().path("auth", "token")));
         Auth.printTokens();
         printRegisterMap();
-    }
-
-    @Когда("авторизоваться")
-    public void createPet() throws IOException, ClassNotFoundException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
-        auth();
     }
 
 }

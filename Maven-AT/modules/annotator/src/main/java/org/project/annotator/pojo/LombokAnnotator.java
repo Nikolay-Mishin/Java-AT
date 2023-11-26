@@ -10,6 +10,14 @@ public class LombokAnnotator extends Annotator {
 
     protected final List<String> defaultAnnotations = List.of("lombok-builder", "lombok-data");
 
+    public LombokAnnotator(boolean setDefaultAnnotations) {
+        super(setDefaultAnnotations);
+    }
+
+    public LombokAnnotator() {
+        super();
+    }
+
     @Override
     protected Class<? extends Annotation> getAnnotation(String property) {
         return switch (property) {

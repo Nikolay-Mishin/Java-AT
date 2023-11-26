@@ -42,15 +42,19 @@ public class JsonSchemaToJavaClass {
     private final boolean isIncludeGeneratedAnnotation = true;
 
     public static void main(String[] args) throws Exception {
-        new JsonSchemaToJavaClass();
+        test();
     }
 
-    public JsonSchemaToJavaClass() throws IOException {
+    public static void test() throws IOException {
         out.println(BASE_CONFIG.getJsonSchemaRoot());
         out.println(BASE_CONFIG.getPojoRoot());
         out.println(BASE_CONFIG.getTargetPackage());
         new JsonSchemaToJavaClass("store/order", "Order");
         //new JsonSchemaToJavaClass("pet", "Pet");
+    }
+
+    public JsonSchemaToJavaClass() throws IOException {
+        test();
     }
 
     public JsonSchemaToJavaClass(String inputJsonUrl, String javaClassName) throws IOException {
