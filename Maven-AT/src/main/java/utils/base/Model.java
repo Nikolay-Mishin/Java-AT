@@ -84,15 +84,14 @@ public class Model<T extends Model<?>> {
         return invoke(clazz, "builder");
     }
 
-    private String[] setData(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    private void setData(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         out.println("setData");
         out.println(jsonData);
-        if (isNull(jsonData)) return keys = removeFirst(pathList);
+        if (isNull(jsonData)) keys = removeFirst(pathList);
         JSONObject obj = !isList ? jsonData.getJSONObject(key) : jsonData.getJSONArray(key).getJSONObject(0);
         keys = keys(obj, String[]::new);
         out.println(obj);
         out.println(Arrays.toString(keys));
-        return keys;
     }
 
     @SuppressWarnings("unchecked")
