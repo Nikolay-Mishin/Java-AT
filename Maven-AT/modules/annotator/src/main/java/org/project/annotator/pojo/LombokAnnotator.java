@@ -24,16 +24,4 @@ public class LombokAnnotator extends Annotator {
         };
     }
 
-    /*@Override
-    public void propertyField(JFieldVar field, JDefinedClass clazz, String property, JsonNode propertyNode) {
-        super.propertyField(field, clazz, property, propertyNode);
-        setAnnotation(clazz, property);
-    }*/
-
-    @Override
-    public void propertyInclusion(JDefinedClass clazz, JsonNode schema) {
-        super.propertyInclusion(clazz, schema);
-        setPropertyInclusion(clazz, schema);
-    }
-
 }

@@ -11,12 +11,6 @@ public class LombokWithJackson2Annotator extends Jackson2Annotator {
         super(generationConfig);
     }
 
-    /*@Override
-    public void propertyField(JFieldVar field, JDefinedClass clazz, String property, JsonNode propertyNode) {
-        super.propertyField(field, clazz, property, propertyNode);
-        setAnnotation(clazz, property);
-    }*/
-
     @Override
     public void propertyInclusion(JDefinedClass clazz, JsonNode schema) {
         super.propertyInclusion(clazz, schema);
