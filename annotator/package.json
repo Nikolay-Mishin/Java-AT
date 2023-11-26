@@ -21,11 +21,7 @@
 	},
 	"scripts": {
         "init": "mvn clean install",
-        "start": "npm test & npm run allure",
-        "start-with-reports": "npm test & npm run report & npm run allure",
-        "test": "mvn clean test -Denv=stand",
-		"allure": "mvn allure:serve",
-		"report": "mvn allure:report",
-        "serve": "allure serve target/allure-results"
+        "build": "mvn package",
+        "deploy": "mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/annotator/repo/ -Dfile=annotator-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=1.0-SNAPSHOT"
     }
 }
