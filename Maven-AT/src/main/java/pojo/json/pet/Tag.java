@@ -1,5 +1,5 @@
 
-package models.pojo.schema.store.order;
+package pojo.json.pet;
 
 import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,26 +13,14 @@ import lombok.Data;
 @Data
 @JsonPropertyOrder({
     "id",
-    "petId",
-    "quantity",
-    "shipDate",
-    "status",
-    "complete"
+    "name"
 })
 @Generated("jsonschema2pojo")
-public class OrderSchema {
+public class Tag {
 
     @JsonProperty("id")
     public Long id;
-    @JsonProperty("petId")
-    public Long petId;
-    @JsonProperty("quantity")
-    public Long quantity;
-    @JsonProperty("shipDate")
-    public String shipDate;
-    @JsonProperty("status")
-    public String status;
-    @JsonProperty("complete")
-    public Boolean complete;
+    @JsonProperty("name")
+    public String name;
 
 }

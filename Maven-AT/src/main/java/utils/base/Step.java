@@ -30,7 +30,7 @@ public class Step<R extends Request, M> {
         init(create(t1), t2);
     }
 
-    private void init(R req, Class<M> modelClass) {
+    protected void init(R req, Class<M> modelClass) {
         this.req = req;
         this.modelClass = modelClass;
     }

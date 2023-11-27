@@ -6,19 +6,49 @@ import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.Jackson2Annotator;
 import org.project.annotator.Annotator;
 
-import java.util.List;
-
 import static java.lang.System.out;
 
 public class LombokWithJackson2Annotator extends Jackson2Annotator {
 
-    LombokAnnotator annotator = new LombokAnnotator();
+    Annotator annotator = new LombokAnnotator();
     Annotator defaultAnnotator = new Annotator();
-
-    protected final List<String> defaultAnnotations = List.of("lombok-builder", "lombok-data");
 
     public LombokWithJackson2Annotator(GenerationConfig generationConfig) {
         super(generationConfig);
+    }
+
+    public LombokWithJackson2Annotator(GenerationConfig generationConfig, AnnotatorConfig config) {
+        super(generationConfig);
+        setAnnotator(annotator.setConfig(config), defaultAnnotator.setConfig(config));
+    }
+
+    public LombokWithJackson2Annotator(GenerationConfig generationConfig, Annotator annotator) {
+        super(generationConfig);
+        setAnnotator(annotator);
+    }
+
+    public LombokWithJackson2Annotator(GenerationConfig generationConfig, Annotator annotator, Annotator defaultAnnotator) {
+        super(generationConfig);
+        setAnnotator(annotator, defaultAnnotator);
+    }
+
+    public LombokWithJackson2Annotator(GenerationConfig generationConfig, Annotator annotator, AnnotatorConfig config) {
+        super(generationConfig);
+        setAnnotator(annotator.setConfig(config));
+    }
+
+    public LombokWithJackson2Annotator(GenerationConfig generationConfig, Annotator annotator, Annotator defaultAnnotator, AnnotatorConfig config) {
+        super(generationConfig);
+        setAnnotator(annotator.setConfig(config), defaultAnnotator.setConfig(config));
+    }
+
+    protected void setAnnotator(Annotator annotator, Annotator defaultAnnotator) {
+        setAnnotator(annotator);
+        this.defaultAnnotator = defaultAnnotator;
+    }
+
+    protected void setAnnotator(Annotator annotator) {
+        this.annotator = annotator;
     }
 
     @Override

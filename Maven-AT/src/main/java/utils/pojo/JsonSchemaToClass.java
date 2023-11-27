@@ -12,101 +12,99 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 
-import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
 import static utils.Helper.notEquals;
 import static utils.fs.FS.getPath;
 
-public class JsonSchemaToJavaClass {
+public class JsonSchemaToClass {
 
-    //private static final String schemaRoot = BASE_CONFIG.getJsonSchemaRoot();
-    //private static final String outputDirectory = BASE_CONFIG.getPojoRoot();
-    //private static final String packageName = BASE_CONFIG.getTargetPackage();
-    private static final String schemaRoot = "src/main/resources/schema";
-    private static final String outputDirectory = "src/main/java";
-    private static final String packageName = "models.pojo.schema";
-    private String inputJsonUrl;
-    private String outputJavaClassDirectory;
-    private String _packageName = packageName;
-    private String javaClassName;
-    private JCodeModel jcodeModel;
-    private final boolean isGenerateBuilders = false;
-    private final boolean isUseLongIntegers = true;
-    private final boolean isIncludeGetters = false;
-    private final boolean isIncludeSetters = false;
-    private final boolean isIncludeHashcodeAndEquals = false;
-    private final boolean isIncludeToString = false;
-    private final boolean isIncludeAdditionalProperties = false;
-    private final SourceType sourceType = SourceType.JSONSCHEMA;
-    private final Class<? extends Annotator> customAnnotator = LombokAnnotator.class;
-    private final boolean isIncludeGeneratedAnnotation = true;
+    protected static String schemaRoot = "src/main/resources/schema";
+    protected static String outputDirectory = "src/main/java";
+    protected static String packageName = "pojo.schema";
+    protected String inputJsonUrl;
+    protected String _packageName = packageName;
+    protected String javaClassName;
+    protected JCodeModel jcodeModel;
+    protected final boolean isGenerateBuilders = false;
+    protected final boolean isUseLongIntegers = true;
+    protected final boolean isIncludeGetters = false;
+    protected final boolean isIncludeSetters = false;
+    protected final boolean isIncludeHashcodeAndEquals = false;
+    protected final boolean isIncludeToString = false;
+    protected final boolean isIncludeAdditionalProperties = false;
+    protected final SourceType sourceType = SourceType.JSONSCHEMA;
+    protected final Class<? extends Annotator> customAnnotator = LombokAnnotator.class;
+    protected final boolean isIncludeGeneratedAnnotation = true;
 
     public static void main(String[] args) throws Exception {
         test();
     }
 
-    public static void test() throws IOException {
-        out.println(BASE_CONFIG.getJsonSchemaRoot());
-        out.println(BASE_CONFIG.getPojoRoot());
-        out.println(BASE_CONFIG.getTargetPackage());
-        new JsonSchemaToJavaClass("store/order", "Order");
-        //new JsonSchemaToJavaClass("pet", "Pet");
+    public static void setRoot(String schemaRoot, String outputDirectory, String packageName) {
+        JsonSchemaToClass.schemaRoot = schemaRoot;
+        JsonSchemaToClass.outputDirectory = outputDirectory;
+        JsonSchemaToClass.packageName = packageName;
     }
 
-    public JsonSchemaToJavaClass() throws IOException {
+    public static void test() throws IOException {
+        new JsonSchemaToClass("store/order", "Order");
+        //new JsonSchemaToClass("pet", "Pet");
+    }
+
+    public JsonSchemaToClass() throws IOException {
         test();
     }
 
-    public JsonSchemaToJavaClass(String inputJsonUrl, String javaClassName) throws IOException {
+    public JsonSchemaToClass(String inputJsonUrl, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputDirectory, _packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(URL inputJsonUrl, String javaClassName) throws IOException {
+    public JsonSchemaToClass(URL inputJsonUrl, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(URI inputJsonUrl, String javaClassName) throws IOException {
+    public JsonSchemaToClass(URI inputJsonUrl, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    public JsonSchemaToClass(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    public JsonSchemaToClass(URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToJavaClass(URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    public JsonSchemaToClass(URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    private void init(String inputJsonUrl, String packageName, String javaClassName) {
+    protected void init(String inputJsonUrl, String packageName, String javaClassName) {
         _init(inputJsonUrl, packageName, javaClassName);
     }
 
-    private void init(URL inputJsonUrl, String packageName, String javaClassName) {
+    protected void init(URL inputJsonUrl, String packageName, String javaClassName) {
         _init(inputJsonUrl.toString(), packageName, javaClassName);
     }
 
-    private void init(URI inputJsonUrl, String packageName, String javaClassName) {
+    protected void init(URI inputJsonUrl, String packageName, String javaClassName) {
         _init(inputJsonUrl.toString(), packageName, javaClassName);
     }
 
-    private void _init(String inputJsonUrl, String packageName, String javaClassName) {
+    protected void _init(String inputJsonUrl, String packageName, String javaClassName) {
         this.inputJsonUrl = inputJsonUrl;
         if (notEquals(packageName, "")) this._packageName += "." + inputJsonUrl.replace("/", ".");
         this.javaClassName = javaClassName;
         jcodeModel = new JCodeModel();
     }
 
-    private String getSchemaPath() {
+    protected String getSchemaPath() {
         return getPath(schemaRoot, inputJsonUrl, javaClassName.toLowerCase() + (sourceType == SourceType.JSONSCHEMA ? ".schema" : "") + ".json");
     }
 
@@ -122,7 +120,7 @@ public class JsonSchemaToJavaClass {
         _generate(inputJsonUrl.toString(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    private void _generate(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    protected void _generate(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         out.println(inputJsonUrl);
         out.println(outputJavaClassDirectory);
         out.println(packageName);
@@ -132,7 +130,7 @@ public class JsonSchemaToJavaClass {
     }
 
     @NotNull
-    private SchemaMapper getSchemaMapper() {
+    protected SchemaMapper getSchemaMapper() {
         GenerationConfig config = new DefaultGenerationConfig() {
             @Override public boolean isGenerateBuilders() {return isGenerateBuilders;}
             @Override public boolean isUseLongIntegers() {return isUseLongIntegers;}

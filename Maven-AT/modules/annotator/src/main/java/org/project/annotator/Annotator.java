@@ -3,23 +3,26 @@ package org.project.annotator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.codemodel.JDefinedClass;
 import org.jsonschema2pojo.AbstractAnnotator;
+import org.project.annotator.pojo.AnnotatorConfig;
+import org.project.annotator.pojo.DefaultConfigAnnotator;
 
 import java.lang.annotation.Annotation;
-import java.util.List;
 
 import static java.lang.System.out;
 
 public class Annotator extends AbstractAnnotator {
 
-    protected final List<String> defaultAnnotations = List.of();
-    protected final boolean setDefaultAnnotations;
+    protected AnnotatorConfig config = new DefaultConfigAnnotator();
 
-    public Annotator(boolean setDefaultAnnotations) {
-        this.setDefaultAnnotations = setDefaultAnnotations;
+    public Annotator(AnnotatorConfig config) {
+        setConfig(config);
     }
 
-    public Annotator() {
-        setDefaultAnnotations = true;
+    public Annotator() {}
+
+    public Annotator setConfig(AnnotatorConfig config) {
+        this.config = config;
+        return this;
     }
 
     protected Class<? extends Annotation> getAnnotation(String property) {
@@ -39,7 +42,7 @@ public class Annotator extends AbstractAnnotator {
     }
 
     protected void setDefaultAnnotations(JDefinedClass clazz) {
-        defaultAnnotations.forEach(annotation -> setAnnotation(clazz, annotation));
+        config.getDefaultAnnotations().forEach(annotation -> setAnnotation(clazz, annotation));
     }
 
     public void setPropertyInclusion(JDefinedClass clazz, JsonNode schema) {
@@ -52,7 +55,7 @@ public class Annotator extends AbstractAnnotator {
         } catch (IllegalStateException e) {
             out.printf("No annotations defined for %s.%n", clazz.fullName());
         }
-        if (setDefaultAnnotations) setDefaultAnnotations(clazz);
+        if (config.isSetDefaultAnnotations()) setDefaultAnnotations(clazz);
     }
 
     /*@Override
