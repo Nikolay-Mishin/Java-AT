@@ -8,13 +8,20 @@
     <artifactId>Maven-AT</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!--<repositories>
+    <repositories>
         <repository>
-            <id>org.project</id>
-            <name>modules</name>
-            <url>file:${basedir}/modules/repo</url>
+            <id>org.project.annotator</id>
+            <url>file:${basedir}/modules/annotator/repo</url>
         </repository>
-    </repositories>-->
+        <repository>
+            <id>org.project.utils</id>
+            <url>file:${basedir}/modules/utils/repo</url>
+        </repository>
+        <repository>
+            <id>org.project.pojo</id>
+            <url>file:${basedir}/modules/pojo/repo</url>
+        </repository>
+    </repositories>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

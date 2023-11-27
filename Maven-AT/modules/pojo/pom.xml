@@ -15,6 +15,14 @@
             <name>pojo</name>
             <url>file:${basedir}/modules/pojo/repo</url>
         </repository>
+        <repository>
+            <id>org.project.annotator</id>
+            <url>file:${basedir}/modules/annotator/repo</url>
+        </repository>
+        <repository>
+            <id>org.project.utils</id>
+            <url>file:${basedir}/modules/utils/repo</url>
+        </repository>
     </repositories>
 
     <properties>
