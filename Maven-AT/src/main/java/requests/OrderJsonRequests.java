@@ -2,7 +2,7 @@ package requests;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;
-import models.order.Order;
+import pojo.json.store.order.Order;
 import utils.base.BaseRequests;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,14 +11,12 @@ import java.net.URISyntaxException;
 
 import static constant.UrlConstants.ORDER_URL;
 
-public class OrderRequests extends BaseRequests<Order> {
+public class OrderJsonRequests extends BaseRequests<Order> {
 
-    public OrderRequests() {
+    public OrderJsonRequests() {
         baseUrl = ORDER_URL;
     }
 
-    // запрос создания заказа
-    @Description("Place an order for a pet")
     public Response post(Order order)
         throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return super.post(order);
