@@ -49,7 +49,7 @@ public class Step<R extends BaseRequests<M>, M> {
     }
 
     protected Response post(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        M order = new Model<>(modelClass, dataTable).get();
+        M order = new Model<>(modelClass, dataTable, hashMap).get();
         Response resp = req.post(order);
         //id = resp.jsonPath().get("id");
         id = resp.path("id");
