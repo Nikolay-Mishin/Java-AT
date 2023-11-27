@@ -14,7 +14,7 @@ import java.util.List;
 import static java.lang.System.out;
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
-import static utils.Helper.*;
+import static org.project.utils.Helper.*;
 
 public class Reflection {
 

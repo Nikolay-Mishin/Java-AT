@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.System.out;
-import static utils.Helper.notNull;
+import static org.project.utils.Helper.notNull;
 import static utils.base.HashMap.keys;
 import static utils.reflections.Reflection.getGenericClass;
 

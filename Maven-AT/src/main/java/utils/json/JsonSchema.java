@@ -11,9 +11,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
-import static utils.Helper.*;
-import static utils.fs.FS.getPath;
-import static utils.fs.FS.readFile;
+import static org.project.utils.fs.FS.getPath;
+import static org.project.utils.fs.FS.readFile;
+import static org.project.utils.Helper.*;
 import static utils.reflections.Reflection.getClassSimpleName;
 import static utils.reflections.Reflection.invoke;
 

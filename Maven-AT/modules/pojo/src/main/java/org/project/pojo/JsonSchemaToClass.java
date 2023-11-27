@@ -13,8 +13,8 @@ import java.net.URI;
 import java.net.URL;
 
 import static java.lang.System.out;
-import static utils.Helper.notEquals;
-import static utils.fs.FS.getPath;
+import static org.project.utils.Helper.notEquals;
+import static org.project.utils.fs.FS.getPath;
 
 public class JsonSchemaToClass {
 

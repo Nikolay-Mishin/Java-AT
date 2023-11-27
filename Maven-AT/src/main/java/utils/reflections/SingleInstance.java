@@ -2,7 +2,7 @@ package utils.reflections;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static utils.Helper.notNull;
+import static org.project.utils.Helper.notNull;
 import static utils.reflections.Reflection.getGenericClass;
 
 public class SingleInstance<T> extends Instance<T> {
