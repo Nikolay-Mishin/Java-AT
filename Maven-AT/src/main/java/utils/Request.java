@@ -7,6 +7,7 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
 import jdk.jfr.Description;
 import utils.constant.RequestConstants.METHOD;
+
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -17,9 +18,9 @@ import java.net.URL;
 import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
-import static utils.reflections.Reflection.*;
+import static org.project.utils.fs.FS.getPath;
 import static utils.constant.RequestConstants.METHOD.*;
-import static utils.fs.FS.getPath;
+import static utils.reflections.Reflection.*;
 
 public class Request {
 
@@ -62,7 +63,7 @@ public class Request {
     }
 
     @Description("Send request")
-    private Response send() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    protected Response send() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         return invoke(request, methodSend, URL); // вызов метода с аргументами
     }
 
