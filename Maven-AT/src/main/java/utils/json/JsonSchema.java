@@ -14,8 +14,8 @@ import static java.lang.System.out;
 import static org.project.utils.fs.FS.getPath;
 import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.Helper.*;
-import static utils.reflections.Reflection.getClassSimpleName;
-import static utils.reflections.Reflection.invoke;
+import static utils.reflection.Reflection.getClassSimpleName;
+import static utils.reflection.Reflection.invoke;
 
 public class JsonSchema {
 

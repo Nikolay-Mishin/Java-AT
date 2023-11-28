@@ -1,8 +1,7 @@
-package utils.base;
+package utils.request;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;
-import utils.Request;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;

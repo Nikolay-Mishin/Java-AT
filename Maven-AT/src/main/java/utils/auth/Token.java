@@ -1,7 +1,8 @@
-package utils.base;
+package utils.auth;
 
 import io.restassured.response.Response;
-import utils.Register;
+import utils.base.Register;
+import utils.base.HashMap;
 import utils.json.JsonSchema;
 
 import java.beans.ConstructorProperties;
@@ -11,7 +12,7 @@ import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
 import static org.project.utils.Helper.isInstance;
 import static org.project.utils.Helper.isNull;
-import static utils.reflections.Reflection.invoke;
+import static utils.reflection.Reflection.invoke;
 
 public class Token extends Register<String, Token> {
 

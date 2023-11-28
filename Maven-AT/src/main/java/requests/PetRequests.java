@@ -3,7 +3,7 @@ package requests;
 import io.restassured.response.Response;
 import jdk.jfr.Description;
 import models.pet.Pet;
-import utils.base.BaseRequests;
+import utils.request.BaseRequests;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;

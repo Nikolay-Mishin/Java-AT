@@ -3,7 +3,7 @@ package requests;
 import io.restassured.response.Response;
 import jdk.jfr.Description;
 import pojo.json.store.order.Order;
-import utils.base.BaseRequests;
+import utils.request.BaseRequests;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;

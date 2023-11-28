@@ -1,4 +1,4 @@
-package utils;
+package utils.request;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -20,7 +20,7 @@ import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
 import static org.project.utils.fs.FS.getPath;
 import static utils.constant.RequestConstants.METHOD.*;
-import static utils.reflections.Reflection.*;
+import static utils.reflection.Reflection.*;
 
 public class Request {
 

@@ -2,7 +2,7 @@ package utils.base;
 
 import org.json.JSONObject;
 import utils.constant.RequestConstants.METHOD_LOWER_CASE;
-import utils.exceptions.AssertException;
+import utils.exception.AssertException;
 import utils.json.JsonSchema;
 
 import java.beans.PropertyDescriptor;
@@ -17,7 +17,7 @@ import static java.lang.System.out;
 import static org.project.utils.Helper.*;
 import static utils.base.HashMap.keys;
 import static utils.json.JsonSchema.parsePath;
-import static utils.reflections.Reflection.*;
+import static utils.reflection.Reflection.*;
 
 public class Model<T> {
 

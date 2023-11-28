@@ -1,9 +1,8 @@
-package utils.base;
+package utils.auth;
 
 import io.restassured.response.Response;
 import utils.json.JsonSchema;
-import utils.reflections.SingleInstance;
-import utils.tokens.AuthToken;
+import utils.reflection.SingleInstance;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;

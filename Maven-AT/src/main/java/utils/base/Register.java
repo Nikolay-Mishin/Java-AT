@@ -1,4 +1,4 @@
-package utils;
+package utils.base;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 import static java.lang.System.out;
 import static org.project.utils.Helper.notNull;
 import static utils.base.HashMap.keys;
-import static utils.reflections.Reflection.getGenericClass;
+import static utils.reflection.Reflection.getGenericClass;
 
 public class Register<K, V> {
 

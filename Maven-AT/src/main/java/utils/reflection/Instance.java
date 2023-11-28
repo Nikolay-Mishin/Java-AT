@@ -1,14 +1,14 @@
-package utils.reflections;
+package utils.reflection;
 
-import utils.Register;
+import utils.base.Register;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import static java.lang.System.out;
-import static utils.reflections.Reflection.newInstance;
-import static utils.reflections.ReflectionUtils.getGenericParameterClass;
+import static utils.reflection.Reflection.newInstance;
+import static utils.reflection.ReflectionUtils.getGenericParameterClass;
 
 public class Instance<T> extends Register<Class<T>, T> {
 

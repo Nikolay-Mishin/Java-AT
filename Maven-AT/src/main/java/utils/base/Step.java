@@ -1,6 +1,7 @@
 package utils.base;
 
 import io.restassured.response.Response;
+import utils.request.BaseRequests;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -10,8 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.System.out;
-import static utils.reflections.Instance.create;
-import static utils.reflections.Reflection.getGenericClass;
+import static utils.reflection.Instance.create;
+import static utils.reflection.Reflection.getGenericClass;
 
 public class Step<R extends BaseRequests<M>, M> {
 
