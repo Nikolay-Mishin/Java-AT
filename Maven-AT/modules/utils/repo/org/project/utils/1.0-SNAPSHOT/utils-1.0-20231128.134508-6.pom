@@ -5,22 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.project</groupId>
-    <artifactId>pojo</artifactId>
+    <artifactId>utils</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <repositories>
         <repository>
             <id>org.project</id>
-            <name>pojo</name>
-            <url>file:${basedir}/modules/pojo/repo</url>
-        </repository>
-        <repository>
-            <id>org.project.annotator</id>
-            <url>file:${basedir}/modules/annotator/repo</url>
-        </repository>
-        <repository>
-            <id>org.project.utils</id>
+            <name>utils</name>
             <url>file:${basedir}/modules/utils/repo</url>
         </repository>
     </repositories>
@@ -51,18 +43,19 @@
 
     <dependencies>
         <!-- custom dependencies -->
+        <!-- other dependencies -->
         <dependency>
-            <groupId>org.project</groupId>
-            <artifactId>annotator</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
         </dependency>
 
         <dependency>
-            <groupId>org.project</groupId>
-            <artifactId>utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.1.0</version>
+            <scope>compile</scope>
         </dependency>
-        <!-- other dependencies -->
     </dependencies>
 
 </project>
