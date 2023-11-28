@@ -20,9 +20,9 @@
 		"node": ">=16.7.0"
 	},
 	"scripts": {
-        "start": "npm run clean & npm run init & npm run deploy",
-        "init": "mvn clean install",
-        "build": "mvn package",
+        "start": "npm run clean & npm run build & npm run deploy",
+        "build": "mvn clean install",
+        "pkg": "mvn package",
         "clean": "rmdir /s /q repo\\org\\project\\modules\\1.0-SNAPSHOT",
         "deploy": "mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/repo -Dfile=target/modules-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=modules -Dpackaging=jar -Dversion=1.0-SNAPSHOT"
     }
