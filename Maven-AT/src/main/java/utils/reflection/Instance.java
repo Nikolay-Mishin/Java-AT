@@ -21,8 +21,9 @@ public class Instance<T> extends Register<Class<T>, T> {
     public static <T> T getInstance(Class<T> clazz) throws ClassNotFoundException {
         T _instance = getRegister(Instance.class, clazz);
         out.println("getInstance");
-        out.println(Optional.ofNullable(getRegister(clazz)));
         out.println(Optional.ofNullable(_instance));
+        T _instance2 = getRegister(clazz);
+        out.println(Optional.ofNullable(_instance2));
         return _instance;
     }
 
