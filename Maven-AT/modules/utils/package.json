@@ -1,5 +1,5 @@
 {
-	"name": "maven-at",
+	"name": "maven-at-modules-utils",
 	"version": "6.2.0",
 	"license": "ISC",
 	"author": {
@@ -23,7 +23,7 @@
         "start": "npm run clean & npm run init & npm run deploy",
         "init": "mvn clean install",
         "build": "mvn package",
-        "clean": "rmdir /s /Q repo && md repo",
+        "clean": "rmdir /s /q repo\\org\\project\\modules\\1.0-SNAPSHOT",
         "deploy": "mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/utils/repo -Dfile=target/utils-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=utils -Dpackaging=jar -Dversion=1.0-SNAPSHOT"
     }
 }
