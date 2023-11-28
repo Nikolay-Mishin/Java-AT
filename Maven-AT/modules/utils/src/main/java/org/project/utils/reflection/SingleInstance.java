@@ -1,9 +1,9 @@
-package utils.reflection;
+package org.project.utils.reflection;
 
 import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.notNull;
-import static utils.reflection.Reflection.getGenericClass;
+import static org.project.utils.reflection.Reflection.getGenericClass;
 
 public class SingleInstance<T> extends Instance<T> {
 

@@ -1,4 +1,4 @@
-package utils.request;
+package org.project.utils.request;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;
@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import static utils.constant.RequestConstants.METHOD.*;
+import static org.project.utils.constant.RequestConstants.METHOD.*;
 
 public class BaseRequests<T> {
 

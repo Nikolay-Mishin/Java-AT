@@ -1,7 +1,7 @@
-package utils.auth;
+package org.project.utils.auth;
 
 import io.restassured.response.Response;
-import utils.json.JsonSchema;
+import org.project.utils.json.JsonSchema;
 
 import java.lang.reflect.InvocationTargetException;
 

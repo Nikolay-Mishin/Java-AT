@@ -144,18 +144,6 @@
 
         <!-- other dependencies -->
         <dependency>
-            <groupId>org.aeonbits.owner</groupId>
-            <artifactId>owner</artifactId>
-            <version>1.0.12</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.3.2</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>7.11.0</version>
@@ -170,26 +158,8 @@
 
         <dependency>
             <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-rest-assured</artifactId>
-            <version>2.17.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
             <version>2.24.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20231013</version>
         </dependency>
 
         <dependency>
@@ -197,6 +167,36 @@
             <artifactId>jsonschema2pojo-maven-plugin</artifactId>
             <version>1.2.1</version>
         </dependency>
+
+        <!--<dependency>
+            <groupId>org.aeonbits.owner</groupId>
+            <artifactId>owner</artifactId>
+            <version>1.0.12</version>
+        </dependency>-->
+
+        <!--<dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.2</version>
+        </dependency>-->
+
+        <!--<dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>2.17.3</version>
+        </dependency>-->
+
+        <!--<dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>-->
+
+        <!--<dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+        </dependency>-->
     </dependencies>
 
 </project>

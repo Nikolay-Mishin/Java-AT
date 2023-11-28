@@ -1,23 +1,23 @@
-package utils.json;
+package org.project.utils.json;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import utils.base.HashMap;
-import utils.base.Model;
-import utils.constant.RequestConstants.METHOD_LOWER_CASE;
+import org.project.utils.base.HashMap;
+import org.project.utils.base.Model;
+import org.project.utils.config.Config;
+import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
+import static org.project.utils.Helper.*;
 import static org.project.utils.fs.FS.getPath;
 import static org.project.utils.fs.FS.readFile;
-import static org.project.utils.Helper.*;
-import static utils.reflection.Reflection.getClassSimpleName;
-import static utils.reflection.Reflection.invoke;
+import static org.project.utils.reflection.Reflection.getClassSimpleName;
+import static org.project.utils.reflection.Reflection.invoke;
 
-public class JsonSchema {
+public class JsonSchema extends Config {
 
     private JSONObject jsonData;
     private JSONObject obj;
@@ -70,7 +70,7 @@ public class JsonSchema {
     }
 
     private static String _getJsonSchemaPath(Object... pathList){
-        return getPath(BASE_CONFIG.getJsonRoot(), pathList);
+        return getPath(config().getJsonRoot(), pathList);
     }
 
     private static String getJsonSchemaName(METHOD_LOWER_CASE method, Class<?> modelClass){

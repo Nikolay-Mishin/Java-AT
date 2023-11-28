@@ -1,4 +1,4 @@
-package utils.request;
+package org.project.utils.request;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -6,7 +6,7 @@ import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
 import jdk.jfr.Description;
-import utils.constant.RequestConstants.METHOD;
+import org.project.utils.constant.RequestConstants.METHOD;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
@@ -15,12 +15,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import static config.ApiConfig.getRequestSpec;
 import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
+import static org.project.utils.config.ApiConfig.getRequestSpec;
+import static org.project.utils.constant.RequestConstants.METHOD.POST;
+import static org.project.utils.constant.RequestConstants.METHOD.PUT;
 import static org.project.utils.fs.FS.getPath;
-import static utils.constant.RequestConstants.METHOD.*;
-import static utils.reflection.Reflection.*;
+import static org.project.utils.reflection.Reflection.*;
 
 public class Request {
 

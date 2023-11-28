@@ -5,7 +5,7 @@ import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Тогда;
 import models.order.Order;
 import requests.OrderRequests;
-import utils.base.Step;
+import org.project.utils.base.Step;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;

@@ -4,7 +4,7 @@ import io.cucumber.java.ru.Когда;
 import org.project.pojo.JsonSchemaToClass;
 import pojo.schema.store.order.OrderSchema;
 import requests.OrderSchemaRequests;
-import utils.base.Step;
+import org.project.utils.base.Step;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;

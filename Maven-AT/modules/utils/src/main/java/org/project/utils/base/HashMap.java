@@ -1,7 +1,8 @@
-package utils.base;
+package org.project.utils.base;
 
-import utils.exception.AssertException;
-import utils.json.JsonSchema;
+import org.project.utils.exception.AssertException;
+import org.project.utils.reflection.Reflection;
+import org.project.utils.json.JsonSchema;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.function.IntFunction;
 
 import static java.lang.System.out;
 import static org.project.utils.Helper.isNull;
-import static utils.reflection.Reflection.invoke;
+import static org.project.utils.reflection.Reflection.invoke;
 
 public class HashMap<K, V> extends java.util.HashMap<K, V> {
 

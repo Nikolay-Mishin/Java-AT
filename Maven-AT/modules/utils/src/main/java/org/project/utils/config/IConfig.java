@@ -1,8 +1,8 @@
-package utils.config;
+package org.project.utils.config;
 
 import org.aeonbits.owner.Config;
 
-import static utils.config.Config.setConfig;
+import static org.project.utils.config.Config.setConfig;
 
 @Config.Sources({"classpath:${env}.properties"})
 public interface IConfig extends Config {

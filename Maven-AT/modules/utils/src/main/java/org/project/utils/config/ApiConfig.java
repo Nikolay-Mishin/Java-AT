@@ -1,16 +1,14 @@
-package config;
+package org.project.utils.config;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
-import static config.WebConfig.BASE_CONFIG;
-
-public class ApiConfig {
+public class ApiConfig extends Config {
 
     public static RequestSpecification getRequestSpec() {
         return new RequestSpecBuilder()
-            .setBaseUri(BASE_CONFIG.getBaseUrl())
+            .setBaseUri(config().getBaseUrl())
             .addFilter(new AllureRestAssured())
             .build();
     }

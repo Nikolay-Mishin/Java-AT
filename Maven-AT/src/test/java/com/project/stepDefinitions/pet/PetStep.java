@@ -7,8 +7,8 @@ import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
-import utils.base.HashMap;
-import utils.base.Step;
+import org.project.utils.base.HashMap;
+import org.project.utils.base.Step;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;

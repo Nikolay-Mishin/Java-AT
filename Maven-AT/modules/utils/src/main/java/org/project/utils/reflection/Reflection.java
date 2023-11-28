@@ -1,8 +1,8 @@
-package utils.reflection;
+package org.project.utils.reflection;
 
 import jdk.jfr.Description;
 import org.apache.commons.beanutils.BeanUtils;
-import utils.exception.AssertException;
+import org.project.utils.exception.AssertException;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;

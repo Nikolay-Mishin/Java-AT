@@ -1,9 +1,9 @@
-package utils.base;
+package org.project.utils.base;
 
 import org.json.JSONObject;
-import utils.constant.RequestConstants.METHOD_LOWER_CASE;
-import utils.exception.AssertException;
-import utils.json.JsonSchema;
+import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
+import org.project.utils.exception.AssertException;
+import org.project.utils.json.JsonSchema;
 
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
@@ -15,9 +15,9 @@ import java.util.Objects;
 
 import static java.lang.System.out;
 import static org.project.utils.Helper.*;
-import static utils.base.HashMap.keys;
-import static utils.json.JsonSchema.parsePath;
-import static utils.reflection.Reflection.*;
+import static org.project.utils.base.HashMap.keys;
+import static org.project.utils.json.JsonSchema.parsePath;
+import static org.project.utils.reflection.Reflection.*;
 
 public class Model<T> {
 

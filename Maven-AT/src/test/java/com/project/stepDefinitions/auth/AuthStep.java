@@ -1,14 +1,14 @@
 package com.project.stepDefinitions.auth;
 
 import io.cucumber.java.ru.Когда;
-import utils.auth.Auth;
-import utils.json.JsonSchema;
-import utils.auth.AuthToken;
+import org.project.utils.auth.Auth;
+import org.project.utils.json.JsonSchema;
+import org.project.utils.auth.AuthToken;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import static utils.base.Register.printRegisterMap;
+import static org.project.utils.base.Register.printRegisterMap;
 
 public class AuthStep {
 

@@ -1,4 +1,4 @@
-package utils.constant;
+package org.project.utils.constant;
 
 public interface RequestConstants {
 

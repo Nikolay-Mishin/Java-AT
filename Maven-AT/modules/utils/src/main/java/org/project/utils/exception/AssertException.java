@@ -1,4 +1,4 @@
-package utils.exception;
+package org.project.utils.exception;
 
 public class AssertException {
 

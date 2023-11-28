@@ -1,6 +1,6 @@
-package utils.factory;
+package org.project.utils.factory;
 
-import utils.reflection.Instance;
+import org.project.utils.reflection.Instance;
 
 import java.lang.reflect.InvocationTargetException;
 
