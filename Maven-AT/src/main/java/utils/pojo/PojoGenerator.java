@@ -4,8 +4,12 @@ import org.project.pojo.JsonSchemaToClass;
 
 import java.io.IOException;
 
-public class PojoGenerator extends JsonSchemaToClass {
+import static config.WebConfig.BASE_CONFIG;
 
-    public PojoGenerator() throws IOException {}
+public class PojoGenerator {
+
+    public static void main(String[] args) throws IOException {
+        new JsonSchemaToClass(BASE_CONFIG);
+    }
 
 }

@@ -6,6 +6,7 @@ import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
 import org.project.annotator.lombok.LombokWithJackson2Annotator;
 import org.project.pojo.config.DefaultGenerationConfig;
+import org.project.utils.config.WebBaseConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.net.URL;
 import static java.lang.System.out;
 import static org.project.utils.Helper.notEquals;
 import static org.project.utils.config.Config.config;
+import static org.project.utils.config.Config.setConfig;
 import static org.project.utils.fs.FS.getPath;
 
 public class JsonSchemaToClass {
@@ -30,16 +32,17 @@ public class JsonSchemaToClass {
     protected Annotator annotator = new LombokWithJackson2Annotator(config);
 
     public static void main(String[] args) throws IOException {
-        test();
+        new JsonSchemaToClass();
     }
 
-    public static void test() throws IOException {
-        new JsonSchemaToClass("store/order", "Order");
-        //new JsonSchemaToClass("pet", "Pet");
+    public JsonSchemaToClass(WebBaseConfig baseConfig) throws IOException {
+        setConfig(baseConfig);
+        new JsonSchemaToClass();
     }
 
     public JsonSchemaToClass() throws IOException {
-        test();
+        new JsonSchemaToClass("store/order", "Order");
+        //new JsonSchemaToClass("pet", "Pet");
     }
 
     public JsonSchemaToClass(String inputJsonUrl, String javaClassName) throws IOException {
@@ -87,7 +90,7 @@ public class JsonSchemaToClass {
     protected void _init(String inputJsonUrl, String packageName, String javaClassName) {
         out.println("schemaRoot: " + schemaRoot);
         out.println("outputDirectory: " + outputDirectory);
-        out.println("packageName: " + targetPackage);
+        out.println("targetPackage: " + targetPackage);
         this.inputJsonUrl = inputJsonUrl;
         if (notEquals(packageName, "")) this._packageName += "." + inputJsonUrl.replace("/", ".");
         this.javaClassName = javaClassName;
@@ -111,7 +114,6 @@ public class JsonSchemaToClass {
 
     protected void _generate(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         out.println(inputJsonUrl);
-        out.println(outputJavaClassDirectory);
         out.println(packageName);
         out.println(javaClassName);
         buildJCodeModel(generateJType(jcodeModel, config, annotator, javaClassName, packageName, inputJsonUrl), outputJavaClassDirectory);
