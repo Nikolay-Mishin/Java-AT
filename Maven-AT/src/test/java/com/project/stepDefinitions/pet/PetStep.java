@@ -8,7 +8,7 @@ import models.pet.Pet;
 import models.pet.TagsItem;
 import requests.PetRequests;
 import org.project.utils.base.HashMap;
-import org.project.utils.base.Step;
+import org.project.utils.base.BaseStep;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.List;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
-public class PetStep extends Step<PetRequests, Pet> {
+public class PetStep extends BaseStep<PetRequests, Pet> {
 
     @ConstructorProperties({})
     public PetStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

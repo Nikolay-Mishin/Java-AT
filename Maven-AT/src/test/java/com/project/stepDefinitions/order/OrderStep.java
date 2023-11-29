@@ -5,7 +5,7 @@ import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Тогда;
 import models.order.Order;
 import requests.OrderRequests;
-import org.project.utils.base.Step;
+import org.project.utils.base.BaseStep;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class OrderStep extends Step<OrderRequests, Order> {
+public class OrderStep extends BaseStep<OrderRequests, Order> {
 
     @ConstructorProperties({})
     public OrderStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}

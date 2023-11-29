@@ -42,6 +42,9 @@ public interface WebBaseConfig extends Config {
     @Key("TARGET_PACKAGE")
     String getTargetPackage();
 
+    @Key("TARGET_JSON_PACKAGE")
+    String getTargetJsonPackage();
+
     //tokens
     @Key("TOKEN_KEYS")
     String getTokenKeys();

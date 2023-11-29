@@ -3,7 +3,7 @@ package com.project.stepDefinitions.order;
 import io.cucumber.java.ru.Когда;
 import pojo.json.store.order.Order;
 import requests.OrderJsonRequests;
-import org.project.utils.base.Step;
+import org.project.utils.base.BaseStep;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class OrderJsonStep extends Step<OrderJsonRequests, Order> {
+public class OrderJsonStep extends BaseStep<OrderJsonRequests, Order> {
 
     @ConstructorProperties({})
     public OrderJsonStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}

@@ -4,7 +4,7 @@ import io.cucumber.java.ru.Когда;
 import org.project.pojo.JsonSchemaToClass;
 import pojo.schema.store.order.OrderSchema;
 import requests.OrderSchemaRequests;
-import org.project.utils.base.Step;
+import org.project.utils.base.BaseStep;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class OrderSchemaStep extends Step<OrderSchemaRequests, OrderSchema> {
+public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> {
 
     @ConstructorProperties({})
     public OrderSchemaStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}

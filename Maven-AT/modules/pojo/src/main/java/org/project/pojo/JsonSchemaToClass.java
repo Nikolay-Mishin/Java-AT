@@ -4,7 +4,8 @@ import com.sun.codemodel.JCodeModel;
 import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
-import org.project.annotator.pojo.LombokWithJackson2Annotator;
+import org.project.annotator.lombok.LombokWithJackson2Annotator;
+import org.project.pojo.config.DefaultGenerationConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,24 +19,18 @@ import static org.project.utils.fs.FS.getPath;
 
 public class JsonSchemaToClass {
 
-    protected static String schemaRoot = "src/main/resources/schema";
-    protected static String outputDirectory = "src/main/java";
-    protected static String packageName = "pojo.schema";
+    protected static String schemaRoot = config().getJsonSchemaRoot();
+    protected static String outputDirectory = config().getPojoRoot();
+    protected static String targetPackage = config().getTargetPackage();
     protected String inputJsonUrl;
-    protected String _packageName = packageName;
+    protected String _packageName = targetPackage;
     protected String javaClassName;
     protected JCodeModel jcodeModel = new JCodeModel();
     protected GenerationConfig config = new DefaultGenerationConfig();
-    protected Annotator annotator = getAnnotator();
+    protected Annotator annotator = new LombokWithJackson2Annotator(config);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         test();
-    }
-
-    public static void setRoot(String schemaRoot, String outputDirectory, String packageName) {
-        JsonSchemaToClass.schemaRoot = schemaRoot;
-        JsonSchemaToClass.outputDirectory = outputDirectory;
-        JsonSchemaToClass.packageName = packageName;
     }
 
     public static void test() throws IOException {
@@ -48,18 +43,18 @@ public class JsonSchemaToClass {
     }
 
     public JsonSchemaToClass(String inputJsonUrl, String javaClassName) throws IOException {
-        init(inputJsonUrl, packageName, javaClassName);
+        init(inputJsonUrl, targetPackage, javaClassName);
         generate(getSchemaPath(), outputDirectory, _packageName, javaClassName);
     }
 
     public JsonSchemaToClass(URL inputJsonUrl, String javaClassName) throws IOException {
-        init(inputJsonUrl, packageName, javaClassName);
-        generate(getSchemaPath(), outputDirectory, packageName, javaClassName);
+        init(inputJsonUrl, targetPackage, javaClassName);
+        generate(getSchemaPath(), outputDirectory, targetPackage, javaClassName);
     }
 
     public JsonSchemaToClass(URI inputJsonUrl, String javaClassName) throws IOException {
-        init(inputJsonUrl, packageName, javaClassName);
-        generate(getSchemaPath(), outputDirectory, packageName, javaClassName);
+        init(inputJsonUrl, targetPackage, javaClassName);
+        generate(getSchemaPath(), outputDirectory, targetPackage, javaClassName);
     }
 
     public JsonSchemaToClass(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
@@ -77,15 +72,6 @@ public class JsonSchemaToClass {
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    @NotNull
-    protected Annotator getAnnotator() {
-        try {
-            return new LombokWithJackson2Annotator(config);
-        } catch (Exception e) {
-            return new Jackson2Annotator(config);
-        }
-    }
-
     protected void init(String inputJsonUrl, String packageName, String javaClassName) {
         _init(inputJsonUrl, packageName, javaClassName);
     }
@@ -99,7 +85,9 @@ public class JsonSchemaToClass {
     }
 
     protected void _init(String inputJsonUrl, String packageName, String javaClassName) {
-        out.println("init: " + config());
+        out.println("schemaRoot: " + schemaRoot);
+        out.println("outputDirectory: " + outputDirectory);
+        out.println("packageName: " + targetPackage);
         this.inputJsonUrl = inputJsonUrl;
         if (notEquals(packageName, "")) this._packageName += "." + inputJsonUrl.replace("/", ".");
         this.javaClassName = javaClassName;

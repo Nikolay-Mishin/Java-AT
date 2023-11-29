@@ -48,12 +48,13 @@ use custom annotator
 add this in `configuration` for your `jsonschema2pojo-maven-plugin` for use custom annotator
 
 ```xml
+
 <plugin>
     <groupId>org.jsonschema2pojo</groupId>
     <artifactId>jsonschema2pojo-maven-plugin</artifactId>
     <version>1.2.1</version>
     <configuration>
-        <customAnnotator>org.project.annotator.pojo.LombokAnnotator</customAnnotator>
+        <customAnnotator>org.project.annotator.lombok.LombokAnnotator</customAnnotator>
     </configuration>
 </plugin>
 ```
@@ -73,6 +74,7 @@ add this in `dependencies` for your `jsonschema2pojo-maven-plugin` in `build.plu
 Or you also can add this in your `build.plugins` and change values in `configuration` for your individual settings.
 
 ```xml
+
 <plugin>
     <groupId>org.jsonschema2pojo</groupId>
     <artifactId>jsonschema2pojo-maven-plugin</artifactId>
@@ -81,7 +83,7 @@ Or you also can add this in your `build.plugins` and change values in `configura
         <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
         <outputDirectory>${basedir}/src/main/java</outputDirectory>
         <targetPackage>models.pojo.json</targetPackage>
-        <customAnnotator>org.project.annotator.pojo.LombokAnnotator</customAnnotator>
+        <customAnnotator>org.project.annotator.lombok.LombokAnnotator</customAnnotator>
         <sourceType>json</sourceType>
         <generateBuilders>false</generateBuilders>
         <useLongIntegers>true</useLongIntegers>

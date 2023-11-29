@@ -1,7 +1,6 @@
 
 package pojo.json.pet;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,9 +30,9 @@ public class Pet {
     @JsonProperty("name")
     public String name;
     @JsonProperty("photoUrls")
-    public List<String> photoUrls = new ArrayList<String>();
+    public List<String> photoUrls;
     @JsonProperty("tags")
-    public List<Tag> tags = new ArrayList<Tag>();
+    public List<Tag> tags;
     @JsonProperty("status")
     public String status;
 

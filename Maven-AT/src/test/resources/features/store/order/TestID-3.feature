@@ -1,5 +1,5 @@
 #language: ru
-Функционал: Тестирование методов store
+Функционал: Тестирование методов store (json)
 
     @smoke
     @regress

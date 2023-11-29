@@ -10,5 +10,4 @@ import org.junit.runner.RunWith;
     glue = "com.project", // название проекта
     plugin = {"pretty", "html:results.html", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"} // формат вывода результата
 )
-public class AuthTest {
-}
+public class AuthTest {}

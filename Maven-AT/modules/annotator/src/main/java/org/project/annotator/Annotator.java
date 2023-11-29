@@ -3,8 +3,8 @@ package org.project.annotator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.codemodel.JDefinedClass;
 import org.jsonschema2pojo.AbstractAnnotator;
-import org.project.annotator.pojo.AnnotatorConfig;
-import org.project.annotator.pojo.DefaultConfigAnnotator;
+import org.project.annotator.config.AnnotatorConfig;
+import org.project.annotator.config.DefaultConfigAnnotator;
 
 import java.lang.annotation.Annotation;
 
@@ -45,7 +45,13 @@ public class Annotator extends AbstractAnnotator {
         config.getDefaultAnnotations().forEach(annotation -> setAnnotation(clazz, annotation));
     }
 
-    public void setPropertyInclusion(JDefinedClass clazz, JsonNode schema) {
+    /*@Override
+    public void propertyField(JFieldVar field, JDefinedClass clazz, String property, JsonNode propertyNode) {
+        setAnnotation(clazz, property);
+    }*/
+
+    @Override
+    public void propertyInclusion(JDefinedClass clazz, JsonNode schema) {
         JsonNode additionalProperties = schema.get("additionalProperties");
         try {
             additionalProperties.fieldNames().forEachRemaining(property -> setAnnotation(clazz, property));
@@ -56,16 +62,6 @@ public class Annotator extends AbstractAnnotator {
             out.printf("No annotations defined for %s.%n", clazz.fullName());
         }
         if (config.isSetDefaultAnnotations()) setDefaultAnnotations(clazz);
-    }
-
-    /*@Override
-    public void propertyField(JFieldVar field, JDefinedClass clazz, String property, JsonNode propertyNode) {
-        setAnnotation(clazz, property);
-    }*/
-
-    @Override
-    public void propertyInclusion(JDefinedClass clazz, JsonNode schema) {
-        setPropertyInclusion(clazz, schema);
     }
 
     @Override

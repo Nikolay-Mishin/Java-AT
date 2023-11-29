@@ -4,22 +4,13 @@ import org.jsonschema2pojo.SourceType;
 
 import java.io.IOException;
 
+import static org.project.utils.config.Config.config;
+
 public class JsonToClass extends JsonSchemaToClass {
 
-    protected static String schemaRoot = "src/main/resources/json";
-    protected static String outputDirectory = JsonSchemaToClass.outputDirectory;
-    protected static String packageName = "pojo.json";
+    protected static String schemaRoot = config().getJsonRoot();
+    protected static String targetPackage = config().getTargetJsonPackage();
     protected final SourceType sourceType = SourceType.JSON;
-
-    public static void main(String[] args) throws Exception {
-        test();
-    }
-
-    public static void setRoot(String schemaRoot, String outputDirectory, String packageName) {
-        JsonToClass.schemaRoot = schemaRoot;
-        JsonToClass.outputDirectory = outputDirectory;
-        JsonToClass.packageName = packageName;
-    }
 
     public JsonToClass() throws IOException {}
 
