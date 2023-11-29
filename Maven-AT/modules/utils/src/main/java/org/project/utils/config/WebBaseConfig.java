@@ -4,10 +4,10 @@ import org.aeonbits.owner.Config;
 
 import static org.project.utils.config.Config.setConfig;
 
-@Config.Sources({"classpath:${env}.properties"})
-public interface IConfig extends Config {
+@Config.Sources({"classpath:dev.properties"})
+public interface WebBaseConfig extends Config {
 
-    IConfig BASE_CONFIG = setConfig(IConfig.class);
+    WebBaseConfig BASE_CONFIG = setConfig(WebBaseConfig.class);
 
     //at
     @Key("BASE_URL")

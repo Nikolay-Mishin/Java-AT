@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.project.utils.base.HashMap;
 import org.project.utils.base.Model;
-import org.project.utils.config.Config;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 
 import java.io.IOException;
@@ -12,12 +11,13 @@ import java.lang.reflect.InvocationTargetException;
 
 import static java.lang.System.out;
 import static org.project.utils.Helper.*;
+import static org.project.utils.config.Config.config;
 import static org.project.utils.fs.FS.getPath;
 import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.invoke;
 
-public class JsonSchema extends Config {
+public class JsonSchema {
 
     private JSONObject jsonData;
     private JSONObject obj;

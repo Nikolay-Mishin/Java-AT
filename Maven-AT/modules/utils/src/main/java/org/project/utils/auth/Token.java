@@ -3,7 +3,6 @@ package org.project.utils.auth;
 import io.restassured.response.Response;
 import org.project.utils.base.HashMap;
 import org.project.utils.base.Register;
-import org.project.utils.config.IConfig;
 import org.project.utils.json.JsonSchema;
 
 import java.beans.ConstructorProperties;
@@ -12,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import static java.lang.System.out;
 import static org.project.utils.Helper.isInstance;
 import static org.project.utils.Helper.isNull;
+import static org.project.utils.config.Config.config;
 import static org.project.utils.reflection.Reflection.invoke;
 
 public class Token extends Register<String, Token> {
@@ -23,18 +23,6 @@ public class Token extends Register<String, Token> {
     protected String key;
     protected String value;
     protected String path;
-
-    protected static IConfig config;
-
-    public static <T extends IConfig> void setConfig(T baseConfig) {
-        config = baseConfig;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected static <T extends IConfig> T config() {
-        out.println("config: " + config);
-        return (T) config;
-    }
 
     @ConstructorProperties({"key", "value"})
     public Token(String key, String value) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {

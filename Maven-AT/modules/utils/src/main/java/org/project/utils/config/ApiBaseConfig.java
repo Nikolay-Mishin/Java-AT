@@ -4,7 +4,7 @@ import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
-public class ApiConfig extends Config {
+public class ApiBaseConfig extends Config {
 
     public static RequestSpecification getRequestSpec() {
         return new RequestSpecBuilder()

@@ -4,7 +4,6 @@ import com.sun.codemodel.JCodeModel;
 import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
-import org.project.annotator.pojo.LombokAnnotator;
 import org.project.annotator.pojo.LombokWithJackson2Annotator;
 
 import java.io.File;
@@ -14,6 +13,7 @@ import java.net.URL;
 
 import static java.lang.System.out;
 import static org.project.utils.Helper.notEquals;
+import static org.project.utils.config.Config.config;
 import static org.project.utils.fs.FS.getPath;
 
 public class JsonSchemaToClass {
@@ -24,17 +24,9 @@ public class JsonSchemaToClass {
     protected String inputJsonUrl;
     protected String _packageName = packageName;
     protected String javaClassName;
-    protected JCodeModel jcodeModel;
-    protected final boolean isGenerateBuilders = false;
-    protected final boolean isUseLongIntegers = true;
-    protected final boolean isIncludeGetters = false;
-    protected final boolean isIncludeSetters = false;
-    protected final boolean isIncludeHashcodeAndEquals = false;
-    protected final boolean isIncludeToString = false;
-    protected final boolean isIncludeAdditionalProperties = false;
-    protected final SourceType sourceType = SourceType.JSONSCHEMA;
-    protected final Class<? extends Annotator> customAnnotator = LombokAnnotator.class;
-    protected final boolean isIncludeGeneratedAnnotation = true;
+    protected JCodeModel jcodeModel = new JCodeModel();
+    protected GenerationConfig config = new DefaultGenerationConfig();
+    protected Annotator annotator = getAnnotator();
 
     public static void main(String[] args) throws Exception {
         test();
@@ -85,6 +77,15 @@ public class JsonSchemaToClass {
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
+    @NotNull
+    protected Annotator getAnnotator() {
+        try {
+            return new LombokWithJackson2Annotator(config);
+        } catch (Exception e) {
+            return new Jackson2Annotator(config);
+        }
+    }
+
     protected void init(String inputJsonUrl, String packageName, String javaClassName) {
         _init(inputJsonUrl, packageName, javaClassName);
     }
@@ -98,14 +99,14 @@ public class JsonSchemaToClass {
     }
 
     protected void _init(String inputJsonUrl, String packageName, String javaClassName) {
+        out.println("init: " + config());
         this.inputJsonUrl = inputJsonUrl;
         if (notEquals(packageName, "")) this._packageName += "." + inputJsonUrl.replace("/", ".");
         this.javaClassName = javaClassName;
-        jcodeModel = new JCodeModel();
     }
 
     protected String getSchemaPath() {
-        return getPath(schemaRoot, inputJsonUrl, javaClassName.toLowerCase() + (sourceType == SourceType.JSONSCHEMA ? ".schema" : "") + ".json");
+        return getPath(schemaRoot, inputJsonUrl, javaClassName.toLowerCase() + (config.getSourceType() == SourceType.JSONSCHEMA ? ".schema" : "") + ".json");
     }
 
     public void generate(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
@@ -125,31 +126,32 @@ public class JsonSchemaToClass {
         out.println(outputJavaClassDirectory);
         out.println(packageName);
         out.println(javaClassName);
-        getSchemaMapper().generate(jcodeModel, javaClassName, packageName, new File(inputJsonUrl).toURI().toURL());
-        jcodeModel.build(new File(outputJavaClassDirectory));
+        buildJCodeModel(generateJType(jcodeModel, config, annotator, javaClassName, packageName, inputJsonUrl), outputJavaClassDirectory);
+    }
+
+    public static JCodeModel generateJType
+        (JCodeModel jcodeModel, GenerationConfig config, Annotator annotator, String inputJsonUrl, String packageName, String javaClassName) throws IOException {
+        return _generateJType(jcodeModel, config, annotator, javaClassName, packageName, inputJsonUrl);
+    }
+
+    public static JCodeModel generateJType(GenerationConfig config, Annotator annotator, String inputJsonUrl, String packageName, String javaClassName)
+        throws IOException {
+        return _generateJType(new JCodeModel(), config, annotator, javaClassName, packageName, inputJsonUrl);
+    }
+
+    protected static JCodeModel _generateJType
+        (JCodeModel jcodeModel, GenerationConfig config, Annotator annotator, String inputJsonUrl, String packageName, String javaClassName) throws IOException {
+        getSchemaMapper(config, annotator).generate(jcodeModel, javaClassName, packageName, new File(inputJsonUrl).toURI().toURL());
+        return jcodeModel;
     }
 
     @NotNull
-    protected SchemaMapper getSchemaMapper() {
-        GenerationConfig config = new DefaultGenerationConfig() {
-            @Override public boolean isGenerateBuilders() {return isGenerateBuilders;}
-            @Override public boolean isUseLongIntegers() {return isUseLongIntegers;}
-            @Override public boolean isIncludeGetters() {return isIncludeGetters;}
-            @Override public boolean isIncludeSetters() {return isIncludeSetters;}
-            @Override public boolean isIncludeHashcodeAndEquals() {return isIncludeHashcodeAndEquals;}
-            @Override public boolean isIncludeToString() {return isIncludeToString;}
-            @Override public boolean isIncludeAdditionalProperties() {return isIncludeAdditionalProperties;}
-            @Override public SourceType getSourceType() {return sourceType;}
-            @Override public Class<? extends Annotator> getCustomAnnotator() {return customAnnotator;}
-            @Override public boolean isIncludeGeneratedAnnotation() {return isIncludeGeneratedAnnotation;}
-        };
-        Jackson2Annotator annotator;
-        try {
-            annotator = new LombokWithJackson2Annotator(config);
-        } catch (Exception e) {
-            annotator = new Jackson2Annotator(config);
-        }
+    public static SchemaMapper getSchemaMapper(GenerationConfig config, Annotator annotator) {
         return new SchemaMapper(new RuleFactory(config, annotator, new SchemaStore()), new SchemaGenerator());
+    }
+
+    public static void buildJCodeModel(JCodeModel jcodeModel, String outputJavaClassDirectory) throws IOException {
+        jcodeModel.build(new File(outputJavaClassDirectory));
     }
 
 }

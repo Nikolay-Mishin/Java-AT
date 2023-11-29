@@ -11,6 +11,7 @@ import static java.lang.System.out;
 
 public class Auth extends SingleInstance<Auth> {
 
+    protected static Auth auth;
     protected final AuthToken token;
 
     @ConstructorProperties({"token"})
@@ -18,16 +19,16 @@ public class Auth extends SingleInstance<Auth> {
         this.token = token;
     }
 
-    public static Auth instance() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return SingleInstance.instance();
+    public static Auth auth() {
+        return auth;
     }
 
-    public static Auth instance(AuthToken token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return SingleInstance.instance(token);
+    public static AuthToken token() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        return auth.token;
     }
 
-    protected static AuthToken token() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        return instance().token;
+    public static void init(AuthToken token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        auth = instance(token);
     }
 
     public static void refreshTokens(Response tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -53,6 +54,9 @@ public class Auth extends SingleInstance<Auth> {
     public static void printTokens() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         token().printTokens();
         out.println(getInstance(Auth.class));
+        out.println("auth: " + auth);
+        out.println("instance: " + instance);
+        out.println("SingleInstance: " + SingleInstance.instance);
     }
 
 }
