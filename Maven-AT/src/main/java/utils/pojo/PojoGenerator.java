@@ -13,8 +13,6 @@ public class PojoGenerator {
     public static void main(String[] args) throws IOException {
         new JsonSchemaToClass(BASE_CONFIG);
         String path = BASE_CONFIG.getJsonSchemaRoot();
-        out.println("listFilesForFolder");
-        listFilesForFolder(path);
         out.println("listFiles");
         listFiles(path);
         out.println("readDir");

@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 
 import static java.lang.String.join;
 import static java.lang.System.out;
-import static java.util.Objects.requireNonNull;
 import static org.project.utils.Helper.isInstance;
 
 public class FS {
@@ -76,21 +75,6 @@ public class FS {
             }
             out.println(paths);
             return paths.filter(filter);
-        }
-    }
-
-    public static void listFilesForFolder(final String path) {
-        listFilesForFolder(new File(path));
-    }
-
-    public static void listFilesForFolder(final File folder) {
-        out.println(folder);
-        for (final File fileEntry : requireNonNull(folder.listFiles())) {
-            if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry);
-            } else {
-                out.println(fileEntry.getPath());
-            }
         }
     }
 
