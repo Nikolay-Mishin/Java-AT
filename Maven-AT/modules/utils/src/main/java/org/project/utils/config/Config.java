@@ -10,8 +10,6 @@ public class Config {
     protected static WebBaseConfig config = BASE_CONFIG;
 
     public static WebBaseConfig setConfig(WebBaseConfig webConfig) {
-        out.println(webConfig.getClass());
-        out.println(config.getClass());
         return notEquals(webConfig.getClass(), config.getClass()) ? (config = webConfig) : config;
     }
 

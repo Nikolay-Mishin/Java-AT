@@ -54,6 +54,8 @@ public class Auth extends SingleInstance<Auth> {
     public static void printTokens() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         token().printTokens();
         out.println(getInstance(Auth.class));
+        Auth instance = getInstance(Auth.class);
+        out.println(instance);
         out.println("auth: " + auth);
         out.println("instance: " + instance);
         out.println("SingleInstance: " + SingleInstance.instance);

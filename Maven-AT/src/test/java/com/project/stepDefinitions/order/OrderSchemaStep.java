@@ -1,10 +1,9 @@
 package com.project.stepDefinitions.order;
 
 import io.cucumber.java.ru.Когда;
-import org.project.pojo.JsonSchemaToClass;
+import org.project.utils.base.BaseStep;
 import pojo.schema.store.order.OrderSchema;
 import requests.OrderSchemaRequests;
-import org.project.utils.base.BaseStep;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -21,7 +20,6 @@ public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> 
 
     @Когда("создать заказ schema статус {int}")
     public void postOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
-        new JsonSchemaToClass("store/order", "Order");
         assertEquals(statusCode, post(dataTable).getStatusCode());
     }
 

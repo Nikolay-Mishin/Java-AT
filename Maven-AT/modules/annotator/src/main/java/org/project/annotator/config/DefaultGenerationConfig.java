@@ -1,5 +1,6 @@
-package org.project.pojo.config;
+package org.project.annotator.config;
 
+import org.jsonschema2pojo.AnnotationStyle;
 import org.jsonschema2pojo.Annotator;
 import org.jsonschema2pojo.SourceType;
 import org.project.annotator.lombok.LombokAnnotator;
@@ -33,8 +34,13 @@ public class DefaultGenerationConfig extends org.jsonschema2pojo.DefaultGenerati
     @Override public boolean isIncludeAdditionalProperties() {
         return false;
     }
+
     @Override public boolean isInitializeCollections() {
         return false;
+    }
+
+    @Override public AnnotationStyle getAnnotationStyle() {
+        return AnnotationStyle.NONE;
     }
 
     @Override public SourceType getSourceType() {

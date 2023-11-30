@@ -2,7 +2,7 @@ package org.project.annotator.config;
 
 import java.util.List;
 
-public class DefaultConfigAnnotator implements AnnotatorConfig {
+public class DefaultAnnotatorConfig extends DefaultGenerationConfig implements AnnotatorConfig {
 
     protected boolean isSetDefaultAnnotations = false;
     protected List<String> annotations = List.of();

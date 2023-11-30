@@ -4,12 +4,14 @@ import com.sun.codemodel.JCodeModel;
 import org.jetbrains.annotations.NotNull;
 import org.jsonschema2pojo.*;
 import org.jsonschema2pojo.rules.RuleFactory;
-import org.project.annotator.lombok.LombokWithJackson2Annotator;
-import org.project.pojo.config.DefaultGenerationConfig;
+import org.project.annotator.config.AnnotatorConfig;
+import org.project.annotator.config.DefaultAnnotatorConfig;
+import org.project.annotator.lombok.LombokAnnotator;
 import org.project.utils.config.WebBaseConfig;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 
@@ -28,49 +30,45 @@ public class JsonSchemaToClass {
     protected String _packageName = targetPackage;
     protected String javaClassName;
     protected JCodeModel jcodeModel = new JCodeModel();
-    protected GenerationConfig config = new DefaultGenerationConfig();
-    protected Annotator annotator = new LombokWithJackson2Annotator(config);
+    protected AnnotatorConfig config = new DefaultAnnotatorConfig();
+    protected Annotator annotator = new LombokAnnotator(config);
 
-    public static void main(String[] args) throws IOException {
-        new JsonSchemaToClass();
-    }
-
-    public JsonSchemaToClass(WebBaseConfig baseConfig) throws IOException {
+    public JsonSchemaToClass(WebBaseConfig baseConfig) throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         setConfig(baseConfig);
-        new JsonSchemaToClass();
+        create();
     }
 
-    public JsonSchemaToClass() throws IOException {
-        new JsonSchemaToClass("store/order", "Order");
-        //new JsonSchemaToClass("pet", "Pet");
+    protected void create() throws IOException {
+        create("store/order", "Order");
+        //create("pet", "Pet");
     }
 
-    public JsonSchemaToClass(String inputJsonUrl, String javaClassName) throws IOException {
+    protected void create(String inputJsonUrl, String javaClassName) throws IOException {
         init(inputJsonUrl, targetPackage, javaClassName);
         generate(getSchemaPath(), outputDirectory, _packageName, javaClassName);
     }
 
-    public JsonSchemaToClass(URL inputJsonUrl, String javaClassName) throws IOException {
+    protected void create(URL inputJsonUrl, String javaClassName) throws IOException {
         init(inputJsonUrl, targetPackage, javaClassName);
         generate(getSchemaPath(), outputDirectory, targetPackage, javaClassName);
     }
 
-    public JsonSchemaToClass(URI inputJsonUrl, String javaClassName) throws IOException {
+    protected void create(URI inputJsonUrl, String javaClassName) throws IOException {
         init(inputJsonUrl, targetPackage, javaClassName);
         generate(getSchemaPath(), outputDirectory, targetPackage, javaClassName);
     }
 
-    public JsonSchemaToClass(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    protected void create(String inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToClass(URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    protected void create(URL inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }
 
-    public JsonSchemaToClass(URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
+    protected void create(URI inputJsonUrl, String outputJavaClassDirectory, String packageName, String javaClassName) throws IOException {
         init(inputJsonUrl, packageName, javaClassName);
         generate(getSchemaPath(), outputJavaClassDirectory, packageName, javaClassName);
     }

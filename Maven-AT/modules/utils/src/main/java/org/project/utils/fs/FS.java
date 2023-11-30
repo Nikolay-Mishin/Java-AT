@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import static java.lang.String.join;
 import static java.lang.System.out;
 import static org.project.utils.Helper.isInstance;
+import static org.project.utils.config.Config.config;
 
 public class FS {
 
@@ -56,26 +57,47 @@ public class FS {
         Path _path = Paths.get(path);
         try (final Stream<Path> paths = Files.walk(_path)) {
             try (final Stream<Path> paths1 = Files.walk(_path)) {
+                out.println("List<Path>");
                 Stream<Path> _paths = paths1.filter(filter);
                 List<Path> collect = _paths.toList();
                 out.println(collect);
-                collect.forEach(System.out::println);
+                collect.forEach(FS::printFile);
             }
             try (final Stream<Path> paths2 = Files.walk(_path)) {
+                out.println("Stream<File>");
                 Stream<Path> _paths = paths2.filter(filter);
                 Stream<File> map = _paths.map(Path::toFile);
                 out.println(map);
-                map.forEach(System.out::println);
+                map.forEach(FS::printFile);
             }
             try (final Stream<Path> paths3 = Files.walk(_path)) {
+                out.println("List<File>");
                 Stream<Path> _paths = paths3.filter(filter);
                 List<File> map = _paths.map(Path::toFile).toList();
                 out.println(map);
-                map.forEach(System.out::println);
+                map.forEach(FS::printFile);
             }
             out.println(paths);
             return paths.filter(filter);
         }
+    }
+
+    public static void printFile(final Path file) {
+        out.println("printFile");
+        out.println(file);
+        out.println(file.getFileName());
+        out.println(file.getParent());
+        out.println(config().getJsonSchemaRoot());
+        out.println(file.getParent().toString().replace("\\", "/").replace(config().getJsonSchemaRoot() + "/", ""));
+    }
+
+    public static void printFile(final File file) {
+        out.println("printFile");
+        out.println(file);
+        out.println(file.getName());
+        out.println(file.getParent());
+        out.println(config().getJsonSchemaRoot());
+        out.println(file.getParent().replace("\\", "/").replace(config().getJsonSchemaRoot() + "/", ""));
     }
 
 }

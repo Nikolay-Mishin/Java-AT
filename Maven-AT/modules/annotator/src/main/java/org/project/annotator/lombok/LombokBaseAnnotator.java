@@ -5,33 +5,29 @@ import org.project.annotator.Annotations;
 import org.project.annotator.Annotator;
 import org.project.annotator.config.AnnotatorConfig;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 
 public class LombokBaseAnnotator extends Annotator {
 
-    public LombokBaseAnnotator(AnnotatorConfig config) {
-        super(config);
+    public LombokBaseAnnotator() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        setAnnotations();
     }
 
-    public LombokBaseAnnotator() {}
+    public LombokBaseAnnotator(AnnotatorConfig config) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        super(config);
+        setAnnotations();
+    }
 
-    @Override
-    protected Class<? extends Annotation> getAnnotation(String property) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        new Annotations()
+    protected void setAnnotations() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        super.setAnnotations(new Annotations()
             .set("lombok-builder", Builder.class)
-            .getAnnotation(property);
-        return switch (property) {
-            case "lombok-builder" -> Builder.class;
-            case "lombok-data" -> Data.class;
-            case "lombok-getter" -> Getter.class;
-            case "lombok-setter" -> Setter.class;
-            case "lombok-equals-and-hash-code" -> EqualsAndHashCode.class;
-            case "lombok-no-args-constructor" -> NoArgsConstructor.class;
-            case "lombok-all-args-constructor" -> AllArgsConstructor.class;
-            case "lombok-to-string" -> ToString.class;
-            default -> throw new IllegalStateException("Unexpected value: " + property);
-        };
+            .set("lombok-data", Data.class)
+            .set("lombok-getter", Getter.class)
+            .set("lombok-setter", Setter.class)
+            .set("lombok-equals-and-hash-code", EqualsAndHashCode.class)
+            .set("lombok-no-args-constructor", NoArgsConstructor.class)
+            .set("lombok-all-args-constructor", AllArgsConstructor.class)
+            .set("lombok-to-string", ToString.class));
     }
 
 }

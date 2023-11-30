@@ -108,6 +108,7 @@
                     <targetPackage>pojo.json</targetPackage>
                     <customAnnotator>org.project.annotator.lombok.LombokAnnotator</customAnnotator>
                     <sourceType>json</sourceType>
+                    <annotationStyle>none</annotationStyle>
                     <generateBuilders>false</generateBuilders>
                     <useLongIntegers>true</useLongIntegers>
                     <includeGetters>false</includeGetters>

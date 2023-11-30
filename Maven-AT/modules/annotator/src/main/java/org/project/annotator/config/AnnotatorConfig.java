@@ -1,8 +1,10 @@
 package org.project.annotator.config;
 
+import org.jsonschema2pojo.GenerationConfig;
+
 import java.util.List;
 
-public interface AnnotatorConfig {
+public interface AnnotatorConfig extends GenerationConfig {
 
     boolean isSetDefaultAnnotations();
 
