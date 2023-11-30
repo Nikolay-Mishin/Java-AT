@@ -13,11 +13,11 @@ import java.lang.reflect.InvocationTargetException;
 
 public class LombokWithJackson2Annotator extends Jackson2Annotator {
 
-    protected GenerationConfig config = new DefaultAnnotatorConfig();
+    protected AnnotatorConfig config = new DefaultAnnotatorConfig();
     protected Annotations annotations = new Annotations();
-    protected Annotator annotator = new LombokAnnotator((AnnotatorConfig) config);
+    protected Annotator annotator = new LombokAnnotator(config);
 
-    public LombokWithJackson2Annotator(GenerationConfig config) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public LombokWithJackson2Annotator(AnnotatorConfig config) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         super(config);
     }
 
@@ -33,7 +33,7 @@ public class LombokWithJackson2Annotator extends Jackson2Annotator {
         return annotator;
     }
 
-    public LombokWithJackson2Annotator setConfig(GenerationConfig config) {
+    public LombokWithJackson2Annotator setConfig(AnnotatorConfig config) {
         this.config = config;
         return this;
     }

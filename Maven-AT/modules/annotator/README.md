@@ -82,7 +82,7 @@ Or you also can add this in your `build.plugins` and change values in `configura
     <configuration>
         <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
         <outputDirectory>${basedir}/src/main/java</outputDirectory>
-        <targetPackage>models.pojo.json</targetPackage>
+        <targetPackage>models.pojo.gen</targetPackage>
         <customAnnotator>org.project.annotator.lombok.LombokAnnotator</customAnnotator>
         <sourceType>json</sourceType>
         <generateBuilders>false</generateBuilders>

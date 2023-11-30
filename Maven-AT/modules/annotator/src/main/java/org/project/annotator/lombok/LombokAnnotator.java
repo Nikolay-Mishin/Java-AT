@@ -7,11 +7,16 @@ import java.lang.reflect.InvocationTargetException;
 public class LombokAnnotator extends LombokBaseAnnotator {
 
     public LombokAnnotator() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        config.setDefaultAnnotations("lombok-builder", "lombok-data");
+        init();
     }
 
     public LombokAnnotator(AnnotatorConfig config) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         super(config);
+        init();
+    }
+
+    protected void init()  {
+        config.setDefaultAnnotations("lombok-builder", "lombok-data");
     }
 
 }

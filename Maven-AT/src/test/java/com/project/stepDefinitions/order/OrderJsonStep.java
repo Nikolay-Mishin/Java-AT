@@ -1,7 +1,7 @@
 package com.project.stepDefinitions.order;
 
 import io.cucumber.java.ru.Когда;
-import pojo.json.store.order.Order;
+import pojo.gen.store.order.Order;
 import requests.OrderJsonRequests;
 import org.project.utils.base.BaseStep;
 

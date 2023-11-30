@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import static java.lang.System.out;
 
-public class Annotator extends AbstractAnnotator {
+public class Annotator extends AbstractAnnotator implements IAnnotator {
 
     protected AnnotatorConfig config = new DefaultAnnotatorConfig();
     protected Annotations annotations = new Annotations();

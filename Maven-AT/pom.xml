@@ -105,7 +105,7 @@
                 <configuration>
                     <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
                     <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                    <targetPackage>pojo.json</targetPackage>
+                    <targetPackage>pojo.gen</targetPackage>
                     <customAnnotator>org.project.annotator.lombok.LombokAnnotator</customAnnotator>
                     <sourceType>json</sourceType>
                     <annotationStyle>none</annotationStyle>

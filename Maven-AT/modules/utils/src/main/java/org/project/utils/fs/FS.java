@@ -13,7 +13,6 @@ import java.util.stream.Stream;
 import static java.lang.String.join;
 import static java.lang.System.out;
 import static org.project.utils.Helper.isInstance;
-import static org.project.utils.config.Config.config;
 
 public class FS {
 
@@ -64,8 +63,6 @@ public class FS {
         out.println(file);
         out.println(file.getFileName());
         out.println(file.getParent());
-        out.println(config().getJsonSchemaRoot());
-        out.println(file.getParent().toString().replace("\\", "/").replace(config().getJsonSchemaRoot() + "/", ""));
     }
 
     public static void printFile(final File file) {
@@ -73,8 +70,6 @@ public class FS {
         out.println(file);
         out.println(file.getName());
         out.println(file.getParent());
-        out.println(config().getJsonSchemaRoot());
-        out.println(file.getParent().replace("\\", "/").replace(config().getJsonSchemaRoot() + "/", ""));
     }
 
 }

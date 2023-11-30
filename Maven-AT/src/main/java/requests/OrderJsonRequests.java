@@ -2,7 +2,7 @@ package requests;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;
-import pojo.json.store.order.Order;
+import pojo.gen.store.order.Order;
 import org.project.utils.request.BaseRequests;
 
 import java.lang.reflect.InvocationTargetException;

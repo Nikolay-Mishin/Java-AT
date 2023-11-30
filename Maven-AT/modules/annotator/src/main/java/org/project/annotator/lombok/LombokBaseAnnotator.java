@@ -19,7 +19,7 @@ public class LombokBaseAnnotator extends Annotator {
     }
 
     protected void setAnnotations() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        super.setAnnotations(new Annotations()
+        setAnnotations(new Annotations()
             .set("lombok-builder", Builder.class)
             .set("lombok-data", Data.class)
             .set("lombok-getter", Getter.class)
