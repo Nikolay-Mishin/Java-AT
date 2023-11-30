@@ -7,40 +7,62 @@ import org.jsonschema2pojo.rules.RuleFactory;
 import org.project.annotator.config.AnnotatorConfig;
 import org.project.annotator.config.DefaultAnnotatorConfig;
 import org.project.annotator.lombok.LombokAnnotator;
+import org.project.utils.config.Config;
 import org.project.utils.config.WebBaseConfig;
+import org.project.utils.fs.FS;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 
 import static java.lang.System.out;
 import static org.project.utils.Helper.notEquals;
-import static org.project.utils.config.Config.config;
-import static org.project.utils.config.Config.setConfig;
+import static org.project.utils.fs.FS.fileList;
 import static org.project.utils.fs.FS.getPath;
 
 public class JsonSchemaToClass {
 
-    protected static String schemaRoot = config().getJsonSchemaRoot();
-    protected static String outputDirectory = config().getPojoRoot();
-    protected static String targetPackage = config().getTargetPackage();
+    protected static String schemaRoot = Config.config().getJsonSchemaRoot();
+    protected static String outputDirectory = Config.config().getPojoRoot();
+    protected static String targetPackage = Config.config().getTargetPackage();
     protected String inputJsonUrl;
     protected String _packageName = targetPackage;
     protected String javaClassName;
     protected JCodeModel jcodeModel = new JCodeModel();
-    protected AnnotatorConfig config = new DefaultAnnotatorConfig();
-    protected Annotator annotator = new LombokAnnotator(config);
+    protected GenerationConfig config = new DefaultAnnotatorConfig();
+    protected Annotator annotator = new LombokAnnotator((AnnotatorConfig) config);
 
     public JsonSchemaToClass(WebBaseConfig baseConfig) throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        setConfig(baseConfig);
+        Config.setConfig(baseConfig);
         create();
+    }
+
+    public GenerationConfig config()  {
+        return config;
+    }
+
+    public Annotator annotator()  {
+        return annotator;
+    }
+
+    public JsonSchemaToClass setConfig(GenerationConfig config)  {
+        this.config = config;
+        return this;
+    }
+
+    public JsonSchemaToClass setAnnotator(Annotator annotator)  {
+        this.annotator = annotator;
+        return this;
     }
 
     protected void create() throws IOException {
         create("store/order", "Order");
         //create("pet", "Pet");
+        fileList(schemaRoot);
+        fileList(schemaRoot).map(Path::toFile).forEach(FS::printFile);
     }
 
     protected void create(String inputJsonUrl, String javaClassName) throws IOException {

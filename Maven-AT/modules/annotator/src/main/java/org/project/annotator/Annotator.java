@@ -23,6 +23,10 @@ public class Annotator extends AbstractAnnotator {
         setConfig(config);
     }
 
+    public Annotator(Annotations annotations) {
+        setAnnotations(annotations);
+    }
+
     public Annotator(AnnotatorConfig config, Annotations annotations) {
         setConfig(config);
         setAnnotations(annotations);
@@ -30,6 +34,10 @@ public class Annotator extends AbstractAnnotator {
 
     public AnnotatorConfig config() {
         return config;
+    }
+
+    public Annotations annotations() {
+        return annotations;
     }
 
     public Annotator setConfig(AnnotatorConfig config) {
