@@ -1,4 +1,4 @@
-package requests;
+package requests.order;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;

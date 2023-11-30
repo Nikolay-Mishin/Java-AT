@@ -3,7 +3,7 @@ package com.project.stepDefinitions.order;
 import io.cucumber.java.ru.Когда;
 import org.project.utils.base.BaseStep;
 import pojo.schema.store.order.OrderSchema;
-import requests.OrderSchemaRequests;
+import requests.order.OrderSchemaRequests;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;

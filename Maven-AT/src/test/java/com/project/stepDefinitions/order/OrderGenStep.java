@@ -1,9 +1,9 @@
 package com.project.stepDefinitions.order;
 
 import io.cucumber.java.ru.Когда;
+import pojo.gen.store.order.Order;
+import requests.order.OrderGenRequests;
 import org.project.utils.base.BaseStep;
-import pojo.json.store.order.Order;
-import requests.order.OrderJsonRequests;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -13,12 +13,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class OrderJsonStep extends BaseStep<OrderJsonRequests, Order> {
+public class OrderGenStep extends BaseStep<OrderGenRequests, Order> {
 
     @ConstructorProperties({})
-    public OrderJsonStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}
+    public OrderGenStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}
 
-    @Когда("создать заказ json статус {int}")
+    @Когда("создать заказ gen статус {int}")
     public void postOrder(int statusCode, List<List<String>> dataTable)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
         //new JsonToClass("store/order", "Order");

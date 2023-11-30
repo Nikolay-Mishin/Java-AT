@@ -1,9 +1,9 @@
-package requests;
+package requests.order;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;
-import pojo.gen.store.order.Order;
 import org.project.utils.request.BaseRequests;
+import pojo.json.store.order.Order;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
