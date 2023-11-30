@@ -2,7 +2,7 @@ package org.project.annotator.lombok;
 
 import org.project.annotator.config.AnnotatorConfig;
 
-public class LombokAnnotator extends LombokDefaultAnnotator {
+public class LombokAnnotator extends LombokBaseAnnotator {
 
     public LombokAnnotator(AnnotatorConfig config) {
         super(config);

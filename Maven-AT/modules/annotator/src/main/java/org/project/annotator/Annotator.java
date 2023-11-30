@@ -5,40 +5,34 @@ import com.sun.codemodel.JDefinedClass;
 import org.jsonschema2pojo.AbstractAnnotator;
 import org.project.annotator.config.AnnotatorConfig;
 import org.project.annotator.config.DefaultConfigAnnotator;
+import org.project.utils.exception.AssertException;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 
 import static java.lang.System.out;
 
-public class Annotator extends AbstractAnnotator {
+public abstract class Annotator extends AbstractAnnotator {
 
     protected AnnotatorConfig config = new DefaultConfigAnnotator();
 
     public Annotator(AnnotatorConfig config) {
-        setConfig(config);
+        this.config = config;
     }
 
     public Annotator() {}
 
-    public Annotator setConfig(AnnotatorConfig config) {
-        this.config = config;
-        return this;
-    }
-
-    protected Class<? extends Annotation> getAnnotation(String property) {
-        return switch (property) {
-            case "default" -> Annotation.class;
-            case "annotation" -> Annotation.class;
-            default -> throw new IllegalStateException("Unexpected value: " + property);
-        };
-    }
+    protected abstract Class<? extends Annotation> getAnnotation(String property) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException;
 
     protected void setAnnotation(JDefinedClass clazz, String property) {
         out.println(property);
         Class<? extends Annotation> annotation = getAnnotation(property);
-        if (!annotation.equals(IllegalStateException.class)) {
-            clazz.annotate(annotation);
+        try {
+            new AssertException(annotation);
+        } catch (AssertionError e) {
+            throw new IllegalStateException("Unexpected value: " + property);
         }
+        clazz.annotate(annotation);
     }
 
     protected void setDefaultAnnotations(JDefinedClass clazz) {

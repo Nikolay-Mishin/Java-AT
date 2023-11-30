@@ -1,21 +1,26 @@
 package org.project.annotator.lombok;
 
 import lombok.*;
+import org.project.annotator.Annotations;
 import org.project.annotator.Annotator;
 import org.project.annotator.config.AnnotatorConfig;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 
-public class LombokDefaultAnnotator extends Annotator {
+public class LombokBaseAnnotator extends Annotator {
 
-    public LombokDefaultAnnotator(AnnotatorConfig config) {
+    public LombokBaseAnnotator(AnnotatorConfig config) {
         super(config);
     }
 
-    public LombokDefaultAnnotator() {}
+    public LombokBaseAnnotator() {}
 
     @Override
-    protected Class<? extends Annotation> getAnnotation(String property) {
+    protected Class<? extends Annotation> getAnnotation(String property) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        new Annotations()
+            .set("lombok-builder", Builder.class)
+            .getAnnotation(property);
         return switch (property) {
             case "lombok-builder" -> Builder.class;
             case "lombok-data" -> Data.class;

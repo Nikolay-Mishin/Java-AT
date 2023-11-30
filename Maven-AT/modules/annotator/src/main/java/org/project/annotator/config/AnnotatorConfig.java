@@ -5,7 +5,11 @@ import java.util.List;
 public interface AnnotatorConfig {
 
     boolean isSetDefaultAnnotations();
+
+    AnnotatorConfig isSetDefaultAnnotations(boolean value);
+
     List<String> getDefaultAnnotations();
-    void setDefaultAnnotations(String... annotations);
+
+    AnnotatorConfig setDefaultAnnotations(String... annotations);
 
 }
