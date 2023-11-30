@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -44,42 +43,20 @@ public class FS {
         return data;
     }
 
-    public static Stream<Path> readDir(final String path) throws IOException {
-        return readDir(path, Files::isDirectory);
-    }
-
-    public static Stream<Path> listFiles(final String path) throws IOException {
+    public static Stream<Path> folderList(final String path) throws IOException {
         return readDir(path, Files::isRegularFile);
     }
 
-    protected static Stream<Path> readDir(final String path, Predicate<? super Path> filter) throws IOException {
-        out.println(path);
-        Path _path = Paths.get(path);
-        try (final Stream<Path> paths = Files.walk(_path)) {
-            try (final Stream<Path> paths1 = Files.walk(_path)) {
-                out.println("List<Path>");
-                Stream<Path> _paths = paths1.filter(filter);
-                List<Path> collect = _paths.toList();
-                out.println(collect);
-                collect.forEach(FS::printFile);
-            }
-            try (final Stream<Path> paths2 = Files.walk(_path)) {
-                out.println("Stream<File>");
-                Stream<Path> _paths = paths2.filter(filter);
-                Stream<File> map = _paths.map(Path::toFile);
-                out.println(map);
-                map.forEach(FS::printFile);
-            }
-            try (final Stream<Path> paths3 = Files.walk(_path)) {
-                out.println("List<File>");
-                Stream<Path> _paths = paths3.filter(filter);
-                List<File> map = _paths.map(Path::toFile).toList();
-                out.println(map);
-                map.forEach(FS::printFile);
-            }
-            out.println(paths);
-            return paths.filter(filter);
-        }
+    public static Stream<Path> fileList(final String path) throws IOException {
+        return readDir(path, Files::isRegularFile);
+    }
+
+    public static Stream<Path> readDir(final String path, final Predicate<? super Path> filter) throws IOException {
+        return readDir(path).filter(filter);
+    }
+
+    public static Stream<Path> readDir(final String path) throws IOException {
+        return Files.walk(Paths.get(path));
     }
 
     public static void printFile(final Path file) {
