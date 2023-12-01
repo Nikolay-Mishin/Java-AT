@@ -1,33 +1,36 @@
 {
-	"name": "maven-at",
-	"version": "6.2.0",
-	"license": "ISC",
-	"author": {
-		"name": "Nikolay Mishin",
-		"url": "https://github.com/Nikolay-Mishin"
-	},
-	"description": "Library of development Java automatization",
-	"keywords": [
-		"java",
-		"auto-qa"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Nikolay-Mishin/Java-AT",
-		"directory": ""
-	},
-	"engines": {
-		"node": ">=16.7.0"
-	},
-	"scripts": {
+    "name": "maven-at",
+    "version": "6.8.0",
+    "main": "index.js",
+    "type": "module",
+    "license": "ISC",
+    "author": {
+        "name": "Nikolay Mishin",
+        "url": "https://github.com/Nikolay-Mishin"
+    },
+    "description": "Library of development Java automatization",
+    "keywords": [
+        "java",
+        "auto-qa"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Nikolay-Mishin/Java-AT",
+        "directory": ""
+    },
+    "engines": {
+        "node": ">=16.7.0"
+    },
+    "scripts": {
+        "index": "node index.js",
         "start": "npm run build",
         "test": "npm run build & npm run allure",
         "start-with-reports": "npm test & npm run report & npm run allure",
         "init": "mvn clean install",
         "pkg": "mvn package",
         "build": "mvn clean test -Denv=stand",
-		"allure": "mvn allure:serve",
-		"report": "mvn allure:report",
+        "allure": "mvn allure:serve",
+        "report": "mvn allure:report",
         "serve": "allure serve target/allure-results"
     }
 }
