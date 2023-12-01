@@ -2,12 +2,12 @@ package org.project.annotator.lombok;
 
 import lombok.*;
 import org.project.annotator.Annotations;
-import org.project.annotator.Annotator;
+import org.project.annotator.BaseAnnotator;
 import org.project.annotator.config.AnnotatorConfig;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class LombokBaseAnnotator extends Annotator {
+public class LombokBaseAnnotator extends BaseAnnotator {
 
     public LombokBaseAnnotator() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         setAnnotations();

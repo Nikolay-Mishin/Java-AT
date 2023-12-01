@@ -3,6 +3,7 @@ package org.project.annotator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.codemodel.JDefinedClass;
 import org.jsonschema2pojo.AbstractAnnotator;
+import org.jsonschema2pojo.Annotator;
 import org.project.annotator.config.AnnotatorConfig;
 import org.project.annotator.config.DefaultAnnotatorConfig;
 import org.project.utils.exception.AssertException;
@@ -10,24 +11,24 @@ import org.project.utils.exception.AssertException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 
-import static java.lang.System.out;
+import static org.project.utils.Helper.debug;
 
-public class Annotator extends AbstractAnnotator implements IAnnotator {
+public class BaseAnnotator extends AbstractAnnotator implements Annotator {
 
     protected AnnotatorConfig config = new DefaultAnnotatorConfig();
     protected Annotations annotations = new Annotations();
 
-    public Annotator() {}
+    public BaseAnnotator() {}
 
-    public Annotator(AnnotatorConfig config) {
+    public BaseAnnotator(AnnotatorConfig config) {
         setConfig(config);
     }
 
-    public Annotator(Annotations annotations) {
+    public BaseAnnotator(Annotations annotations) {
         setAnnotations(annotations);
     }
 
-    public Annotator(AnnotatorConfig config, Annotations annotations) {
+    public BaseAnnotator(AnnotatorConfig config, Annotations annotations) {
         setConfig(config);
         setAnnotations(annotations);
     }
@@ -40,12 +41,12 @@ public class Annotator extends AbstractAnnotator implements IAnnotator {
         return annotations;
     }
 
-    public Annotator setConfig(AnnotatorConfig config) {
+    public BaseAnnotator setConfig(AnnotatorConfig config) {
         this.config = config;
         return this;
     }
 
-    public Annotator setAnnotations(Annotations annotations) {
+    public BaseAnnotator setAnnotations(Annotations annotations) {
         this.annotations = annotations;
         return this;
     }
@@ -55,7 +56,7 @@ public class Annotator extends AbstractAnnotator implements IAnnotator {
     }
 
     protected void setAnnotation(JDefinedClass clazz, String property) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        out.println(property);
+        debug(property);
         Class<? extends Annotation> annotation = getAnnotation(property);
         try {
             new AssertException(annotation);
@@ -94,9 +95,9 @@ public class Annotator extends AbstractAnnotator implements IAnnotator {
             });
             return;
         } catch (NullPointerException e) {
-            out.printf("No additionalProperties defined for %s.%n", clazz.fullName());
+            debug("No additionalProperties defined for", clazz.fullName());
         } catch (IllegalStateException e) {
-            out.printf("No annotations defined for %s.%n", clazz.fullName());
+            debug("No annotations defined for", clazz.fullName());
         }
         setDefaultAnnotations(clazz);
     }

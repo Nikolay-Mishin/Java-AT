@@ -18,6 +18,6 @@ public class JsonToClass extends JsonSchemaToClass {
                 return SourceType.JSON;
             }
         });
-        init(baseConfig);
+        generate(baseConfig);
     }
 }

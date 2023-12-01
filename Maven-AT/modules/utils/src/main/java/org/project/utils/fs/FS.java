@@ -42,11 +42,19 @@ public class FS {
         return data;
     }
 
-    public static Stream<Path> folderList(final String path) throws IOException {
-        return readDir(path, Files::isRegularFile);
+    public static Stream<File> folderList(final String path) throws IOException {
+        return folderPathList(path).map(Path::toFile);
     }
 
-    public static Stream<Path> fileList(final String path) throws IOException {
+    public static Stream<File> fileList(final String path) throws IOException {
+        return pathList(path).map(Path::toFile);
+    }
+
+    public static Stream<Path> folderPathList(final String path) throws IOException {
+        return readDir(path, Files::isDirectory);
+    }
+
+    public static Stream<Path> pathList(final String path) throws IOException {
         return readDir(path, Files::isRegularFile);
     }
 
@@ -59,14 +67,12 @@ public class FS {
     }
 
     public static void printFile(final Path file) {
-        out.println("printFile");
         out.println(file);
         out.println(file.getFileName());
         out.println(file.getParent());
     }
 
     public static void printFile(final File file) {
-        out.println("printFile");
         out.println(file);
         out.println(file.getName());
         out.println(file.getParent());

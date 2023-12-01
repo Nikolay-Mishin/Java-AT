@@ -5,7 +5,7 @@ import com.sun.codemodel.JDefinedClass;
 import org.jsonschema2pojo.GenerationConfig;
 import org.jsonschema2pojo.Jackson2Annotator;
 import org.project.annotator.Annotations;
-import org.project.annotator.Annotator;
+import org.project.annotator.BaseAnnotator;
 import org.project.annotator.config.AnnotatorConfig;
 import org.project.annotator.config.DefaultAnnotatorConfig;
 
@@ -15,7 +15,7 @@ public class LombokWithJackson2Annotator extends Jackson2Annotator {
 
     protected AnnotatorConfig config = new DefaultAnnotatorConfig();
     protected Annotations annotations = new Annotations();
-    protected Annotator annotator = new LombokAnnotator(config);
+    protected BaseAnnotator annotator = new LombokAnnotator(config);
 
     public LombokWithJackson2Annotator(AnnotatorConfig config) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         super(config);
@@ -29,7 +29,7 @@ public class LombokWithJackson2Annotator extends Jackson2Annotator {
         return annotations;
     }
 
-    public Annotator annotator() {
+    public BaseAnnotator annotator() {
         return annotator;
     }
 
@@ -43,7 +43,7 @@ public class LombokWithJackson2Annotator extends Jackson2Annotator {
         return this;
     }
 
-    public LombokWithJackson2Annotator setAnnotator(Annotator annotator) {
+    public LombokWithJackson2Annotator setAnnotator(BaseAnnotator annotator) {
         this.annotator = annotator;
         return this;
     }

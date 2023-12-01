@@ -21,7 +21,6 @@ public class OrderGenStep extends BaseStep<OrderGenRequests, Order> {
     @Когда("создать заказ gen статус {int}")
     public void postOrder(int statusCode, List<List<String>> dataTable)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
-        //new JsonToClass("store/order", "Order");
         assertEquals(statusCode, post(dataTable).getStatusCode());
     }
 

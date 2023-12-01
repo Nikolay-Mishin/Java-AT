@@ -10,8 +10,25 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.lang.System.out;
+import static org.project.utils.config.Config.debugLvl;
 
 public class Helper {
+
+    public static void debug(Object msg) {
+        if (debugLvl() > 0) out.println(msg.toString());
+    }
+
+    public static void debug(Object msg, int debugLvl) {
+        if (debugLvl() >= debugLvl) debug(msg);
+    }
+
+    public static void debug(Object msg, Object... args) {
+        if (debugLvl() > 0) out.printf(msg.toString() + " %s%n", args);
+    }
+
+    public static void debug(Object msg, int debugLvl, Object... args) {
+        if (debugLvl() >= debugLvl) debug(msg, args);
+    }
 
     private static Boolean is(Object type, Class<?> clazz) {
         return type == clazz;

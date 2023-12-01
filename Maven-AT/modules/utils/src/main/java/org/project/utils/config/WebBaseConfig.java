@@ -2,12 +2,17 @@ package org.project.utils.config;
 
 import org.aeonbits.owner.Config;
 
-import static org.project.utils.config.Config.setConfig;
+import static org.project.utils.config.Config.*;
 
 @Config.Sources({"classpath:dev.properties"})
 public interface WebBaseConfig extends Config {
 
     WebBaseConfig BASE_CONFIG = setConfig(WebBaseConfig.class);
+    int DEBUG_LEVEL = debugLvl();
+
+    //dev
+    @Key("DEBUG_LEVEL")
+    String getDebugLevel();
 
     //at
     @Key("BASE_URL")
