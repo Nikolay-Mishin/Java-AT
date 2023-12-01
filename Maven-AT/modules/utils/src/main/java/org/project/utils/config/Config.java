@@ -16,7 +16,6 @@ public class Config {
     }
 
     public static WebBaseConfig setConfig(WebBaseConfig webConfig) {
-        out.println(webConfig.getDebugLevel());
         return notEquals(webConfig.getClass(), config.getClass()) ? config = setDebugLvl(webConfig) : config;
     }
 
@@ -24,12 +23,11 @@ public class Config {
     public static <T extends WebBaseConfig> T setConfig(Class<T> clazz) {
         out.println("setConfig: " + clazz);
         config = create(clazz, getenv(), getProperties());
-        out.println(config.getDebugLevel());
         return (T) setDebugLvl(config);
     }
 
     protected static WebBaseConfig setDebugLvl(WebBaseConfig config) {
-        out.println(config.getDebugLevel());
+        out.println("debugLevel: " + config.getDebugLevel());
         return setDebugLvl(Integer.parseInt(config.getDebugLevel()));
     }
 

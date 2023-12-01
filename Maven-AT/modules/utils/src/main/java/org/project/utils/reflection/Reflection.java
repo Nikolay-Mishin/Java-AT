@@ -42,9 +42,7 @@ public class Reflection {
 
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
         out.println(Arrays.toString(args));
-        Class<?>[] argTypes = Arrays.stream(args)
-            .map(arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass())
-            .toArray(Class<?>[]::new);
+        Class<?>[] argTypes = toArray(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass());
         out.println(Arrays.toString(argTypes));
         return argTypes;
     }
@@ -210,7 +208,6 @@ public class Reflection {
     public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException, NullPointerException {
         Class<?> clazz = _getClass(obj);
         out.println(obj);
-        out.println(Arrays.toString(args));
         Method _method = null;
         try {
             _method = clazz.getDeclaredMethod(method, getTypes(args));

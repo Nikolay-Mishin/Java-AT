@@ -6,28 +6,48 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.stream.Stream;
 
+import static java.lang.String.join;
 import static java.lang.System.out;
+import static java.text.MessageFormat.format;
 import static org.project.utils.config.Config.debugLvl;
 
 public class Helper {
 
-    public static void debug(Object msg) {
-        if (debugLvl() > 0) out.println(msg.toString());
+    public static void debug(String msg) {
+        if (debugLvl() > 0) out.println(msg);
     }
 
-    public static void debug(Object msg, int debugLvl) {
+    public static void debug(String msg, int debugLvl) {
         if (debugLvl() >= debugLvl) debug(msg);
     }
 
-    public static void debug(Object msg, Object... args) {
-        if (debugLvl() > 0) out.printf(msg.toString() + " %s%n", args);
+    public static void debug(String msg, String... args) {
+        if (debugLvl() > 0) debug(format("{0} {1}", msg, join(", ", toArray(args, String[]::new))));
     }
 
-    public static void debug(Object msg, int debugLvl, Object... args) {
+    public static void debug(String msg, int debugLvl, String... args) {
         if (debugLvl() >= debugLvl) debug(msg, args);
+    }
+
+    public static <A> A[] toArray(A[] array, IntFunction<A[]> generator) {
+        return toArray(Arrays.stream(array), generator);
+    }
+
+    public static <A> A[] toArray(Stream<A> array, IntFunction<A[]> generator) {
+        return array.toArray(generator);
+    }
+
+    public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator, Function<A, A> mapper) {
+        return Arrays.stream(array)
+            .map(mapper)
+            .toArray(generator);
     }
 
     private static Boolean is(Object type, Class<?> clazz) {
