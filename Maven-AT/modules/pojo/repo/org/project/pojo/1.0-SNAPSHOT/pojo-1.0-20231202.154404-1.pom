@@ -12,12 +12,12 @@
     <repositories>
         <repository>
             <id>org.project.annotator</id>
-            <url>file:${basedir}/../modules/annotator/repo</url>
+            <url>file:${basedir}/../annotator/repo</url>
         </repository>
 
         <repository>
             <id>org.project.utils</id>
-            <url>file:${basedir}/../modules/utils/repo</url>
+            <url>file:${basedir}/../utils/repo</url>
         </repository>
     </repositories>
 

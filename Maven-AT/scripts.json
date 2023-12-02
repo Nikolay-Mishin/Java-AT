@@ -1,0 +1,8 @@
+{
+    "deploy": {
+        "exec": "mvn deploy:deploy-file -Durl=file:${url} -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
+    },
+    "clean": {
+        "exec": "rmdir /s /q ${url}/org/project/modules/${version}"
+    }
+}

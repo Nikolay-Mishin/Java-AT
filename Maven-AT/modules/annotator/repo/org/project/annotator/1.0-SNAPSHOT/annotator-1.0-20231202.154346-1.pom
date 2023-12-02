@@ -12,7 +12,7 @@
     <repositories>
         <repository>
             <id>org.project.utils</id>
-            <url>file:${basedir}/../modules/utils/repo</url>
+            <url>file:${basedir}/../utils/repo</url>
         </repository>
     </repositories>
 

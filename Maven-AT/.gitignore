@@ -1,5 +1,9 @@
+### Maven ###
 .allure
 target
+
+### NPM ###
+/node_modules/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
