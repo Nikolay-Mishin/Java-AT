@@ -3,7 +3,7 @@
 target
 
 ### NPM ###
-/node_modules/
+node_modules
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
