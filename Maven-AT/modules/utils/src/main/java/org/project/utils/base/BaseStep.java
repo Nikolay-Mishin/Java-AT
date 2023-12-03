@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.System.out;
-import static org.project.utils.config.Config.setConfig;
+import static org.project.utils.config.Config.config;
 import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 
@@ -23,7 +23,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     protected Long id;
     protected HashMap<String, Class<?>> hashMap;
 
-    public BaseStep(R req, Class<M> modelClass) throws ClassNotFoundException {
+    public BaseStep(R req, Class<M> modelClass) {
         init(req, modelClass);
     }
 
@@ -36,8 +36,8 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         init();
     }
 
-    public BaseStep(WebBaseConfig config) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        setConfig(config);
+    public BaseStep(WebBaseConfig webConfig) {
+        config(webConfig);
     }
 
     protected void init() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

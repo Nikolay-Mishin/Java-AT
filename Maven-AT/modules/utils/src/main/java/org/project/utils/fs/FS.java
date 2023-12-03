@@ -17,10 +17,10 @@ import static org.project.utils.Helper.isInstance;
 public class FS {
 
     @Description("Generate url path")
-    public static String getPath(Object... pathList) {
+    public static String path(Object... pathList) {
         out.println(Arrays.toString(pathList));
         return join("/", Arrays.stream(pathList.length == 1 && !(pathList[0] instanceof String) ? (Object[]) pathList[0] : pathList)
-            .map(path -> isInstance(path, Object[].class) ? getPath(path) : path.toString())
+            .map(path -> isInstance(path, Object[].class) ? path(path) : path.toString())
             .toArray(String[]::new));
     }
 

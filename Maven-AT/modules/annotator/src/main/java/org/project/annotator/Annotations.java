@@ -3,7 +3,6 @@ package org.project.annotator;
 import org.project.utils.base.HashMap;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 
 public class Annotations {
 
@@ -14,7 +13,7 @@ public class Annotations {
         return this;
     }
 
-    public Class<? extends Annotation> getAnnotation(String property) {
+    public Class<? extends Annotation> get(String property) {
         return annotations.get(property);
     }
 

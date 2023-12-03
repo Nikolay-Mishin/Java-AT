@@ -59,7 +59,7 @@ public class Token extends Register<String, Token> {
         _refreshTokens(tokens);
     }
 
-    public Token getToken(String key) throws ClassNotFoundException {
+    public Token token(String key) throws ClassNotFoundException {
         return getRegister(key);
     }
 
@@ -101,7 +101,7 @@ public class Token extends Register<String, Token> {
     protected void _refreshTokens(Object tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         boolean isJson = isInstance(tokens, JsonSchema.class);
         for (String key : keys) {
-            String path = getKey(key);
+            String path = key(key);
             String token = null;
             try {
                 token = !isJson ? invoke(tokens, "path", path) : invoke(tokens, "get", path, "string");
@@ -110,15 +110,15 @@ public class Token extends Register<String, Token> {
             catch (InvocationTargetException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
-            setToken(key, new Token(key, token, path));
+            token(key, new Token(key, token, path));
         }
     }
 
-    protected String getKey(String key) {
+    protected String key(String key) {
         return keysMap.get(key);
     }
 
-    protected void setToken(String key, Token token) throws ClassNotFoundException {
+    protected void token(String key, Token token) throws ClassNotFoundException {
         registerMap(Token.class, key, token);
     }
 

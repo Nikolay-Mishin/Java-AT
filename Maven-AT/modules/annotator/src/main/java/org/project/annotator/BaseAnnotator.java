@@ -18,7 +18,8 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
     protected AnnotatorConfig config = new DefaultAnnotatorConfig();
     protected Annotations annotations = new Annotations();
 
-    public BaseAnnotator() {}
+    public BaseAnnotator() {
+    }
 
     public BaseAnnotator(AnnotatorConfig config) {
         config(config);
@@ -51,13 +52,13 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
         return this;
     }
 
-    protected Class<? extends Annotation> getAnnotation(String property) {
-        return annotations.getAnnotation(property);
+    protected Class<? extends Annotation> annotation(String property) {
+        return annotations.get(property);
     }
 
-    protected void setAnnotation(JDefinedClass clazz, String property) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected void annotation(JDefinedClass clazz, String property) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         debug(property);
-        Class<? extends Annotation> annotation = getAnnotation(property);
+        Class<? extends Annotation> annotation = annotation(property);
         try {
             new AssertException(annotation);
         } catch (AssertionError e) {
@@ -70,7 +71,7 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
         if (!config.isSetDefaultAnnotations()) return;
         config.defaultAnnotations().forEach(annotation -> {
             try {
-                setAnnotation(clazz, annotation);
+                annotation(clazz, annotation);
             } catch (InvocationTargetException|NoSuchMethodException|IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
@@ -79,7 +80,7 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
 
     /*@Override
     public void propertyField(JFieldVar field, JDefinedClass clazz, String property, JsonNode propertyNode) {
-        setAnnotation(clazz, property);
+        annotation(clazz, property);
     }*/
 
     @Override
@@ -88,7 +89,7 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
         try {
             additionalProperties.fieldNames().forEachRemaining(property -> {
                 try {
-                    setAnnotation(clazz, property);
+                    annotation(clazz, property);
                 } catch (InvocationTargetException|NoSuchMethodException|IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }

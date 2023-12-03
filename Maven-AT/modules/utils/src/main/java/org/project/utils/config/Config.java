@@ -15,27 +15,27 @@ public class Config {
         return config;
     }
 
-    public static WebBaseConfig setConfig(WebBaseConfig webConfig) {
-        return notEquals(webConfig.getClass(), config.getClass()) ? config = setDebugLvl(webConfig) : config;
+    public static WebBaseConfig config(WebBaseConfig webConfig) {
+        return notEquals(webConfig.getClass(), config.getClass()) ? config = debugLvl(webConfig) : config;
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends WebBaseConfig> T setConfig(Class<T> clazz) {
+    public static <T extends WebBaseConfig> T config(Class<T> clazz) {
         out.println("setConfig: " + clazz);
         config = create(clazz, getenv(), getProperties());
-        return (T) setDebugLvl(config);
+        return (T) debugLvl(config);
     }
 
-    protected static WebBaseConfig setDebugLvl(WebBaseConfig config) {
+    protected static WebBaseConfig debugLvl(WebBaseConfig config) {
         out.println("debugLevel: " + config.getDebugLevel());
-        return setDebugLvl(Integer.parseInt(config.getDebugLevel()));
+        return debugLvl(Integer.parseInt(config.getDebugLevel()));
     }
 
     public static int debugLvl() {
         return debugLvl;
     }
 
-    public static WebBaseConfig setDebugLvl(int value) {
+    public static WebBaseConfig debugLvl(int value) {
         debugLvl = value;
         return config;
     }

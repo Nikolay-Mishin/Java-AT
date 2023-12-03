@@ -16,7 +16,8 @@ import static org.junit.Assert.assertEquals;
 public class OrderGenStep extends BaseStep<OrderGenRequests, Order> {
 
     @ConstructorProperties({})
-    public OrderGenStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}
+    public OrderGenStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    }
 
     @Когда("создать заказ gen статус {int}")
     public void postOrder(int statusCode, List<List<String>> dataTable)

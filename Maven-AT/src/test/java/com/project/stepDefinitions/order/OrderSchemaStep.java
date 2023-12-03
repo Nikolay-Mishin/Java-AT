@@ -16,7 +16,8 @@ import static org.junit.Assert.assertEquals;
 public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> {
 
     @ConstructorProperties({})
-    public OrderSchemaStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {}
+    public OrderSchemaStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    }
 
     @Когда("создать заказ schema статус {int}")
     public void postOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {

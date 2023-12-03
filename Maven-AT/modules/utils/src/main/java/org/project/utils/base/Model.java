@@ -34,53 +34,53 @@ public class Model<T> {
 
     public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-        _setModel(clazz, dataTable, hashMap, method, jsonSchemaPathList);
+        _model(clazz, dataTable, hashMap, method, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-        _setModel(clazz, dataTable, null, method, jsonSchemaPathList);
+        _model(clazz, dataTable, null, method, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-        _setModel(clazz, dataTable, hashMap, null, jsonSchemaPathList);
+        _model(clazz, dataTable, hashMap, null, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-        _setModel(clazz, dataTable, null, null, jsonSchemaPathList);
+        _model(clazz, dataTable, null, null, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-        _setModel(clazz, dataTable, null, null);
+        _model(clazz, dataTable, null, null);
     }
 
     public T get() {
         return model;
     }
 
-    private void _setModel(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+    private void _model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
-            jsonData = method != null ? setJsonData(method, clazz, jsonSchemaPathList) : setJsonData(clazz, jsonSchemaPathList);
-            builder = getBuilder(clazz);
-            setModel(clazz, dataTable, hashMap);
+            jsonData = method != null ? getJsonData(method, clazz, jsonSchemaPathList) : getJsonData(clazz, jsonSchemaPathList);
+            builder = builder(clazz);
+            model(clazz, dataTable, hashMap);
     }
 
-    private JSONObject setJsonData(METHOD_LOWER_CASE method, Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
+    private JSONObject getJsonData(METHOD_LOWER_CASE method, Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
         return new JsonSchema().path(method, clazz, jsonSchemaPathList).data();
     }
 
-    private JSONObject setJsonData(Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
+    private JSONObject getJsonData(Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
         return new JsonSchema().path(clazz, jsonSchemaPathList).data();
     }
 
-    private T setModel(Class<T> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return setModel(clazz, dataTable, null);
+    private T model(Class<T> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return model(clazz, dataTable, null);
     }
 
-    private Object getBuilder(Class<T> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private Object builder(Class<T> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return invoke(clazz, "builder");
     }
 
@@ -98,12 +98,12 @@ public class Model<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private T setModel(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap)
+    private T model(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
-        out.println("setModel");
+        out.println("model");
 
-        Object _builder = getBuilder(clazz);
+        Object _builder = builder(clazz);
 
         out.println(clazz);
         out.println(_builder);
@@ -144,7 +144,7 @@ public class Model<T> {
             Object value = invokeParse(type, isList || isModel ? row : row.get(isTable ? 0 : i));
 
             if (isModel) {
-                value = setModel(hashEl, row);
+                value = model(hashEl, row);
                 //if (isList) value = singletonList(value);
                 if (isList) value = List.of(value);
             }

@@ -54,12 +54,12 @@ public class Helper {
         return type == clazz;
     }
 
-    public static Charset getDefaultCharset() {
+    public static Charset defaultCharset() {
         return Charset.defaultCharset();
     }
 
-    public static void DefaultCharsetPrinter() {
-        out.println(getDefaultCharset());
+    public static void PrintDefaultCharset() {
+        out.println(defaultCharset());
     }
 
     public static boolean isNull(Object value) {

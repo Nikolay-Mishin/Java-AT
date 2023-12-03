@@ -190,7 +190,7 @@ public class Reflection {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T newInstance(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public static <T> T instance(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         T instance = (T) getConstructor(clazz, args).newInstance(args);
         out.println(instance);
         return instance;

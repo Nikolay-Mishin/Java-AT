@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.project.utils.base.HashMap;
 import org.project.utils.base.Model;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
+import org.project.utils.fs.FS;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +13,6 @@ import java.lang.reflect.InvocationTargetException;
 import static java.lang.System.out;
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.config;
-import static org.project.utils.fs.FS.getPath;
 import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.invoke;
@@ -24,21 +24,22 @@ public class JsonSchema {
     private JSONArray arr;
 
     public JsonSchema(String jsonString) {
-        setData(jsonString);
+        data(jsonString);
     }
 
-    public JsonSchema() {}
+    public JsonSchema() {
+    }
 
     public JsonSchema path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
-        return _path(getJsonSchemaPath(method, modelClass, pathList), pathList);
+        return _path(jsonSchemaPath(method, modelClass, pathList), pathList);
     }
 
     public JsonSchema path(Class<?> modelClass, Object... pathList) throws IOException {
-        return _path(getJsonSchemaPath(modelClass, pathList), pathList);
+        return _path(jsonSchemaPath(modelClass, pathList), pathList);
     }
 
     public JsonSchema path(Object... pathList) throws IOException {
-        return _path(getJsonSchemaPath(pathList), pathList);
+        return _path(jsonSchemaPath(pathList), pathList);
     }
 
     public JSONObject data() {
@@ -46,38 +47,38 @@ public class JsonSchema {
         return jsonData;
     }
 
-    private void setData(String jsonString) {
+    private void data(String jsonString) {
         jsonData = new JSONObject(jsonString);
     }
 
     private JsonSchema _path(String path, Object... pathList) throws IOException {
         path +=  ".json";
         out.println(path);
-        if (pathList.length > 0) setData(readFile(path));
+        if (pathList.length > 0) data(readFile(path));
         return this;
     }
 
-    private static String getJsonSchemaPath(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList){
-        return _getJsonSchemaPath(pathList, getJsonSchemaName(method, modelClass));
+    private static String jsonSchemaPath(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList){
+        return _jsonSchemaPath(pathList, jsonSchemaName(method, modelClass));
     }
 
-    private static String getJsonSchemaPath(Class<? extends Model<?>> modelClass, Object... pathList){
-        return _getJsonSchemaPath(pathList, getJsonSchemaName(modelClass));
+    private static String jsonSchemaPath(Class<? extends Model<?>> modelClass, Object... pathList){
+        return _jsonSchemaPath(pathList, jsonSchemaName(modelClass));
     }
 
-    private static String getJsonSchemaPath(Object... pathList) {
-        return _getJsonSchemaPath(pathList);
+    private static String jsonSchemaPath(Object... pathList) {
+        return _jsonSchemaPath(pathList);
     }
 
-    private static String _getJsonSchemaPath(Object... pathList){
-        return getPath(config().getJsonRoot(), pathList);
+    private static String _jsonSchemaPath(Object... pathList){
+        return FS.path(config().getJsonRoot(), pathList);
     }
 
-    private static String getJsonSchemaName(METHOD_LOWER_CASE method, Class<?> modelClass){
-        return method + getJsonSchemaName(modelClass).toLowerCase();
+    private static String jsonSchemaName(METHOD_LOWER_CASE method, Class<?> modelClass){
+        return method + jsonSchemaName(modelClass).toLowerCase();
     }
 
-    private static String getJsonSchemaName(Class<?> modelClass){
+    private static String jsonSchemaName(Class<?> modelClass){
         return getClassSimpleName(modelClass);
     }
 

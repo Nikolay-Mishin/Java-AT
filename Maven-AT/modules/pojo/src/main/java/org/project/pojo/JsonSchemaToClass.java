@@ -12,7 +12,6 @@ import org.project.utils.config.WebBaseConfig;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import static java.lang.System.out;
 import static org.project.utils.Helper.toUpperCaseFirst;
@@ -31,9 +30,10 @@ public class JsonSchemaToClass {
     protected AnnotatorConfig config = new DefaultAnnotatorConfig();
     protected BaseAnnotator annotator = new LombokAnnotator(config);
 
-    public JsonSchemaToClass() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {}
+    public JsonSchemaToClass() {
+    }
 
-    public JsonSchemaToClass(WebBaseConfig baseConfig) throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public JsonSchemaToClass(WebBaseConfig baseConfig) throws IOException {
         generate(baseConfig);
     }
 
@@ -41,7 +41,7 @@ public class JsonSchemaToClass {
         return schemaRoot;
     }
 
-    public JsonSchemaToClass setSchemaRoot(String schemaRoot)  {
+    public JsonSchemaToClass schemaRoot(String schemaRoot)  {
         this.schemaRoot = schemaRoot;
         return this;
     }
@@ -50,7 +50,7 @@ public class JsonSchemaToClass {
         return outputDirectory;
     }
 
-    public JsonSchemaToClass setOutputDirectory(String outputDirectory)  {
+    public JsonSchemaToClass outputDirectory(String outputDirectory)  {
         this.outputDirectory = outputDirectory;
         return this;
     }
@@ -59,7 +59,7 @@ public class JsonSchemaToClass {
         return targetPackage;
     }
 
-    public JsonSchemaToClass setTargetPackage(String targetPackage)  {
+    public JsonSchemaToClass targetPackage(String targetPackage)  {
         this.targetPackage = targetPackage;
         return this;
     }
@@ -68,7 +68,7 @@ public class JsonSchemaToClass {
         return config;
     }
 
-    public JsonSchemaToClass setConfig(AnnotatorConfig config)  {
+    public JsonSchemaToClass config(AnnotatorConfig config)  {
         this.config = config;
         return this;
     }
@@ -77,13 +77,13 @@ public class JsonSchemaToClass {
         return annotator;
     }
 
-    public JsonSchemaToClass setAnnotator(BaseAnnotator annotator)  {
+    public JsonSchemaToClass annotator(BaseAnnotator annotator)  {
         this.annotator = annotator;
         return this;
     }
 
     protected void generate(WebBaseConfig baseConfig) throws IOException {
-        Config.setConfig(baseConfig);
+        Config.config(baseConfig);
         out.println("schemaRoot: " + schemaRoot);
         out.println("outputDirectory: " + outputDirectory);
         out.println("targetPackage: " + targetPackage);
@@ -105,7 +105,7 @@ public class JsonSchemaToClass {
         jcodeModel.build(new File(outputDirectory));
     }
 
-    protected void init(File file) throws IOException {
+    protected void init(File file) {
         out.println(file);
         this.file = file;
         String parentUrl = file.getParent().replace("\\", "/");

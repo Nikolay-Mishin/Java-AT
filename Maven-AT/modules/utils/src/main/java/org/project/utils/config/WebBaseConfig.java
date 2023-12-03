@@ -7,7 +7,7 @@ import static org.project.utils.config.Config.*;
 @Config.Sources({"classpath:dev.properties"})
 public interface WebBaseConfig extends Config {
 
-    WebBaseConfig BASE_CONFIG = setConfig(WebBaseConfig.class);
+    WebBaseConfig BASE_CONFIG = config(WebBaseConfig.class);
     int DEBUG_LEVEL = debugLvl();
 
     //dev

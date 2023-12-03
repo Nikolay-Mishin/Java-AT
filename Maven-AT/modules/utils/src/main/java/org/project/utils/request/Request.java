@@ -17,10 +17,10 @@ import java.net.URL;
 
 import static io.restassured.RestAssured.given;
 import static java.lang.System.out;
-import static org.project.utils.config.ApiBaseConfig.getRequestSpec;
+import static org.project.utils.config.ApiBaseConfig.requestSpec;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.constant.RequestConstants.METHOD.PUT;
-import static org.project.utils.fs.FS.getPath;
+import static org.project.utils.fs.FS.path;
 import static org.project.utils.reflection.Reflection.*;
 
 public class Request {
@@ -46,18 +46,18 @@ public class Request {
 
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
-        request = given(getRequestSpec());
+        request = given(requestSpec());
         this.method = method;
         methodSend = method.toString().toLowerCase();
-        String path = getPath(pathList);
+        String path = path(pathList);
         request.basePath(path); // задаем базовый путь для запроса
-        url = getFullPath();
+        url = fullPath();
         URL = new URL(url);
         URI = new URI(path);
         endpoint = this.method + " " + path;
         out.println(this.endpoint);
-        out.println(getBaseUri());
-        out.println(getBasePath());
+        out.println(baseUri());
+        out.println(basePath());
         printFullPath();
         out.println(URI);
         out.println(URL);
@@ -83,24 +83,24 @@ public class Request {
     }
 
     @Description("Get query request")
-    public QueryableRequestSpecification getQuery() {
+    public QueryableRequestSpecification query() {
         request.get();
         return SpecificationQuerier.query(request);
     }
 
     @Description("Get base path")
-    public String getBaseUri() {
-        return getQuery().getBaseUri();
+    public String baseUri() {
+        return query().getBaseUri();
     }
 
     @Description("Get base path")
-    public String getBasePath() {
-        return getQuery().getBasePath();
+    public String basePath() {
+        return query().getBasePath();
     }
 
     @Description("Get full path")
-    public String getFullPath() {
-        return getQuery().getURI();
+    public String fullPath() {
+        return query().getURI();
     }
 
     @Description("Print full path")
@@ -109,12 +109,12 @@ public class Request {
     }
 
     @Description("Get endpoint")
-    public String getEndpoint() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public String endpoint() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return (String) getProp(this, "endpoint");
     }
 
     @Description("Get url")
-    public String getUrl() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public String url() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return (String) getProp(this, "url");
     }
 

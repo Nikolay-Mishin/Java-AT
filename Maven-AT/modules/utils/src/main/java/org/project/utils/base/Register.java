@@ -19,7 +19,7 @@ public class Register<K, V> {
         return value;
     }
 
-    public Map<K, V> getRegister() {
+    public Map<K, V> register() {
         return register;
     }
 
@@ -40,46 +40,46 @@ public class Register<K, V> {
             t2 = getGenericClass(1);
         } catch (Exception ignored) {}
         out.println("Generic#2: " + t2);
-        Register<K, V> registerValue = getRegisterMap(clazz);
+        Register<K, V> registerValue = registerMap(clazz);
         Register<K, V> register = notNull(registerValue) ? registerValue : new Register<>();
         register.register(key, value);
         registerMap.put(clazz, register);
         return register;
     }
 
-    public static Map<Class<?>, Register<?, ?>> getRegisterMap() {
+    public static Map<Class<?>, Register<?, ?>> registerMap() {
         return registerMap;
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> Register<K, V> getRegisterMap(Class<?> key) throws ClassNotFoundException {
+    public static <K, V> Register<K, V> registerMap(Class<?> key) {
         return (Register<K, V>) registerMap.get(key);
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> V getRegister(Class<?> clazz, K key) throws ClassNotFoundException {
-        return (V) getRegisterMap(clazz).register(key);
+    public static <K, V> V register(Class<?> clazz, K key) throws ClassNotFoundException {
+        return (V) registerMap(clazz).register(key);
     }
 
     public static <K, V> V getRegister(K key) throws ClassNotFoundException {
-        out.println("getRegisterMap");
+        out.println("registerMap");
         Class<?> t1 = getGenericClass();
         out.println("Generic#1: " + t1);
         Class<?> t2 = t1;
         try {
             t2 = getGenericClass(1);
             out.println("Generic#2: " + t2);
-            return getRegister(t2, key);
+            return register(t2, key);
         } catch (Exception e) {
             out.println(e.toString());
         }
         return null;
     }
 
-    public static void printRegisterMap() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
+    public static void printRegisterMap() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         out.println(registerMap);
         for (Class<?> key : keys(registerMap, Class<?>[]::new)) {
-            getRegisterMap(key).printRegister();
+            registerMap(key).printRegister();
         }
     }
 

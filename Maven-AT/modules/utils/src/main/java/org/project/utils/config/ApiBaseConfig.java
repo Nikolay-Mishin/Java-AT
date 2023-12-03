@@ -6,7 +6,7 @@ import io.restassured.specification.RequestSpecification;
 
 public class ApiBaseConfig extends Config {
 
-    public static RequestSpecification getRequestSpec() {
+    public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
             .setBaseUri(config().getBaseUrl())
             .addFilter(new AllureRestAssured())
