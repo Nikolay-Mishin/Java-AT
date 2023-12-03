@@ -35,8 +35,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         init(req, modelClass);
     }
 
-    public BaseStep(WebBaseConfig config, R req, Class<M> modelClass)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public BaseStep(WebBaseConfig config, R req, Class<M> modelClass) {
         config(config);
         init(req, modelClass);
     }
