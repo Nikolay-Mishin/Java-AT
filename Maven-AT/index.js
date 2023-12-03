@@ -1,3 +1,5 @@
-import { run, scripts } from './scripts.js';
+import mavenAT, { run, scripts } from './scripts.js';
+
+export default mavenAT;
 
 run(scripts);
