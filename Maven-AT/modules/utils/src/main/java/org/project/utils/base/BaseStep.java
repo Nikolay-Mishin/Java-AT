@@ -23,21 +23,22 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     protected Long id;
     protected HashMap<String, Class<?>> hashMap;
 
-    public BaseStep(R req, Class<M> modelClass) {
-        init(req, modelClass);
-    }
-
-    public BaseStep(Class<R> req, Class<M> modelClass)
+    public BaseStep(WebBaseConfig config)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        init(req, modelClass);
-    }
-
-    public BaseStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        config(config);
         init();
     }
 
-    public BaseStep(WebBaseConfig webConfig) {
-        config(webConfig);
+    public BaseStep(WebBaseConfig config, Class<R> req, Class<M> modelClass)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        config(config);
+        init(req, modelClass);
+    }
+
+    public BaseStep(WebBaseConfig config, R req, Class<M> modelClass)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        config(config);
+        init(req, modelClass);
     }
 
     protected void init() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

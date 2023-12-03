@@ -6,9 +6,9 @@ import io.restassured.response.Response;
 import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
-import requests.PetRequests;
-import org.project.utils.base.HashMap;
 import org.project.utils.base.BaseStep;
+import org.project.utils.base.HashMap;
+import requests.PetRequests;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static config.WebConfig.BASE_CONFIG;
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
 
@@ -24,6 +25,7 @@ public class PetStep extends BaseStep<PetRequests, Pet> {
 
     @ConstructorProperties({})
     public PetStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        super(BASE_CONFIG);
         hashMap = new HashMap<String, Class<?>>("category", "tags").values(Category.class, TagsItem.class);
     }
 

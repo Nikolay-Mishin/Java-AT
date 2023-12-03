@@ -14,12 +14,14 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static config.WebConfig.BASE_CONFIG;
 import static org.junit.Assert.assertEquals;
 
 public class OrderStep extends BaseStep<OrderRequests, Order> {
 
     @ConstructorProperties({})
     public OrderStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        super(BASE_CONFIG);
     }
 
     @Когда("создать заказ статус {int}")

@@ -11,12 +11,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static config.WebConfig.BASE_CONFIG;
 import static org.junit.Assert.assertEquals;
 
 public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> {
 
     @ConstructorProperties({})
     public OrderSchemaStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        super(BASE_CONFIG);
     }
 
     @Когда("создать заказ schema статус {int}")
