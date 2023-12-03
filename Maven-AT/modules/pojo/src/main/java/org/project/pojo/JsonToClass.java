@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class JsonToClass extends JsonSchemaToClass {
 
-    public JsonToClass(WebBaseConfig baseConfig) throws IOException {
+    public JsonToClass(WebBaseConfig webConfig) throws IOException {
         schemaRoot(Config.config().getJsonRoot());
         targetPackage(Config.config().getTargetJsonPackage());
         config(new DefaultAnnotatorConfig() {
@@ -17,6 +17,6 @@ public class JsonToClass extends JsonSchemaToClass {
                 return SourceType.JSON;
             }
         });
-        generate(baseConfig);
+        generate(webConfig);
     }
 }

@@ -33,8 +33,8 @@ public class JsonSchemaToClass {
     public JsonSchemaToClass() {
     }
 
-    public JsonSchemaToClass(WebBaseConfig baseConfig) throws IOException {
-        generate(baseConfig);
+    public JsonSchemaToClass(WebBaseConfig webConfig) throws IOException {
+        generate(webConfig);
     }
 
     public String schemaRoot()  {
@@ -82,8 +82,8 @@ public class JsonSchemaToClass {
         return this;
     }
 
-    protected void generate(WebBaseConfig baseConfig) throws IOException {
-        Config.config(baseConfig);
+    protected void generate(WebBaseConfig webConfig) throws IOException {
+        Config.config(webConfig);
         out.println("schemaRoot: " + schemaRoot);
         out.println("outputDirectory: " + outputDirectory);
         out.println("targetPackage: " + targetPackage);
