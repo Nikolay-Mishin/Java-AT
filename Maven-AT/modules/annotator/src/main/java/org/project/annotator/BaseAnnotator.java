@@ -21,16 +21,16 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
     public BaseAnnotator() {}
 
     public BaseAnnotator(AnnotatorConfig config) {
-        setConfig(config);
+        config(config);
     }
 
     public BaseAnnotator(Annotations annotations) {
-        setAnnotations(annotations);
+        annotations(annotations);
     }
 
     public BaseAnnotator(AnnotatorConfig config, Annotations annotations) {
-        setConfig(config);
-        setAnnotations(annotations);
+        config(config);
+        annotations(annotations);
     }
 
     public AnnotatorConfig config() {
@@ -41,12 +41,12 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
         return annotations;
     }
 
-    public BaseAnnotator setConfig(AnnotatorConfig config) {
+    public BaseAnnotator config(AnnotatorConfig config) {
         this.config = config;
         return this;
     }
 
-    public BaseAnnotator setAnnotations(Annotations annotations) {
+    public BaseAnnotator annotations(Annotations annotations) {
         this.annotations = annotations;
         return this;
     }
@@ -68,7 +68,7 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
 
     protected void setDefaultAnnotations(JDefinedClass clazz) {
         if (!config.isSetDefaultAnnotations()) return;
-        config.getDefaultAnnotations().forEach(annotation -> {
+        config.defaultAnnotations().forEach(annotation -> {
             try {
                 setAnnotation(clazz, annotation);
             } catch (InvocationTargetException|NoSuchMethodException|IllegalAccessException e) {

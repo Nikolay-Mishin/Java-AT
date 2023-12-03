@@ -5,7 +5,7 @@ import java.util.List;
 public class DefaultAnnotatorConfig extends DefaultGenerationConfig implements AnnotatorConfig {
 
     protected boolean isSetDefaultAnnotations = false;
-    protected List<String> annotations = List.of();
+    protected List<String> defaultAnnotations = List.of();
 
     @Override
     public boolean isSetDefaultAnnotations() {
@@ -19,14 +19,14 @@ public class DefaultAnnotatorConfig extends DefaultGenerationConfig implements A
     }
 
     @Override
-    public List<String> getDefaultAnnotations() {
-        return annotations;
+    public List<String> defaultAnnotations() {
+        return defaultAnnotations;
     }
 
     @Override
-    public AnnotatorConfig setDefaultAnnotations(String... annotations) {
+    public AnnotatorConfig defaultAnnotations(String... annotations) {
         isSetDefaultAnnotations(true);
-        this.annotations = List.of(annotations);
+        defaultAnnotations = List.of(annotations);
         return this;
     }
 }

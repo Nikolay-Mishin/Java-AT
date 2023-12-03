@@ -5,21 +5,19 @@ import org.project.annotator.Annotations;
 import org.project.annotator.BaseAnnotator;
 import org.project.annotator.config.AnnotatorConfig;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class LombokBaseAnnotator extends BaseAnnotator {
 
-    public LombokBaseAnnotator() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public LombokBaseAnnotator() {
         setAnnotations();
     }
 
-    public LombokBaseAnnotator(AnnotatorConfig config) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public LombokBaseAnnotator(AnnotatorConfig config) {
         super(config);
         setAnnotations();
     }
 
-    protected void setAnnotations() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        setAnnotations(new Annotations()
+    protected void setAnnotations() {
+        annotations(new Annotations()
             .set("lombok-builder", Builder.class)
             .set("lombok-data", Data.class)
             .set("lombok-getter", Getter.class)

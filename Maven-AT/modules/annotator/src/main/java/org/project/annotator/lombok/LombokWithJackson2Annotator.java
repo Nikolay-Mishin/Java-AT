@@ -9,15 +9,13 @@ import org.project.annotator.BaseAnnotator;
 import org.project.annotator.config.AnnotatorConfig;
 import org.project.annotator.config.DefaultAnnotatorConfig;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class LombokWithJackson2Annotator extends Jackson2Annotator {
 
     protected AnnotatorConfig config = new DefaultAnnotatorConfig();
     protected Annotations annotations = new Annotations();
     protected BaseAnnotator annotator = new LombokAnnotator(config);
 
-    public LombokWithJackson2Annotator(AnnotatorConfig config) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public LombokWithJackson2Annotator(AnnotatorConfig config) {
         super(config);
     }
 
@@ -33,17 +31,17 @@ public class LombokWithJackson2Annotator extends Jackson2Annotator {
         return annotator;
     }
 
-    public LombokWithJackson2Annotator setConfig(AnnotatorConfig config) {
+    public LombokWithJackson2Annotator config(AnnotatorConfig config) {
         this.config = config;
         return this;
     }
 
-    public LombokWithJackson2Annotator setAnnotations(Annotations annotations) {
+    public LombokWithJackson2Annotator annotations(Annotations annotations) {
         this.annotations = annotations;
         return this;
     }
 
-    public LombokWithJackson2Annotator setAnnotator(BaseAnnotator annotator) {
+    public LombokWithJackson2Annotator annotator(BaseAnnotator annotator) {
         this.annotator = annotator;
         return this;
     }

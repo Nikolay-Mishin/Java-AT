@@ -10,8 +10,8 @@ public interface AnnotatorConfig extends GenerationConfig {
 
     AnnotatorConfig isSetDefaultAnnotations(boolean value);
 
-    List<String> getDefaultAnnotations();
+    List<String> defaultAnnotations();
 
-    AnnotatorConfig setDefaultAnnotations(String... annotations);
+    AnnotatorConfig defaultAnnotations(String... annotations);
 
 }
