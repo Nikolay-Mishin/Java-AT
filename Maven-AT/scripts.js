@@ -19,8 +19,32 @@ export const root = cwd(),
 
 log(args);
 
+const getFn = (fn = () => { }, $this = () => { }) => (fn instanceof Function ? fn : bind(fn, $this)) || (() => { });
+
+export const getScripts = () => {
+    try {
+        return JSON.parse(readFile("scripts.json"));
+    } catch (e) {
+        error(e.message);
+        return {};
+    }
+}, scripts = Object.assign({
+    "deploy": {
+        "fn": (key, arg, url, execStr) => deploy(key, arg, url, execStr),
+        "exec": "mvn deploy:deploy-file -Durl=file:${url} -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
+    },
+    "clean": {
+        "fn": (exec, pom, cb = scripts.clean.cb) => parseExec(exec, pom, { cb }),
+        "cb": (k, v) => k === "groupId" ? v.replace(".", "\\") : normalize(v),
+        "exec": "rmdir /s /q ${url}\\${groupId}\\${artifactId}\\${version}"
+    }
+}, getScripts()),
+    bind = (fn, $this = () => { }) => new Function(`return ${fn}`).bind($this)(),
+    fn = ({ fn = () => { } }, $this = () => { }) => getFn(fn, $this),
+    cb = ({ cb = () => { } }, $this = () => { }) => getFn(cb, $this);
+
 export const mapObj = (obj, cb = (k, v) => [k, v], keys = []) => Object.fromEntries(Object.entries(obj).map(([k, v]) => keys.length === 0 || keys.includes(k) ? cb(k, v) : [k, v])),
-    exec = execStr => executor(execStr, (err, stdout, stderr) => {
+    exec = execStr => executor(execStr, { encoding: 'utf8' }, (err, stdout, stderr) => {
         if (err) {
             error(`error: ${err.message}`);
             return;
@@ -31,31 +55,8 @@ export const mapObj = (obj, cb = (k, v) => [k, v], keys = []) => Object.fromEntr
         log(`stdout: ${stdout}`);
         return stdout;
     }),
-    parseExec = (execStr, src, { regexp = /\$\{(\w+)\}/g, cb = (k, v) => v } = {}) => execStr.replace(regexp, str => cb(cb.k = str.replace(regexp, "$1"), src[cb.k]));
-
-const getFn = (fn = () => { }, $this = () => { }) => (fn instanceof Function ? fn : bind(fn, $this)) || (() => { });
-
-export const getScripts = () => {
-        try {
-            return JSON.parse(readFile("scripts.json"));
-        } catch (e) {
-            error(e.message);
-            return {};
-        }
-    }, scripts = Object.assign({
-        "deploy": {
-            "fn": (key, arg, url, execStr) => deploy(key, arg, url, execStr),
-            "exec": "mvn deploy:deploy-file -Durl=file:${url} -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
-        },
-        "clean": {
-            "fn": (exec, pom, cb = scripts.clean.cb) => parseExec(exec, pom, { cb }),
-            "cb": (k, v) => k === "groupId" ? v.replace(".", "\\") : v,
-            "exec": "rmdir /s /q ${url}\\${groupId}\\${artifactId}\\${version}"
-        }
-    }, getScripts()),
-    bind = (fn, $this = () => { }) => new Function(`return ${fn}`).bind($this)(),
-    fn = ({ fn = () => { } }, $this = () => { }) => getFn(fn, $this),
-    cb = ({ cb = () => { } }, $this = () => { }) => getFn(cb, $this);
+    parseExec = (execStr, src, { regexp = /\$\{(\w+)\}/g, cb = (k, v) => v } = {}) => execStr.replace(regexp, str => cb(cb.k = str.replace(regexp, "$1"), src[cb.k])),
+    toUtf8 = str => Buffer.from(str, 'utf-8').toString();
 
 export const run = scripts => Object.keys(args).forEach(arg => runScript(scripts, arg, args[arg], root)),
     runScript = (scripts, key, arg, url) => {
@@ -65,7 +66,9 @@ export const run = scripts => Object.keys(args).forEach(arg => runScript(scripts
     };
 
 const $mavenAT = {
-    root, args, mapObj, exec, parseExec, scripts, bind, fn, run, runScript,
+    root, args, scripts, bind, fn, cb,
+    mapObj, exec, parseExec, toUtf8,
+    run, runScript,
     log, error, cwd, argv, normalize, readFile, stat, executor, parseString
 };
 
@@ -77,9 +80,10 @@ export const cleanCb = cb(scripts.clean, $mavenAT),
         const { groupId, artifactId, version, packaging, repositories = [], url: $url } = parsePom(url),
             pom = { groupId, artifactId, version, packaging, repositories, url: $url };
         log(pom);
+        log(url);
         if (arg === true) {
-            if (args.repo === true) repositories.forEach(({ id, name, url }) => deploy(name || id.split(".").pop(), url, execStr));
-            if (args.root === true) deploy(artifactId, url, execStr);
+            if (args.repo === true) repositories.forEach(({ id, name, url }) => deploy(name || id.split(".").pop(), url, execStr, cleanFn));
+            if (args.root === true) deploy(artifactId, url, execStr, cleanFn);
         } else if (artifactId === arg && packaging === "jar") {
             const deploy = parseExec(execStr, pom),
                 clean = cleanFn(scripts.clean.exec, pom, cleanCb);
