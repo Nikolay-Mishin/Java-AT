@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>annotator</artifactId>
-    <version>3.4.2</version>
+    <version>3.4.3</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.project</groupId>
             <artifactId>utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>3.4.3</version>
             <scope>compile</scope>
         </dependency>
 
