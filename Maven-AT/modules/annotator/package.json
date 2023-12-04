@@ -1,6 +1,6 @@
 {
 	"name": "maven-at-modules-annotator",
-	"version": "3.4.1",
+	"version": "3.4.2",
     "main": "index.js",
     "type": "module",
 	"license": "ISC",
@@ -22,11 +22,11 @@
 		"node": ">=16.7.0"
 	},
 	"scripts": {
-        "start": "npm run clean & npm run build & npm run deploy-manual",
+        "start": "npm run build & npm run deploy",
         "build": "mvn clean install",
         "pkg": "mvn package",
-        "deploy": "node index.js -deploy",
+        "deploy": "node index.js -deploy -root",
         "clean": "rmdir /s /q repo\\org\\project\\annotator\\1.0-SNAPSHOT",
-        "deploy-manual": "mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/annotator/repo -Dfile=target/annotator-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=1.0-SNAPSHOT"
+        "deploy-manual": "npm run clean & mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/annotator/repo -Dfile=target/annotator-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=1.0-SNAPSHOT"
     }
 }
