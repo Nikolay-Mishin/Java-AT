@@ -52,6 +52,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected void init(R req, Class<M> modelClass) {
+        out.println("BaseStep#init");
         this.req = req;
         this.modelClass = modelClass;
         out.println("req: " + req);
