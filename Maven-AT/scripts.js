@@ -84,7 +84,7 @@ export const cleanCb = cb(scripts.clean, $mavenAT),
         if (arg === true) {
             if (args.repo === true) repositories.forEach(({ id, name, url }) => deploy(name || id.split(".").pop(), url, execStr, cleanFn));
             if (args.root === true) deploy(artifactId, url, execStr, cleanFn);
-        } else if (artifactId === arg && packaging === "jar") {
+        } else if (packaging === "jar" && artifactId === arg) {
             const deploy = parseExec(execStr, pom),
                 clean = cleanFn(scripts.clean.exec, pom, cleanCb);
             log(deploy);

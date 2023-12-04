@@ -1,6 +1,6 @@
 {
     "name": "maven-at",
-    "version": "6.9.5",
+    "version": "6.9.6",
     "main": "index.js",
     "type": "module",
     "exports": {
@@ -27,14 +27,14 @@
         "node": ">=16.7.0"
     },
     "scripts": {
-        "start": "npm run build",
+        "start": "npm run tests",
         "test": "npm run build & npm run allure",
         "start-with-reports": "npm test & npm run report & npm run allure",
-        "build": "mvn clean test -Denv=stand",
+        "tests": "mvn clean test -Denv=stand",
         "allure": "mvn allure:serve",
         "report": "mvn allure:report",
         "serve": "allure serve target/allure-results",
-        "init": "mvn clean install",
+        "build": "mvn clean install",
         "pkg": "mvn package",
         "deploy": "node index.js -deploy -repo -test",
         "clean": "rmdir /s /q repo\\org\\project\\Maven-AT\\1.0-SNAPSHOT",
