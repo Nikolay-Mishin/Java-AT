@@ -1,10 +1,11 @@
 {
     "deploy": {
-        "fn": "(key, arg, url, execStr) => this(key, arg, url, execStr)",
+        "fn": "(arg, url, exec) => this(arg, url, exec)",
         "exec": "mvn deploy:deploy-file -Durl=file:${url} -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
     },
     "clean": {
-        "fn": "(k, v) => k === 'groupId' ? v.replace('.', '\\\\') : this.normalize(v)",
+        "fn": "(exec, pom, cb = this.scripts.clean.cb) => this.parseExec(exec, pom, { cb })",
+        "cb": "(k, v) => k === 'groupId' ? v.replace('.', '\\\\') : this.normalize(v)",
         "exec": "rmdir /s /q ${url}\\${groupId}\\${artifactId}\\${version}"
     }
 }

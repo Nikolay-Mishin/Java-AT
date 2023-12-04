@@ -17,7 +17,9 @@ export const root = cwd(),
     },
     args = parseArgs(argv);
 
-export const mapObj = (obj, cb = (k, v) => [k, v]) => Object.fromEntries(Object.entries(obj).map(([k, v]) => cb(k, v))),
+log(args);
+
+export const mapObj = (obj, cb = (k, v) => [k, v], keys = []) => Object.fromEntries(Object.entries(obj).map(([k, v]) => keys.length === 0 || keys.includes(k) ? cb(k, v) : [k, v])),
     exec = execStr => executor(execStr, (err, stdout, stderr) => {
         if (err) {
             error(`error: ${err.message}`);
@@ -30,6 +32,8 @@ export const mapObj = (obj, cb = (k, v) => [k, v]) => Object.fromEntries(Object.
         return stdout;
     }),
     parseExec = (execStr, src, { regexp = /\$\{(\w+)\}/g, cb = (k, v) => v } = {}) => execStr.replace(regexp, str => cb(cb.k = str.replace(regexp, "$1"), src[cb.k]));
+
+const getFn = (fn = () => { }, $this = () => { }) => (fn instanceof Function ? fn : bind(fn, $this)) || (() => { });
 
 export const getScripts = () => {
         try {
@@ -44,17 +48,20 @@ export const getScripts = () => {
             "exec": "mvn deploy:deploy-file -Durl=file:${url} -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
         },
         "clean": {
-            "fn": (k, v) => k === "groupId" ? v.replace(".", "\\") : v,
+            "fn": (exec, pom, cb = scripts.clean.cb) => parseExec(exec, pom, { cb }),
+            "cb": (k, v) => k === "groupId" ? v.replace(".", "\\") : v,
             "exec": "rmdir /s /q ${url}\\${groupId}\\${artifactId}\\${version}"
         }
     }, getScripts()),
     bind = (fn, $this = () => { }) => new Function(`return ${fn}`).bind($this)(),
-    fn = ({ fn: $fn = () => { } }, $this = () => { }) => ($fn instanceof Function ? $fn : bind($fn, $this)) || (() => { });
+    fn = ({ fn = () => { } }, $this = () => { }) => getFn(fn, $this),
+    cb = ({ cb = () => { } }, $this = () => { }) => getFn(cb, $this);
 
 export const run = scripts => Object.keys(args).forEach(arg => runScript(scripts, arg, args[arg], root)),
     runScript = (scripts, key, arg, url) => {
-        const script = scripts[key] || {};
-        fn(script, mavenAT[key])(key, arg, url, script.exec || "");
+        const script = scripts[key] || {},
+            { exec, cb } = script;
+        fn(script, mavenAT[key])(arg, url, exec, cb);
     };
 
 const $mavenAT = {
@@ -62,52 +69,49 @@ const $mavenAT = {
     log, error, cwd, argv, normalize, readFile, stat, executor, parseString
 };
 
-export const cleanCb = fn(scripts.clean, $mavenAT),
-    clean = (exec, pom, cb = cleanCb) => parseExec(exec, pom, { cb }),
-    deploy = (key, arg, url, execStr, cleanFn = clean) => {
+export const cleanCb = cb(scripts.clean, $mavenAT),
+    clean = fn(scripts.clean, $mavenAT),
+    deploy = (arg, url, execStr, cleanFn = clean) => {
         log("\n");
-        log(`${key}: ${arg}`);
-        const _root = (url = normalize(url.replace("file:", "").replace("${basedir}", root)).replace(/\\/g, "/")).replace("/repo", ""),
-            pom = parsePom(_root),
-            { artifactId, packaging, repositories } = pom;
+        log(`deploy: ${arg}`);
+        const { groupId, artifactId, version, packaging, repositories = [], url: $url } = parsePom(url),
+            pom = { groupId, artifactId, version, packaging, repositories, url: $url };
         log(pom);
-        if (packaging !== "jar") return;
-        else if (arg === true) {
-            if (args.repo) repositories.forEach(({ id, name, url }) => deploy(key, name || id.split(".").pop(), url, execStr));
-            if (args.root) deploy(key, artifactId, url, execStr);
-        } else if (artifactId === arg) {
+        if (arg === true) {
+            if (args.repo === true) repositories.forEach(({ id, name, url }) => deploy(name || id.split(".").pop(), url, execStr));
+            if (args.root === true) deploy(artifactId, url, execStr);
+        } else if (artifactId === arg && packaging === "jar") {
             const deploy = parseExec(execStr, pom),
                 clean = cleanFn(scripts.clean.exec, pom, cleanCb);
             log(deploy);
             log(clean);
-            if (!args.test) {
+            if (args.test !== true) {
                 exec(clean);
                 //exec(deploy);
             }
         }
     },
-    parsePom = path => {
-        const { project } = parseXml(path + "/pom.xml"),
-            { groupId, artifactId, version, packaging = ["jar"], repositories = [] } = project || {},
-            //parse = obj => Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, setProperty(v)])),
-            parse = obj => mapObj(obj, (k, v) => [k, setProperty(v)]),
-            setProperty = v => v instanceof Array && v.length > 1 ? v :
-                (v[0] instanceof Object && Object.keys(v[0]).length === 1 ? Object.values(v[0])[0].map(repo => parse(repo)) : (v[0] || [])),
-            pom = !groupId ? {} : parse({ groupId, artifactId, version, packaging, repositories });
+    parseXmlCb = (obj, keys = []) => mapObj(obj, (k, v = []) => [k, v instanceof Array ? (v.length > 1 ? v :
+        (v[0] instanceof Object && Object.keys(v[0]).length === 1 ? Object.values(v[0])[0].map(singleObj => parseXmlCb(singleObj)) : v[0])) : v], keys),
+    parsePomCb = ({ project = {} }, keys = []) => parseXmlCb(project, keys),
+    parsePom = (path, keys = ["groupId", "artifactId", "version", "packaging", "repositories"]) => {
+        path = normalize(path).replace("file:", "").replace("${basedir}", root).replace(/\\/g, "/").replace("/repo", "");
+        const pom = parseXml(path + "/pom.xml", keys, parsePomCb);
         pom.url = path + "/repo";
         return pom;
     },
-    parseXml = path => {
+    parseXml = (path, keys = [], cb = parseXmlCb) => {
         log(path);
         let xml = {};
         try {
             parseString(readFile(path), (err, result) => err ? error(err) : (xml = result));
         } catch (e) {
             error(e.message);
+            return xml;
         }
-        return xml;
+        return cb(xml, keys);
     };
 
-export const mavenAT = Object.assign({ cleanCb, clean, deploy, parsePom, parseXml }, $mavenAT);
+export const mavenAT = Object.assign({ cleanCb, clean, deploy, parseXmlCb, parsePomCb, parsePom, parseXml }, $mavenAT);
 
 export default mavenAT;
