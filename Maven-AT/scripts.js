@@ -91,7 +91,7 @@ export const cleanCb = cb(scripts.clean, $mavenAT),
             log(clean);
             if (args.test !== true) {
                 exec(clean);
-                //exec(deploy);
+                exec(deploy);
             }
         }
     },
