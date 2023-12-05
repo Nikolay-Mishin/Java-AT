@@ -16,6 +16,10 @@ public class Config {
     }
 
     public static WebBaseConfig config(WebBaseConfig webConfig) {
+        out.println("getClass: " + webConfig.getClass());
+        out.println("getClass: " + config.getClass());
+        out.println("setConfig: " + webConfig.getClass().getInterfaces()[0]);
+        out.println("config: " + config.getClass().getInterfaces()[0]);
         return notEquals(webConfig.getClass(), config.getClass()) ? config = debugLvl(webConfig) : config;
     }
 

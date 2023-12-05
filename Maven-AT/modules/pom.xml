@@ -14,23 +14,6 @@
         <module>utils</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>org.project.pojo</id>
-            <url>file:${basedir}/pojo/repo</url>
-        </repository>
-
-        <repository>
-            <id>org.project.annotator</id>
-            <url>file:${basedir}/annotator/repo</url>
-        </repository>
-
-        <repository>
-            <id>org.project.utils</id>
-            <url>file:${basedir}/utils/repo</url>
-        </repository>
-    </repositories>
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -54,15 +37,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <!-- custom dependencies -->
-        <dependency>
-            <groupId>org.project</groupId>
-            <artifactId>pojo</artifactId>
-            <version>3.4.3</version>
-        </dependency>
-        <!-- other dependencies -->
-    </dependencies>
 
 </project>

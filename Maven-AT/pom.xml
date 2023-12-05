@@ -129,7 +129,7 @@
                     <dependency>
                         <groupId>org.project</groupId>
                         <artifactId>pojo</artifactId>
-                        <version>1.0-SNAPSHOT</version>
+                        <version>3.4.4-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -141,7 +141,7 @@
         <dependency>
             <groupId>org.project</groupId>
             <artifactId>pojo</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>3.4.4-SNAPSHOT</version>
         </dependency>
 
         <!-- other dependencies -->
