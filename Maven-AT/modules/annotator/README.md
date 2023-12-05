@@ -6,8 +6,7 @@ Tests
 To run the code in your development environment:
 
 1. Download and unpack
-2. Run `npm install`, if this need
-3. Run once of commands for install module
+2. Run once of commands for install module
 
 ***********************************************
 
@@ -17,15 +16,15 @@ To run the code in your development environment:
 install module
 -----
 install to .m2 local repo
-`npm run init` | `mvn clean install`
+`npm start` | `npm run build` & `npm run deploy` | `mvn clean install` & `node index.js -deploy -root`
 
 -----
 install to .m2 local repo & local module repo (if this need)
-`npm start` | `npm run clean & npm run init & npm run deploy`
+`npm start` | `npm run build & npm run deploy` | `mvn clean install & node index.js -deploy -root`
 
 -----
 manually deploy to local module repo (if this need)
-`mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/annotator/repo -Dfile=target/annotator-1.0-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=1.0-SNAPSHOT`
+`mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/annotator/repo -Dfile=target/annotator-3.4.5-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=3.4.5-SNAPSHOT`
 
 ***********************************************
 
@@ -37,7 +36,7 @@ add module to dependency in `pom.xml`
     <dependency>
         <groupId>org.project</groupId>
         <artifactId>annotator</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>3.4.5-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
@@ -66,7 +65,7 @@ add this in `dependencies` for your `jsonschema2pojo-maven-plugin` in `build.plu
     <dependency>
         <groupId>org.project</groupId>
         <artifactId>annotator</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>3.4.5-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```
@@ -82,9 +81,10 @@ Or you also can add this in your `build.plugins` and change values in `configura
     <configuration>
         <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
         <outputDirectory>${basedir}/src/main/java</outputDirectory>
-        <targetPackage>models.pojo.gen</targetPackage>
+        <targetPackage>pojo.gen</targetPackage>
         <customAnnotator>org.project.annotator.lombok.LombokAnnotator</customAnnotator>
         <sourceType>json</sourceType>
+        <annotationStyle>none</annotationStyle>
         <generateBuilders>false</generateBuilders>
         <useLongIntegers>true</useLongIntegers>
         <includeGetters>false</includeGetters>
@@ -92,6 +92,7 @@ Or you also can add this in your `build.plugins` and change values in `configura
         <includeHashcodeAndEquals>false</includeHashcodeAndEquals>
         <includeToString>false</includeToString>
         <includeAdditionalProperties>false</includeAdditionalProperties>
+        <initializeCollections>false</initializeCollections>
     </configuration>
     <executions>
         <execution>
@@ -104,7 +105,7 @@ Or you also can add this in your `build.plugins` and change values in `configura
         <dependency>
             <groupId>org.project</groupId>
             <artifactId>annotator</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>3.4.5-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </plugin>
@@ -125,10 +126,11 @@ You can set annotations:
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Model {}
+public class Model {
+}
 ```
 
-Add this in your `json.schema`
+Add `annotations` in your `json.schema`
 
 ```json
 {
@@ -151,7 +153,8 @@ By default set annotations `@Builder` and `@Data`, if no once annotations not se
 ```java
 @Builder
 @Data
-public class YourModel {}
+public class YourModel {
+}
 ```
 
 ***********************************************

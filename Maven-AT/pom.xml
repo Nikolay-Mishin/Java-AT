@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>Maven-AT</artifactId>
-    <version>6.9.7</version>
+    <version>6.9.8</version>
 
     <repositories>
         <repository>
@@ -129,7 +129,7 @@
                     <dependency>
                         <groupId>org.project</groupId>
                         <artifactId>pojo</artifactId>
-                        <version>3.4.4-SNAPSHOT</version>
+                        <version>3.4.5-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -141,7 +141,7 @@
         <dependency>
             <groupId>org.project</groupId>
             <artifactId>pojo</artifactId>
-            <version>3.4.4-SNAPSHOT</version>
+            <version>3.4.5-SNAPSHOT</version>
         </dependency>
 
         <!-- other dependencies -->

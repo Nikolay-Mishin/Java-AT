@@ -3,12 +3,10 @@
   <groupId>org.project</groupId>
   <artifactId>annotator</artifactId>
   <versioning>
-    <release>3.4.4</release>
     <versions>
-      <version>1.0-SNAPSHOT</version>
-      <version>3.4.3-SNAPSHOT</version>
       <version>3.4.4-SNAPSHOT</version>
+      <version>3.4.5-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20231205165908</lastUpdated>
+    <lastUpdated>20231205173155</lastUpdated>
   </versioning>
 </metadata>
