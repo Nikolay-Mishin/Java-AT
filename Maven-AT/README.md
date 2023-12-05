@@ -12,6 +12,12 @@ To run the code in your development environment:
 
 ***********************************************
 
+Настройка модулей
+-----
+- [annotator](modules/annotator/README.md)
+
+***********************************************
+
 Настройки
 -----
 
