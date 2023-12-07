@@ -24,7 +24,7 @@ install to .m2 local repo & local module repo (if this need)
 
 -----
 manually deploy to local module repo (if this need)
-`mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/annotator/repo -Dfile=target/annotator-3.4.5-SNAPSHOT.jar -DgroupId=org.project -DartifactId=annotator -Dpackaging=jar -Dversion=3.4.5-SNAPSHOT`
+`mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/pojo/repo -Dfile=target/pojo-3.4.5-SNAPSHOT.jar -DgroupId=org.project -DartifactId=pojo -Dpackaging=jar -Dversion=3.4.5-SNAPSHOT`
 
 ***********************************************
 
