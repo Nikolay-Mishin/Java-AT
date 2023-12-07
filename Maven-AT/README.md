@@ -14,7 +14,9 @@ To run the code in your development environment:
 
 Настройка модулей
 -----
+
 - [annotator](modules/annotator/README.md)
+- [pojo](modules/pojo/README.md)
 
 ***********************************************
 
@@ -109,5 +111,3 @@ courses
 - [Курс по тестирование rest spi в Postman](https://qamari.getcourse.ru/postman)
 - [Java для начинающих](https://stepik.org/course/115662/promo)
 - [Java для продвинутых](https://stepik.org/course/115517/promo)
-
-***********************************************

@@ -128,7 +128,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.project</groupId>
-                        <artifactId>pojo</artifactId>
+                        <artifactId>annotator</artifactId>
                         <version>3.4.5-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
