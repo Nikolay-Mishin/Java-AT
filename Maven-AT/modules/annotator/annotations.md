@@ -4,20 +4,6 @@ Settings Annotations
 set `model.schema.json`
 -----
 
-You can set annotations:
-```java
-@Builder
-@Data
-@Getter
-@Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class Model {
-}
-```
-
 Add `annotations` in your `model.json.schema`
 
 ```json
@@ -37,10 +23,40 @@ Add `annotations` in your `model.json.schema`
 }
 ```
 
-By default set annotations `@Builder` and `@Data`, if no once annotations not set in `additionalProperties` or you use `sourceType = json` in your `configuration` for `jsonschema2pojo-maven-plugin`
+generate your class `model`
+-----
+
+You can set annotations:
 ```java
+package pojo.gen;
+
+import javax.annotation.processing.Generated;
+import lombok.*;
+
 @Builder
 @Data
-public class YourModel {
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Generated("jsonschema2pojo")
+public class Model {
+}
+```
+
+By default set annotations `@Builder` and `@Data`, if no once annotations not set in `additionalProperties` or you use `sourceType = json` in your `configuration` for `jsonschema2pojo-maven-plugin`
+```java
+package pojo.gen;
+
+import javax.annotation.processing.Generated;
+import lombok.Builder;
+import lombok.Data;
+
+@Builder
+@Data
+@Generated("jsonschema2pojo")
+public class Model {
 }
 ```
