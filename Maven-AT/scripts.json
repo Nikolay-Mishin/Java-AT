@@ -1,11 +1,11 @@
 {
     "deploy": {
         "fn": "(arg, url, exec) => this(arg, url, exec)",
-        "exec": "mvn deploy:deploy-file -Durl=file:${url} -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
+        "exec": "mvn deploy:deploy-file -Durl=file:repo -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
     },
     "clean": {
         "fn": "(exec, pom, cb = this.scripts.clean.cb) => this.parseExec(exec, pom, { cb })",
         "cb": "(k, v) => k === 'groupId' ? v.replace('.', '\\\\') : this.normalize(v)",
-        "exec": "rmdir /s /q ${url}\\${groupId}\\${artifactId}\\${version}"
+        "exec": "rmdir /s /q repo\\${groupId}\\${artifactId}\\${version}"
     }
 }

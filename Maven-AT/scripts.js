@@ -2,7 +2,7 @@ import { log, error } from 'console';
 import { cwd, argv } from 'process';
 import { normalize } from 'path';
 import { readFileSync as readFile, statSync as stat } from 'fs';
-import { exec as executor } from 'child_process';
+import { execSync as executor } from 'child_process';
 import { parseString } from 'xml2js';
 
 export const root = cwd(),
@@ -17,45 +17,49 @@ export const root = cwd(),
     },
     args = parseArgs(argv);
 
-log(args);
+//log(args);
 
-const getFn = (fn = () => { }, $this = () => { }) => (fn instanceof Function ? fn : bind(fn, $this)) || (() => { });
+const getFn = (fn = () => { }, $this = () => { }) => (fn instanceof Function ? fn : bind(new Function(`return ${fn}`), $this)()) || (() => { });
 
 export const getScripts = () => {
-    try {
-        return JSON.parse(readFile("scripts.json"));
-    } catch (e) {
-        error(e.message);
-        return {};
-    }
-}, scripts = Object.assign({
-    "deploy": {
-        "fn": (key, arg, url, execStr) => deploy(key, arg, url, execStr),
-        "exec": "mvn deploy:deploy-file -Durl=file:${url} -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
+        try {
+            return JSON.parse(readFile("scripts.json"));
+        } catch (err) {
+            error(err.message);
+            return {};
+        }
     },
-    "clean": {
-        "fn": (exec, pom, cb = scripts.clean.cb) => parseExec(exec, pom, { cb }),
-        "cb": (k, v) => k === "groupId" ? v.replace(".", "\\") : normalize(v),
-        "exec": "rmdir /s /q ${url}\\${groupId}\\${artifactId}\\${version}"
-    }
-}, getScripts()),
-    bind = (fn, $this = () => { }) => new Function(`return ${fn}`).bind($this)(),
+    scripts = Object.assign({
+        "build": {
+            "exec": "npm run build"
+        },
+        "deploy": {
+            "fn": (key, arg, url, execStr) => deploy(key, arg, url, execStr),
+            "exec": "mvn deploy:deploy-file -Durl=file:repo -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
+        },
+        "clean": {
+            "fn": (exec, pom, cb = scripts.clean.cb) => parseExec(exec, pom, { cb }),
+            "cb": (k, v) => k === "groupId" ? v.replace(".", "\\") : normalize(v),
+            "exec": "rmdir /s /q repo\\${groupId}\\${artifactId}\\${version}"
+        }
+    }, getScripts()),
+    bind = (fn, $this = () => { }) => fn.bind($this),
     fn = ({ fn = () => { } }, $this = () => { }) => getFn(fn, $this),
     cb = ({ cb = () => { } }, $this = () => { }) => getFn(cb, $this);
 
 export const mapObj = (obj, cb = (k, v) => [k, v], keys = []) => Object.fromEntries(Object.entries(obj).map(([k, v]) => keys.length === 0 || keys.includes(k) ? cb(k, v) : [k, v])),
-    exec = execStr => executor(execStr, { encoding: 'utf8' }, (err, stdout, stderr) => {
-        if (err) {
-            error(`error: ${err.message}`);
-            return;
-        } else if (stderr) {
-            error(`stderr: ${stderr}`);
+    exec = (exec, cwd = root) => {
+        try {
+            log(`run: ${exec}\ncwd: ${cwd}`);
+            executor(exec, { cwd, encoding: 'utf-8', stdio: 'inherit' });
+            const { stdout, stderr } = process;
+            return stdout;
+        } catch (err) {
+            error(err.message);
             return;
         }
-        log(`stdout: ${stdout}`);
-        return stdout;
-    }),
-    parseExec = (execStr, src, { regexp = /\$\{(\w+)\}/g, cb = (k, v) => v } = {}) => execStr.replace(regexp, str => cb(cb.k = str.replace(regexp, "$1"), src[cb.k])),
+    },
+    parseExec = (exec, src, { regexp = /\$\{(\w+)\}/g, cb = (k, v) => v } = {}) => exec.replace(regexp, str => cb(cb.k = str.replace(regexp, "$1"), src[cb.k])),
     toUtf8 = str => Buffer.from(str, 'utf-8').toString();
 
 export const run = scripts => Object.keys(args).forEach(arg => runScript(scripts, arg, args[arg], root)),
@@ -74,24 +78,28 @@ const $mavenAT = {
 
 export const cleanCb = cb(scripts.clean, $mavenAT),
     clean = fn(scripts.clean, $mavenAT),
-    deploy = (arg, url, execStr, cleanFn = clean) => {
-        log("\n");
-        log(`deploy: ${arg}`);
-        const { groupId, artifactId, version, packaging, repositories = [], url: $url } = parsePom(url),
-            pom = { groupId, artifactId, version, packaging, repositories, url: $url };
-        log(pom);
-        log(url);
+    deploy = async (arg, url, execStr, cleanFn = clean) => {
+        //log("\n");
+        //log(`deploy: ${arg}`);
+        //log(url);
+        const { groupId, artifactId, version, packaging, repositories = [], root: $root, repo, target } = parsePom(url),
+            pom = { groupId, artifactId, version, packaging, repositories, root: $root, repo, target };
+        $mavenAT.pom = pom;
+        //log(pom);
         if (arg === true) {
             if (args.repo === true) repositories.forEach(({ id, name, url }) => deploy(name || id.split(".").pop(), url, execStr, cleanFn));
             if (args.root === true) deploy(artifactId, url, execStr, cleanFn);
         } else if (packaging === "jar" && artifactId === arg) {
-            const deploy = parseExec(execStr, pom),
+            const build = scripts.build.exec,
+                deploy = parseExec(execStr, pom),
                 clean = cleanFn(scripts.clean.exec, pom, cleanCb);
-            log(deploy);
-            log(clean);
+            //log(build);
+            //log(clean);
+            //log(deploy);
+            if (args.build === true) exec(build, pom.root);
             if (args.test !== true) {
-                exec(clean);
-                exec(deploy);
+                exec(clean, pom.root);
+                exec(deploy, pom.root);
             }
         }
     },
@@ -101,11 +109,13 @@ export const cleanCb = cb(scripts.clean, $mavenAT),
     parsePom = (path, keys = ["groupId", "artifactId", "version", "packaging", "repositories"]) => {
         path = normalize(path).replace("file:", "").replace("${basedir}", root).replace(/\\/g, "/").replace("/repo", "");
         const pom = parseXml(path + "/pom.xml", keys, parsePomCb);
-        pom.url = path + "/repo";
+        pom.root = path;
+        pom.repo = path + "/repo";
+        pom.target = path + "/target";
         return pom;
     },
     parseXml = (path, keys = [], cb = parseXmlCb) => {
-        log(path);
+        //log(path);
         let xml = {};
         try {
             parseString(readFile(path), (err, result) => err ? error(err) : (xml = result));

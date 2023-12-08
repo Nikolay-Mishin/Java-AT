@@ -36,7 +36,7 @@
         "serve": "allure serve target/allure-results",
         "build": "mvn clean install",
         "pkg": "mvn package",
-        "deploy": "node index.js -deploy -repo -test"
+        "deploy": "node index.js -deploy -repo -build"
     },
     "devDependencies": {
         "xml2js": "^0.6.2"

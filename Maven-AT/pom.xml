@@ -10,8 +10,8 @@
 
     <repositories>
         <repository>
-            <id>org.project.pojo</id>
-            <url>file:${basedir}/modules/pojo/repo</url>
+            <id>org.project.utils</id>
+            <url>file:${basedir}/modules/utils/repo</url>
         </repository>
 
         <repository>
@@ -20,8 +20,8 @@
         </repository>
 
         <repository>
-            <id>org.project.utils</id>
-            <url>file:${basedir}/modules/utils/repo</url>
+            <id>org.project.pojo</id>
+            <url>file:${basedir}/modules/pojo/repo</url>
         </repository>
     </repositories>
 

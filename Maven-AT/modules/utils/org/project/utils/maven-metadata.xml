@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>org.project</groupId>
-  <artifactId>annotator</artifactId>
+  <artifactId>utils</artifactId>
   <versioning>
     <versions>
       <version>3.4.4-SNAPSHOT</version>
-      <version>3.4.5-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20231208111008</lastUpdated>
+    <lastUpdated>20231207124458</lastUpdated>
   </versioning>
 </metadata>
