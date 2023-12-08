@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>Maven-AT</artifactId>
-    <version>6.9.8</version>
+    <version>6.9.9</version>
 
     <repositories>
         <repository>
