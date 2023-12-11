@@ -16,7 +16,7 @@ To run the code in your development environment:
 install module
 -----
 install to .m2 local repo
-`npm start` | `npm run build` & `npm run deploy` | `mvn clean install` & `node index.js -deploy -root`
+`npm start` | `npm run build npm run deploy` | `mvn clean install node index.js -deploy -root`
 
 -----
 install to .m2 local repo & local module repo (if this need)
