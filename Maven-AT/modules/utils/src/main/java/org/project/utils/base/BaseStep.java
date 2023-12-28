@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.System.out;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getGenericClass;
@@ -52,7 +53,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected void init(R req, Class<M> modelClass) {
-        out.println("BaseStep#init");
+        debug("BaseStep#init");
         this.req = req;
         this.modelClass = modelClass;
         out.println("req: " + req);
