@@ -4,6 +4,9 @@ public interface UrlConstants {
     // список endpoits's
     // константы пишутся camelCase + postfix = "URL"
 
+    // auth
+    String AUTH_URL = "login";
+
     // pet
     String PET_URL = "pet";
 

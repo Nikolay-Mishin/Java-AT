@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.System.out;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.base.HashMap.keys;
@@ -29,7 +28,7 @@ public class Register<K, V> {
     }
 
     public void printRegister() {
-        out.println(register);
+        debug(register);
     }
 
     protected static <K, V> Register<K, V> registerMap(Class<?> clazz, K key, V value) throws ClassNotFoundException {
