@@ -9,5 +9,6 @@ import static org.project.utils.config.Config.*;
 public interface WebConfig extends WebBaseConfig {
 
     WebConfig BASE_CONFIG = config(WebConfig.class);
+    int DEBUG_LEVEL = debugLvl();
 
 }

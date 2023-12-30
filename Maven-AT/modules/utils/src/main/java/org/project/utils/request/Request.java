@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 import static io.restassured.RestAssured.given;
-import static java.lang.System.out;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.config.ApiBaseConfig.requestSpec;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.constant.RequestConstants.METHOD.PUT;
@@ -55,12 +55,12 @@ public class Request {
         URL = new URL(url);
         URI = new URI(path);
         endpoint = this.method + " " + path;
-        out.println(this.endpoint);
-        out.println(baseUri());
-        out.println(basePath());
+        debug(this.endpoint);
+        debug(baseUri());
+        debug(basePath());
         printFullPath();
-        out.println(URI);
-        out.println(URL);
+        debug(URI);
+        debug(URL);
     }
 
     @Description("Send request")
@@ -105,7 +105,7 @@ public class Request {
 
     @Description("Print full path")
     public void printFullPath() {
-        out.println("Full PATH is: " + url);
+        debug("Full PATH is: " + url);
     }
 
     @Description("Get endpoint")
@@ -144,10 +144,10 @@ public class Request {
         String url = printUrl();
         METHOD method = printMethod();
         //METHOD methodStr = printMethodStr();
-        out.println(endpoint);
-        out.println(url);
-        out.println(method);
-        //out.println(methodStr);
+        debug(endpoint);
+        debug(url);
+        debug(method);
+        //debug(methodStr);
     }
 
 }

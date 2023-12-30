@@ -18,8 +18,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import static config.WebConfig.BASE_CONFIG;
-import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
+import static org.project.utils.Helper.debug;
 
 public class PetStep extends BaseStep<PetRequests, Pet> {
 
@@ -34,7 +34,7 @@ public class PetStep extends BaseStep<PetRequests, Pet> {
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
         Response resp = super.post(dataTable);
         int categoryId = resp.path("category.id");
-        out.println(categoryId);
+        debug(categoryId);
         return resp;
     }
 

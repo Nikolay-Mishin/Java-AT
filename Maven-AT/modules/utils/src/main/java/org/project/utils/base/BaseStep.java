@@ -11,7 +11,6 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.lang.System.out;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.reflection.Instance.create;
@@ -56,13 +55,13 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         debug("BaseStep#init");
         this.req = req;
         this.modelClass = modelClass;
-        out.println("req: " + req);
-        out.println("modelClass: " + modelClass);
+        debug("req: " + req);
+        debug("modelClass: " + modelClass);
     }
 
     protected Response get() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Response resp = req.get(id);
-        out.println(resp.getStatusCode());
+        debug(resp.getStatusCode());
         return resp;
     }
 
@@ -71,8 +70,8 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         Response resp = req.post(order);
         //id = resp.jsonPath().get("id");
         id = resp.path("id");
-        out.println(id);
-        out.println(resp.getStatusCode());
+        debug(id);
+        debug(resp.getStatusCode());
         return resp;
     }
 
@@ -80,14 +79,14 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         M order = new Model<>(modelClass, dataTable).get();
         Response resp = req.put(order);
         id = resp.path("id");
-        out.println(id);
-        out.println(resp.getStatusCode());
+        debug(id);
+        debug(resp.getStatusCode());
         return resp;
     }
 
     protected Response delete() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Response resp = req.delete(id);
-        out.println(resp.getStatusCode());
+        debug(resp.getStatusCode());
         return resp;
     }
 

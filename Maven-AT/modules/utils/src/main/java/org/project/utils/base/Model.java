@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static java.lang.System.out;
 import static org.project.utils.Helper.*;
 import static org.project.utils.base.HashMap.keys;
 import static org.project.utils.json.JsonSchema.parsePath;
@@ -85,42 +84,42 @@ public class Model<T> {
     }
 
     private void setKeys(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        out.println("setData");
-        out.println(jsonData);
+        debug("setData");
+        debug(jsonData);
         if (isNull(jsonData)) {
             keys = removeFirst(pathList);
             return;
         }
         JSONObject obj = !isList ? jsonData.getJSONObject(key) : jsonData.getJSONArray(key).getJSONObject(0);
         keys = keys(obj, String[]::new);
-        out.println(obj);
-        out.println(Arrays.toString(keys));
+        debug(obj);
+        debug(Arrays.toString(keys));
     }
 
     @SuppressWarnings("unchecked")
     private T model(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
-        out.println("model");
+        debug("model");
 
         Object _builder = builder(clazz);
 
-        out.println(clazz);
-        out.println(_builder);
-        out.println(dataTable);
-        out.println(hashMap);
+        debug(clazz);
+        debug(_builder);
+        debug(dataTable);
+        debug(hashMap);
 
         List<PropertyDescriptor> descList = getPropDescriptors(clazz);
 
         for (int i = 0; i < dataTable.size(); i++) {
-            out.println("parseRow");
+            debug("parseRow");
 
             boolean isTable = isList(dataTable.get(i));
             List<String> row = (List<String>) (isTable ? dataTable.get(i) : dataTable);
             String rowName = row.get(0);
             pathList = parsePath(rowName);
             String name = isTable ? pathList[0] : keys[i];
-            out.println(name);
+            debug(name);
 
             new AssertException(name).notNull();
 
@@ -129,11 +128,11 @@ public class Model<T> {
 
             Class<?> type = desc.getPropertyType();
             boolean isList = type == List.class;
-            out.println(type);
+            debug(type);
 
             Class<T> hashEl = notNull(hashMap) ? (Class<T>) hashMap.get(name) : null;
             boolean isModel = notNull(hashEl);
-            out.println(hashEl);
+            debug(hashEl);
 
             if (isTable) {
                 row.remove(0);
@@ -148,15 +147,15 @@ public class Model<T> {
                 //if (isList) value = singletonList(value);
                 if (isList) value = List.of(value);
             }
-            out.println(value);
+            debug(value);
             getClassSimpleName(value);
 
             _builder = invoke(isTable ? builder : _builder, name, value);
-            out.println(_builder);
+            debug(_builder);
         }
 
         model = invoke(_builder, "build");
-        out.println(model);
+        debug(model);
         return model;
     }
 

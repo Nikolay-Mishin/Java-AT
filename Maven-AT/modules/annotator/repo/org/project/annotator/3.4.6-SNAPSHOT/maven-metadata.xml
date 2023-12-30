@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.project</groupId>
+  <artifactId>annotator</artifactId>
+  <versioning>
+    <lastUpdated>20231230101843</lastUpdated>
+    <snapshot>
+      <timestamp>20231230.101843</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>3.4.6-20231230.101843-1</value>
+        <updated>20231230101843</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>3.4.6-20231230.101843-1</value>
+        <updated>20231230101843</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>3.4.6-SNAPSHOT</version>
+</metadata>

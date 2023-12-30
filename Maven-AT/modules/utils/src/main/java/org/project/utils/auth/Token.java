@@ -8,9 +8,7 @@ import org.project.utils.json.JsonSchema;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
-import static java.lang.System.out;
-import static org.project.utils.Helper.isInstance;
-import static org.project.utils.Helper.isNull;
+import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.reflection.Reflection.invoke;
 
@@ -80,7 +78,7 @@ public class Token extends Register<String, Token> {
     }
 
     public void print() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        out.println(token);
+        debug(token);
     }
 
     public void printTokens() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {

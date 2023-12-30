@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 // настройки Cucumber
 @CucumberOptions(
-    features = "src/test/resources/features/store/order", // директория тестов
+    features = "src/test/resources/features", // директория тестов
     glue = "com.project", // название проекта
     plugin = {"pretty", "html:results.html", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"} // формат вывода результата
 )
-public class OrderTest {
+public class ApiTest {
 }

@@ -13,7 +13,7 @@ import org.project.utils.config.WebBaseConfig;
 import java.io.File;
 import java.io.IOException;
 
-import static java.lang.System.out;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.toUpperCaseFirst;
 import static org.project.utils.fs.FS.fileList;
 
@@ -84,11 +84,11 @@ public class JsonSchemaToClass {
 
     protected void generate(WebBaseConfig webConfig) throws IOException {
         Config.config(webConfig);
-        out.println("schemaRoot: " + schemaRoot);
-        out.println("outputDirectory: " + outputDirectory);
-        out.println("targetPackage: " + targetPackage);
-        out.println("SourceType: " + config.getSourceType());
-        out.println("isSetDefaultAnnotations: " + annotator.config().isSetDefaultAnnotations());
+        debug("schemaRoot: " + schemaRoot);
+        debug("outputDirectory: " + outputDirectory);
+        debug("targetPackage: " + targetPackage);
+        debug("SourceType: " + config.getSourceType());
+        debug("isSetDefaultAnnotations: " + annotator.config().isSetDefaultAnnotations());
         fileList(schemaRoot).forEach(file -> {
             try {
                 generate(file);
@@ -106,16 +106,16 @@ public class JsonSchemaToClass {
     }
 
     protected void init(File file) {
-        out.println(file);
+        debug(file);
         this.file = file;
         String parentUrl = file.getParent().replace("\\", "/");
         String fileName = file.getName().replace(".json", "").replace(".schema", "");
         inputJsonUrl = parentUrl.replace(schemaRoot + "/", "");
         packageName = targetPackage + "." + inputJsonUrl.replace("/", ".");
         javaClassName = toUpperCaseFirst(fileName);
-        out.println(inputJsonUrl);
-        out.println(packageName);
-        out.println(javaClassName);
+        debug(inputJsonUrl);
+        debug(packageName);
+        debug(javaClassName);
     }
 
 }

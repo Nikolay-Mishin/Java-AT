@@ -10,7 +10,6 @@ import org.project.utils.fs.FS;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import static java.lang.System.out;
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.fs.FS.readFile;
@@ -43,7 +42,7 @@ public class JsonSchema {
     }
 
     public JSONObject data() {
-        out.println(jsonData);
+        debug(jsonData);
         return jsonData;
     }
 
@@ -53,7 +52,7 @@ public class JsonSchema {
 
     private JsonSchema _path(String path, Object... pathList) throws IOException {
         path +=  ".json";
-        out.println(path);
+        debug(path);
         if (pathList.length > 0) data(readFile(path));
         return this;
     }

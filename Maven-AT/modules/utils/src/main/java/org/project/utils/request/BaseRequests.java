@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import static java.lang.System.out;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
 
 public class BaseRequests<T> {
@@ -15,7 +15,7 @@ public class BaseRequests<T> {
     protected String baseUrl;
 
     public BaseRequests(String baseUrl) {
-        out.println("setBaseUrl: " + baseUrl);
+        debug("setBaseUrl: " + baseUrl);
         this.baseUrl = baseUrl;
     }
 

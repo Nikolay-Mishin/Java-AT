@@ -7,7 +7,7 @@ import org.project.utils.reflection.SingleInstance;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
-import static java.lang.System.out;
+import static org.project.utils.Helper.debug;
 
 public class Auth extends SingleInstance<Auth> {
 
@@ -53,12 +53,12 @@ public class Auth extends SingleInstance<Auth> {
 
     public static void printTokens() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         token().printTokens();
-        out.println(instance(Auth.class));
+        debug(instance(Auth.class));
         Auth instance = instance(Auth.class);
-        out.println(instance);
-        out.println("auth: " + auth);
-        out.println("instance: " + instance);
-        out.println("SingleInstance: " + SingleInstance.instance);
+        debug(instance);
+        debug("auth: " + auth);
+        debug("instance: " + instance);
+        debug("SingleInstance: " + SingleInstance.instance);
     }
 
 }

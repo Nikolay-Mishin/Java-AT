@@ -20,7 +20,7 @@ import static org.project.utils.config.Config.debugLvl;
 
 public class Helper {
 
-    public static void debug(String msg) {
+    public static void debug(Object msg) {
         if (debugLvl() > 0) out.println(msg);
     }
 

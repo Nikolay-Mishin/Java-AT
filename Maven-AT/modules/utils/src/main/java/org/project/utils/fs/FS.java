@@ -11,14 +11,14 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.lang.String.join;
-import static java.lang.System.out;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isInstance;
 
 public class FS {
 
     @Description("Generate url path")
     public static String path(Object... pathList) {
-        out.println(Arrays.toString(pathList));
+        debug(Arrays.toString(pathList));
         return join("/", Arrays.stream(pathList.length == 1 && !(pathList[0] instanceof String) ? (Object[]) pathList[0] : pathList)
             .map(path -> isInstance(path, Object[].class) ? path(path) : path.toString())
             .toArray(String[]::new));
@@ -38,7 +38,7 @@ public class FS {
     public static String readFile(String path) throws IOException {
         FileInputStream inputStream = new FileInputStream(path);
         String data = readFromInputStream(inputStream);
-        out.println(data);
+        debug(data);
         return data;
     }
 
@@ -67,15 +67,15 @@ public class FS {
     }
 
     public static void printFile(final Path file) {
-        out.println(file);
-        out.println(file.getFileName());
-        out.println(file.getParent());
+        debug(file);
+        debug(file.getFileName());
+        debug(file.getParent());
     }
 
     public static void printFile(final File file) {
-        out.println(file);
-        out.println(file.getName());
-        out.println(file.getParent());
+        debug(file);
+        debug(file.getName());
+        debug(file.getParent());
     }
 
 }

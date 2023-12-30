@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.System.out;
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.project.utils.Helper.*;
@@ -21,14 +20,14 @@ public class Reflection {
     @Description("Get object property")
     private static Object _getProp(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Object _prop = getProperty(obj, prop);
-        if (print) out.println(_prop);
+        if (print) debug(_prop);
         return _prop;
     }
 
     @Description("Get object property value of String")
     private static Object _getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Object _prop = BeanUtils.getProperty(obj, prop);
-        if (print) out.println(_prop);
+        if (print) debug(_prop);
         return _prop;
     }
 
@@ -36,14 +35,14 @@ public class Reflection {
     private static PropertyDescriptor _getPropDescriptor(List<PropertyDescriptor> descList, String name) {
         PropertyDescriptor[] _descList = descList.stream().filter(s -> s.getName().equals(name)).toArray(PropertyDescriptor[]::new);
         PropertyDescriptor desc = _descList.length > 0 ? _descList[0] : null;
-        out.println(desc);
+        debug(desc);
         return desc;
     }
 
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
-        out.println(Arrays.toString(args));
+        debug(Arrays.toString(args));
         Class<?>[] argTypes = toArray(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass());
-        out.println(Arrays.toString(argTypes));
+        debug(Arrays.toString(argTypes));
         return argTypes;
     }
 
@@ -89,19 +88,19 @@ public class Reflection {
 
     public static Class<?> _getClass(Object obj) {
         Class<?> clazz = isClass(obj) ? (Class<?>) obj : obj.getClass();
-        out.println(clazz);
+        debug(clazz);
         return clazz;
     }
 
     public static String getClassName(Object obj) {
         String name = _getClass(obj).getName();
-        out.println(name);
+        debug(name);
         return name;
     }
 
     public static String getClassSimpleName(Object obj) {
         String name = _getClass(obj).getSimpleName();
-        out.println(name);
+        debug(name);
         return name;
     }
 
@@ -169,7 +168,7 @@ public class Reflection {
     @Description("Get property descriptors")
     public static List<PropertyDescriptor> getPropDescriptors(Object obj) {
         PropertyDescriptor[] descList = getPropertyDescriptors(_getClass(obj));
-        out.println(Arrays.toString(descList));
+        debug(Arrays.toString(descList));
         return List.of(descList);
     }
 
@@ -185,14 +184,14 @@ public class Reflection {
 
     public static Constructor<?> getConstructor(Class<?> clazz, Object... args) throws NoSuchMethodException {
         Constructor<?> сonstructor = clazz.getConstructor(getPrimitiveTypes(args));
-        out.println(сonstructor);
+        debug(сonstructor);
         return сonstructor;
     }
 
     @SuppressWarnings("unchecked")
     public static <T> T instance(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         T instance = (T) getConstructor(clazz, args).newInstance(args);
-        out.println(instance);
+        debug(instance);
         return instance;
     }
 
@@ -207,20 +206,20 @@ public class Reflection {
     @Description("Get method of object")
     public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException, NullPointerException {
         Class<?> clazz = _getClass(obj);
-        out.println(obj);
+        debug(obj);
         Method _method = null;
         try {
             _method = clazz.getDeclaredMethod(method, getTypes(args));
         } catch (NoSuchMethodException e) {
             Throwable err = e.getCause();
             String errMsg = notNull(err) ? err.toString() : e.toString();
-            out.println("catch getMethod");
-            out.println(errMsg);
+            debug("catch getMethod");
+            debug(errMsg);
             if (errMsg.contains("NoSuchMethodException")) _method = clazz.getDeclaredMethod(method, getPrimitiveTypes(args));
         }
-        out.println(_method);
+        debug(_method);
         new AssertException(_method).notNull();
-        out.println(Arrays.toString(_method.getParameterTypes()));
+        debug(Arrays.toString(_method.getParameterTypes()));
         return _method;
     }
 
@@ -240,8 +239,8 @@ public class Reflection {
         type = getParseType(type);
         String methodPostfix = _type == type ? name : getClassSimpleName(type);
         String method = isInt(type) ? "parseInt" : ("parse" + methodPostfix);
-        out.println(_type == type);
-        out.println(method);
+        debug(_type == type);
+        debug(method);
         return invoke(type, method, value); // вызов метода с аргументами
     }
 
