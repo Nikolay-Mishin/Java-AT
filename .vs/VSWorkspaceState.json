@@ -1,0 +1,18 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\modules\\annotator",
+    "\\modules\\pojo",
+    "\\modules\\pojo\\repo",
+    "\\modules\\pojo\\repo\\org",
+    "\\modules\\pojo\\repo\\org\\project",
+    "\\modules\\pojo\\repo\\org\\project\\pojo",
+    "\\modules\\utils",
+    "\\modules\\utils\\repo",
+    "\\modules\\utils\\repo\\org",
+    "\\modules\\utils\\repo\\org\\project",
+    "\\modules\\utils\\repo\\org\\project\\utils"
+  ],
+  "SelectedNode": "\\scripts.js",
+  "PreviewInSolutionExplorer": false
+}

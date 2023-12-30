@@ -1,18 +1,10 @@
-### Maven ###
-.allure
-target
-
-### NPM ###
-node_modules
-
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
-*.iml
-*.ipr
+.idea
+.allure
+out/
+target/
+!src/main/**/out/
+!src/test/**/out/
 
 ### Eclipse ###
 .apt_generated
@@ -22,6 +14,9 @@ node_modules
 .settings
 .springBeans
 .sts4-cache
+bin/
+!src/main/**/bin/
+!src/test/**/bin/
 
 ### NetBeans ###
 /nbproject/private/
@@ -29,12 +24,11 @@ node_modules
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
+.vs
 .vscode/
 
 ### Mac OS ###
 .DS_Store
+/annotator/.allure/

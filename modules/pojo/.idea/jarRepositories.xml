@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project" />
+      <option name="name" value="pojo" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.utils" />
+      <option name="name" value="org.project.utils" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/utils/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project" />
+      <option name="name" value="annotator" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/annotator/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.annotator" />
+      <option name="name" value="org.project.annotator" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/../annotator/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.annotator" />
+      <option name="name" value="annotator" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/annotator/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.utils" />
+      <option name="name" value="org.project.utils" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/../modules/utils/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.annotator" />
+      <option name="name" value="org.project.annotator" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/annotator/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.annotator" />
+      <option name="name" value="org.project.annotator" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/../modules/annotator/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.utils" />
+      <option name="name" value="utils" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/utils/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project" />
+      <option name="name" value="pojo" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/pojo/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project" />
+      <option name="name" value="utils" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/utils/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project" />
+      <option name="name" value="annotator" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/utils/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project" />
+      <option name="name" value="modules" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/modules/repo" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="org.project.utils" />
+      <option name="name" value="org.project.utils" />
+      <option name="url" value="file:C:\Dev\OSPanel\domains\Java-AT\Maven-AT\modules\pojo/../utils/repo" />
+    </remote-repository>
+  </component>
+</project>
