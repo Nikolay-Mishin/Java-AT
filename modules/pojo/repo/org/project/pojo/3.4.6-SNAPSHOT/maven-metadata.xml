@@ -3,21 +3,21 @@
   <groupId>org.project</groupId>
   <artifactId>pojo</artifactId>
   <versioning>
-    <lastUpdated>20231230125856</lastUpdated>
+    <lastUpdated>20231230163125</lastUpdated>
     <snapshot>
-      <timestamp>20231230.125856</timestamp>
+      <timestamp>20231230.163125</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>3.4.6-20231230.125856-1</value>
-        <updated>20231230125856</updated>
+        <value>3.4.6-20231230.163125-1</value>
+        <updated>20231230163125</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>3.4.6-20231230.125856-1</value>
-        <updated>20231230125856</updated>
+        <value>3.4.6-20231230.163125-1</value>
+        <updated>20231230163125</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
