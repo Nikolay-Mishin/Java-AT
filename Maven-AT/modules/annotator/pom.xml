@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>annotator</artifactId>
-    <version>3.4.5-SNAPSHOT</version>
+    <version>3.4.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.project</groupId>
             <artifactId>utils</artifactId>
-            <version>3.4.4-SNAPSHOT</version>
+            <version>3.4.5-SNAPSHOT</version>
         </dependency>
 
         <!-- other dependencies -->

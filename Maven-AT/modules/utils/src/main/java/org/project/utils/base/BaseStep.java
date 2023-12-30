@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.Long.parseLong;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.reflection.Instance.create;
@@ -69,7 +70,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         M order = new Model<>(modelClass, dataTable, hashMap).get();
         Response resp = req.post(order);
         //id = resp.jsonPath().get("id");
-        id = resp.path("id");
+        id = parseLong(resp.path("id").toString());
         debug(id);
         debug(resp.getStatusCode());
         return resp;
