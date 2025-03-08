@@ -50,7 +50,7 @@ export const getScripts = () => {
 export const mapObj = (obj, cb = (k, v) => [k, v], keys = []) => Object.fromEntries(Object.entries(obj).map(([k, v]) => keys.length === 0 || keys.includes(k) ? cb(k, v) : [k, v])),
     exec = (exec, cwd = root) => {
         try {
-            log(`run: ${exec}\ncwd: ${cwd}`);
+            log(`cwd: ${cwd}\nrun: ${exec}`);
             executor(exec, { cwd, encoding: 'utf-8', stdio: 'inherit' });
             const { stdout, stderr } = process;
             return stdout;
