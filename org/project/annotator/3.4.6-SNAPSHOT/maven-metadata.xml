@@ -3,21 +3,21 @@
   <groupId>org.project</groupId>
   <artifactId>annotator</artifactId>
   <versioning>
-    <lastUpdated>20250310151409</lastUpdated>
+    <lastUpdated>20250310152922</lastUpdated>
     <snapshot>
-      <timestamp>20250310.151409</timestamp>
+      <timestamp>20250310.152922</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>3.4.6-20250310.151409-1</value>
-        <updated>20250310151409</updated>
+        <value>3.4.6-20250310.152922-1</value>
+        <updated>20250310152922</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>3.4.6-20250310.151409-1</value>
-        <updated>20250310151409</updated>
+        <value>3.4.6-20250310.152922-1</value>
+        <updated>20250310152922</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
