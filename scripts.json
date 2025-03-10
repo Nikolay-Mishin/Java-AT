@@ -1,4 +1,7 @@
 {
+    "build": {
+        "exec": "npm run build"
+    },
     "deploy": {
         "fn": "(arg, url, exec) => this(arg, url, exec)",
         "exec": "mvn deploy:deploy-file -Durl=file:repo -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"

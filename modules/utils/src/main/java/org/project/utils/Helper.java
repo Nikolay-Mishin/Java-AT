@@ -4,11 +4,9 @@ import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.stream.Stream;
@@ -149,5 +147,43 @@ public class Helper {
     @SuppressWarnings("unchecked")
     public static <T> T[] remove(T[] arr, int index) {
         return (T[]) ArrayUtils.remove(arr, index);
+    }
+
+    public static Map<String, Object> getObjectFields(Object obj) throws IllegalAccessException {
+        // See:
+        //  - https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value
+        //  - https://www.geeksforgeeks.org/reflection-in-java
+        //  - https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-
+        Class<?> objClass = obj.getClass();
+        Field[] objFields = objClass.getDeclaredFields();
+        Map<String, Object> entriesMap = new HashMap<>();
+
+        for (Field field : objFields) {
+            String fieldSuffix = field.toString().replaceAll("(^.*)(\\.)([^\\.]+)$", "$3");
+            field.setAccessible(true);
+            entriesMap.put(fieldSuffix, field.get(obj));
+        }
+
+        return entriesMap;
+    }
+
+    public static String setProp(String k, String v) {
+        return System.setProperty(k, v);
+    }
+
+    public static String getProp(String k) {
+        return System.getProperty(k);
+    }
+
+    public static Properties getProps() {
+        return System.getProperties();
+    }
+
+    public static Map<String, String> getEnvList() {
+        return System.getenv();
+    }
+
+    public static String getEnv(String k) {
+        return System.getenv(k);
     }
 }

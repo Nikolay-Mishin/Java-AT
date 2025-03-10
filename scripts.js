@@ -34,7 +34,7 @@ export const getScripts = () => {
             "exec": "npm run build"
         },
         "deploy": {
-            "fn": (key, arg, url, execStr) => deploy(key, arg, url, execStr),
+            "fn": (key, arg, url, exec) => deploy(key, arg, url, exec),
             "exec": "mvn deploy:deploy-file -Durl=file:repo -Dfile=target/${artifactId}-${version}.${packaging} -DgroupId=${groupId} -DartifactId=${artifactId} -Dpackaging=${packaging} -Dversion=${version}"
         },
         "clean": {
