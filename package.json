@@ -1,0 +1,44 @@
+{
+    "name": "maven-at",
+    "version": "7.1.0",
+    "main": "index.js",
+    "type": "module",
+    "exports": {
+        "default": "./index.js",
+        "import": "./index.js",
+        "require": "./index.js"
+    },
+    "license": "ISC",
+    "author": {
+        "name": "Nikolay Mishin",
+        "url": "https://github.com/Nikolay-Mishin"
+    },
+    "description": "Library of development Java automatization",
+    "keywords": [
+        "java",
+        "auto-qa"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Nikolay-Mishin/Java-AT/Maven-AT",
+        "directory": ""
+    },
+    "engines": {
+        "node": ">=16.7.0"
+    },
+    "scripts": {
+        "start": "npm run tests",
+        "test": "npm run tests & npm run allure",
+        "start-with-reports": "npm test & npm run report & npm run allure",
+        "tests": "mvn clean test -Denv=stand",
+        "allure": "mvn allure:serve",
+        "report": "mvn allure:report",
+        "serve": "allure serve target/allure-results",
+        "build": "mvn clean install",
+        "pkg": "mvn package",
+        "deploy": "node index.js -deploy -repo -build"
+    },
+    "devDependencies": {
+        "xml2js": "^0.6.2"
+    }
+}
