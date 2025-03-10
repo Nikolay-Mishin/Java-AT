@@ -20,7 +20,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/Nikolay-Mishin/Java-AT/Maven-AT",
+        "url": "https://github.com/Nikolay-Mishin/Java-AT",
         "directory": ""
     },
     "engines": {

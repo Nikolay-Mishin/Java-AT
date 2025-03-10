@@ -15,7 +15,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Nikolay-Mishin/Java-AT/Maven-AT/modules/pojo",
+		"url": "https://github.com/Nikolay-Mishin/Java-AT/tree/mvn-repo/org/project/pojo",
 		"directory": ""
 	},
 	"engines": {
@@ -25,8 +25,9 @@
         "start": "npm run build & npm run deploy",
         "build": "mvn clean install",
         "pkg": "mvn package",
-        "deploy": "node index.js -deploy -root",
-        "clean": "rmdir /s /q repo\\org\\project\\pojo\\3.4.5-SNAPSHOT",
+        "deploy-auto": "node index.js -deploy -root",
+        "clean": "rmdir /s /q repo\\org\\project\\pojo\\3.4.6-SNAPSHOT",
+        "deploy": "npm run clean & mvn clean deploy",
         "deploy-manual": "npm run clean & mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/pojo/repo -Dfile=target/pojo-3.4.5-SNAPSHOT.jar -DgroupId=org.project -DartifactId=pojo -Dpackaging=jar -Dversion=3.4.5-SNAPSHOT"
     }
 }
