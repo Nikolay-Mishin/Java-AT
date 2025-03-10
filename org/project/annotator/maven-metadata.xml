@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.project</groupId>
+  <artifactId>annotator</artifactId>
+  <versioning>
+    <versions>
+      <version>3.4.4-SNAPSHOT</version>
+      <version>3.4.5-SNAPSHOT</version>
+      <version>3.4.6-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20250310151409</lastUpdated>
+  </versioning>
+</metadata>
