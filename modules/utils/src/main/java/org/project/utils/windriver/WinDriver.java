@@ -20,14 +20,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
-import static org.project.utils.constant.UrlConstants.*;
+import static org.project.utils.windriver.Config.*;
 import static org.project.utils.Helper.getObjectFields;
 
 import org.project.utils.constant.Capabilities;
-import org.project.utils.base.Process;
+import org.project.utils.Process;
 
 public class WinDriver {
-    protected static final String appDriverUrl = WINDRIVER_HOST;
+    //protected static final Config config = Config;
+    protected static final String appDriverUrl = Config.WINDRIVER_HOST;
     protected static WebDriver driver;
     protected static ProcessBuilder processBuilder;
     protected static Process process;
@@ -37,7 +38,7 @@ public class WinDriver {
     //[ProcessInitialize]
     protected static void init(String driver, String param) throws IOException {
         process = new Process(driver, param);
-        processBuilder = process.processBuilder();
+        processBuilder = process.pb();
     }
 
     public static void init() throws IOException {

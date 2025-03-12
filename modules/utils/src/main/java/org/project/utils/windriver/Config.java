@@ -1,8 +1,10 @@
-package org.project.utils.constant;
+package org.project.utils.windriver;
+
+import org.project.utils.config.BaseConfig;
 
 // список endpoits's
 // константы пишутся camelCase + postfix = "URL"
-public interface UrlConstants {
+public interface Config extends BaseConfig {
     // app
     boolean IS_WINIUM = false;
     // Winium

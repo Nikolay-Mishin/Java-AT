@@ -5,12 +5,10 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
 public class ApiBaseConfig extends Config {
-
     public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
-            .setBaseUri(config().getBaseUrl())
+            .setBaseUri(WebConfig.config().getBaseUrl())
             .addFilter(new AllureRestAssured())
             .build();
     }
-
 }

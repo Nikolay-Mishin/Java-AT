@@ -29,7 +29,9 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> {
         return _values(jsonSchema, "object");
     }
 
-    public HashMap<K, V> values(JsonSchema jsonSchema, String type) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public HashMap<K, V> values(JsonSchema jsonSchema, String type)
+        throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
         return _values(jsonSchema, type);
     }
 
@@ -50,8 +52,13 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> {
         return hashMap;
     }
 
+    @SuppressWarnings("unchecked")
+    public K[] keys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return (K[]) keys(this, String[]::new);
+    }
+
     public K[] keys(IntFunction<K[]> generator) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return HashMap.keys(this, generator);
+        return keys(this, generator);
     }
 
     @SuppressWarnings("unchecked")

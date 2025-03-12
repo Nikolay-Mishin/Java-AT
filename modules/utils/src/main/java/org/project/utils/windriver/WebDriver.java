@@ -6,7 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
-import static org.project.utils.constant.UrlConstants.*;
+import static org.project.utils.windriver.Config.*;
 import static org.project.utils.Helper.setProp;
 
 public class WebDriver extends WinDriver {

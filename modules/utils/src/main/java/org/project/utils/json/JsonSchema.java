@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.*;
-import static org.project.utils.config.Config.config;
+import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.invoke;

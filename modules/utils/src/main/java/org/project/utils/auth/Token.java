@@ -9,7 +9,7 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.*;
-import static org.project.utils.config.Config.config;
+import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.reflection.Reflection.invoke;
 
 public class Token extends Register<String, Token> {

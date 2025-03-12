@@ -7,7 +7,7 @@ import java.util.Map;
 import org.openqa.selenium.JavascriptExecutor;
 
 public class LocalStorage {
-    protected JavascriptExecutor js;
+    private JavascriptExecutor js;
 
     @ConstructorProperties({})
     public LocalStorage(JavascriptExecutor js) {

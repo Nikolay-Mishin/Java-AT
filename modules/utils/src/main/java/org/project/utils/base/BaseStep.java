@@ -13,7 +13,7 @@ import java.util.List;
 
 import static java.lang.Long.parseLong;
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.Config.config;
+import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 

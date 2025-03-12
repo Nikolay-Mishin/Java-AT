@@ -1,18 +1,18 @@
 package org.project.utils.config;
 
-import org.aeonbits.owner.Config;
+import static org.aeonbits.owner.Config.*;
 
 import static org.project.utils.config.Config.*;
 
-@Config.Sources({"classpath:dev.properties"})
-public interface WebBaseConfig extends Config {
-
+@Sources({"classpath:dev.properties"})
+public interface WebBaseConfig extends BaseConfig {
     WebBaseConfig BASE_CONFIG = config(WebBaseConfig.class);
-    int DEBUG_LEVEL = debugLvl();
 
     //dev
-    @Key("DEBUG_LEVEL")
-    String getDebugLevel();
+    //@Key("BASE_CONFIG")
+    static WebBaseConfig getConfig() {
+        return BASE_CONFIG;
+    }
 
     //at
     @Key("BASE_URL")
@@ -53,5 +53,4 @@ public interface WebBaseConfig extends Config {
     //tokens
     @Key("TOKEN_KEYS")
     String getTokenKeys();
-
 }
