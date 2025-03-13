@@ -1,7 +1,5 @@
 package org.project.utils.windriver;
 
-import static java.lang.System.out;
-
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +18,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 
+import static org.project.utils.Helper.debug;
 import static org.project.utils.windriver.Config.*;
 import static org.project.utils.Helper.getObjectFields;
 
@@ -69,18 +68,18 @@ public class WinDriver {
 
             /* Check if there is support for Desktop or not */
             if(!Desktop.isDesktopSupported()) {
-                System.out.println("not supported");
+                debug("not supported");
                 return;
             }
 
             if (file.exists()) {
-                System.out.println("Open " + WINDRIVER + "\n");
+                debug("Open " + WINDRIVER + "\n");
                 desktop.open(file);
             }
         }
         catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Encountered Exception\n");
+            debug("Encountered Exception\n");
             throw new RuntimeException(e);
         }
     }
@@ -108,11 +107,11 @@ public class WinDriver {
         DesiredCapabilities cap = new DesiredCapabilities();
         if (EXPERIMENTAL) cap.setCapability("ms:experimental-webdriver", EXPERIMENTAL);
         Map<String, Object> map = getObjectFields(new Capabilities());
-        out.println(map);
+        debug(map);
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String k = entry.getKey();
             Object v = entry.getValue();
-            out.println(k + ": " + v);
+            debug(k + ": " + v);
             if (v != "") cap.setCapability(k, v);
         }
         driver = new RemoteWebDriver(new URL(appDriverUrl), cap); //на этом порту по умолчанию висит Winium драйвер
@@ -126,10 +125,14 @@ public class WinDriver {
     }
 
     protected static void quit(String driverName) {
+        quit(driver, driverName);
+        driver = null;
+    }
+
+    protected static void quit(WebDriver driver, String driverName) {
         // The instance of WinAppDriver will be freed once last test is complete
         // WinDriver.stop();
         if (driver != null) driver.quit();
-        driver = null;
         stop(driverName);
     }
 

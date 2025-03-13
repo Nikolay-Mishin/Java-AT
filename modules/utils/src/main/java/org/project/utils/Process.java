@@ -1,12 +1,12 @@
 package org.project.utils;
 
-import org.project.utils.stream.StreamGobbler;
-
 import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+
+import org.project.utils.stream.StreamGobbler;
 
 public class Process {
     private ProcessBuilder pb;

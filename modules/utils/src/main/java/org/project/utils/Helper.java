@@ -1,7 +1,6 @@
 package org.project.utils;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.jetbrains.annotations.Nullable;
+import static java.lang.System.out;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -12,8 +11,11 @@ import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
 import static java.lang.String.join;
-import static java.lang.System.out;
 import static java.text.MessageFormat.format;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.jetbrains.annotations.Nullable;
+
 import static org.project.utils.config.Config.debugLvl;
 
 public class Helper {
@@ -57,7 +59,7 @@ public class Helper {
     }
 
     public static void PrintDefaultCharset() {
-        out.println(defaultCharset());
+        debug(defaultCharset());
     }
 
     public static boolean isNull(Object value) {

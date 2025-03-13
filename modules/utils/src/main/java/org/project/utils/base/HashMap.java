@@ -1,14 +1,14 @@
 package org.project.utils.base;
 
-import org.project.utils.exception.AssertException;
-import org.project.utils.json.JsonSchema;
-
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Set;
 import java.util.function.IntFunction;
 
-import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.isNull;
+import org.project.utils.exception.AssertException;
+import org.project.utils.json.JsonSchema;
+
+import static org.project.utils.Helper.*;
 import static org.project.utils.reflection.Reflection.invoke;
 
 public class HashMap<K, V> extends java.util.HashMap<K, V> {
@@ -26,16 +26,20 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> {
     }
 
     @SuppressWarnings("unchecked")
-    public HashMap<K, V> values(Set<V> values) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return values((V) values.toArray());
+    public HashMap<K, V> values(List<V> values) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return values((V[]) values.toArray());
     }
 
     @SafeVarargs
-    public final HashMap<K, V> values(V... values) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public final HashMap<K, V> values(V... values)
+        throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
         return _values(null, null, values);
     }
 
-    public HashMap<K, V> values(JsonSchema jsonSchema) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public HashMap<K, V> values(JsonSchema jsonSchema)
+        throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
         return _values(jsonSchema, "object");
     }
 
@@ -67,12 +71,16 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> {
         return (K[]) keys(this, String[]::new);
     }
 
-    public K[] keys(IntFunction<K[]> generator) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public K[] keys(IntFunction<K[]> generator)
+        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
         return keys(this, generator);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] keys(Object obj, IntFunction<T[]> generator) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static <T> T[] keys(Object obj, IntFunction<T[]> generator)
+        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
         return ((Set<T>) invoke(obj, "keySet")).toArray(generator);
     }
 

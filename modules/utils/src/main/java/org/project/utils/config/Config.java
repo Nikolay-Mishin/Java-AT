@@ -1,7 +1,5 @@
 package org.project.utils.config;
 
-import org.project.utils.base.HashMap;
-
 import java.lang.reflect.InvocationTargetException;
 
 import static java.lang.System.*;
@@ -9,6 +7,8 @@ import static org.aeonbits.owner.ConfigFactory.create;
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.WebBaseConfig.*;
+
+import org.project.utils.base.HashMap;
 
 public class Config {
     protected static HashMap<String, BaseConfig> _config = new HashMap<String, BaseConfig>();

@@ -1,9 +1,9 @@
 package org.project.utils.windriver;
 
+import java.beans.ConstructorProperties;
+
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.SessionId;
-
-import java.beans.ConstructorProperties;
 
 public class SessionStorage extends LocalStorage {
     private SessionId id;

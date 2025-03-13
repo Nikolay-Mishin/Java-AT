@@ -71,7 +71,8 @@ public class WebDriver extends WinDriver {
 
     //[AppSessionQuit]
     public static void quit() {
-        quit(CHROME_DRIVER);
+        quit(driver, CHROME_DRIVER);
+        driver = null;
         js = null;
         ls = null;
         s = null;
