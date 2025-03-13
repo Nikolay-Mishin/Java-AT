@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
@@ -18,14 +19,18 @@ import static org.project.utils.Helper.*;
 public class Reflection {
 
     @Description("Get object property")
-    private static Object _getProp(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private static Object _getProp(Object obj, String prop, boolean print)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
+    {
         Object _prop = getProperty(obj, prop);
         if (print) debug(_prop);
         return _prop;
     }
 
     @Description("Get object property value of String")
-    private static Object _getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private static Object _getPropStr(Object obj, String prop, boolean print)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
+    {
         Object _prop = BeanUtils.getProperty(obj, prop);
         if (print) debug(_prop);
         return _prop;
@@ -55,6 +60,28 @@ public class Reflection {
         while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
         new AssertException(actualClass).notNull();
         return (Class<T>) ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
+    }
+
+    @Description("Get method of object")
+    private static Method _getMethod(String get, Object obj, String method, Object... args) throws NoSuchMethodException {
+        Class<?> clazz = _getClass(obj);
+        Method _method;
+        boolean declared = Objects.equals(get, "declared");
+        get = declared ? "getDeclaredMethod" : "getMethod";
+        debug(get);
+        try {
+            _method = _getMethod(declared, clazz, method, getTypes(args));
+        } catch (NoSuchMethodException e) {
+            _method = _getMethod(declared, clazz, method, getPrimitiveTypes(args));
+        }
+        new AssertException(_method).notNull();
+        debug(Arrays.toString(_method.getParameterTypes()));
+        return _method;
+    }
+
+    @Description("Get method of object")
+    private static Method _getMethod(boolean declared, Class<?> clazz, String method, Class<?>... types) throws NoSuchMethodException {
+        return declared ? clazz.getDeclaredMethod(method, types) : clazz.getMethod(method, types);
     }
 
     public static Class<?> getParseType(Class<?> type) {
@@ -146,7 +173,9 @@ public class Reflection {
     }
 
     @Description("Get object property value of String")
-    public static Object getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public static Object getPropStr(Object obj, String prop, boolean print)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
+    {
         return _getPropStr(obj, prop, print);
     }
 
@@ -189,7 +218,9 @@ public class Reflection {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T instance(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public static <T> T instance(Class<?> clazz, Object... args)
+        throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException
+    {
         T instance = (T) getConstructor(clazz, args).newInstance(args);
         debug(instance);
         return instance;
@@ -205,17 +236,11 @@ public class Reflection {
 
     @Description("Get method of object")
     public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException, NullPointerException {
-        Class<?> clazz = _getClass(obj);
-        debug(obj);
-        Method _method = null;
+        Method _method;
         try {
-            _method = clazz.getDeclaredMethod(method, getTypes(args));
+            _method = _getMethod("declared", obj, method, args);
         } catch (NoSuchMethodException e) {
-            Throwable err = e.getCause();
-            String errMsg = notNull(err) ? err.toString() : e.toString();
-            debug("catch getMethod");
-            debug(errMsg);
-            if (errMsg.contains("NoSuchMethodException")) _method = clazz.getDeclaredMethod(method, getPrimitiveTypes(args));
+            _method = _getMethod("all", obj, method, args);
         }
         debug(_method);
         new AssertException(_method).notNull();
@@ -225,14 +250,18 @@ public class Reflection {
 
     @Description("Invoke method of object")
     @SuppressWarnings("unchecked")
-    public static <T> T invoke(Object obj, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static <T> T invoke(Object obj, String method, Object... args)
+        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+    {
         Method methodWithArgs = getMethod(obj, method, args); // получение метода с аргументами
         return (T) methodWithArgs.invoke(obj, args); // вызов метода с аргументами
     }
 
     @Description("Invoke parse number method")
     @SuppressWarnings("unchecked")
-    public static <T> T invokeParse(Class<?> type, Object value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static <T> T invokeParse(Class<?> type, Object value)
+        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
+    {
         if (!isParseType(type)) return (T) value;
         Class<?> _type = type;
         String name = getClassSimpleName(type);

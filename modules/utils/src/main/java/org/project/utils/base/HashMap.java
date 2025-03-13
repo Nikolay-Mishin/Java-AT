@@ -2,6 +2,7 @@ package org.project.utils.base;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.IntFunction;
 
@@ -11,8 +12,7 @@ import org.project.utils.json.JsonSchema;
 import static org.project.utils.Helper.*;
 import static org.project.utils.reflection.Reflection.invoke;
 
-public class HashMap<K, V> extends java.util.HashMap<K, V> {
-
+public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> {
     private final K[] keys;
 
     @SafeVarargs
@@ -78,10 +78,14 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T[] keys(Object obj, IntFunction<T[]> generator)
-        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
-        return ((Set<T>) invoke(obj, "keySet")).toArray(generator);
+    public static <K> K[] keys(Object obj) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return (K[]) keys(obj, String[]::new);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <K> K[] keys(Object obj, IntFunction<K[]> generator)
+        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
+        return ((Set<K>) invoke(obj, "keySet")).toArray(generator);
+    }
 }
