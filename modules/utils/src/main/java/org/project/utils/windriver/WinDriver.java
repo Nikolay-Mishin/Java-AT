@@ -27,7 +27,7 @@ import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;
 
 public class WinDriver {
-    //protected static final Config config = Config;
+    protected static Config c;
     protected static final String appDriverUrl = Config.WINDRIVER_HOST;
     protected static WebDriver driver;
     protected static ProcessBuilder processBuilder;
@@ -35,14 +35,23 @@ public class WinDriver {
     protected static Actions defaultActions;
     protected static Actions actions;
 
+    public static Config config() {
+        return c;
+    }
+
+    //[ConfigInitialize]
+    public static Config config(Config config) {
+        return c = config;
+    }
+
     //[ProcessInitialize]
+    public static void init() throws IOException {
+        init(WINDRIVER, WINDRIVER_PARAM);
+    }
+
     protected static void init(String driver, String param) throws IOException {
         process = new Process(driver, param);
         processBuilder = process.pb();
-    }
-
-    public static void init() throws IOException {
-        init(WINDRIVER, WINDRIVER_PARAM);
     }
 
     //[ProcessDestroy]
@@ -76,6 +85,9 @@ public class WinDriver {
         }
     }
 
+    public static void stop() {
+        stop(WINDRIVER_NAME);
+    }
 
     protected static void stop(String driver) {
         try {
@@ -87,10 +99,6 @@ public class WinDriver {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void stop() {
-        stop(WINDRIVER_NAME);
     }
 
     //[ClassInitialize]
@@ -114,11 +122,15 @@ public class WinDriver {
 
     //[AppSessionQuit]
     public static void quit() {
+        quit(WINDRIVER_NAME);
+    }
+
+    protected static void quit(String driverName) {
         // The instance of WinAppDriver will be freed once last test is complete
         // WinDriver.stop();
         if (driver != null) driver.quit();
         driver = null;
-        stop();
+        stop(driverName);
     }
 
     /**

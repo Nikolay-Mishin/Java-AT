@@ -20,6 +20,16 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> {
         this.keys = keys;
     }
 
+    @SuppressWarnings("unchecked")
+    public HashMap(Set<K> keys) {
+        this.keys = (K[]) keys.toArray();
+    }
+
+    @SuppressWarnings("unchecked")
+    public HashMap<K, V> values(Set<V> values) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return values((V) values.toArray());
+    }
+
     @SafeVarargs
     public final HashMap<K, V> values(V... values) throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return _values(null, null, values);
