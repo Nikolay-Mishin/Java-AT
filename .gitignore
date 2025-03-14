@@ -1,15 +1,15 @@
 ### Local ###
-lib/
-Java/
-modules/
-src/
+/lib/
+/Java/
+/modules/
+/src/
 
 ### NPM ###
 node_modules/
 
 ### Maven ###
 .allure/
-target/
+/target/
 
 ### IntelliJ IDEA ###
 .idea/
@@ -27,14 +27,12 @@ target/
 .sts4-cache
 
 ### NetBeans ###
-/.nb-gradle/
+.nb-gradle/
 /nbproject/
 /nbbuild/
 /nbdist/
 /dist/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+/build/
 
 ### VS Code ###
 .vscode/
