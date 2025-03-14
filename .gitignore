@@ -1,9 +1,14 @@
+### Local ###
+/lib/
+
 ### NPM ###
 node_modules/
 
 ### Maven ###
+!.mvn/wrapper/maven-wrapper.jar
 .allure/
-target/
+/target/
+/modules/**/target/
 
 ### IntelliJ IDEA ###
 .idea/
@@ -26,9 +31,7 @@ target/
 /nbbuild/
 /nbdist/
 /dist/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+/build/
 
 ### VS Code ###
 .vscode/
