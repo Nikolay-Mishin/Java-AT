@@ -1,5 +1,6 @@
 ### Local ###
 /lib/
+/Java/out/
 
 ### NPM ###
 node_modules/
@@ -12,9 +13,13 @@ node_modules/
 
 ### IntelliJ IDEA ###
 .idea/
-*.iws
 *.iml
+*.iws
 *.ipr
+!/modules/**/*.iml
+!/modules/**/*.iws
+!/modules/**/*.ipr
+!/Java/*.iml
 
 ### Eclipse ###
 .apt_generated
