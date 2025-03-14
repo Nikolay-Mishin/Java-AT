@@ -47,8 +47,7 @@ node_modules/
 ### Mac OS ###
 .DS_Store
 
-#ignore all *.lock.json files
-*.lock.json
+# ignore all *.lock.json files
 *lock.json
 
 # The packages folder can be ignored because of Package Restore
