@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata modelVersion="1.1.0">
   <groupId>org.project</groupId>
-  <artifactId>pojo</artifactId>
+  <artifactId>annotator</artifactId>
   <versioning>
-    <lastUpdated>20250314131853</lastUpdated>
+    <lastUpdated>20250314131442</lastUpdated>
     <snapshot>
-      <timestamp>20250314.131853</timestamp>
+      <timestamp>20250314.131442</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>3.4.7-20250314.131853-1</value>
-        <updated>20250314131853</updated>
+        <value>3.4.7-20250314.131442-1</value>
+        <updated>20250314131442</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>3.4.7-20250314.131853-1</value>
-        <updated>20250314131853</updated>
+        <value>3.4.7-20250314.131442-1</value>
+        <updated>20250314131442</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

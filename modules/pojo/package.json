@@ -26,7 +26,6 @@
         "build": "mvn clean install",
         "pkg": "mvn package",
         "deploy-auto": "node index.js -deploy -root",
-        "clean": "rmdir /s /q repo\\org\\project\\pojo\\3.4.6-SNAPSHOT",
         "deploy": "mvn clean deploy",
         "deploy-manual": "npm run clean & mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/pojo/repo -Dfile=target/pojo-3.4.5-SNAPSHOT.jar -DgroupId=org.project -DartifactId=pojo -Dpackaging=jar -Dversion=3.4.5-SNAPSHOT"
     }
