@@ -12,6 +12,11 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="mvn-repo" />
+      <option name="name" value="mvn-repo" />
+      <option name="url" value="https://github.com/Nikolay-Mishin/Java-AT/raw/mvn-repo" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="Java-AT.mvn-repo" />
       <option name="name" value="Java-AT.mvn-repo" />
       <option name="url" value="https://github.com/Nikolay-Mishin/Java-AT/raw/mvn-repo" />

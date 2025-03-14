@@ -6,24 +6,56 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.6.1</version>
+    <version>7.6.2</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+        <github.global.server>github</github.global.server>
+        <github.global.url>https://${github.global.server}.com</github.global.url>
+        <github.id>Nikolay-Mishin</github.id>
+        <github.url>${github.global.url}/${github.id}</github.url>
+        <github.name>Nikolay Mishin</github.name>
+        <github.repo>Java-AT</github.repo>
+        <github.branch>mvn-repo</github.branch>
+        <github.repo.url>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.url>
+        <repo.dir>repo</repo.dir>
+        <repo.path>${basedir}/${repo.dir}</repo.path>
+        <pojo.src>${basedir}/src/main/resources/json</pojo.src>
+        <pojo.out>${basedir}/${project.build.sourceDirectory}</pojo.out>
+        <pojo.pkg>pojo.gen</pojo.pkg>
+        <pojo.annotator>org.project.annotator.lombok.LombokAnnotator</pojo.annotator>
+    </properties>
+
+    <developers>
+        <developer>
+            <id>${github.id}</id>
+            <name>${github.name}</name>
+            <email></email>
+            <url>${github.url}</url>
+            <organization></organization>
+            <organizationUrl></organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone></timezone>
+            <properties></properties>
+        </developer>
+    </developers>
 
     <repositories>
         <repository>
-            <id>Java-AT.mvn-repo</id>
-            <url>https://github.com/Nikolay-Mishin/Java-AT/raw/mvn-repo</url>
+            <id>${github.branch}</id>
+            <url>${github.repo.url}</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <build>
         <plugins>
@@ -97,10 +129,10 @@
                 <artifactId>jsonschema2pojo-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <sourceDirectory>${basedir}/src/main/resources/json</sourceDirectory>
-                    <outputDirectory>${basedir}/src/main/java</outputDirectory>
-                    <targetPackage>pojo.gen</targetPackage>
-                    <customAnnotator>org.project.annotator.lombok.LombokAnnotator</customAnnotator>
+                    <sourceDirectory>${pojo.src}</sourceDirectory>
+                    <outputDirectory>${pojo.out}</outputDirectory>
+                    <targetPackage>${pojo.pkg}</targetPackage>
+                    <customAnnotator>${pojo.annotator}</customAnnotator>
                     <sourceType>json</sourceType>
                     <annotationStyle>none</annotationStyle>
                     <generateBuilders>false</generateBuilders>
@@ -123,7 +155,7 @@
                     <dependency>
                         <groupId>org.project</groupId>
                         <artifactId>annotator</artifactId>
-                        <version>3.4.6-SNAPSHOT</version>
+                        <version>3.4.7-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -135,7 +167,7 @@
         <dependency>
             <groupId>org.project</groupId>
             <artifactId>pojo</artifactId>
-            <version>3.4.6-SNAPSHOT</version>
+            <version>3.4.7-SNAPSHOT</version>
         </dependency>
 
         <!-- other dependencies -->
