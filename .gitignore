@@ -1,14 +1,18 @@
+### Local ###
 lib/
-target/
-.allure/
 Java/
 modules/
 src/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+
+### NPM ###
+node_modules/
+
+### Maven ###
+.allure/
+target/
 
 ### IntelliJ IDEA ###
+.idea/
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
@@ -38,6 +42,7 @@ build/
 
 ### VS Code ###
 .vscode/
+.vs/
 
 ### Mac OS ###
 .DS_Store
