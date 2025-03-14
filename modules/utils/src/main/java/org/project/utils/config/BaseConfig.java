@@ -11,11 +11,8 @@ public interface BaseConfig extends Config {
     BaseConfig BASE_CONFIG = config(BaseConfig.class);
     int DEBUG_LEVEL = debugLvl();
 
-    //dev
-    //@Key("BASE_CONFIG")
-    static BaseConfig getConfig() {
-        return BASE_CONFIG;
-    }
+    @Key("BASE_CONFIG")
+    BaseConfig getConfig();
 
     @Key("DEBUG_LEVEL")
     String getDebugLevel();

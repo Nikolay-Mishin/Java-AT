@@ -67,7 +67,7 @@ public class Helper {
     }
 
     public static boolean notNull(Object value) {
-        return value != null;
+        return !isNull(value);
     }
 
     public static boolean _equals(@Nullable Object a, @Nullable Object b) {

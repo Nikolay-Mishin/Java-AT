@@ -2,11 +2,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.project.utils.base.HashMap;
 import org.project.utils.config.BaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.windriver.Config;
 import org.project.utils.windriver.WebDriver;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.base.HashMap.keys;
 import static org.project.utils.config.BaseConfig.BASE_CONFIG;
 import static org.project.utils.windriver.WebDriver.ls;
 import static org.project.utils.config.Config.*;
@@ -29,20 +29,29 @@ public class App {
         WebDriver.quit();
     }
 
-    public static void testConfig() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void testConfig()
+        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
         debug(config().getClass());
         printConfigs();
-        debug(setConfig(BASE_CONFIG).getClass());
-        printConfigs();
         debug(config("config").getClass());
-        debug(setConfig(Config.class).getClass());
+        debug(config("win", Config.class).getClass());
         printConfigs();
-        debug(config("config").getClass());
-        debug(config().getClass());
+        debug(config("win").getClass());
+        //debug(BASE_CONFIG);
+        //debug(WebBaseConfig.BASE_CONFIG);
+        compare(BASE_CONFIG);
+        compare("web", WebBaseConfig.BASE_CONFIG);
+        printConfigs();
+        debug(BASE_CONFIG.getConfig());
+        debug(WebBaseConfig.BASE_CONFIG.getConfig());
     }
 
-    public static void printConfigs() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void printConfigs()
+        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
         HashMap<String, BaseConfig> map = configs();
+        debug("map: "/*+ map*/);
         for (String k : map.keys()) {
             debug(k);
             debug(map.get(k).getClass());

@@ -36,7 +36,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         init(req, modelClass);
     }
 
-    public BaseStep(WebBaseConfig config, R req, Class<M> modelClass) {
+    public BaseStep(WebBaseConfig config, R req, Class<M> modelClass) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         config(config);
         init(req, modelClass);
     }

@@ -6,13 +6,7 @@ import static org.project.utils.config.Config.*;
 
 @Sources({"classpath:dev.properties"})
 public interface WebBaseConfig extends BaseConfig {
-    WebBaseConfig BASE_CONFIG = config(WebBaseConfig.class);
-
-    //dev
-    //@Key("BASE_CONFIG")
-    static WebBaseConfig getConfig() {
-        return BASE_CONFIG;
-    }
+    WebBaseConfig BASE_CONFIG = config("web", WebBaseConfig.class);
 
     //at
     @Key("BASE_URL")
