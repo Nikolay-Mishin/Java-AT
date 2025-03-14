@@ -26,7 +26,7 @@ node_modules/
 .sts4-cache
 
 ### NetBeans ###
-/.nb-gradle/
+.nb-gradle/
 /nbproject/
 /nbbuild/
 /nbdist/
