@@ -7,7 +7,7 @@ import org.project.annotator.BaseAnnotator;
 import org.project.annotator.config.AnnotatorConfig;
 import org.project.annotator.config.DefaultAnnotatorConfig;
 import org.project.annotator.lombok.LombokAnnotator;
-import org.project.utils.config.Config;
+import org.project.utils.config.WebConfig;
 import org.project.utils.config.WebBaseConfig;
 
 import java.io.File;
@@ -19,9 +19,9 @@ import static org.project.utils.fs.FS.fileList;
 
 public class JsonSchemaToClass {
 
-    protected String schemaRoot = Config.config().getJsonSchemaRoot();
-    protected String outputDirectory = Config.config().getPojoRoot();
-    protected String targetPackage = Config.config().getTargetPackage();
+    protected String schemaRoot = WebConfig.config().getJsonSchemaRoot();
+    protected String outputDirectory = WebConfig.config().getPojoRoot();
+    protected String targetPackage = WebConfig.config().getTargetPackage();
     protected File file;
     protected String inputJsonUrl;
     protected String packageName = targetPackage;
@@ -83,7 +83,7 @@ public class JsonSchemaToClass {
     }
 
     protected void generate(WebBaseConfig webConfig) throws IOException {
-        Config.config(webConfig);
+        WebConfig.config(webConfig);
         debug("schemaRoot: " + schemaRoot);
         debug("outputDirectory: " + outputDirectory);
         debug("targetPackage: " + targetPackage);
