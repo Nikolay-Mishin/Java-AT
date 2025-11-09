@@ -90,8 +90,9 @@ public class WinDriver {
     }
 
     //[ClassInitialize]
-    public static void start(String app, String... params) throws IOException, IllegalAccessException {
+    public static WindowsDriver<WebElement> start(String app, String... params) throws IOException, IllegalAccessException {
         init(app, params);
+        return driver;
     }
 
     //[ClassInitialize]
