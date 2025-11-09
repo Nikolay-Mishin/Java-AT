@@ -188,4 +188,14 @@ public class Helper {
     public static String getEnv(String k) {
         return System.getenv(k);
     }
+
+    public static String sb(Object... args) {
+        StringBuilder sb = new StringBuilder();
+        for (Object arg : args) sb.append(arg);
+        return sb.toString();
+    }
+
+    public static String sf(String str, Object... args) {
+        return String.format(str, args);
+    }
 }

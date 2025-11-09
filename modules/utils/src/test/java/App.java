@@ -3,7 +3,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.project.utils.base.HashMap;
 import org.project.utils.config.BaseConfig;
 import org.project.utils.config.WebBaseConfig;
-import org.project.utils.windriver.Config;
+import org.project.utils.windriver.DriverBaseConfig;
 import org.project.utils.windriver.WebDriver;
 
 import static org.project.utils.Helper.debug;
@@ -35,9 +35,11 @@ public class App {
         debug(config().getClass());
         printConfigs();
         debug(config("config").getClass());
-        debug(config("win", Config.class).getClass());
-        printConfigs();
+        debug(DriverBaseConfig.BASE_CONFIG);
+        debug(config("win"));
         debug(config("win").getClass());
+        debug(config("win", DriverBaseConfig.class).getClass());
+        printConfigs();
         //debug(BASE_CONFIG);
         //debug(WebBaseConfig.BASE_CONFIG);
         compare(BASE_CONFIG);

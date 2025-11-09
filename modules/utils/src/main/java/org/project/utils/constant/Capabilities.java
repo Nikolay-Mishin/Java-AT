@@ -1,6 +1,6 @@
 package org.project.utils.constant;
 
-import static org.project.utils.windriver.Config.*;
+import static org.project.utils.windriver.DriverBaseConfig.*;
 
 public class Capabilities {
     String app = APP; //если хотим сразу запускать какую-либо программу

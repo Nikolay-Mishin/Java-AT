@@ -17,7 +17,7 @@ import java.net.URL;
 
 import static io.restassured.RestAssured.given;
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.ApiBaseConfig.requestSpec;
+import static org.project.utils.config.ApiConfig.requestSpec;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.constant.RequestConstants.METHOD.PUT;
 import static org.project.utils.fs.FS.path;

@@ -14,24 +14,36 @@ import org.project.utils.base.HashMap;
 public class LocalStorage {
     protected ChromeDriver driver;
     protected org.openqa.selenium.html5.LocalStorage s;
+    private JavascriptExecutor js;
     protected ExecuteMethod executeMethod;
     protected Set<String> keys;
     protected List<String> values;
-    private JavascriptExecutor js;
-
-    @ConstructorProperties({})
-    public LocalStorage() {}
-
-    @ConstructorProperties({"js"})
-    public LocalStorage(JavascriptExecutor js) {
-        this.js = js;
-    }
 
     @ConstructorProperties({"driver"})
     public LocalStorage(ChromeDriver driver) {
         this.driver = driver;
-        s = driver.getLocalStorage();
+        s = ls(driver);
         executeMethod(driver);
+    }
+
+    public org.openqa.selenium.html5.LocalStorage ls() {
+        return s;
+    }
+
+    public org.openqa.selenium.html5.LocalStorage ls(org.openqa.selenium.html5.LocalStorage s) {
+        return this.s = s;
+    }
+
+    public org.openqa.selenium.html5.LocalStorage ls(ChromeDriver driver) {
+        return s = driver.getLocalStorage();
+    }
+
+    public JavascriptExecutor js() {
+        return js;
+    }
+
+    public JavascriptExecutor js(JavascriptExecutor js) {
+        return this.js = js;
     }
 
     public void executeMethod(ChromeDriver driver) {

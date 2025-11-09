@@ -6,25 +6,37 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.SessionId;
 
 public class SessionStorage extends LocalStorage {
-    private SessionId id;
     private org.openqa.selenium.html5.SessionStorage s;
-
-    @ConstructorProperties({"s"})
-    public SessionStorage(org.openqa.selenium.html5.SessionStorage s) {
-        super();
-        this.s = s;
-    }
+    private SessionId id;
 
     @ConstructorProperties({"driver"})
     public SessionStorage(ChromeDriver driver) {
-        super();
-        this.driver = driver;
-        id = driver.getSessionId();
-        s = driver.getSessionStorage();
-        executeMethod(driver);
+        super(driver);
+        s = s(driver);
+        id = id(driver);
+    }
+
+    public org.openqa.selenium.html5.SessionStorage s() {
+        return s;
+    }
+
+    public org.openqa.selenium.html5.SessionStorage s(org.openqa.selenium.html5.SessionStorage s) {
+        return this.s = s;
+    }
+
+    public org.openqa.selenium.html5.SessionStorage s(ChromeDriver driver) {
+        return s = driver.getSessionStorage();
     }
 
     public SessionId id() {
         return id;
+    }
+
+    public SessionId id(SessionId id) {
+        return this.id = id;
+    }
+
+    public SessionId id(ChromeDriver driver) {
+        return id = driver.getSessionId();
     }
 }
