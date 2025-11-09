@@ -71,8 +71,8 @@ public class WinDriver {
         init(winDriver, c.getWebdriverParam());
     }
 
-    protected static void init(String app, String... param) throws IOException {
-        p = new Process(app, Arrays.toString(param));
+    protected static void init(String app, String... params) throws IOException {
+        p = new Process(app, Arrays.toString(params));
         pb = p.pb();
     }
 
@@ -87,6 +87,11 @@ public class WinDriver {
     // public static WebDriver start() throws MalformedURLException, IllegalAccessException {
     public static WindowsDriver<WebElement> start() throws MalformedURLException, IllegalAccessException {
         return start(setCap());
+    }
+
+    //[ClassInitialize]
+    public static void start(String app, String... params) throws IOException, IllegalAccessException {
+        init(app, params);
     }
 
     //[ClassInitialize]

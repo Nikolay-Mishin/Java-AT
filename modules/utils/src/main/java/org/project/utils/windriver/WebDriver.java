@@ -1,11 +1,13 @@
 package org.project.utils.windriver;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.project.utils.constant.Capabilities;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
@@ -30,14 +32,22 @@ public class WebDriver extends WinDriver {
     //[ClassInitialize]
     public static ChromeDriver start(String url) {
         open();
-        // Navigate to the webpage where localStorage data is stored
+        get(url);
+        return driver;
+    }
+
+    // Navigate to the webpage where localStorage data is stored
+    public static ChromeDriver get(String url) {
         driver.get(url);
         return driver;
     }
 
     public static void open() {
-        //open(cap);
+        setProp("webdriver.chrome.driver", chromeDriver);
+        //open(setCap());
         open(options());
+        Assert.assertNotNull(driver);
+        s(driver);
     }
 
     //[Options]
@@ -49,20 +59,20 @@ public class WebDriver extends WinDriver {
         return options;
     }
 
-    public static void open(DesiredCapabilities cap) {
-        setProp("webdriver.chrome.driver", chromeDriver);
-        // Initialize the Chrome driver
-        driver = new ChromeDriver(cap);
-        Assert.assertNotNull(driver);
-        s(driver);
+    //[Capabilities]
+    public static DesiredCapabilities setCap() {
+        cap.setCapability(ChromeOptions.CAPABILITY, options());
+        return cap;
     }
 
+    // Initialize the Chrome driver
+    public static void open(DesiredCapabilities cap) {
+        driver = new ChromeDriver(cap);
+    }
+
+    // Initialize the Chrome driver
     public static void open(ChromeOptions options) {
-        setProp("webdriver.chrome.driver", chromeDriver);
-        // Initialize the Chrome driver
         driver = new ChromeDriver(options);
-        Assert.assertNotNull(driver);
-        s(driver);
     }
 
     public static void stop() {
