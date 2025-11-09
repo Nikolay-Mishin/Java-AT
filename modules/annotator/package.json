@@ -1,6 +1,6 @@
 {
 	"name": "maven-at-modules-annotator",
-	"version": "3.5.3",
+	"version": "3.5.4",
     "main": "index.js",
     "type": "module",
 	"license": "ISC",
