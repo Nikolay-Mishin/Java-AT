@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.7.2</version>
+    <version>7.7.3</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -27,6 +27,8 @@
         <pojo.out>${basedir}/${project.build.sourceDirectory}</pojo.out>
         <pojo.pkg>pojo.gen</pojo.pkg>
         <pojo.annotator>org.project.annotator.lombok.LombokAnnotator</pojo.annotator>
+        <pojo.annotator.ver>3.5.4-SNAPSHOT</pojo.annotator.ver>
+        <pojo.ver>3.5.5-SNAPSHOT</pojo.ver>
     </properties>
 
     <developers>
@@ -155,7 +157,7 @@
                     <dependency>
                         <groupId>org.project</groupId>
                         <artifactId>annotator</artifactId>
-                        <version>3.5.2-SNAPSHOT</version>
+                        <version>${pojo.annotator.ver}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -167,7 +169,7 @@
         <dependency>
             <groupId>org.project</groupId>
             <artifactId>pojo</artifactId>
-            <version>3.5.3-SNAPSHOT</version>
+            <version>${pojo.ver}</version>
         </dependency>
 
         <!-- dev dependencies -->
