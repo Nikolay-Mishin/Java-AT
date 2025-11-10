@@ -1,6 +1,6 @@
 {
 	"name": "maven-at-modules-utils",
-	"version": "4.5.4",
+	"version": "4.5.5",
     "main": "index.js",
     "type": "module",
 	"license": "ISC",

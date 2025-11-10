@@ -34,9 +34,9 @@ public class WinDriver {
     //protected static WebDriver driver;
     protected static WindowsDriver<WebElement> driver;
     protected static DesiredCapabilities cap = new DesiredCapabilities();
-    protected static String winDriver = c.getWindriver();
-    protected static String winDriverName = c.getWindriverName();
-    protected static boolean experimental = c.getExperimental();
+    protected static String winDriver;
+    protected static String winDriverName;
+    protected static boolean experimental;
     protected static Process p;
     protected static ProcessBuilder pb;
     protected static Actions action;
@@ -46,11 +46,8 @@ public class WinDriver {
     }
 
     //[ConfigInitialize]
-    public static DriverBaseConfig config(DriverBaseConfig config) {
-        winDriver = config.getWindriver();
-        winDriverName = config.getWindriverName();
-        experimental = config.getExperimental();
-        return c = config;
+    public static DriverBaseConfig config(DriverBaseConfig config)  {
+        return c = init(config);
     }
 
     @SuppressWarnings("unchecked")
@@ -68,6 +65,14 @@ public class WinDriver {
 
     public static DesiredCapabilities cap(DesiredCapabilities cap) {
         return WinDriver.cap = cap;
+    }
+
+    //[ConfigInitialize]
+    public static DriverBaseConfig init(DriverBaseConfig config) {
+        winDriver = config.getWindriver();
+        winDriverName = config.getWindriverName();
+        experimental = config.getExperimental();
+        return config;
     }
 
     //[ProcessInitialize]
@@ -107,6 +112,7 @@ public class WinDriver {
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
     public static WindowsDriver<WebElement> start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
+        init(c);
         open();
         // Прикрепить переменную драйвера к собственно Winium драйверу
         //driver = new RemoteWebDriver(new URL(appDriverUrl), cap); //на этом порту по умолчанию висит Winium драйвер
