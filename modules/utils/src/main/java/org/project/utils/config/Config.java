@@ -1,7 +1,10 @@
 package org.project.utils.config;
 
 import static java.lang.System.*;
-import static org.aeonbits.owner.ConfigFactory.create;
+import static org.aeonbits.owner.ConfigCache.getOrCreate;
+
+import org.aeonbits.owner.ConfigFactory;
+
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.WebBaseConfig.*;
 
@@ -9,6 +12,7 @@ import org.project.utils.base.HashMap;
 
 public class Config {
     protected static HashMap<String, BaseConfig> map = new HashMap<>();
+    protected static String env = ENV;
     protected static int debugLvl = DEBUG_LEVEL;
 
     public static HashMap<String, BaseConfig> configs() {
@@ -41,7 +45,7 @@ public class Config {
     }
 
     public static <T extends BaseConfig> T compare(T config) {
-        return compare("config", debugLvl(config));
+        return compare("config", init(config));
     }
 
     public static <T extends BaseConfig> T compare(String k, T config) {
@@ -61,9 +65,35 @@ public class Config {
 
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
         debug("createConfig: " + clazz);
-        return debugLvl(create(clazz, getenv(), getProperties()));
+        //return init(create(clazz, getenv(), getProperties()));
+        return init(getOrCreate(clazz, getenv(), getProperties()));
     }
 
+    public static <T extends BaseConfig> T init(T config) {
+        env(config);
+        debugLvl(config);
+        ConfigFactory.setProperty("env", env);
+        return config;
+    }
+
+    public static String env() {
+        return env;
+    }
+
+    public static <T extends BaseConfig> T env(String value) {
+        return env(config(), value);
+    }
+
+    protected static <T extends BaseConfig> T env(T config) {
+        String env = config.getEnv();
+        debug("env: " + env);
+        return env(config, env);
+    }
+
+    protected static <T extends BaseConfig> T env(T config, String value) {
+        env = value;
+        return config;
+    }
     public static int debugLvl() {
         return debugLvl;
     }
@@ -73,8 +103,9 @@ public class Config {
     }
 
     protected static <T extends BaseConfig> T debugLvl(T config) {
-        debug("debugLevel: " + config.getDebugLevel());
-        return debugLvl(config, Integer.parseInt(config.getDebugLevel()));
+        int debugLvl = config.getDebugLevel();
+        debug("debugLevel: " + debugLvl);
+        return debugLvl(config, debugLvl);
     }
 
     protected static <T extends BaseConfig> T debugLvl(T config, int value) {

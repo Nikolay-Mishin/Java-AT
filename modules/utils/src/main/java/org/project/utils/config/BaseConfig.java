@@ -9,11 +9,15 @@ import static org.project.utils.config.Config.*;
 @Sources({"classpath:dev.properties"})
 public interface BaseConfig extends Config {
     BaseConfig BASE_CONFIG = config(BaseConfig.class);
+    String ENV = env();
     int DEBUG_LEVEL = debugLvl();
 
     @Key("BASE_CONFIG")
     BaseConfig getConfig();
 
+    @Key("ENV")
+    String getEnv();
+
     @Key("DEBUG_LEVEL")
-    String getDebugLevel();
+    int getDebugLevel();
 }

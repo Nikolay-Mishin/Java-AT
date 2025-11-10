@@ -20,7 +20,7 @@ import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.Process.run;
-import static org.project.utils.windriver.DriverBaseConfig.BASE_CONFIG;
+import static org.project.utils.windriver.DriverBaseConfig.*;
 
 import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;
@@ -30,9 +30,10 @@ public class WinDriver {
     //protected static WebDriver driver;
     protected static WindowsDriver<WebElement> driver;
     protected static DesiredCapabilities cap = new DesiredCapabilities();
-    protected static String winDriver;
-    protected static String winDriverName;
-    protected static boolean experimental;
+    protected static String winDriver = WINDRIVER;
+    protected static String winDriverName = WINDRIVER_NAME;
+    protected static String winDriverHost = WINDRIVER_HOST;
+    protected static boolean experimental = c.getExperimental();
     protected static Process p;
     protected static ProcessBuilder pb;
     protected static Actions action;
@@ -65,9 +66,15 @@ public class WinDriver {
 
     //[ConfigInitialize]
     public static DriverBaseConfig init(DriverBaseConfig config) {
+        debug(config);
         winDriver = config.getWindriver();
+        debug(winDriver);
         winDriverName = config.getWindriverName();
+        debug(winDriverName);
+        winDriverHost = config.getWindriverHost();
+        debug(winDriverHost);
         experimental = config.getExperimental();
+        debug(experimental);
         return config;
     }
 
@@ -108,11 +115,10 @@ public class WinDriver {
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
     public static WindowsDriver<WebElement> start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
-        init(c);
         open();
         // Прикрепить переменную драйвера к собственно Winium драйверу
         //driver = new RemoteWebDriver(new URL(appDriverUrl), cap); //на этом порту по умолчанию висит Winium драйвер
-        driver = new WindowsDriver<>(new URL(c.getWindriverHost()), cap); //на этом порту по умолчанию висит Winium драйвер
+        driver = new WindowsDriver<>(new URL(winDriverHost), cap); //на этом порту по умолчанию висит Winium драйвер
         Assert.assertNotNull(driver);
         return driver;
     }
@@ -128,6 +134,7 @@ public class WinDriver {
             debug(k + ": " + v);
             if (v != "") cap.setCapability(k, v);
         }
+        debug("experimental: " + experimental);
         return cap;
     }
 
