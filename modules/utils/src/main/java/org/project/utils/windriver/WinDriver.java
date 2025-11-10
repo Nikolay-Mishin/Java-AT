@@ -1,13 +1,8 @@
 package org.project.utils.windriver;
 
-import static java.awt.Desktop.*;
-
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,12 +20,13 @@ import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.Process.run;
+import static org.project.utils.windriver.DriverBaseConfig.BASE_CONFIG;
 
 import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;
 
 public class WinDriver {
-    protected static DriverBaseConfig c = config();
+    protected static DriverBaseConfig c = BASE_CONFIG;
     //protected static WebDriver driver;
     protected static WindowsDriver<WebElement> driver;
     protected static DesiredCapabilities cap = new DesiredCapabilities();
