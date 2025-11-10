@@ -67,8 +67,8 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response post(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        M order = new Model<>(modelClass, dataTable, hashMap).get();
-        Response resp = req.post(order);
+        M model = new Model<>(modelClass, dataTable, hashMap).get();
+        Response resp = req.post(model);
         //id = resp.jsonPath().get("id");
         id = parseLong(resp.path("id").toString());
         debug(id);
@@ -77,8 +77,8 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response put(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        M order = new Model<>(modelClass, dataTable).get();
-        Response resp = req.put(order);
+        M model = new Model<>(modelClass, dataTable).get();
+        Response resp = req.put(model);
         id = resp.path("id");
         debug(id);
         debug(resp.getStatusCode());
