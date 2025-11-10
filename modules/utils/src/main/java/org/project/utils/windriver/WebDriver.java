@@ -25,7 +25,7 @@ public class WebDriver extends WinDriver {
     }
 
     //[ProcessInitialize]
-    public static void init() throws IOException {
+    public static void init() throws IOException, IllegalAccessException {
         init(c.getChromeDriver(), c.getWebdriverParam());
     }
 

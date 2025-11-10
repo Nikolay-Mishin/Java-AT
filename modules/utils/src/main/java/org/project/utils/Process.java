@@ -1,14 +1,18 @@
 package org.project.utils;
 
+import java.awt.*;
 import java.beans.ConstructorProperties;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
+import java.util.Arrays;
 
 import org.project.utils.stream.StreamGobbler;
 
+import static java.awt.Desktop.getDesktop;
+import static java.awt.Desktop.isDesktopSupported;
+import static org.project.utils.Helper.debug;
+
 public class Process {
+    public static final Desktop desktop = getDesktop();
     private ProcessBuilder pb;
     private java.lang.Process p;
     private boolean inherit = false;
@@ -22,6 +26,32 @@ public class Process {
     @ConstructorProperties({"params"})
     public Process(String... params) throws IOException {
         run(params);
+    }
+
+    public static Process run(String app, String... params) throws IOException {
+        return new Process(app, Arrays.toString(params));
+    }
+
+    public static void open(String app) {
+        try {
+            File file = new File(app);
+
+            /* Check if there is support for Desktop or not */
+            if(!isDesktopSupported()) {
+                debug("not supported");
+                return;
+            }
+
+            if (file.exists()) {
+                debug("Open " + app + "\n");
+                desktop.open(file);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            debug("Encountered Exception\n");
+            throw new RuntimeException(e);
+        }
     }
 
     public void run(String... params) throws IOException {

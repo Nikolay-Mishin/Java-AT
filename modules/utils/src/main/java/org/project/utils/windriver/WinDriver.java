@@ -24,6 +24,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
+import static org.project.utils.Process.run;
 
 import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;
@@ -33,9 +34,9 @@ public class WinDriver {
     //protected static WebDriver driver;
     protected static WindowsDriver<WebElement> driver;
     protected static DesiredCapabilities cap = new DesiredCapabilities();
-    protected static final String winDriver = c.getWindriver();
-    protected static final String winDriverName = c.getWindriverName();
-    protected static final boolean experimental = c.getExperimental();
+    protected static String winDriver = c.getWindriver();
+    protected static String winDriverName = c.getWindriverName();
+    protected static boolean experimental = c.getExperimental();
     protected static Process p;
     protected static ProcessBuilder pb;
     protected static Actions action;
@@ -46,6 +47,9 @@ public class WinDriver {
 
     //[ConfigInitialize]
     public static DriverBaseConfig config(DriverBaseConfig config) {
+        winDriver = config.getWindriver();
+        winDriverName = config.getWindriverName();
+        experimental = config.getExperimental();
         return c = config;
     }
 
@@ -67,12 +71,12 @@ public class WinDriver {
     }
 
     //[ProcessInitialize]
-    public static void init() throws IOException {
+    public static void init() throws IOException, IllegalAccessException {
         init(winDriver, c.getWebdriverParam());
     }
 
-    protected static void init(String app, String... params) throws IOException {
-        p = new Process(app, Arrays.toString(params));
+    protected static void init(String app, String... params) throws IOException, IllegalAccessException {
+        p = run(app, params);
         pb = p.pb();
     }
 
@@ -89,13 +93,18 @@ public class WinDriver {
         return start(setCap());
     }
 
-    //[ClassInitialize]
     public static WindowsDriver<WebElement> start(String app, String... params) throws IOException, IllegalAccessException {
-        init(app, params);
+        start();
+        run(app, params);
         return driver;
     }
 
-    //[ClassInitialize]
+    public static WindowsDriver<WebElement> start(DriverBaseConfig config) throws MalformedURLException, IllegalAccessException {
+        config(config);
+        start();
+        return driver;
+    }
+
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
     public static WindowsDriver<WebElement> start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
         open();
@@ -121,27 +130,11 @@ public class WinDriver {
     }
 
     public static void open() {
-        try {
-            Desktop desktop = getDesktop();
+        open(winDriver);
+    }
 
-            File file = new File(winDriver);
-
-            /* Check if there is support for Desktop or not */
-            if(!isDesktopSupported()) {
-                debug("not supported");
-                return;
-            }
-
-            if (file.exists()) {
-                debug("Open " + winDriver + "\n");
-                desktop.open(file);
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            debug("Encountered Exception\n");
-            throw new RuntimeException(e);
-        }
+    public static void open(String app) {
+        Process.open(app);
     }
 
     public static void stop() {
