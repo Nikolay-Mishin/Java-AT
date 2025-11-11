@@ -1,6 +1,6 @@
 package org.project.utils;
 
-import static java.lang.System.out;
+import static java.lang.System.*;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -170,23 +170,23 @@ public class Helper {
     }
 
     public static String setProp(String k, String v) {
-        return System.setProperty(k, v);
+        return setProperty(k, v);
     }
 
     public static String getProp(String k) {
-        return System.getProperty(k);
+        return getProperty(k);
     }
 
     public static Properties getProps() {
-        return System.getProperties();
+        return getProperties();
     }
 
     public static Map<String, String> getEnvList() {
-        return System.getenv();
+        return getenv();
     }
 
     public static String getEnv(String k) {
-        return System.getenv(k);
+        return getenv(k);
     }
 
     public static String sb(Object... args) {

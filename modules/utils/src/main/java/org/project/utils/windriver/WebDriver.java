@@ -30,6 +30,12 @@ public class WebDriver extends WinDriver {
     }
 
     //[ClassInitialize]
+    public static ChromeDriver start() {
+        open();
+        return driver;
+    }
+
+    //[ClassInitialize]
     public static ChromeDriver start(String url) {
         open();
         get(url);

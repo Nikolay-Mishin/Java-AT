@@ -97,8 +97,9 @@ public class WinDriver {
 
     //[ClassInitialize]
     // public static WebDriver start() throws MalformedURLException, IllegalAccessException {
-    public static WindowsDriver<WebElement> start() throws MalformedURLException, IllegalAccessException {
-        return start(setCap());
+    @SuppressWarnings("unchecked")
+    public static <T extends WebDriver> T start() throws MalformedURLException, IllegalAccessException {
+        return (T) start(setCap());
     }
 
     public static WindowsDriver<WebElement> start(String app, String... params) throws IOException, IllegalAccessException {

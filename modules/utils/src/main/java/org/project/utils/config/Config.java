@@ -1,16 +1,20 @@
 package org.project.utils.config;
 
 import static java.lang.System.*;
-import static org.aeonbits.owner.ConfigCache.getOrCreate;
 
+import java.util.*;
+
+import org.aeonbits.owner.ConfigCache;
 import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.Factory;
 
-import static org.project.utils.Helper.*;
 import static org.project.utils.config.WebBaseConfig.*;
+import static org.project.utils.Helper.*;
 
 import org.project.utils.base.HashMap;
 
 public class Config {
+    protected static Factory f = f();
     protected static HashMap<String, BaseConfig> map = new HashMap<>();
     protected static String env = ENV;
     protected static int debugLvl = DEBUG_LEVEL;
@@ -65,14 +69,14 @@ public class Config {
 
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
         debug("createConfig: " + clazz);
-        //return init(create(clazz, getenv(), getProperties()));
-        return init(getOrCreate(clazz, getenv(), getProperties()));
+        //return init(create(clazz, getenv(), getProps()));
+        return init(getOrCreate(clazz, getenv(), getProps()));
     }
 
     public static <T extends BaseConfig> T init(T config) {
         env(config);
         debugLvl(config);
-        ConfigFactory.setProperty("env", env);
+        set("env", env);
         return config;
     }
 
@@ -112,4 +116,69 @@ public class Config {
         debugLvl = value;
         return config;
     }
+
+    public static Properties get() {
+        return ConfigFactory.getProperties();
+    }
+
+    public static String get(String k) {
+        return ConfigFactory.getProperty(k);
+    }
+
+    public static void set(Properties props) {
+        ConfigFactory.setProperties(props);
+    }
+
+    public static String set(String k, String v) {
+        return ConfigFactory.setProperty(k, v);
+    }
+
+    public static void clear(String k) {
+        ConfigFactory.clearProperty(k);
+    }
+
+    public static Factory getF() {
+        return f;
+    }
+
+    public static Factory f() {
+        return f = ConfigFactory.newInstance();
+    }
+
+    public static Factory f(Factory factory) {
+        return f = factory;
+    }
+
+    public static <T extends BaseConfig> T getOrCreate(Class<? extends T> clazz, Map<?, ?>... imports) {
+        return ConfigCache.getOrCreate(clazz, imports);
+    }
+
+    public static <T extends BaseConfig> T getOrCreateF(Class<? extends T> clazz, Map<?, ?>... imports) {
+        return ConfigCache.getOrCreate(f, clazz, imports);
+    }
+
+    public static <T extends BaseConfig> T getOrCreate(Factory factory, Class<? extends T> clazz, Map<?, ?>... imports) {
+        return ConfigCache.getOrCreate(factory, clazz, imports);
+    }
+
+    public static Set<Object> list() {
+        return ConfigCache.list();
+    }
+
+    public static <T extends BaseConfig> T getCache(Object k) {
+        return ConfigCache.get(k);
+    }
+
+    public static <T extends BaseConfig> T add(Object k, T config) {
+        return ConfigCache.add(k, config);
+    }
+
+    public static void clear() {
+        ConfigCache.clear();
+    }
+
+    public static <T extends BaseConfig> T remove(Object k) {
+        return ConfigCache.remove(k);
+    }
+
 }
