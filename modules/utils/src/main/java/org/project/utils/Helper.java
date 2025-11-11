@@ -169,26 +169,6 @@ public class Helper {
         return entriesMap;
     }
 
-    public static String setProp(String k, String v) {
-        return setProperty(k, v);
-    }
-
-    public static String getProp(String k) {
-        return getProperty(k);
-    }
-
-    public static Properties getProps() {
-        return getProperties();
-    }
-
-    public static Map<String, String> getEnvList() {
-        return getenv();
-    }
-
-    public static String getEnv(String k) {
-        return getenv(k);
-    }
-
     public static String sb(Object... args) {
         StringBuilder sb = new StringBuilder();
         for (Object arg : args) sb.append(arg);

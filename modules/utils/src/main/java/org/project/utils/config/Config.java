@@ -4,9 +4,7 @@ import static java.lang.System.*;
 
 import java.util.*;
 
-import org.aeonbits.owner.ConfigCache;
-import org.aeonbits.owner.ConfigFactory;
-import org.aeonbits.owner.Factory;
+import org.aeonbits.owner.*;
 
 import static org.project.utils.config.WebBaseConfig.*;
 import static org.project.utils.Helper.*;
@@ -69,8 +67,8 @@ public class Config {
 
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
         debug("createConfig: " + clazz);
-        //return init(create(clazz, getenv(), getProps()));
-        return init(getOrCreate(clazz, getenv(), getProps()));
+        //return init(create(clazz, getenv(), getProperties()));
+        return init(getOrCreate(clazz, getenv(), getProperties()));
     }
 
     public static <T extends BaseConfig> T init(T config) {
@@ -180,5 +178,4 @@ public class Config {
     public static <T extends BaseConfig> T remove(Object k) {
         return ConfigCache.remove(k);
     }
-
 }

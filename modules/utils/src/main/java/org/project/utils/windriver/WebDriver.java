@@ -1,16 +1,14 @@
 package org.project.utils.windriver;
 
+import static java.lang.System.setProperty;
+
 import java.io.IOException;
-import java.util.Map;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.project.utils.constant.Capabilities;
 import org.testng.Assert;
-
-import static org.project.utils.Helper.*;
 
 public class WebDriver extends WinDriver {
     protected static ChromeDriver driver;
@@ -49,7 +47,7 @@ public class WebDriver extends WinDriver {
     }
 
     public static void open() {
-        setProp("webdriver.chrome.driver", chromeDriver);
+        setProperty("webdriver.chrome.driver", chromeDriver);
         //open(setCap());
         open(options());
         Assert.assertNotNull(driver);

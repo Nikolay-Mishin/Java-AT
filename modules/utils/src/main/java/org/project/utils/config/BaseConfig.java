@@ -1,8 +1,8 @@
 package org.project.utils.config;
 
-import org.aeonbits.owner.Config;
-
 import static org.aeonbits.owner.Config.*;
+
+import org.aeonbits.owner.Config;
 
 import static org.project.utils.config.Config.*;
 
