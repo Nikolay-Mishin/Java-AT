@@ -18,10 +18,11 @@ public class App {
     public static void main(String[] args) throws IllegalAccessException, MalformedURLException {
         //testWeb();
         //testConfig();
-        testWinDriver();
+        testWinDriverConfig();
+        //testWinDriver();
     }
 
-    public static void testWeb() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public static void testWeb() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, MalformedURLException {
         String url = "https://tds-test.itorum.ru/";
         WebDriver.start(url);
         // Set the localStorage data
@@ -60,7 +61,7 @@ public class App {
         }
     }
 
-    public static void testWinDriver() throws IllegalAccessException, MalformedURLException {
+    public static void testWinDriverConfig() {
         //debug(WebBaseConfig.BASE_CONFIG.getBaseUrl());
         //debug(BASE_CONFIG.getDebugLevel());
         debug(DriverBaseConfig.BASE_CONFIG.getIsWinium());
@@ -80,6 +81,9 @@ public class App {
         //debug(DriverBaseConfig.WINDRIVER_PORT);
         debug(DriverBaseConfig.WINDRIVER_HOST);
         //debug(_equals(DriverBaseConfig.BASE_CONFIG.getWebdriverParam(), ""));
+    }
+
+    public static void testWinDriver() throws IllegalAccessException, MalformedURLException {
         start();
     }
 
