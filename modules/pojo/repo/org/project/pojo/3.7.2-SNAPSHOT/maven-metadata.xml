@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.project</groupId>
+  <artifactId>pojo</artifactId>
+  <versioning>
+    <lastUpdated>20251112131004</lastUpdated>
+    <snapshot>
+      <timestamp>20251112.131004</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>3.7.2-20251112.131004-1</value>
+        <updated>20251112131004</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>3.7.2-20251112.131004-1</value>
+        <updated>20251112131004</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>3.7.2-SNAPSHOT</version>
+</metadata>
