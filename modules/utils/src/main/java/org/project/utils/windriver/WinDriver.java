@@ -3,23 +3,26 @@ package org.project.utils.windriver;
 import static java.util.Arrays.stream;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
+import java.net.*;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import static org.openqa.selenium.Keys.*;
 
+import io.appium.java_client.*;
+import io.appium.java_client.screenrecording.*;
 import io.appium.java_client.windows.WindowsDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.html5.Location;
+import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.http.HttpMethod;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
@@ -56,12 +59,16 @@ public class WinDriver {
         return (T) driver;
     }
 
-    public static WindowsDriver<WebElement> driver(WindowsDriver<WebElement> driver) {
-        return WinDriver.driver = driver;
+    public static <T extends WebDriver> T driver(T driver) {
+        return (T) (WinDriver.driver = (WindowsDriver<WebElement>) driver);
     }
 
     public static DesiredCapabilities cap() {
         return cap;
+    }
+
+    public static org.openqa.selenium.Capabilities getCapabilities() {
+        return driver.getCapabilities();
     }
 
     public static DesiredCapabilities cap(DesiredCapabilities cap) {
@@ -76,7 +83,7 @@ public class WinDriver {
         return WinDriver.action = action;
     }
 
-    public static Actions action(WindowsDriver<WebElement> driver) {
+    public static <T extends WebDriver> Actions action(T driver) {
         return action = new Actions(driver);
     }
 
@@ -131,14 +138,33 @@ public class WinDriver {
     }
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
-    public static WindowsDriver<WebElement> start(DesiredCapabilities cap) throws MalformedURLException {
+    public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException {
         open();
+        return (T) start(new WindowsDriver<>(new URL(winDriverHost), cap));
+    }
+
+    //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
+    public static <T extends WebDriver> T start(T driver) throws MalformedURLException {
+        Assert.assertNotNull(driver);
         // Прикрепить переменную драйвера к собственно Winium драйверу
         //driver = new RemoteWebDriver(new URL(appDriverUrl), cap); //на этом порту по умолчанию висит Winium драйвер
-        driver = new WindowsDriver<>(new URL(winDriverHost), cap); //на этом порту по умолчанию висит Winium драйвер
-        Assert.assertNotNull(driver);
+        driver(driver); //на этом порту по умолчанию висит Winium драйвер
         action(driver);
         return driver;
+    }
+
+    public static void open() throws MalformedURLException {
+        open(winDriver);
+    }
+
+    public static void open(String app) throws MalformedURLException {
+        Process.open(app);
+    }
+
+    // Navigate to the webpage where localStorage data is stored
+    public static <T extends WebDriver> T get(String url) {
+        driver.get(url);
+        return (T) driver;
     }
 
     //[Capabilities]
@@ -154,29 +180,6 @@ public class WinDriver {
         }
         debug("experimental: " + experimental);
         return cap;
-    }
-
-    public static void open() {
-        open(winDriver);
-    }
-
-    public static void open(String app) {
-        Process.open(app);
-    }
-
-    public static void stop() {
-        stop(winDriverName);
-    }
-
-    protected static void stop(String driverName) {
-        try {
-            new Process("taskkill ", "/f", "/IM", driverName);
-            driver = null;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 
     //[AppSessionQuit]
@@ -195,6 +198,21 @@ public class WinDriver {
         // WinDriver.stop();
         if (driver != null) driver.quit();
         stop(driverName);
+    }
+
+    public static void stop() {
+        stop(winDriverName);
+    }
+
+    protected static void stop(String driverName) {
+        try {
+            new Process("taskkill ", "/f", "/IM", driverName);
+            driver = null;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -643,5 +661,145 @@ public class WinDriver {
         Action action = build();
         action.perform();
         return action;
+    }
+
+    public static void setLocation(Location loc) {
+        driver.setLocation(loc);
+    }
+
+    public static String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+
+    public static URL getRemoteAddress() {
+        return driver.getRemoteAddress();
+    }
+
+    public static String getContext() {
+        return driver.getContext();
+    }
+
+    public static void setLogLevel(Level lvl) {
+        driver.setLogLevel(lvl);
+    }
+
+    public static void resetApp() {
+        driver.resetApp();
+    }
+
+    public static Keyboard getKeyboard() {
+        return driver.getKeyboard();
+    }
+
+    public static Mouse getMouse() {
+        return driver.getMouse();
+    }
+
+    public static ScreenOrientation getOrientation() {
+        return driver.getOrientation();
+    }
+
+    public static String getAutomationName() {
+        return driver.getAutomationName();
+    }
+
+    public static String getTitle() {
+        return driver.getTitle();
+    }
+
+    public static Map<String, Object> getStatus() {
+        return driver.getStatus();
+    }
+
+    public static String getPageSource() {
+        return driver.getPageSource();
+    }
+
+    public static String getDeviceTime() {
+        return driver.getDeviceTime();
+    }
+
+    public static String getDeviceTime(String format) {
+        return driver.getDeviceTime(format);
+    }
+
+    public static Map<String, String> getAppStringMap() {
+        return driver.getAppStringMap();
+    }
+
+    public static SessionId getSessionId() {
+        return driver.getSessionId();
+    }
+
+    public static List<Map<String, Object>> getAllSessionDetails() {
+        return driver.getAllSessionDetails();
+    }
+
+    public static Map<String, Object> getSessionDetails() {
+        return driver.getSessionDetails();
+    }
+
+    public static Object getSessionDetail(String detail) {
+        return driver.getSessionDetail(detail);
+    }
+
+    public static Map<String, Object> getSettings() {
+        return driver.getSettings();
+    }
+
+    public static HasSettings setSetting(Setting setting, Object value) {
+        return driver.setSetting(setting, value);
+    }
+
+    public static HasSettings setSetting(String settingName, Object value) {
+        return driver.setSetting(settingName, value);
+    }
+
+    public static HasSettings setSettings(Map<String, Object> settings) {
+        return driver.setSettings(settings);
+    }
+
+    public static HasSettings setSettings(EnumMap<Setting, Object> settings) {
+        return driver.setSettings(settings);
+    }
+
+    public static void addCommand(HttpMethod httpMethod, String url, String methodName) {
+        driver.addCommand(httpMethod, url, methodName);
+    }
+
+    public static ExecuteMethod getExecuteMethod() {
+        return driver.getExecuteMethod();
+    }
+
+    public static Object executeScript(String script, Object... arg) {
+        return driver.executeScript(script, arg);
+    }
+
+    public static Response execute(String driverCommand) {
+        return driver.execute(driverCommand);
+    }
+
+    public static Response execute(String driverCommand, Map<String, ?> parameters) {
+        return driver.execute(driverCommand, parameters);
+    }
+
+    public static <X> X getScreenshotAs(OutputType<X> outputType) {
+        return driver.getScreenshotAs(outputType);
+    }
+
+    public static String startRecordingScreen() {
+        return driver.startRecordingScreen();
+    }
+
+    public static <T extends BaseStartScreenRecordingOptions> String startRecordingScreen(T options) {
+        return driver.startRecordingScreen(options);
+    }
+
+    public static String stopRecordingScreen() {
+        return driver.stopRecordingScreen();
+    }
+
+    public static <T extends BaseStopScreenRecordingOptions> String stopRecordingScreen(T options) {
+        return driver.stopRecordingScreen(options);
     }
 }

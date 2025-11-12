@@ -3,6 +3,7 @@ package org.project.utils.windriver;
 import static java.lang.System.setProperty;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,7 +19,7 @@ public class WebDriver extends WinDriver {
     public static LocalStorage ls;
     public static SessionStorage s;
 
-    public static ChromeDriver driver(ChromeDriver driver) {
+    public static ChromeDriver driver(ChromeDriver driver) throws MalformedURLException {
         return WebDriver.driver = driver;
     }
 
@@ -28,30 +29,28 @@ public class WebDriver extends WinDriver {
     }
 
     //[ClassInitialize]
-    public static ChromeDriver start() {
-        open();
-        return driver;
-    }
-
-    //[ClassInitialize]
-    public static ChromeDriver start(String url) {
-        open();
-        get(url);
-        return driver;
-    }
-
-    // Navigate to the webpage where localStorage data is stored
-    public static ChromeDriver get(String url) {
-        driver.get(url);
-        return driver;
-    }
-
-    public static void open() {
+    public static ChromeDriver start() throws MalformedURLException {
         setProperty("webdriver.chrome.driver", chromeDriver);
-        //open(setCap());
-        open(options());
+        //start(setCap());
+        start(options());
         Assert.assertNotNull(driver);
         s(driver);
+        return driver;
+    }
+
+    public static ChromeDriver start(String url) throws MalformedURLException {
+        start();
+        return get(url);
+    }
+
+    // Initialize the Chrome driver
+    public static ChromeDriver start(DesiredCapabilities cap) throws MalformedURLException {
+        return start(new ChromeDriver(cap));
+    }
+
+    // Initialize the Chrome driver
+    public static ChromeDriver start(ChromeOptions options) throws MalformedURLException {
+        return start(new ChromeDriver(options));
     }
 
     //[Options]
@@ -69,34 +68,19 @@ public class WebDriver extends WinDriver {
         return cap;
     }
 
-    // Initialize the Chrome driver
-    public static void open(DesiredCapabilities cap) {
-        driver = new ChromeDriver(cap);
-    }
-
-    // Initialize the Chrome driver
-    public static void open(ChromeOptions options) {
-        driver = new ChromeDriver(options);
-    }
-
-    public static void stop() {
-        stop(chromeDriver);
-    }
-
-    //[AppSessionQuit]
-    public static void quit() {
-        quit(driver, chromeDriver);
-        driver = null;
-        js = null;
-        ls = null;
-        s = null;
-    }
-
     public static void s(ChromeDriver driver) {
         // Cast WebDriver to JavascriptExecutor
         //js = (JavascriptExecutor) driver;
         //ls = new LocalStorage(js);
         ls = new LocalStorage(driver);
         s = new SessionStorage(driver);
+    }
+
+    //[AppSessionQuit]
+    public static void quit() {
+        quit(chromeDriver);
+        js = null;
+        ls = null;
+        s = null;
     }
 }
