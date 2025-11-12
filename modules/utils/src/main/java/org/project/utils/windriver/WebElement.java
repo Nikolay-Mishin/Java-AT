@@ -16,7 +16,6 @@ public class WebElement implements org.openqa.selenium.WebElement {
     }
 
     public static WindowsDriver<WebElement> driver(WindowsDriver<WebElement> driver) {
-        WebElement.driver(WinDriver.driver());
         return WebElement.driver = driver;
     }
 
