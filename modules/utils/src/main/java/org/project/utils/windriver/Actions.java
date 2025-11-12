@@ -2,12 +2,7 @@ package org.project.utils.windriver;
 
 import static java.util.Arrays.stream;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.Keys.*;
@@ -18,38 +13,10 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.Assert;
 
-import static org.project.utils.Helper.*;
-import static org.project.utils.Process.run;
-import static org.project.utils.windriver.DriverBaseConfig.*;
-
-import org.project.utils.constant.Capabilities;
-import org.project.utils.Process;
-
-public class WinDriver {
-    protected static DriverBaseConfig c = BASE_CONFIG;
-    //protected static WebDriver driver;
+public class Actions {
     protected static WindowsDriver<WebElement> driver;
-    protected static DesiredCapabilities cap = new DesiredCapabilities();
-    protected static String winDriver = WINDRIVER;
-    protected static String winDriverName = WINDRIVER_NAME;
-    protected static String winDriverHost = WINDRIVER_HOST;
-    protected static boolean experimental = c.getExperimental();
-    protected static Process p;
-    protected static ProcessBuilder pb;
-    protected static Actions action;
-
-    public static DriverBaseConfig config() {
-        return c;
-    }
-
-    //[ConfigInitialize]
-    public static DriverBaseConfig config(DriverBaseConfig config)  {
-        return c = init(config);
-    }
+    protected static org.openqa.selenium.interactions.Actions action;
 
     @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T driver() {
@@ -57,144 +24,20 @@ public class WinDriver {
     }
 
     public static WindowsDriver<WebElement> driver(WindowsDriver<WebElement> driver) {
-        return WinDriver.driver = driver;
+        return Actions.driver = driver;
     }
 
-    public static DesiredCapabilities cap() {
-        return cap;
+    public static <T extends org.openqa.selenium.interactions.Actions> T action() {
+        return (T) action;
     }
 
-    public static DesiredCapabilities cap(DesiredCapabilities cap) {
-        return WinDriver.cap = cap;
+    public static <T extends org.openqa.selenium.interactions.Actions> T action(T action) {
+        return (T) (Actions.action = action);
     }
 
-    public static Actions action() {
-        return action;
-    }
-
-    public static Actions action(Actions action) {
-        return WinDriver.action = action;
-    }
-
-    public static Actions action(WindowsDriver<WebElement> driver) {
-        return action = new Actions(driver);
-    }
-
-    //[ConfigInitialize]
-    public static DriverBaseConfig init(DriverBaseConfig config) {
-        debug(config);
-        winDriver = config.getWindriver();
-        winDriverName = config.getWindriverName();
-        winDriverHost = config.getWindriverHost();
-        experimental = config.getExperimental();
-        debug(winDriver);
-        debug(winDriverName);
-        debug(winDriverHost);
-        debug(experimental);
-        return config;
-    }
-
-    //[ProcessInitialize]
-    public static void init() throws IOException, IllegalAccessException {
-        init(winDriver, c.getWebdriverParam());
-    }
-
-    protected static void init(String app, String... params) throws IOException, IllegalAccessException {
-        p = run(app, params);
-        pb = p.pb();
-    }
-
-    //[ProcessDestroy]
-    public static void destroy() {
-        p.destroy();
-        p = null;
-        pb = null;
-    }
-
-    //[ClassInitialize]
-    // public static WebDriver start() throws MalformedURLException, IllegalAccessException {
-    @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T start() throws MalformedURLException, IllegalAccessException {
-        return (T) start(setCap());
-    }
-
-    public static WindowsDriver<WebElement> start(String app, String... params) throws IOException, IllegalAccessException {
-        start();
-        run(app, params);
-        return driver;
-    }
-
-    public static WindowsDriver<WebElement> start(DriverBaseConfig config) throws MalformedURLException, IllegalAccessException {
-        config(config);
-        start();
-        return driver;
-    }
-
-    //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
-    public static WindowsDriver<WebElement> start(DesiredCapabilities cap) throws MalformedURLException {
-        open();
-        // Прикрепить переменную драйвера к собственно Winium драйверу
-        //driver = new RemoteWebDriver(new URL(appDriverUrl), cap); //на этом порту по умолчанию висит Winium драйвер
-        driver = new WindowsDriver<>(new URL(winDriverHost), cap); //на этом порту по умолчанию висит Winium драйвер
-        Assert.assertNotNull(driver);
-        action(driver);
-        return driver;
-    }
-
-    //[Capabilities]
-    public static DesiredCapabilities setCap() throws IllegalAccessException {
-        if (experimental) cap.setCapability("ms:experimental-webdriver", experimental);
-        Map<String, Object> map = getObjectFields(new Capabilities());
-        debug(map);
-        for (Entry<String, Object> entry : map.entrySet()) {
-            String k = entry.getKey();
-            Object v = entry.getValue();
-            debug(k + ": " + v);
-            if (v != "") cap.setCapability(k, v);
-        }
-        debug("experimental: " + experimental);
-        return cap;
-    }
-
-    public static void open() {
-        open(winDriver);
-    }
-
-    public static void open(String app) {
-        Process.open(app);
-    }
-
-    public static void stop() {
-        stop(winDriverName);
-    }
-
-    protected static void stop(String driverName) {
-        try {
-            new Process("taskkill ", "/f", "/IM", driverName);
-            driver = null;
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    //[AppSessionQuit]
-    public static void quit() {
-        quit(winDriverName);
-    }
-
-    protected static void quit(String driverName) {
-        quit(driver, driverName);
-        driver = null;
-    }
-
-    //protected static void quit(WebDriver driver, String driverName) {
-    protected static void quit(WebDriver driver, String driverName) {
-        // The instance of WinAppDriver will be freed once last test is complete
-        // WinDriver.stop();
-        if (driver != null) driver.quit();
-        stop(driverName);
+    public static <T extends org.openqa.selenium.interactions.Actions> T action(WindowsDriver<WebElement> driver) {
+        driver(driver);
+        return (T) (action = new org.openqa.selenium.interactions.Actions(driver));
     }
 
     /**
@@ -445,79 +288,79 @@ public class WinDriver {
      * где wrk – имя WebElement, от центра которого будем двигать мышкой;
      * x, y – расстояние, на которое будем двигать (положительное значение x двигает курсор вправо, положительное y – вниз).
      */
-    public static Actions move(WebElement el) {
-        return action.moveToElement(el);
+    public static <T extends org.openqa.selenium.interactions.Actions> T move(WebElement el) {
+        return (T) action.moveToElement(el);
     }
 
-    public static Actions move(WebElement el, int x, int y) {
-        return action.moveToElement(el, x, y);
+    public static <T extends org.openqa.selenium.interactions.Actions> T move(WebElement el, int x, int y) {
+        return (T) action.moveToElement(el, x, y);
     }
 
-    public static Actions move(int x, int y) {
-        return action.moveByOffset(x, y);
+    public static <T extends org.openqa.selenium.interactions.Actions> T move(int x, int y) {
+        return (T) action.moveByOffset(x, y);
     }
 
-    public static Actions click() {
-        return action.click();
+    public static <T extends org.openqa.selenium.interactions.Actions> T click() {
+        return (T) action.click();
     }
 
-    public static Actions click(WebElement el) {
-        return action.click(el);
+    public static <T extends org.openqa.selenium.interactions.Actions> T click(WebElement el) {
+        return (T) action.click(el);
     }
 
-    public static Actions doubleClick() {
-        return action.doubleClick();
+    public static <T extends org.openqa.selenium.interactions.Actions> T doubleClick() {
+        return (T) action.doubleClick();
     }
 
-    public static Actions doubleClick(WebElement el) {
-        return action.doubleClick(el);
+    public static <T extends org.openqa.selenium.interactions.Actions> T doubleClick(WebElement el) {
+        return (T) action.doubleClick(el);
     }
 
-    public static Actions clickAndHold() {
-        return action.clickAndHold();
+    public static <T extends org.openqa.selenium.interactions.Actions> T clickAndHold() {
+        return (T) action.clickAndHold();
     }
 
-    public static Actions clickAndHold(WebElement el) {
-        return action.clickAndHold(el);
+    public static <T extends org.openqa.selenium.interactions.Actions> T clickAndHold(WebElement el) {
+        return (T) action.clickAndHold(el);
     }
 
-    public static Actions contextClick() {
-        return action.contextClick();
+    public static <T extends org.openqa.selenium.interactions.Actions> T contextClick() {
+        return (T) action.contextClick();
     }
 
-    public static Actions contextClick(WebElement el) {
-        return action.contextClick(el);
+    public static <T extends org.openqa.selenium.interactions.Actions> T contextClick(WebElement el) {
+        return (T) action.contextClick(el);
     }
 
-    public static Actions dragAndDrop(WebElement el, WebElement target) {
-        return action.dragAndDrop(el, target);
+    public static <T extends org.openqa.selenium.interactions.Actions> T dragAndDrop(WebElement el, WebElement target) {
+        return (T) action.dragAndDrop(el, target);
     }
 
-    public static Actions dragAndDrop(WebElement el, int x, int y) {
-        return action.dragAndDropBy(el, x, y);
+    public static <T extends org.openqa.selenium.interactions.Actions> T dragAndDrop(WebElement el, int x, int y) {
+        return (T) action.dragAndDropBy(el, x, y);
     }
 
-    public static Actions keys(CharSequence... keys) {
-        return action.sendKeys(keys);
+    public static <T extends org.openqa.selenium.interactions.Actions> T keys(CharSequence... keys) {
+        return (T) action.sendKeys(keys);
     }
 
-    public static Actions keys(WebElement el, CharSequence... keys) {
-        return action.sendKeys(el, keys);
+    public static <T extends org.openqa.selenium.interactions.Actions> T keys(WebElement el, CharSequence... keys) {
+        return (T) action.sendKeys(el, keys);
     }
 
     public static void keysEl(WebElement el, CharSequence... keys) {
         el.sendKeys(keys);
     }
 
-    /*public static Actions chord(CharSequence key, CharSequence... keys) {
+    /*public static <T extends org.openqa.selenium.interactions.Actions> T chord(CharSequence key, CharSequence... keys) {
         return keys(key, Keys.chord(keys));
     }*/
 
-    public static Actions chord(CharSequence key, CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T chord(CharSequence key, CharSequence... keys) {
         return keys(Keys.chord(key, (CharSequence) stream(keys)));
     }
 
-    public static Actions chord(WebElement el, CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T chord(WebElement el, CharSequence... keys) {
         return keys(el, Keys.chord(keys));
     }
 
@@ -525,107 +368,107 @@ public class WinDriver {
         keysEl(el, Keys.chord(keys));
     }
 
-    public static Actions down(CharSequence key) {
-        return action.keyDown(key);
+    public static <T extends org.openqa.selenium.interactions.Actions> T down(CharSequence key) {
+        return (T) action.keyDown(key);
     }
 
-    public static Actions down(WebElement el, CharSequence key) {
-        return action.keyDown(el, key);
+    public static <T extends org.openqa.selenium.interactions.Actions> T down(WebElement el, CharSequence key) {
+        return (T) action.keyDown(el, key);
     }
 
-    public static Actions up(CharSequence key) {
-        return action.keyUp(key);
+    public static <T extends org.openqa.selenium.interactions.Actions> T up(CharSequence key) {
+        return (T) action.keyUp(key);
     }
 
-    public static Actions up(WebElement el, CharSequence key) {
-        return action.keyUp(el, key);
+    public static <T extends org.openqa.selenium.interactions.Actions> T up(WebElement el, CharSequence key) {
+        return (T) action.keyUp(el, key);
     }
 
-    public static Actions ctrl(CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T ctrl(CharSequence... keys) {
         return chord(CONTROL, keys);
     }
 
-    public static Actions alt(CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T alt(CharSequence... keys) {
         return chord(ALT, keys);
     }
 
-    public static Actions shift(CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T shift(CharSequence... keys) {
         return chord(SHIFT, keys);
     }
 
-    public static Actions leftCtrl(CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T leftCtrl(CharSequence... keys) {
         return chord(LEFT_CONTROL, keys);
     }
 
-    public static Actions leftAlt(CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T leftAlt(CharSequence... keys) {
         return chord(LEFT_ALT, keys);
     }
 
-    public static Actions leftShift(CharSequence... keys) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T leftShift(CharSequence... keys) {
         return chord(LEFT_SHIFT, keys);
     }
 
-    public static Actions enter() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T enter() {
         return chord(ENTER);
     }
 
-    public static Actions esc() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T esc() {
         return chord(CANCEL);
     }
 
-    public static Actions delete() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T delete() {
         return chord(DELETE);
     }
 
-    public static Actions space() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T space() {
         return chord(SPACE);
     }
 
-    public static Actions tab() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T tab() {
         return chord(TAB);
     }
 
-    public static Actions backSpace() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T backSpace() {
         return chord(BACK_SPACE);
     }
 
-    public static Actions arrowUp() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T arrowUp() {
         return chord(ARROW_UP);
     }
 
-    public static Actions arrowDown() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T arrowDown() {
         return chord(ARROW_DOWN);
     }
 
-    public static Actions arrowRight() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T arrowRight() {
         return chord(ARROW_RIGHT);
     }
 
-    public static Actions arrowLeft() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T arrowLeft() {
         return chord(ARROW_LEFT);
     }
 
-    public static Actions copy() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T copy() {
         return ctrl("c");
     }
 
-    public static Actions paste() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T paste() {
         return ctrl("v");
     }
 
-    public static Actions save() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T save() {
         return ctrl("s");
     }
 
-    public static Actions selectAll() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T selectAll() {
         return ctrl("a");
     }
 
-    public static Actions saveFile() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T saveFile() {
         return alt("s");
     }
 
-    public static Actions saveFile(String filePath) {
+    public static <T extends org.openqa.selenium.interactions.Actions> T saveFile(String filePath) {
         action.sendKeys(filePath);
         return saveFile();
     }
@@ -634,9 +477,9 @@ public class WinDriver {
         return action.build();
     }
 
-    public static Actions perform() {
+    public static <T extends org.openqa.selenium.interactions.Actions> T perform() {
         action.perform();
-        return action;
+        return (T) action;
     }
 
     public static Action performBuild() {
