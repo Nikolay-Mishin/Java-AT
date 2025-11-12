@@ -28,6 +28,6 @@
         "pkg": "mvn package",
         "deploy": "mvn clean deploy",
         "deploy-auto": "node index.js -deploy -root",
-        "deploy-manual": "npm run clean & mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/utils/repo -Dfile=target/utils-3.4.4-SNAPSHOT.jar -DgroupId=org.project -DartifactId=utils -Dpackaging=jar -Dversion=3.4.4-SNAPSHOT"
+        "deploy-manual": "npm run clean & mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/modules/utils/repo -Dfile=target/utils-3.4.4-SNAPSHOT.jar -DgroupId=org.project -DartifactId=utils -Dpackaging=jar -Dversion=3.4.4-SNAPSHOT"
     }
 }
