@@ -1,6 +1,8 @@
 package org.project.utils.windriver;
 
 import static java.lang.System.setProperty;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.reflection.Reflection.*;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,13 +13,18 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
-public class WebDriver extends WinDriver {
+public class WebDriver<T> extends WinDriver<T> {
     protected static ChromeDriver driver;
     protected static ChromeOptions options = new ChromeOptions();
     protected static final String chromeDriver = c.getChromeDriver();
     public static JavascriptExecutor js;
     public static LocalStorage ls;
     public static SessionStorage s;
+
+    public WebDriver() throws ClassNotFoundException {
+        //super();
+        debug(getGenericClass());
+    }
 
     public static ChromeDriver driver(ChromeDriver driver) throws MalformedURLException {
         return WebDriver.driver = driver;
@@ -29,7 +36,7 @@ public class WebDriver extends WinDriver {
     }
 
     //[ClassInitialize]
-    public static ChromeDriver start() throws MalformedURLException {
+    public static ChromeDriver start() throws MalformedURLException, ClassNotFoundException {
         setProperty("webdriver.chrome.driver", chromeDriver);
         //start(setCap());
         start(options());
@@ -38,20 +45,27 @@ public class WebDriver extends WinDriver {
         return driver;
     }
 
-    public static ChromeDriver start(String url) throws MalformedURLException {
+    public static ChromeDriver start(String url) throws MalformedURLException, ClassNotFoundException {
         start();
         return get(url);
     }
 
     // Initialize the Chrome driver
-    public static ChromeDriver start(DesiredCapabilities cap) throws MalformedURLException {
+    public static ChromeDriver start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
         return start(new ChromeDriver(cap));
     }
 
     // Initialize the Chrome driver
-    public static ChromeDriver start(ChromeOptions options) throws MalformedURLException {
+    public static ChromeDriver start(ChromeOptions options) throws MalformedURLException, ClassNotFoundException {
         return start(new ChromeDriver(options));
     }
+
+    /*public static ChromeDriver start(ChromeDriver driver) throws MalformedURLException {
+        Assert.assertNotNull(driver);
+        driver(driver);
+        action(driver);
+        return driver;
+    }*/
 
     //[Options]
     public static ChromeOptions options() {

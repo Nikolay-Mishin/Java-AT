@@ -2,6 +2,7 @@ package org.project.utils.windriver;
 
 import static java.util.Arrays.stream;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
@@ -27,12 +28,13 @@ import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.Process.run;
+import static org.project.utils.reflection.Reflection.*;
 import static org.project.utils.windriver.DriverBaseConfig.*;
 
 import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;
 
-public class WinDriver {
+public class WinDriver<T> {
     protected static DriverBaseConfig c = BASE_CONFIG;
     //protected static WebDriver driver;
     protected static WindowsDriver<WebElement> driver;
@@ -44,6 +46,14 @@ public class WinDriver {
     protected static Process p;
     protected static ProcessBuilder pb;
     protected static Actions action;
+
+    public WinDriver() throws ClassNotFoundException {
+        gen();
+    }
+
+    public void gen() throws ClassNotFoundException {
+        debug(getGenericClass());
+    }
 
     public static DriverBaseConfig config() {
         return c;
@@ -121,33 +131,36 @@ public class WinDriver {
     //[ClassInitialize]
     // public static WebDriver start() throws MalformedURLException, IllegalAccessException {
     @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T start() throws MalformedURLException, IllegalAccessException {
+    public static <T extends WebDriver> T start() throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
         return (T) start(setCap());
     }
 
-    public static WindowsDriver<WebElement> start(String app, String... params) throws IOException, IllegalAccessException {
+    public static WindowsDriver<WebElement> start(String app, String... params) throws IOException, IllegalAccessException, ClassNotFoundException {
         start();
         run(app, params);
         return driver;
     }
 
-    public static WindowsDriver<WebElement> start(DriverBaseConfig config) throws MalformedURLException, IllegalAccessException {
+    public static WindowsDriver<WebElement> start(DriverBaseConfig config) throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
         config(config);
         start();
         return driver;
     }
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
-    public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException {
+    public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
         open();
         return (T) start(new WindowsDriver<>(new URL(winDriverHost), cap));
     }
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
-    public static <T extends WebDriver> T start(T driver) throws MalformedURLException {
+    public static <T extends WebDriver> T start(T driver) throws MalformedURLException, ClassNotFoundException {
         Assert.assertNotNull(driver);
         // Прикрепить переменную драйвера к собственно Winium драйверу
         //driver = new RemoteWebDriver(new URL(appDriverUrl), cap); //на этом порту по умолчанию висит Winium драйвер
+        //invoke();
+        debug(getCallingClassName());
+        debug(getCallingChildClassName());
         driver(driver); //на этом порту по умолчанию висит Winium драйвер
         action(driver);
         return driver;

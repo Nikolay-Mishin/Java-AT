@@ -1,11 +1,18 @@
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 
+import org.project.utils.Helper;
+import org.project.utils.base.BaseStep;
 import org.project.utils.base.HashMap;
 import org.project.utils.config.BaseConfig;
 import org.project.utils.config.WebBaseConfig;
+import org.project.utils.request.BaseRequests;
+import org.project.utils.request.Request;
 import org.project.utils.windriver.DriverBaseConfig;
 import org.project.utils.windriver.WebDriver;
+import org.project.utils.windriver.WinDriver;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
@@ -15,14 +22,14 @@ import static org.project.utils.config.Config.*;
 import static org.project.utils.windriver.WinDriver.start;
 
 public class App {
-    public static void main(String[] args) throws IllegalAccessException, MalformedURLException {
+    public static void main(String[] args) throws IllegalAccessException, MalformedURLException, ClassNotFoundException {
         //testWeb();
         //testConfig();
-        testWinDriverConfig();
-        //testWinDriver();
+        //testWinDriverConfig();
+        testWinDriver();
     }
 
-    public static void testWeb() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, MalformedURLException {
+    public static void testWeb() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, MalformedURLException, ClassNotFoundException {
         String url = "https://tds-test.itorum.ru/";
         WebDriver.start(url);
         // Set the localStorage data
@@ -83,8 +90,10 @@ public class App {
         //debug(_equals(DriverBaseConfig.BASE_CONFIG.getWebdriverParam(), ""));
     }
 
-    public static void testWinDriver() throws IllegalAccessException, MalformedURLException {
+    public static void testWinDriver() throws IllegalAccessException, MalformedURLException, ClassNotFoundException {
         start();
+        //WebDriver.start();
+        WebDriver.start("https://tds-test.itorum.ru/");
     }
 
 }

@@ -152,6 +152,10 @@ public class Reflection {
         return getCallingClass(1);
     }
 
+    public static <T> Class<T> getCallingChildClass() throws ClassNotFoundException {
+        return getCallingClass(2);
+    }
+
     public static String getCallingClassName(int index) {
         return getStackTraceEl(++index).getClassName();
     }
@@ -160,16 +164,48 @@ public class Reflection {
         return getCallingClassName(1);
     }
 
-    public static <T> Class<T> getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
-        return _getGenericClass(genericClass, index);
+    public static String getCallingChildClassName() {
+        return getCallingClassName(2);
+    }
+
+    public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
+        return _getGenericClass(getCallingClass(1), 0);
     }
 
     public static <T> Class<T> getGenericClass(int index) throws ClassNotFoundException {
         return _getGenericClass(getCallingClass(1), index);
     }
 
-    public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
-        return _getGenericClass(getCallingClass(1), 0);
+    public static <T> Class<T> getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
+        return _getGenericClass(genericClass, index);
+    }
+
+    public static <T> Class<T> getGenericChildClass() throws ClassNotFoundException {
+        return _getGenericClass(getCallingChildClass(), 0);
+    }
+
+    public static <T> Class<T> getGenericChildClass(int index) throws ClassNotFoundException {
+        return _getGenericClass(getCallingChildClass(), index);
+    }
+
+    public static String getGenericClassName() throws ClassNotFoundException {
+        return getClassName(getGenericClass());
+    }
+
+    public static String getGenericClassName(int index) throws ClassNotFoundException {
+        return getClassName(getGenericClass(index));
+    }
+
+    public static <T> String getGenericClassName(Class<T> genericClass, int index) throws ClassNotFoundException {
+        return getClassName(getGenericClass(genericClass, index));
+    }
+
+    public static String getGenericChildClassName() throws ClassNotFoundException {
+        return getClassName(getGenericChildClass());
+    }
+
+    public static String getGenericChildClassName(int index) throws ClassNotFoundException {
+        return getClassName(getGenericChildClass(index));
     }
 
     @Description("Get object property value of String")
