@@ -1,6 +1,6 @@
 {
 	"name": "maven-at-modules-pojo",
-	"version": "3.7.2",
+	"version": "3.7.3",
     "main": "index.js",
     "type": "module",
 	"license": "ISC",
@@ -26,8 +26,8 @@
         "start": "npm run build & npm run deploy",
         "build": "mvn clean install",
         "pkg": "mvn package",
-        "deploy-auto": "node index.js -deploy -root",
         "deploy": "mvn clean deploy",
+        "deploy-auto": "node index.js -deploy -root",
         "deploy-manual": "npm run clean & mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/Maven-AT/modules/pojo/repo -Dfile=target/pojo-3.4.5-SNAPSHOT.jar -DgroupId=org.project -DartifactId=pojo -Dpackaging=jar -Dversion=3.4.5-SNAPSHOT"
     }
 }
