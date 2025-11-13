@@ -25,8 +25,8 @@ public class App {
     public static void main(String[] args) throws IllegalAccessException, MalformedURLException, ClassNotFoundException {
         //testWeb();
         //testConfig();
-        //testWinDriverConfig();
-        testWinDriver();
+        testWinDriverConfig();
+        //testWinDriver();
     }
 
     public static void testWeb() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, MalformedURLException, ClassNotFoundException {

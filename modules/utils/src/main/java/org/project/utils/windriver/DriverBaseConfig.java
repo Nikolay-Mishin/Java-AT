@@ -5,7 +5,7 @@ import org.project.utils.config.BaseConfig;
 
 import static org.project.utils.config.Config.config;
 
-@Sources({"classpath:win.properties"})
+@Sources({"classpath:${env}.properties"})
 public interface DriverBaseConfig extends BaseConfig {
     DriverBaseConfig BASE_CONFIG = config("win", DriverBaseConfig.class);
     boolean IS_WINIUM = BASE_CONFIG.getIsWinium();

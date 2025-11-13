@@ -8,7 +8,7 @@ import static org.project.utils.config.Config.*;
 
 @LoadPolicy(LoadType.MERGE)
 @Sources({
-    "system:properties", // -DpropertyName=propertyValue
+    //"system:properties", // -DpropertyName=propertyValue
     //"classpath:${env}.properties",
     "classpath:dev.properties"
 })
@@ -25,4 +25,10 @@ public interface BaseConfig extends Config {
 
     @Key("DEBUG_LEVEL")
     int getDebugLevel();
+
+    @Key("JAVA_VER")
+    String getJavaVer();
+
+    @Key("JAVA_HOME")
+    String getJavaHome();
 }

@@ -68,13 +68,12 @@ public class Config {
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
         debug("createConfig: " + clazz);
         //return init(create(clazz, getenv(), getProperties()));
-        return init(getOrCreate(clazz, getenv(), getProperties()));
+        return init(getOrCreate(clazz));
     }
 
     public static <T extends BaseConfig> T init(T config) {
         env(config);
         debugLvl(config);
-        set("env", env);
         return config;
     }
 
@@ -82,37 +81,37 @@ public class Config {
         return env;
     }
 
-    public static <T extends BaseConfig> T env(String value) {
-        return env(config(), value);
-    }
-
-    protected static <T extends BaseConfig> T env(T config) {
+    protected static <T extends BaseConfig> String env(T config) {
         String env = config.getEnv();
         debug("env: " + env);
-        return env(config, env);
+        debug("prop: " + get("env"));
+        debug("props: " + get());
+        debug("javaVer: " + config.getJavaVer());
+        debug("javaHome: " + config.getJavaHome());
+        //debug("getenv: " + getenv());
+        //debug("getProperties: " + getProperties());
+        return env(env);
     }
 
-    protected static <T extends BaseConfig> T env(T config, String value) {
-        env = value;
-        return config;
+    protected static String env(String value) {
+        debug("propSet: " + get("env"));
+        debug("envD: " + get("envD"));
+        debug("propsSet: " + get());
+        return env = set("env", value);
     }
+
     public static int debugLvl() {
         return debugLvl;
     }
 
-    public static <T extends BaseConfig> T debugLvl(int value) {
-        return debugLvl(config(), value);
-    }
-
-    protected static <T extends BaseConfig> T debugLvl(T config) {
+    protected static <T extends BaseConfig> int debugLvl(T config) {
         int debugLvl = config.getDebugLevel();
         debug("debugLevel: " + debugLvl);
-        return debugLvl(config, debugLvl);
+        return debugLvl(debugLvl);
     }
 
-    protected static <T extends BaseConfig> T debugLvl(T config, int value) {
-        debugLvl = value;
-        return config;
+    protected static int debugLvl(int value) {
+        return debugLvl = value;
     }
 
     public static Properties get() {
