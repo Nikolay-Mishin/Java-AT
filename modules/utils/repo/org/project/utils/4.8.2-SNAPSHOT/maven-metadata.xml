@@ -3,21 +3,21 @@
   <groupId>org.project</groupId>
   <artifactId>utils</artifactId>
   <versioning>
-    <lastUpdated>20251113165813</lastUpdated>
+    <lastUpdated>20251113171145</lastUpdated>
     <snapshot>
-      <timestamp>20251113.165813</timestamp>
+      <timestamp>20251113.171145</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>4.8.2-20251113.165813-1</value>
-        <updated>20251113165813</updated>
+        <value>4.8.2-20251113.171145-1</value>
+        <updated>20251113171145</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>4.8.2-20251113.165813-1</value>
-        <updated>20251113165813</updated>
+        <value>4.8.2-20251113.171145-1</value>
+        <updated>20251113171145</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

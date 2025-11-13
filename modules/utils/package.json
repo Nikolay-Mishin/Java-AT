@@ -26,6 +26,7 @@
         "start": "npm run build & npm run deploy",
         "build": "mvn clean install",
         "pkg": "mvn package",
+        "tests": "mvn clean test -Denv=stand",
         "deploy": "mvn clean deploy",
         "deploy-auto": "node index.js -deploy -root",
         "deploy-manual": "npm run clean & mvn deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/modules/utils/repo -Dfile=target/utils-3.4.4-SNAPSHOT.jar -DgroupId=org.project -DartifactId=utils -Dpackaging=jar -Dversion=3.4.4-SNAPSHOT"

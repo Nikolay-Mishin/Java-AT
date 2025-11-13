@@ -95,15 +95,6 @@
                         </fileset>
                     </filesets>
                 </configuration>
-                <executions>
-                    <!-- run maven-clean-plugin as part of the build's normal 'deploy' phase -->
-                    <execution>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
@@ -114,22 +105,22 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>
+            <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.11</version>
                 <configuration>
-                    <message>${github.msg}</message>  &lt;!&ndash; git commit message &ndash;&gt;
-                    <noJekyll>true</noJekyll>                                  &lt;!&ndash; disable webpage processing &ndash;&gt;
-                    <merge>${github.merge}</merge> &lt;!&ndash; не перезаписывать предыдущие артефакты при развертывании &ndash;&gt;
-                    <outputDirectory>${repo.path}</outputDirectory> &lt;!&ndash; distribution management repository url &ndash;&gt;
-                    <branch>refs/heads/${github.branch}</branch>    &lt;!&ndash; remote branch name &ndash;&gt;
+                    <message>${github.msg}</message>  <!-- git commit message -->
+                    <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+                    <merge>${github.merge}</merge> <!-- не перезаписывать предыдущие артефакты при развертывании -->
+                    <outputDirectory>${repo.path}</outputDirectory> <!-- distribution management repository url -->
+                    <branch>refs/heads/${github.branch}</branch>    <!-- remote branch name -->
                     <includes><include>**/*</include></includes>
-                    <repositoryName>${github.repo}</repositoryName>    &lt;!&ndash; github repo name &ndash;&gt;
-                    <repositoryOwner>${github.id}</repositoryOwner>    &lt;!&ndash; github username  &ndash;&gt;
+                    <repositoryName>${github.repo}</repositoryName>    <!-- github repo name -->
+                    <repositoryOwner>${github.id}</repositoryOwner>    <!-- github username  -->
                 </configuration>
                 <executions>
-                    &lt;!&ndash; run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase &ndash;&gt;
+                    <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
                     <execution>
                         <goals>
                             <goal>site</goal>
@@ -137,7 +128,7 @@
                         <phase>deploy</phase>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
         </plugins>
     </build>
 
