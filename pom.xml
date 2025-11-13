@@ -12,8 +12,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <pojo.annotator.ver>3.7.2-SNAPSHOT</pojo.annotator.ver>
-        <pojo.ver>3.7.3-SNAPSHOT</pojo.ver>
+        <pojo.annotator.ver>3.7.3-SNAPSHOT</pojo.annotator.ver>
+        <pojo.ver>3.7.4-SNAPSHOT</pojo.ver>
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
         <github.global.url>https://${github.global.server}.com</github.global.url>
