@@ -31,7 +31,6 @@
         "build": "mvn clean install",
         "pkg": "mvn package",
         "test": "npm run tests & npm run allure",
-        "start-with-reports": "npm test & npm run allure & npm run report",
         "tests": "mvn clean test -Denv=stand",
         "allure": "mvn allure:serve",
         "report": "mvn allure:report",
