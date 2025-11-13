@@ -6,14 +6,14 @@
 
     <groupId>org.project</groupId>
     <artifactId>annotator</artifactId>
-    <version>3.7.3-SNAPSHOT</version>
+    <version>3.7.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <utils.ver>4.8.2-SNAPSHOT</utils.ver>
+        <utils.ver>4.8.1-SNAPSHOT</utils.ver>
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
         <github.global.url>https://${github.global.server}.com</github.global.url>

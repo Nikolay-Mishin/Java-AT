@@ -95,15 +95,15 @@
                         </fileset>
                     </filesets>
                 </configuration>
-                <executions>
-                    <!-- run maven-clean-plugin as part of the build's normal 'deploy' phase -->
+                <!--<executions>
+                    &lt;!&ndash; run maven-clean-plugin as part of the build's normal 'deploy' phase &ndash;&gt;
                     <execution>
                         <goals>
                             <goal>clean</goal>
                         </goals>
                         <phase>deploy</phase>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
 
             <plugin>
