@@ -26,7 +26,7 @@
         <repo.dir>repo</repo.dir>
         <repo.path>${basedir}/${repo.dir}</repo.path>
         <pojo.src>${basedir}/src/main/resources/json</pojo.src>
-        <pojo.out>${basedir}/${project.build.sourceDirectory}</pojo.out>
+        <pojo.out>${project.build.sourceDirectory}</pojo.out>
         <pojo.pkg>pojo.gen</pojo.pkg>
         <pojo.annotator>org.project.annotator.lombok.LombokAnnotator</pojo.annotator>
     </properties>
