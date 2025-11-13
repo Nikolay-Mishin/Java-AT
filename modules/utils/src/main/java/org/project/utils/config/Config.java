@@ -68,7 +68,7 @@ public class Config {
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
         debug("createConfig: " + clazz);
         //return init(create(clazz, getenv(), getProperties()));
-        return init(getOrCreate(clazz));
+        return init(getOrCreate(clazz, getenv(), getProperties()));
     }
 
     public static <T extends BaseConfig> T init(T config) {
@@ -84,20 +84,28 @@ public class Config {
     protected static <T extends BaseConfig> String env(T config) {
         String env = config.getEnv();
         debug("env: " + env);
-        debug("prop: " + get("env"));
-        debug("props: " + get());
-        debug("javaVer: " + config.getJavaVer());
-        debug("javaHome: " + config.getJavaHome());
-        //debug("getenv: " + getenv());
-        //debug("getProperties: " + getProperties());
         return env(env);
     }
 
     protected static String env(String value) {
-        debug("propSet: " + get("env"));
-        debug("envD: " + get("envD"));
-        debug("propsSet: " + get());
         return env = set("env", value);
+    }
+
+    public static void printEnv() {
+        printEnv(config());
+    }
+
+    public static <T extends BaseConfig> void printEnv(T config) {
+        String env = config.getEnv();
+        debug("getenv: " + getenv());
+        debug("getProperties: " + getProperties());
+        debug("env: " + env);
+        debug("prop: " + get("env"));
+        debug("envD: " + get("envD"));
+        debug("props: " + get());
+        debug("javaVer: " + config.getJavaVer());
+        debug("javaHome: " + config.getJavaHome());
+        debug("arg: " + getProperty("env"));
     }
 
     public static int debugLvl() {
