@@ -97,8 +97,6 @@ public class Config {
 
     public static <T extends BaseConfig> void printEnv(T config) {
         String env = config.getEnv();
-        debug("getenv: " + getenv());
-        debug("getProperties: " + getProperties());
         debug("env: " + env);
         debug("prop: " + get("env"));
         debug("envD: " + get("envD"));
@@ -106,6 +104,8 @@ public class Config {
         debug("javaVer: " + config.getJavaVer());
         debug("javaHome: " + config.getJavaHome());
         debug("arg: " + getProperty("env"));
+        debug("getenv: " + getenv());
+        debug("getProperties: " + getProperties());
     }
 
     public static int debugLvl() {
