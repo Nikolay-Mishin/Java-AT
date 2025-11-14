@@ -103,6 +103,15 @@ public class Config {
     public static <T extends BaseConfig> void printEnvList(T config) {
         printEnv(config);
         printProps();
+    }
+
+    public static <T extends BaseConfig> void printEnvListWithSys() {
+        printEnvList();
+        printList();
+    }
+
+    public static <T extends BaseConfig> void printEnvListWithSys(T config) {
+        printEnvList(config);
         printList();
     }
 
