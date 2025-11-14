@@ -83,12 +83,27 @@ public class Config {
 
     protected static <T extends BaseConfig> String env(T config) {
         String env = config.getEnv();
+        //String env = getProperty("env");
+        if (isNull(env)) {
+            env = config.getEnv();
+            setProperty("env", env);
+        }
         debug("env: " + env);
         return env(env);
     }
 
     protected static String env(String value) {
         return env = set("env", value);
+    }
+
+    public static <T extends BaseConfig> void printEnvList() {
+        printEnvList(config());
+    }
+
+    public static <T extends BaseConfig> void printEnvList(T config) {
+        printEnv(config);
+        printProps();
+        printList();
     }
 
     public static void printEnv() {
@@ -98,12 +113,19 @@ public class Config {
     public static <T extends BaseConfig> void printEnv(T config) {
         String env = config.getEnv();
         debug("env: " + env);
+        debug("javaVer: " + config.getJavaVer());
+        debug("javaHome: " + config.getJavaHome());
+    }
+
+    public static void printProps() {
         debug("prop: " + get("env"));
         debug("envD: " + get("envD"));
         debug("props: " + get());
-        debug("javaVer: " + config.getJavaVer());
-        debug("javaHome: " + config.getJavaHome());
         debug("arg: " + getProperty("env"));
+        debug("argD: " + getProperty("envD"));
+    }
+
+    public static void printList() {
         debug("getenv: " + getenv());
         debug("getProperties: " + getProperties());
     }

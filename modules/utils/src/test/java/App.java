@@ -79,6 +79,7 @@ public class App {
         //debug(DriverBaseConfig.WINDRIVER_PORT);
         debug(DriverBaseConfig.WINDRIVER_HOST);
         //debug(_equals(DriverBaseConfig.BASE_CONFIG.getWebdriverParam(), ""));
+        printEnvList();
     }
 
     public static void testWinDriver() throws IllegalAccessException, MalformedURLException, ClassNotFoundException {

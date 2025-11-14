@@ -14,7 +14,7 @@ import static org.project.utils.config.Config.*;
 })
 public interface BaseConfig extends Config {
     BaseConfig BASE_CONFIG = config(BaseConfig.class);
-    String ENV = BASE_CONFIG.getEnv();
+    String ENV = env();
     int DEBUG_LEVEL = debugLvl();
 
     @Key("BASE_CONFIG")
