@@ -82,8 +82,8 @@ public class Config {
     }
 
     protected static <T extends BaseConfig> String env(T config) {
-        String env = config.getEnv();
-        //String env = getProperty("env");
+        //String env = config.getEnv();
+        String env = getProperty("env");
         if (isNull(env)) {
             env = config.getEnv();
             setProperty("env", env);
