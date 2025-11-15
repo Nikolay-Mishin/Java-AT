@@ -337,32 +337,8 @@ public class WinDriver<T> {
         return driver.setSettings(settings);
     }
 
-    public static ExecuteMethod getExecuteMethod() {
-        return driver.getExecuteMethod();
-    }
-
-    public static Object execMethod(String s, Map<String, ?> map) {
-        return getExecuteMethod().execute(s, map);
-    }
-
     public static void addCommand(HttpMethod httpMethod, String url, String methodName) {
         driver.addCommand(httpMethod, url, methodName);
-    }
-
-    public static CommandExecutor getCommandExecutor() {
-        return driver.getCommandExecutor();
-    }
-
-    public static Response execCommand(Command command) throws IOException {
-        return getCommandExecutor().execute(command);
-    }
-
-    public static Response execCommand(SessionId sessionId, String name, Map<String, ?> params) throws IOException {
-        return getCommandExecutor().execute(getCommand(sessionId, name, params));
-    }
-
-    public static Command getCommand(SessionId sessionId, String name, Map<String, ?> params) {
-        return new Command(sessionId, name, params);
     }
 
     public static Response execute(String command) {
@@ -371,6 +347,30 @@ public class WinDriver<T> {
 
     public static Response execute(String driverCommand, Map<String, ?> parameters) {
         return driver.execute(driverCommand, parameters);
+    }
+
+    public static ExecuteMethod execMethod() {
+        return driver.getExecuteMethod();
+    }
+
+    public static Object execMethod(String s, Map<String, ?> map) {
+        return execMethod().execute(s, map);
+    }
+
+    public static CommandExecutor getCommandExecutor() {
+        return driver.getCommandExecutor();
+    }
+
+    public static Response execute(Command command) throws IOException {
+        return getCommandExecutor().execute(command);
+    }
+
+    public static Response execute(SessionId sessionId, String name, Map<String, ?> params) throws IOException {
+        return getCommandExecutor().execute(getCommand(sessionId, name, params));
+    }
+
+    public static Command getCommand(SessionId sessionId, String name, Map<String, ?> params) {
+        return new Command(sessionId, name, params);
     }
 
     public static Object executeScript(String script, Object... arg) {
