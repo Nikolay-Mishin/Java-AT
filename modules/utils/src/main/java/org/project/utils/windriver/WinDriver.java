@@ -2,7 +2,6 @@ package org.project.utils.windriver;
 
 import static java.util.Arrays.stream;
 
-import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
@@ -18,7 +17,6 @@ import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.interactions.Actions;
@@ -226,6 +224,155 @@ public class WinDriver<T> {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public static void timeout(long t) {
+        //webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(t));
+        driver.manage().timeouts().implicitlyWait(t, TimeUnit.MILLISECONDS);
+    }
+
+    public static void timeout() {
+        timeout(1000);
+    }
+
+    public static void setLocation(Location loc) {
+        driver.setLocation(loc);
+    }
+
+    public static String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+
+    public static URL getRemoteAddress() {
+        return driver.getRemoteAddress();
+    }
+
+    public static String getContext() {
+        return driver.getContext();
+    }
+
+    public static void setLogLevel(Level lvl) {
+        driver.setLogLevel(lvl);
+    }
+
+    public static void resetApp() {
+        driver.resetApp();
+    }
+
+    public static Keyboard getKeyboard() {
+        return driver.getKeyboard();
+    }
+
+    public static Mouse getMouse() {
+        return driver.getMouse();
+    }
+
+    public static ScreenOrientation getOrientation() {
+        return driver.getOrientation();
+    }
+
+    public static String getAutomationName() {
+        return driver.getAutomationName();
+    }
+
+    public static String getTitle() {
+        return driver.getTitle();
+    }
+
+    public static Map<String, Object> getStatus() {
+        return driver.getStatus();
+    }
+
+    public static String getPageSource() {
+        return driver.getPageSource();
+    }
+
+    public static String getDeviceTime() {
+        return driver.getDeviceTime();
+    }
+
+    public static String getDeviceTime(String format) {
+        return driver.getDeviceTime(format);
+    }
+
+    public static Map<String, String> getAppStringMap() {
+        return driver.getAppStringMap();
+    }
+
+    public static SessionId getSessionId() {
+        return driver.getSessionId();
+    }
+
+    public static List<Map<String, Object>> getAllSessionDetails() {
+        return driver.getAllSessionDetails();
+    }
+
+    public static Map<String, Object> getSessionDetails() {
+        return driver.getSessionDetails();
+    }
+
+    public static Object getSessionDetail(String detail) {
+        return driver.getSessionDetail(detail);
+    }
+
+    public static Map<String, Object> getSettings() {
+        return driver.getSettings();
+    }
+
+    public static HasSettings setSetting(Setting setting, Object value) {
+        return driver.setSetting(setting, value);
+    }
+
+    public static HasSettings setSetting(String settingName, Object value) {
+        return driver.setSetting(settingName, value);
+    }
+
+    public static HasSettings setSettings(Map<String, Object> settings) {
+        return driver.setSettings(settings);
+    }
+
+    public static HasSettings setSettings(EnumMap<Setting, Object> settings) {
+        return driver.setSettings(settings);
+    }
+
+    public static void addCommand(HttpMethod httpMethod, String url, String methodName) {
+        driver.addCommand(httpMethod, url, methodName);
+    }
+
+    public static ExecuteMethod getExecuteMethod() {
+        return driver.getExecuteMethod();
+    }
+
+    public static Object executeScript(String script, Object... arg) {
+        return driver.executeScript(script, arg);
+    }
+
+    public static Response execute(String driverCommand) {
+        return driver.execute(driverCommand);
+    }
+
+    public static Response execute(String driverCommand, Map<String, ?> parameters) {
+        return driver.execute(driverCommand, parameters);
+    }
+
+    public static <X> X getScreenshotAs(OutputType<X> outputType) {
+        return driver.getScreenshotAs(outputType);
+    }
+
+    public static String startRecordingScreen() {
+        return driver.startRecordingScreen();
+    }
+
+    public static <T extends BaseStartScreenRecordingOptions> String startRecordingScreen(T options) {
+        return driver.startRecordingScreen(options);
+    }
+
+    public static String stopRecordingScreen() {
+        return driver.stopRecordingScreen();
+    }
+
+    public static <T extends BaseStopScreenRecordingOptions> String stopRecordingScreen(T options) {
+        return driver.stopRecordingScreen(options);
     }
 
     /**
@@ -455,15 +602,6 @@ public class WinDriver<T> {
         return driver.findElementsByCustom(selector);
     }
 
-    public static void timeout(long t) {
-        //webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(t));
-        driver.manage().timeouts().implicitlyWait(t, TimeUnit.MILLISECONDS);
-    }
-
-    public static void timeout() {
-        timeout(1000);
-    }
-
     /**
      * Также нам может потребоваться имитация ввода клавиш с клавиатуры.
      * В обычном порядке это делается методом sendKeys(«Последовательность символов») у элемента.
@@ -674,145 +812,5 @@ public class WinDriver<T> {
         Action action = build();
         action.perform();
         return action;
-    }
-
-    public static void setLocation(Location loc) {
-        driver.setLocation(loc);
-    }
-
-    public static String getCurrentUrl() {
-        return driver.getCurrentUrl();
-    }
-
-    public static URL getRemoteAddress() {
-        return driver.getRemoteAddress();
-    }
-
-    public static String getContext() {
-        return driver.getContext();
-    }
-
-    public static void setLogLevel(Level lvl) {
-        driver.setLogLevel(lvl);
-    }
-
-    public static void resetApp() {
-        driver.resetApp();
-    }
-
-    public static Keyboard getKeyboard() {
-        return driver.getKeyboard();
-    }
-
-    public static Mouse getMouse() {
-        return driver.getMouse();
-    }
-
-    public static ScreenOrientation getOrientation() {
-        return driver.getOrientation();
-    }
-
-    public static String getAutomationName() {
-        return driver.getAutomationName();
-    }
-
-    public static String getTitle() {
-        return driver.getTitle();
-    }
-
-    public static Map<String, Object> getStatus() {
-        return driver.getStatus();
-    }
-
-    public static String getPageSource() {
-        return driver.getPageSource();
-    }
-
-    public static String getDeviceTime() {
-        return driver.getDeviceTime();
-    }
-
-    public static String getDeviceTime(String format) {
-        return driver.getDeviceTime(format);
-    }
-
-    public static Map<String, String> getAppStringMap() {
-        return driver.getAppStringMap();
-    }
-
-    public static SessionId getSessionId() {
-        return driver.getSessionId();
-    }
-
-    public static List<Map<String, Object>> getAllSessionDetails() {
-        return driver.getAllSessionDetails();
-    }
-
-    public static Map<String, Object> getSessionDetails() {
-        return driver.getSessionDetails();
-    }
-
-    public static Object getSessionDetail(String detail) {
-        return driver.getSessionDetail(detail);
-    }
-
-    public static Map<String, Object> getSettings() {
-        return driver.getSettings();
-    }
-
-    public static HasSettings setSetting(Setting setting, Object value) {
-        return driver.setSetting(setting, value);
-    }
-
-    public static HasSettings setSetting(String settingName, Object value) {
-        return driver.setSetting(settingName, value);
-    }
-
-    public static HasSettings setSettings(Map<String, Object> settings) {
-        return driver.setSettings(settings);
-    }
-
-    public static HasSettings setSettings(EnumMap<Setting, Object> settings) {
-        return driver.setSettings(settings);
-    }
-
-    public static void addCommand(HttpMethod httpMethod, String url, String methodName) {
-        driver.addCommand(httpMethod, url, methodName);
-    }
-
-    public static ExecuteMethod getExecuteMethod() {
-        return driver.getExecuteMethod();
-    }
-
-    public static Object executeScript(String script, Object... arg) {
-        return driver.executeScript(script, arg);
-    }
-
-    public static Response execute(String driverCommand) {
-        return driver.execute(driverCommand);
-    }
-
-    public static Response execute(String driverCommand, Map<String, ?> parameters) {
-        return driver.execute(driverCommand, parameters);
-    }
-
-    public static <X> X getScreenshotAs(OutputType<X> outputType) {
-        return driver.getScreenshotAs(outputType);
-    }
-
-    public static String startRecordingScreen() {
-        return driver.startRecordingScreen();
-    }
-
-    public static <T extends BaseStartScreenRecordingOptions> String startRecordingScreen(T options) {
-        return driver.startRecordingScreen(options);
-    }
-
-    public static String stopRecordingScreen() {
-        return driver.stopRecordingScreen();
-    }
-
-    public static <T extends BaseStopScreenRecordingOptions> String stopRecordingScreen(T options) {
-        return driver.stopRecordingScreen(options);
     }
 }
