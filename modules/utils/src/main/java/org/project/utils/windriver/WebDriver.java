@@ -14,7 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
 public class WebDriver<T> extends RemoteWebDriver {
-    protected static ChromeDriver driver;
+    protected static ChromeDriver d;
     protected static ChromeOptions options = new ChromeOptions();
     protected static final String chromeDriver = c.getChromeDriver();
     public static JavascriptExecutor js;
@@ -27,7 +27,7 @@ public class WebDriver<T> extends RemoteWebDriver {
     }
 
     public static ChromeDriver driver(ChromeDriver driver) throws MalformedURLException {
-        return WebDriver.driver = driver;
+        return d = driver;
     }
 
     //[ProcessInitialize]
@@ -40,9 +40,9 @@ public class WebDriver<T> extends RemoteWebDriver {
         setProperty("webdriver.chrome.driver", chromeDriver);
         //start(setCap());
         start(options());
-        Assert.assertNotNull(driver);
-        s(driver);
-        return driver;
+        Assert.assertNotNull(d);
+        s(d);
+        return d;
     }
 
     public static ChromeDriver start(String url) throws MalformedURLException, ClassNotFoundException {
