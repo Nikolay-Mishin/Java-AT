@@ -12,28 +12,39 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static org.apache.commons.beanutils.PropertyUtils.getProperty;
-import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
+import static org.apache.commons.beanutils.PropertyUtils.*;
 import static org.project.utils.Helper.*;
 
 public class Reflection {
 
     @Description("Get object property")
-    private static Object _getProp(Object obj, String prop, boolean print)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
-    {
+    private static Object _getProp(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Object _prop = getProperty(obj, prop);
         if (print) debug(_prop);
         return _prop;
     }
 
     @Description("Get object property value of String")
-    private static Object _getPropStr(Object obj, String prop, boolean print)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
-    {
+    private static Object _getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Object _prop = BeanUtils.getProperty(obj, prop);
         if (print) debug(_prop);
         return _prop;
+    }
+
+    @Description("Set object property")
+    private static Object _setProp(Object obj, String prop, Object value, boolean print)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
+    {
+        setProperty(obj, prop, value);
+        return _getProp(obj, prop, print);
+    }
+
+    @Description("Set object property value of String")
+    private static Object _setPropStr(Object obj, String prop, Object value, boolean print)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
+    {
+        BeanUtils.setProperty(obj, prop, value);
+        return _getPropStr(obj, prop, print);
     }
 
     @Description("Get property descriptor by name")
@@ -208,6 +219,16 @@ public class Reflection {
         return getClassName(getGenericChildClass(index));
     }
 
+    @Description("Get object property")
+    public static Object getProp(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _getProp(obj, prop, print);
+    }
+
+    @Description("Get object property")
+    public static Object getProp(Object obj, String prop) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _getProp(obj, prop, false);
+    }
+
     @Description("Get object property value of String")
     public static Object getPropStr(Object obj, String prop, boolean print)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
@@ -220,14 +241,26 @@ public class Reflection {
         return _getPropStr(obj, prop, false);
     }
 
-    @Description("Get object property")
-    public static Object getProp(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return _getProp(obj, prop, print);
+    @Description("Set object property")
+    public static Object setProp(Object obj, String prop, Object value, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _setProp(obj, prop, value, print);
     }
 
-    @Description("Get object property")
-    public static Object getProp(Object obj, String prop) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return _getProp(obj, prop, false);
+    @Description("Set object property")
+    public static Object setProp(Object obj, String prop, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _setProp(obj, prop, value, false);
+    }
+
+    @Description("Set object property value of String")
+    public static Object setPropStr(Object obj, String prop, Object value, boolean print)
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
+    {
+        return _setPropStr(obj, prop, value, print);
+    }
+
+    @Description("Set object property value of String")
+    public static Object setPropStr(Object obj, String prop, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return _setPropStr(obj, prop, value, false);
     }
 
     @Description("Get property descriptors")
