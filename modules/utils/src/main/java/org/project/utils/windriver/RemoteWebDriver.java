@@ -85,17 +85,18 @@ public class RemoteWebDriver extends WebElement {
 
     //[ClassInitialize]
     // public static WebDriver start() throws MalformedURLException, IllegalAccessException {
-    @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T start() throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
-        return (T) start(setCap());
+        return start(setCap());
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T start(String app, String... params) throws IOException, IllegalAccessException, ClassNotFoundException {
         start();
         run(app, params);
         return (T) d;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T start(DriverBaseConfig config) throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
         config(config);
         start();
@@ -103,6 +104,7 @@ public class RemoteWebDriver extends WebElement {
     }
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
+    @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
         open();
         // Прикрепить переменную драйвера к собственно Winium драйверу
@@ -129,6 +131,7 @@ public class RemoteWebDriver extends WebElement {
     }
 
     // Navigate to the webpage where localStorage data is stored
+    @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T get(String url) {
         d.get(url);
         return (T) d;

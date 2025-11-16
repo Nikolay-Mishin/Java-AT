@@ -20,6 +20,7 @@ public class WebElement extends Actions {
         return (T) d;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends RemoteWebDriver> T driver(T driver) {
         return (T) (d = driver);
     }
