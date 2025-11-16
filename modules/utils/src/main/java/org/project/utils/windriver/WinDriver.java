@@ -23,6 +23,7 @@ import org.openqa.selenium.html5.Location;
 import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.HttpMethod;
 import org.testng.Assert;
 
@@ -36,7 +37,6 @@ import org.project.utils.Process;
 
 public class WinDriver<T> {
     protected static DriverBaseConfig c = BASE_CONFIG;
-    //protected static WebDriver driver;
     protected static WindowsDriver<WebElement> driver;
     protected static DesiredCapabilities cap = new DesiredCapabilities();
     protected static String winDriver = WINDRIVER;
@@ -150,14 +150,13 @@ public class WinDriver<T> {
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
     public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
         open();
+        // Прикрепить переменную драйвера к собственно Winium драйверу
         return (T) start(new WindowsDriver<>(new URL(winDriverHost), cap));
     }
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
     public static <T extends WebDriver> T start(T driver) throws MalformedURLException, ClassNotFoundException {
         Assert.assertNotNull(driver);
-        // Прикрепить переменную драйвера к собственно Winium драйверу
-        //driver = new RemoteWebDriver(new URL(appDriverUrl), cap); //на этом порту по умолчанию висит Winium драйвер
         //invoke();
         debug(getCallingClassName());
         debug(getCallingChildClassName());

@@ -2,20 +2,20 @@ package org.project.utils.windriver;
 
 import java.util.*;
 
-import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class WebElement {
-    protected static WindowsDriver<org.openqa.selenium.WebElement> driver;
+public class WebElement extends Actions {
+    protected static RemoteWebDriver d;
 
     @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T driver() {
-        return (T) driver;
+        return (T) d;
     }
 
     public static <T extends WebDriver> T driver(T driver) {
-        return (T) (WebElement.driver = (WindowsDriver<org.openqa.selenium.WebElement>) driver);
+        return (T) (d = (RemoteWebDriver) driver);
     }
 
     /**
@@ -25,7 +25,7 @@ public class WebElement {
      * Так же мы можем прикрепляться к элементам другого элемента
      */
     public static org.openqa.selenium.WebElement find(By by) {
-        return driver.findElement(by);
+        return d.findElement(by);
     }
 
     public static org.openqa.selenium.WebElement find(org.openqa.selenium.WebElement el, By by) {
@@ -34,22 +34,17 @@ public class WebElement {
 
     //список элементов - элементы будут добавлены в порядке tab-ордера
     public static List<org.openqa.selenium.WebElement> list(By by) {
-        return driver.findElements(by);
+        return d.findElements(by);
     }
 
     public static List<org.openqa.selenium.WebElement> list(org.openqa.selenium.WebElement el, By by) {
         return el.findElements(by);
     }
 
-    //один элемент, поиск по полю AccessibilityId
-    public static org.openqa.selenium.WebElement findByAccessId(String id) {
-        return driver.findElementByAccessibilityId(id);
-    }
-
     //один элемент, поиск по полю ID
     public static org.openqa.selenium.WebElement findById(String id) {
         //return find(By.id(id));
-        return driver.findElementById(id);
+        return d.findElementById(id);
     }
 
     public static org.openqa.selenium.WebElement findById(org.openqa.selenium.WebElement el, String id) {
@@ -59,7 +54,7 @@ public class WebElement {
     //один элемент, поиск по полю Name
     public static org.openqa.selenium.WebElement findByName(String name) {
         //return find(By.name(name));
-        return driver.findElementByName(name);
+        return d.findElementByName(name);
     }
 
     public static org.openqa.selenium.WebElement findByName(org.openqa.selenium.WebElement el, String name) {
@@ -69,7 +64,7 @@ public class WebElement {
     //один элемент, поиск по полю ClassName
     public static org.openqa.selenium.WebElement findByClass(String className) {
         //return find(By.className(className));
-        return driver.findElementByClassName(className);
+        return d.findElementByClassName(className);
     }
 
     public static org.openqa.selenium.WebElement findByClass(org.openqa.selenium.WebElement el, String className) {
@@ -79,7 +74,7 @@ public class WebElement {
     //один элемент, поиск по полю ClassName
     public static org.openqa.selenium.WebElement findByTag(String tagName) {
         //return find(By.className(className));
-        return driver.findElementByTagName(tagName);
+        return d.findElementByTagName(tagName);
     }
 
     public static org.openqa.selenium.WebElement findByTag(org.openqa.selenium.WebElement el, String tagName) {
@@ -95,7 +90,7 @@ public class WebElement {
     // найдёт элемент, на котором стоит фокус
     public static org.openqa.selenium.WebElement findByXpath(String xpath) {
         //return find(By.xpath(xpath));
-        return driver.findElementByXPath(xpath);
+        return d.findElementByXPath(xpath);
     }
 
     public static org.openqa.selenium.WebElement findByXpath(org.openqa.selenium.WebElement el, String xpath) {
@@ -105,7 +100,7 @@ public class WebElement {
     //один элемент, поиск по полю Css
     public static org.openqa.selenium.WebElement findByCss(String css) {
         //return find(By.className(className));
-        return driver.findElementByCssSelector(css);
+        return d.findElementByCssSelector(css);
     }
 
     public static org.openqa.selenium.WebElement findByCss(org.openqa.selenium.WebElement el, String css) {
@@ -115,7 +110,7 @@ public class WebElement {
     //один элемент, поиск по полю Link
     public static org.openqa.selenium.WebElement findByLink(String css) {
         //return find(By.className(className));
-        return driver.findElementByLinkText(css);
+        return d.findElementByLinkText(css);
     }
 
     public static org.openqa.selenium.WebElement findByLink(org.openqa.selenium.WebElement el, String css) {
@@ -125,37 +120,17 @@ public class WebElement {
     //один элемент, поиск по полю PartialLink
     public static org.openqa.selenium.WebElement findByPartLink(String css) {
         //return find(By.className(className));
-        return driver.findElementByPartialLinkText(css);
+        return d.findElementByPartialLinkText(css);
     }
 
     public static org.openqa.selenium.WebElement findByPartLink(org.openqa.selenium.WebElement el, String css) {
         return find(el, By.partialLinkText(css));
     }
 
-    //один элемент, поиск по полю AutomationID
-    public static org.openqa.selenium.WebElement findByAid(String id) {
-        return driver.findElementByWindowsUIAutomation(id);
-    }
-
-    //один элемент, поиск по полю Image
-    public static org.openqa.selenium.WebElement findByImage(String b64) {
-        return driver.findElementByImage(b64);
-    }
-
-    //один элемент, поиск по полю Custom Selector
-    public static org.openqa.selenium.WebElement findBySelector(String selector) {
-        return driver.findElementByCustom(selector);
-    }
-
-    //один элемент, поиск по полю AccessibilityId
-    public static List<org.openqa.selenium.WebElement> listByAccessId(String id) {
-        return driver.findElementsByAccessibilityId(id);
-    }
-
-    //один элемент, поиск по полю ID
+    //список элементов, поиск по полю ID
     public static List<org.openqa.selenium.WebElement> listById(String id) {
         //return find(By.id(id));
-        return driver.findElementsById(id);
+        return d.findElementsById(id);
     }
 
     public static List<org.openqa.selenium.WebElement> listById(org.openqa.selenium.WebElement el, String id) {
@@ -164,7 +139,7 @@ public class WebElement {
 
     public static List<org.openqa.selenium.WebElement> listByName(String name) {
         //return list(By.name(name));
-        return driver.findElementsByName(name);
+        return d.findElementsByName(name);
     }
 
     public static List<org.openqa.selenium.WebElement> listByName(org.openqa.selenium.WebElement el, String name) {
@@ -173,7 +148,7 @@ public class WebElement {
 
     public static List<org.openqa.selenium.WebElement> listByClass(String className) {
         //return list(By.className(className));
-        return driver.findElementsByClassName(className);
+        return d.findElementsByClassName(className);
     }
 
     public static List<org.openqa.selenium.WebElement> listByClass(org.openqa.selenium.WebElement el, String className) {
@@ -183,7 +158,7 @@ public class WebElement {
     //один элемент, поиск по полю ClassName
     public static List<org.openqa.selenium.WebElement> listByTag(String tagName) {
         //return find(By.className(className));
-        return driver.findElementsByTagName(tagName);
+        return d.findElementsByTagName(tagName);
     }
 
     public static List<org.openqa.selenium.WebElement> listByTag(org.openqa.selenium.WebElement el, String tagName) {
@@ -193,7 +168,7 @@ public class WebElement {
     // найдёт элемент, на котором стоит фокус
     public static List<org.openqa.selenium.WebElement> listByXpath(String xpath) {
         //return list(By.xpath(xpath));
-        return driver.findElementsByXPath(xpath);
+        return d.findElementsByXPath(xpath);
     }
 
     public static List<org.openqa.selenium.WebElement> listByXpath(org.openqa.selenium.WebElement el, String xpath) {
@@ -203,7 +178,7 @@ public class WebElement {
     //один элемент, поиск по полю Css
     public static List<org.openqa.selenium.WebElement> listByCss(String css) {
         //return find(By.className(className));
-        return driver.findElementsByCssSelector(css);
+        return d.findElementsByCssSelector(css);
     }
 
     public static List<org.openqa.selenium.WebElement> listByCss(org.openqa.selenium.WebElement el, String css) {
@@ -213,7 +188,7 @@ public class WebElement {
     //один элемент, поиск по полю Link
     public static List<org.openqa.selenium.WebElement> listByLink(String css) {
         //return find(By.className(className));
-        return driver.findElementsByLinkText(css);
+        return d.findElementsByLinkText(css);
     }
 
     public static List<org.openqa.selenium.WebElement> listByLink(org.openqa.selenium.WebElement el, String css) {
@@ -223,25 +198,10 @@ public class WebElement {
     //один элемент, поиск по полю PartialLink
     public static List<org.openqa.selenium.WebElement> listByPartLink(String css) {
         //return find(By.className(className));
-        return driver.findElementsByPartialLinkText(css);
+        return d.findElementsByPartialLinkText(css);
     }
 
     public static List<org.openqa.selenium.WebElement> listByPartLink(org.openqa.selenium.WebElement el, String css) {
         return list(el, By.partialLinkText(css));
-    }
-
-    //один элемент, поиск по полю AutomationID
-    public static List<org.openqa.selenium.WebElement> listByAid(String id) {
-        return driver.findElementsByWindowsUIAutomation(id);
-    }
-
-    //один элемент, поиск по полю Image
-    public static List<org.openqa.selenium.WebElement> listByImage(String b64) {
-        return driver.findElementsByImage(b64);
-    }
-
-    //один элемент, поиск по полю Custom Selector
-    public static List<org.openqa.selenium.WebElement> listBySelector(String selector) {
-        return driver.findElementsByCustom(selector);
     }
 }

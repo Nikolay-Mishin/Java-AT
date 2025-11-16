@@ -4,35 +4,24 @@ import static java.util.Arrays.stream;
 
 import static org.openqa.selenium.Keys.*;
 
-import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.*;
 
 public class Actions {
-    protected static WindowsDriver<WebElement> driver;
-    protected static org.openqa.selenium.interactions.Actions action;
-
-    @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T driver() {
-        return (T) driver;
-    }
-
-    public static <T extends WebDriver> T driver(T driver) {
-        return (T) (Actions.driver = (WindowsDriver<WebElement>) driver);
-    }
+    protected static org.openqa.selenium.interactions.Actions a;
 
     public static org.openqa.selenium.interactions.Actions action() {
-        return action;
+        return a;
     }
 
     public static org.openqa.selenium.interactions.Actions action(org.openqa.selenium.interactions.Actions action) {
-        return Actions.action = action;
+        return a = action;
     }
 
     public static <T extends WebDriver> org.openqa.selenium.interactions.Actions action(T driver) {
-        return action = new org.openqa.selenium.interactions.Actions(driver);
+        return a = new org.openqa.selenium.interactions.Actions(driver);
     }
 
     /**
@@ -48,63 +37,63 @@ public class Actions {
      * x, y – расстояние, на которое будем двигать (положительное значение x двигает курсор вправо, положительное y – вниз).
      */
     public static org.openqa.selenium.interactions.Actions move(WebElement el) {
-        return action.moveToElement(el);
+        return a.moveToElement(el);
     }
 
     public static org.openqa.selenium.interactions.Actions move(WebElement el, int x, int y) {
-        return action.moveToElement(el, x, y);
+        return a.moveToElement(el, x, y);
     }
 
     public static org.openqa.selenium.interactions.Actions move(int x, int y) {
-        return action.moveByOffset(x, y);
+        return a.moveByOffset(x, y);
     }
 
     public static org.openqa.selenium.interactions.Actions click() {
-        return action.click();
+        return a.click();
     }
 
     public static org.openqa.selenium.interactions.Actions click(WebElement el) {
-        return action.click(el);
+        return a.click(el);
     }
 
     public static org.openqa.selenium.interactions.Actions doubleClick() {
-        return action.doubleClick();
+        return a.doubleClick();
     }
 
     public static org.openqa.selenium.interactions.Actions doubleClick(WebElement el) {
-        return action.doubleClick(el);
+        return a.doubleClick(el);
     }
 
     public static org.openqa.selenium.interactions.Actions clickAndHold() {
-        return action.clickAndHold();
+        return a.clickAndHold();
     }
 
     public static org.openqa.selenium.interactions.Actions clickAndHold(WebElement el) {
-        return action.clickAndHold(el);
+        return a.clickAndHold(el);
     }
 
     public static org.openqa.selenium.interactions.Actions contextClick() {
-        return action.contextClick();
+        return a.contextClick();
     }
 
     public static org.openqa.selenium.interactions.Actions contextClick(WebElement el) {
-        return action.contextClick(el);
+        return a.contextClick(el);
     }
 
     public static org.openqa.selenium.interactions.Actions dragAndDrop(WebElement el, WebElement target) {
-        return action.dragAndDrop(el, target);
+        return a.dragAndDrop(el, target);
     }
 
     public static org.openqa.selenium.interactions.Actions dragAndDrop(WebElement el, int x, int y) {
-        return action.dragAndDropBy(el, x, y);
+        return a.dragAndDropBy(el, x, y);
     }
 
     public static org.openqa.selenium.interactions.Actions keys(CharSequence... keys) {
-        return action.sendKeys(keys);
+        return a.sendKeys(keys);
     }
 
     public static org.openqa.selenium.interactions.Actions keys(WebElement el, CharSequence... keys) {
-        return action.sendKeys(el, keys);
+        return a.sendKeys(el, keys);
     }
 
     public static void keysEl(WebElement el, CharSequence... keys) {
@@ -128,19 +117,19 @@ public class Actions {
     }
 
     public static org.openqa.selenium.interactions.Actions down(CharSequence key) {
-        return action.keyDown(key);
+        return a.keyDown(key);
     }
 
     public static org.openqa.selenium.interactions.Actions down(WebElement el, CharSequence key) {
-        return action.keyDown(el, key);
+        return a.keyDown(el, key);
     }
 
     public static org.openqa.selenium.interactions.Actions up(CharSequence key) {
-        return action.keyUp(key);
+        return a.keyUp(key);
     }
 
     public static org.openqa.selenium.interactions.Actions up(WebElement el, CharSequence key) {
-        return action.keyUp(el, key);
+        return a.keyUp(el, key);
     }
 
     public static org.openqa.selenium.interactions.Actions ctrl(CharSequence... keys) {
@@ -228,17 +217,17 @@ public class Actions {
     }
 
     public static org.openqa.selenium.interactions.Actions saveFile(String filePath) {
-        action.sendKeys(filePath);
+        a.sendKeys(filePath);
         return saveFile();
     }
 
     public static Action build() {
-        return action.build();
+        return a.build();
     }
 
     public static org.openqa.selenium.interactions.Actions perform() {
-        action.perform();
-        return action;
+        a.perform();
+        return a;
     }
 
     public static Action performBuild() {
