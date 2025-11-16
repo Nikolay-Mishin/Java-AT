@@ -55,6 +55,10 @@ public class WinDriver<T> {
         debug(getGenericClass());
     }
 
+    public static void printClass() {
+        debug(driver.getClass());
+    }
+
     public static DriverBaseConfig config() {
         return c;
     }

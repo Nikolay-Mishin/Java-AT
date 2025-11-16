@@ -6,8 +6,14 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import static org.project.utils.Helper.debug;
+
 public class WebElement extends Actions {
     protected static RemoteWebDriver d;
+
+    public static void printClass() {
+        debug(d.getClass());
+    }
 
     @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T driver() {
