@@ -20,8 +20,8 @@ public class WebElement extends Actions {
         return (T) d;
     }
 
-    public static <T extends WebDriver> T driver(T driver) {
-        return (T) (d = (RemoteWebDriver) driver);
+    public static <T extends RemoteWebDriver> T driver(T driver) {
+        return (T) (d = driver);
     }
 
     /**

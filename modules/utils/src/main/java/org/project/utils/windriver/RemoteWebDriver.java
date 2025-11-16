@@ -110,7 +110,7 @@ public class RemoteWebDriver extends WebElement {
     }
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
-    public static <T extends WebDriver> T start(T driver) throws MalformedURLException, ClassNotFoundException {
+    public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver) throws MalformedURLException, ClassNotFoundException {
         Assert.assertNotNull(driver);
         //invoke();
         debug(getCallingClassName());
