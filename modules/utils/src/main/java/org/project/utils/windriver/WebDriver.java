@@ -14,7 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
 public class WebDriver<T> extends RemoteWebDriver {
-    protected static ChromeDriver d;
+    //protected static ChromeDriver d;
     protected static ChromeOptions options = new ChromeOptions();
     protected static final String chromeDriver = c.getChromeDriver();
     public static JavascriptExecutor js;
@@ -26,9 +26,9 @@ public class WebDriver<T> extends RemoteWebDriver {
         debug(getGenericClass());
     }
 
-    public static ChromeDriver driver(ChromeDriver driver) throws MalformedURLException {
+    /*public static ChromeDriver driver(ChromeDriver driver) throws MalformedURLException {
         return d = driver;
-    }
+    }*/
 
     //[ProcessInitialize]
     public static void init() throws IOException, IllegalAccessException {
@@ -36,13 +36,16 @@ public class WebDriver<T> extends RemoteWebDriver {
     }
 
     //[ClassInitialize]
-    public static ChromeDriver start() throws MalformedURLException, ClassNotFoundException {
+    public static <T extends org.openqa.selenium.WebDriver> T start() throws MalformedURLException, ClassNotFoundException {
         setProperty("webdriver.chrome.driver", chromeDriver);
         //start(setCap());
         start(options());
+        debug(d);
+        debug(RemoteWebDriver.d);
+        debug(RemoteWebDriver.d.getClass());
         Assert.assertNotNull(d);
         s(d);
-        return d;
+        return (T) d;
     }
 
     public static ChromeDriver start(String url) throws MalformedURLException, ClassNotFoundException {
@@ -82,12 +85,12 @@ public class WebDriver<T> extends RemoteWebDriver {
         return cap;
     }
 
-    public static void s(ChromeDriver driver) {
+    public static <T extends org.openqa.selenium.WebDriver> void s(T driver) {
         // Cast WebDriver to JavascriptExecutor
         //js = (JavascriptExecutor) driver;
         //ls = new LocalStorage(js);
-        ls = new LocalStorage(driver);
-        s = new SessionStorage(driver);
+        ls = new LocalStorage((ChromeDriver) driver);
+        s = new SessionStorage((ChromeDriver) driver);
     }
 
     //[AppSessionQuit]
