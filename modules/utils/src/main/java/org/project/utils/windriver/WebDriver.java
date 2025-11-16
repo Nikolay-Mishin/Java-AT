@@ -13,7 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
-public class WebDriver<T> extends WinDriver<T> {
+public class WebDriver<T> extends RemoteWebDriver {
     protected static ChromeDriver driver;
     protected static ChromeOptions options = new ChromeOptions();
     protected static final String chromeDriver = c.getChromeDriver();
