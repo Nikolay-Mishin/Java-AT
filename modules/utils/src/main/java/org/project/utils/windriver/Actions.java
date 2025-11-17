@@ -108,11 +108,8 @@ public class Actions {
         el.sendKeys(keys);
     }
 
-    /*public static Actions chord(CharSequence key, CharSequence... keys) {
-        return keys(key, Keys.chord(keys));
-    }*/
-
     public static org.openqa.selenium.interactions.Actions chord(CharSequence key, CharSequence... keys) {
+        //return keys(key, Keys.chord(keys));
         return keys(Keys.chord(key, (CharSequence) stream(keys)));
     }
 

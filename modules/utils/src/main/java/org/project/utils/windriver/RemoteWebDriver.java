@@ -13,7 +13,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.remote.*;
-import org.project.utils.reflection.Reflection;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
@@ -88,7 +87,6 @@ public class RemoteWebDriver extends WebElement {
     }
 
     //[ClassInitialize]
-    // public static WebDriver start() throws MalformedURLException, IllegalAccessException {
     public static <T extends WebDriver> T start() throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
         return start(setCap());
     }
@@ -107,7 +105,6 @@ public class RemoteWebDriver extends WebElement {
         return (T) d;
     }
 
-    //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
     @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
         open();
@@ -117,18 +114,19 @@ public class RemoteWebDriver extends WebElement {
             case "org.project.utils.windriver.WebDriver": yield (T) start(new ChromeDriver(cap));
             default: yield (T) start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
         });
-        //return (T) start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
     }
 
-    //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
-    public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver) throws MalformedURLException, ClassNotFoundException {
+    public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver)
+        throws MalformedURLException, ClassNotFoundException
+    {
         Assert.assertNotNull(driver);
         //invoke();
-        debug(getCallingClassName());
+        //debug(getCallingClassName());
         debug(getCallingChildClassName());
         //printCall();
         driver(driver);
         action(driver);
+        printClass();
         return driver;
     }
 
@@ -204,6 +202,10 @@ public class RemoteWebDriver extends WebElement {
         timeout(1000);
     }
 
+    public static SessionId getSessionId() {
+        return d.getSessionId();
+    }
+
     public static String getCurrentUrl() {
         return d.getCurrentUrl();
     }
@@ -226,10 +228,6 @@ public class RemoteWebDriver extends WebElement {
 
     public static String getPageSource() {
         return d.getPageSource();
-    }
-
-    public static SessionId getSessionId() {
-        return d.getSessionId();
     }
 
     public static CommandExecutor getCommandExecutor() {

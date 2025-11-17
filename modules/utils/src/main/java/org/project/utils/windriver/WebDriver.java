@@ -35,7 +35,7 @@ public class WebDriver<T> extends RemoteWebDriver {
         setProperty("webdriver.chrome.driver", chromeDriver);
         //start(setCap());
         start(options());
-        printClass();
+        //printClass();
         Assert.assertNotNull(d);
         s((ChromeDriver) d);
         return (ChromeDriver) d;
