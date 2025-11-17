@@ -14,7 +14,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
 public class WebDriver<T> extends RemoteWebDriver {
-    //protected static ChromeDriver d;
     protected static ChromeOptions options = new ChromeOptions();
     protected static final String chromeDriver = c.getChromeDriver();
     public static JavascriptExecutor js;
@@ -26,26 +25,20 @@ public class WebDriver<T> extends RemoteWebDriver {
         debug(getGenericClass());
     }
 
-    /*public static ChromeDriver driver(ChromeDriver driver) throws MalformedURLException {
-        return d = driver;
-    }*/
-
     //[ProcessInitialize]
     public static void init() throws IOException, IllegalAccessException {
         init(c.getChromeDriver(), c.getWebdriverParam());
     }
 
     //[ClassInitialize]
-    public static <T extends org.openqa.selenium.WebDriver> T start() throws MalformedURLException, ClassNotFoundException {
+    public static ChromeDriver start() throws MalformedURLException, ClassNotFoundException {
         setProperty("webdriver.chrome.driver", chromeDriver);
         //start(setCap());
         start(options());
-        debug(d);
-        debug(RemoteWebDriver.d);
-        debug(RemoteWebDriver.d.getClass());
+        printClass();
         Assert.assertNotNull(d);
-        s(d);
-        return (T) d;
+        s((ChromeDriver) d);
+        return (ChromeDriver) d;
     }
 
     public static ChromeDriver start(String url) throws MalformedURLException, ClassNotFoundException {
@@ -54,21 +47,9 @@ public class WebDriver<T> extends RemoteWebDriver {
     }
 
     // Initialize the Chrome driver
-    public static ChromeDriver start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
-        return start(new ChromeDriver(cap));
-    }
-
-    // Initialize the Chrome driver
     public static ChromeDriver start(ChromeOptions options) throws MalformedURLException, ClassNotFoundException {
         return start(new ChromeDriver(options));
     }
-
-    /*public static ChromeDriver start(ChromeDriver driver) throws MalformedURLException {
-        Assert.assertNotNull(driver);
-        driver(driver);
-        action(driver);
-        return driver;
-    }*/
 
     //[Options]
     public static ChromeOptions options() {
@@ -85,12 +66,12 @@ public class WebDriver<T> extends RemoteWebDriver {
         return cap;
     }
 
-    public static <T extends org.openqa.selenium.WebDriver> void s(T driver) {
+    public static void s(ChromeDriver driver) {
         // Cast WebDriver to JavascriptExecutor
         //js = (JavascriptExecutor) driver;
         //ls = new LocalStorage(js);
-        ls = new LocalStorage((ChromeDriver) driver);
-        s = new SessionStorage((ChromeDriver) driver);
+        ls = new LocalStorage(driver);
+        s = new SessionStorage(driver);
     }
 
     //[AppSessionQuit]

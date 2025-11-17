@@ -7,13 +7,17 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.remote.*;
+import org.project.utils.reflection.Reflection;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.Process.run;
 import static org.project.utils.reflection.Reflection.*;
 import static org.project.utils.windriver.DriverBaseConfig.*;
@@ -108,7 +112,12 @@ public class RemoteWebDriver extends WebElement {
     public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
         open();
         // Прикрепить переменную драйвера к собственно Winium драйверу
-        return (T) start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
+        return (switch (getCallingChildClassName()) {
+            case "org.project.utils.windriver.WinDriver": yield (T) start(new WindowsDriver<>(new URL(winDriverHost), cap));
+            case "org.project.utils.windriver.WebDriver": yield (T) start(new ChromeDriver(cap));
+            default: yield (T) start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
+        });
+        //return (T) start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
     }
 
     //public static WebDriver start(DesiredCapabilities cap) throws MalformedURLException, IllegalAccessException {
@@ -117,6 +126,7 @@ public class RemoteWebDriver extends WebElement {
         //invoke();
         debug(getCallingClassName());
         debug(getCallingChildClassName());
+        //printCall();
         driver(driver);
         action(driver);
         return driver;

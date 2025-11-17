@@ -3,6 +3,9 @@ package org.project.utils.windriver;
 import static java.util.Arrays.stream;
 
 import static org.openqa.selenium.Keys.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.reflection.Reflection.getCallingChildClassName;
+import static org.project.utils.reflection.Reflection.getCallingClassName;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +25,11 @@ public class Actions {
 
     public static <T extends WebDriver> org.openqa.selenium.interactions.Actions action(T driver) {
         return a = new org.openqa.selenium.interactions.Actions(driver);
+    }
+
+    public static void printCall() {
+        debug(getCallingClassName());
+        debug(getCallingChildClassName());
     }
 
     /**

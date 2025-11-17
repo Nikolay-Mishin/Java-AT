@@ -25,57 +25,19 @@ public class App {
         debug(org.project.utils.windriver.WebElement.driver());
 
         remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
-
-        debug(org.project.utils.windriver.RemoteWebDriver.driver());
-        debug(org.project.utils.windriver.WebElement.driver());
-        debug(org.project.utils.windriver.RemoteWebDriver.driver().getClass());
-        debug(org.project.utils.windriver.WebElement.driver().getClass());
         org.project.utils.windriver.RemoteWebDriver.printClass();
-        org.project.utils.windriver.WebElement.printClass();
 
         driver = org.project.utils.windriver.RemoteWebDriver.start();
-
-        debug(org.project.utils.windriver.RemoteWebDriver.driver());
-        debug(org.project.utils.windriver.WebElement.driver());
-        debug(org.project.utils.windriver.RemoteWebDriver.driver().getClass());
-        debug(org.project.utils.windriver.WebElement.driver().getClass());
         org.project.utils.windriver.RemoteWebDriver.printClass();
-        org.project.utils.windriver.WebElement.printClass();
 
-        DesiredCapabilities cap = new DesiredCapabilities();
-        cap.setCapability("ms:experimental-webdriver", true);
-        Map<String, Object> map = getObjectFields(new Capabilities());
-        debug(map);
+        //org.project.utils.windriver.WebDriver.printCall();
+        //org.project.utils.windriver.RemoteWebDriver.printCall();
+        //org.project.utils.windriver.Actions.printCall();
 
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String k = entry.getKey();
-            Object v = entry.getValue();
-            debug(k + ": " + v);
-            debug(Objects.equals(k, "app"));
-            //if (Objects.equals(k, "app")) v = app;
-            if (v != "") {
-                cap.setCapability(k, v);
-            }
-        }
-
-        //webDriver = (ChromeDriver) new RemoteWebDriver(new URL(WINDRIVER_HOST), cap);
-        //webDriver = org.project.utils.windriver.RemoteWebDriver.start();
         webDriver = org.project.utils.windriver.WebDriver.start();
+        org.project.utils.windriver.WebDriver.printClass();
 
-        debug(org.project.utils.windriver.RemoteWebDriver.driver());
-        debug(org.project.utils.windriver.WebElement.driver());
-        debug(org.project.utils.windriver.RemoteWebDriver.driver().getClass());
-        debug(org.project.utils.windriver.WebElement.driver().getClass());
-        org.project.utils.windriver.RemoteWebDriver.printClass();
-        org.project.utils.windriver.WebElement.printClass();
-
-        winDriver = org.project.utils.windriver.RemoteWebDriver.start();
-
-        debug(org.project.utils.windriver.RemoteWebDriver.driver());
-        debug(org.project.utils.windriver.WebElement.driver());
-        debug(org.project.utils.windriver.RemoteWebDriver.driver().getClass());
-        debug(org.project.utils.windriver.WebElement.driver().getClass());
-        org.project.utils.windriver.RemoteWebDriver.printClass();
-        org.project.utils.windriver.WebElement.printClass();
+        winDriver = org.project.utils.windriver.WinDriver.start();
+        org.project.utils.windriver.WinDriver.printClass();
     }
 }
