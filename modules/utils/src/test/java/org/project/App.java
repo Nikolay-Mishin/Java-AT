@@ -1,18 +1,12 @@
 package org.project;
 
 import java.io.*;
-import java.util.*;
 
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.WebElement;
-
-import org.project.utils.constant.Capabilities;
-
-import static org.project.utils.Helper.*;
 
 public class App {
     protected static WebDriver driver;
