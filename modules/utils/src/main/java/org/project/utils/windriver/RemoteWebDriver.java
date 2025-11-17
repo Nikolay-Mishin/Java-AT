@@ -19,6 +19,7 @@ import static org.project.utils.Helper.*;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Process.run;
 import static org.project.utils.reflection.Reflection.*;
+import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.windriver.DriverBaseConfig.*;
 
 import org.project.utils.constant.Capabilities;
@@ -109,9 +110,9 @@ public class RemoteWebDriver extends WebElement {
     public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
         open();
         // Прикрепить переменную драйвера к собственно Winium драйверу
-        return (switch (getCallingChildClassName()) {
-            case "org.project.utils.windriver.WinDriver": yield (T) start(new WindowsDriver<>(new URL(winDriverHost), cap));
-            case "org.project.utils.windriver.WebDriver": yield (T) start(new ChromeDriver(cap));
+        return (switch (getCallingChildClassSimpleName()) {
+            case "WinDriver": yield (T) start(new WindowsDriver<>(new URL(winDriverHost), cap));
+            case "WebDriver": yield (T) start(new ChromeDriver(cap));
             default: yield (T) start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
         });
     }
@@ -120,10 +121,6 @@ public class RemoteWebDriver extends WebElement {
         throws MalformedURLException, ClassNotFoundException
     {
         Assert.assertNotNull(driver);
-        //invoke();
-        //debug(getCallingClassName());
-        debug(getCallingChildClassName());
-        //printCall();
         driver(driver);
         action(driver);
         printClass();

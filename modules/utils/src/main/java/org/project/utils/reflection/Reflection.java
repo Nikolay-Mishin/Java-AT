@@ -179,6 +179,14 @@ public class Reflection {
         return getCallingClassName(2);
     }
 
+    public static String getCallingClassSimpleName() throws ClassNotFoundException {
+        return getClassSimpleName(getCallingClass(1));
+    }
+
+    public static String getCallingChildClassSimpleName() throws ClassNotFoundException {
+        return getClassSimpleName(getCallingClass(2));
+    }
+
     public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
         return _getGenericClass(getCallingClass(1), 0);
     }
