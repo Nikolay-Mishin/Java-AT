@@ -82,6 +82,18 @@ public class Request {
         return send().andReturn();
     }
 
+    @Description("Set base uri")
+    public Request baseUri(String s) {
+        request = request.baseUri(s);
+        return this;
+    }
+
+    @Description("Set base path")
+    public Request basePath(String s) {
+        request = request.basePath(s);
+        return this;
+    }
+
     @Description("Builder: set content type")
     public Request contentType(ContentType contentType) {
         request = request.contentType(contentType);
