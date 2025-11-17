@@ -16,6 +16,7 @@ import org.testng.Assert;
 public class WebDriver<T> extends RemoteWebDriver {
     protected static ChromeOptions options = new ChromeOptions();
     protected static final String chromeDriver = c.getChromeDriver();
+    protected static final String chromeDriverName = c.getChromeDriverName();
     public static JavascriptExecutor js;
     public static LocalStorage ls;
     public static SessionStorage s;
@@ -75,9 +76,14 @@ public class WebDriver<T> extends RemoteWebDriver {
 
     //[AppSessionQuit]
     public static void quit() {
-        quit(chromeDriver);
+        quit(chromeDriverName);
         js = null;
         ls = null;
         s = null;
+    }
+
+    //[DriverSessionQuit]
+    public static void stop() {
+        stop(chromeDriverName);
     }
 }

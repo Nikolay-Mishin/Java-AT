@@ -20,5 +20,7 @@ public class App {
         webDriver = org.project.utils.windriver.WebDriver.start();
         winDriver = org.project.utils.windriver.WinDriver.start();
         org.project.utils.windriver.WinDriver.printCall();
+        //org.project.utils.windriver.WebDriver.stop();
+        //org.project.utils.windriver.WebDriver.quit();
     }
 }
