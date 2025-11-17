@@ -10,14 +10,10 @@ import io.restassured.specification.RequestSpecification;
 import static io.restassured.RestAssured.given;
 
 public class ApiConfig extends Config {
-    public static RequestSpecification givenRequestSpec() {
-        return given(getRequestSpec());
-    }
-
     public static RequestSpecification getRequestSpec() {
-        return requestSpec()
+        return given(requestSpec()
             .addFilter(new AllureRestAssured())
-            .build();
+            .build());
     }
 
     public static RequestSpecBuilder requestSpecUri(String uri) {

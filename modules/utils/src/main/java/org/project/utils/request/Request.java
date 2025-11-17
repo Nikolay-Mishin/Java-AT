@@ -46,7 +46,6 @@ public class Request {
 
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
-        //request = givenRequestSpec();
         request = getRequestSpec();
         this.method = method;
         methodSend = method.toString().toLowerCase();
