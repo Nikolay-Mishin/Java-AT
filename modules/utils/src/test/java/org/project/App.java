@@ -15,8 +15,8 @@ public class App {
     protected static RemoteWebDriver remoteDriver;
 
     public static void main(String[] args) throws IOException, IllegalAccessException, ClassNotFoundException {
-        remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
         driver = org.project.utils.windriver.RemoteWebDriver.start();
+        remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
         webDriver = org.project.utils.windriver.WebDriver.start();
         winDriver = org.project.utils.windriver.WinDriver.start();
         org.project.utils.windriver.WinDriver.printCall();

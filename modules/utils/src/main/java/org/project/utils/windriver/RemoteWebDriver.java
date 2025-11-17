@@ -19,7 +19,6 @@ import static org.project.utils.Helper.*;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Process.run;
 import static org.project.utils.reflection.Reflection.*;
-import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.windriver.DriverBaseConfig.*;
 
 import org.project.utils.constant.Capabilities;
