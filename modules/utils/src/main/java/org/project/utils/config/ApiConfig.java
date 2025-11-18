@@ -1,94 +1,69 @@
 package org.project.utils.config;
 
+import java.beans.ConstructorProperties;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Map;
+
+import static io.restassured.RestAssured.given;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import org.project.utils.constant.RequestConstants;
 
-import static io.restassured.RestAssured.given;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.config.WebBaseConfig.BASE_CONFIG;
+import static org.project.utils.fs.FS.path;
 
-public class ApiConfig extends Config {
+public class ApiConfig extends RequestSpecBuilder {
+
+    @ConstructorProperties({})
+    public ApiConfig() {
+        config();
+    }
+
     public static RequestSpecification getRequestSpec() {
-        return given(requestSpec()
+        return given(new RequestSpecBuilder()
+            .setBaseUri(BASE_CONFIG.getBaseUrl())
             .addFilter(new AllureRestAssured())
             .build());
     }
 
-    public static RequestSpecBuilder requestSpecUri(String uri) {
-        return new RequestSpecBuilder().setBaseUri(uri);
+    public RequestSpecification get() {
+        return given(this
+            .addFilter(new AllureRestAssured())
+            .build());
     }
 
-    public static RequestSpecBuilder requestSpec() {
-        return requestSpec(WebConfig.config());
+    public ApiConfig config() {
+        return config(BASE_CONFIG);
     }
 
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config) {
-        return requestSpecUri(config.getBaseUrl());
+    public ApiConfig config(WebBaseConfig config) {
+        return baseUri(config.getBaseUrl());
     }
 
-    public static RequestSpecBuilder requestSpec(ContentType contentType) {
-        return requestSpec().setContentType(contentType);
+    public ApiConfig baseUri(String uri) {
+        return (ApiConfig) setBaseUri(uri);
     }
 
-    public static RequestSpecBuilder requestSpec(String contentType) {
-        return requestSpec().setContentType(contentType);
+    public ApiConfig contentType(ContentType contentType) {
+        return (ApiConfig) setContentType(contentType);
     }
 
-    public static RequestSpecBuilder requestSpec(Map<String, String> headers) {
-        return requestSpec().addHeaders(headers);
+    public ApiConfig contentType(String contentType) {
+        return (ApiConfig) setContentType(contentType);
     }
 
-    public static RequestSpecBuilder requestSpec(String headerName, String headerValue) {
-        return requestSpec().addHeader(headerName, headerValue);
+    public ApiConfig headers(Map<String, String> headers) {
+        return (ApiConfig) addHeaders(headers);
     }
 
-    public static RequestSpecBuilder requestSpec(ContentType contentType, Map<String, String> headers) {
-        return requestSpec(contentType).addHeaders(headers);
-    }
-
-    public static RequestSpecBuilder requestSpec(String contentType, Map<String, String> headers) {
-        return requestSpec(contentType).addHeaders(headers);
-    }
-
-    public static RequestSpecBuilder requestSpec(ContentType contentType, String headerName, String headerValue) {
-        return requestSpec(contentType).addHeader(headerName, headerValue);
-    }
-
-    public static RequestSpecBuilder requestSpec(String contentType, String headerName, String headerValue) {
-        return requestSpec(contentType).addHeader(headerName, headerValue);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, ContentType contentType) {
-        return requestSpec(config).setContentType(contentType);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, String contentType) {
-        return requestSpec(config).setContentType(contentType);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, Map<String, String> headers) {
-        return requestSpec(config).addHeaders(headers);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, String headerName, String headerValue) {
-        return requestSpec(config).addHeader(headerName, headerValue);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, ContentType contentType, Map<String, String> headers) {
-        return requestSpec(config, contentType).addHeaders(headers);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, String contentType, Map<String, String> headers) {
-        return requestSpec(config, contentType).addHeaders(headers);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, ContentType contentType, String headerName, String headerValue) {
-        return requestSpec(config, contentType).addHeader(headerName, headerValue);
-    }
-
-    public static RequestSpecBuilder requestSpec(WebBaseConfig config, String contentType, String headerName, String headerValue) {
-        return requestSpec(config, contentType).addHeader(headerName, headerValue);
+    public ApiConfig header(String name, String value) {
+        return (ApiConfig) addHeader(name, value);
     }
 }
