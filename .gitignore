@@ -1,6 +1,7 @@
 ### Local ###
 /lib/
 /Java/out/
+**/allure-results/
 
 ### NPM ###
 node_modules/
