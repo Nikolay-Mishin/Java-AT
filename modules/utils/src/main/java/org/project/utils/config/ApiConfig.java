@@ -23,7 +23,14 @@ public class ApiConfig extends RequestSpecBuilder {
 
     @ConstructorProperties({})
     public ApiConfig() {
+        super();
         config();
+    }
+
+    @ConstructorProperties({"config"})
+    public ApiConfig(WebBaseConfig config) {
+        super();
+        config(config);
     }
 
     public static RequestSpecification getRequestSpec() {
