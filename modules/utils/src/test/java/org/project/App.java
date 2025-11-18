@@ -14,6 +14,7 @@ import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants;
 import org.project.utils.request.Request;
 
+import static org.project.utils.Helper.debug;
 import static org.project.utils.config.ApiConfig.getRequestSpec;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 
@@ -45,5 +46,9 @@ public class App {
     {
         new Request(GET, "path");
         new Request(GET, "path").response();
+        Request req = new Request(GET, "path").uri("https://googlechromelabs.github.io/");
+        req.printFullPath();
+        req.printUrl();
+        debug(req.baseUri());
     }
 }
