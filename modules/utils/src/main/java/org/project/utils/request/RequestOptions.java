@@ -10,7 +10,7 @@ import jdk.jfr.Description;
 
 import org.project.utils.fs.FS;
 
-public class RequestOptions extends org.project.utils.request.Response {
+public class RequestOptions<T extends RequestOptions<T>> extends org.project.utils.request.Response<T> {
     protected String url;
     protected URI URI;
     protected String path;
@@ -63,31 +63,31 @@ public class RequestOptions extends org.project.utils.request.Response {
     }
 
     @Description("Builder: set url request")
-    public RequestOptions url(Object... pathList) throws MalformedURLException, URISyntaxException {
+    public T url(Object... pathList) throws MalformedURLException, URISyntaxException {
         path(pathList);
         url = fullPath();
         URL = new URL(url);
         URI = new URI(baseUri());
-        return this;
+        return (T) this;
     }
 
     @Description("Set base uri")
-    public RequestOptions uri(String uri) throws MalformedURLException, URISyntaxException {
+    public T uri(String uri) throws MalformedURLException, URISyntaxException {
         return uri(uri, path);
     }
 
     @Description("Set base uri")
-    public RequestOptions uri(String uri, Object... pathList) throws MalformedURLException, URISyntaxException {
+    public T uri(String uri, Object... pathList) throws MalformedURLException, URISyntaxException {
         request.baseUri(uri);
         url(pathList);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set path request")
-    public RequestOptions path(Object... pathList) {
+    public T path(Object... pathList) {
         request.basePath(FS.path(pathList)); // задаем базовый путь для запроса
         path = basePath();
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: get auth spec")
@@ -101,80 +101,80 @@ public class RequestOptions extends org.project.utils.request.Response {
     }
 
     @Description("Builder: set content type")
-    public RequestOptions contentType(ContentType contentType) {
+    public T contentType(ContentType contentType) {
         request.contentType(contentType);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set content type")
-    public RequestOptions contentType(String contentType) {
+    public T contentType(String contentType) {
         request.contentType(contentType);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: no content type")
-    public RequestOptions noContentType() {
+    public T noContentType() {
         request.noContentType();
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set accept")
-    public RequestOptions accept(ContentType contentType) {
+    public T accept(ContentType contentType) {
         request.accept(contentType);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set accept")
-    public RequestOptions accept(String accept) {
+    public T accept(String accept) {
         request.accept(accept);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set headers")
-    public RequestOptions headers(Headers headers) {
+    public T headers(Headers headers) {
         request.headers(headers);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set headers")
-    public RequestOptions headers(Map<String, ?> map) {
+    public T headers(Map<String, ?> map) {
         request.headers(map);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set headers")
-    public RequestOptions headers(String s, Object o, Object... objects) {
+    public T headers(String s, Object o, Object... objects) {
         request.headers(s, o, objects);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set header")
-    public RequestOptions header(Header header) {
+    public T header(Header header) {
         request.header(header);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set header")
-    public RequestOptions header(String s, Object o, Object... objects) {
+    public T header(String s, Object o, Object... objects) {
         request.header(s, o, objects);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set sessionId")
-    public RequestOptions sessionId(String s) {
+    public T sessionId(String s) {
         request.sessionId(s);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set sessionId")
-    public RequestOptions sessionId(String s, String s1) {
+    public T sessionId(String s, String s1) {
         request.sessionId(s, s1);
-        return this;
+        return (T) this;
     }
 
     @Description("Builder: set port")
-    public RequestOptions port(int port) {
+    public T port(int port) {
         request.port(port);
-        return this;
+        return (T) this;
     }
 }
