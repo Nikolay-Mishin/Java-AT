@@ -22,8 +22,8 @@ import org.project.utils.fs.FS;
 
 public class Request {
     private RequestSpecification request;
-    private final METHOD method;
-    private final String methodSend;
+    private METHOD method;
+    private String methodSend;
     private String url;
     private URL URL;
     private URI URI;
@@ -31,16 +31,17 @@ public class Request {
     private String endpoint;
     private Object body;
 
-    @ConstructorProperties({})
-    public Request() {
-        method = null;
-        methodSend = null;
-    }
-
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
-        //request = getRequestSpec();
-        request = new ApiConfig().get();
+        init(method, pathList);
+    }
+
+    public Request init(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
+        return init(new ApiConfig(), method, pathList);
+    }
+
+    public Request init(ApiConfig apiConfig, METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
+        request = apiConfig.get();
         this.method = method;
         methodSend = method.toString().toLowerCase();
         url(pathList); // задаем базовый путь для запроса
@@ -51,6 +52,7 @@ public class Request {
         debug(URI);
         debug(path);
         printFullPath();
+        return this;
     }
 
     @Description("Builder: set url request")
@@ -100,6 +102,16 @@ public class Request {
         return invoke(request.when(), methodSend, URL); // вызов метода с аргументами
     }
 
+    @Description("Builder: get spec")
+    public RequestSpecification spec() {
+        return request;
+    }
+
+    @Description("Builder: set spec")
+    public RequestSpecification spec(RequestSpecification spec) {
+        return request.spec(spec);
+    }
+
     @Description("Builder: set content type")
     public Request contentType(ContentType contentType) {
         request.contentType(contentType);
@@ -115,6 +127,18 @@ public class Request {
     @Description("Builder: no content type")
     public Request noContentType() {
         request.noContentType();
+        return this;
+    }
+
+    @Description("Builder: set accept")
+    public Request accept(ContentType contentType) {
+        request.accept(contentType);
+        return this;
+    }
+
+    @Description("Builder: set accept")
+    public Request accept(String accept) {
+        request.accept(accept);
         return this;
     }
 
@@ -145,6 +169,29 @@ public class Request {
     @Description("Builder: set header")
     public Request header(String s, Object o, Object... objects) {
         request.header(s, o, objects);
+        return this;
+    }
+
+    @Description("Builder: set sessionId")
+    public Request sessionId(String s) {
+        request.sessionId(s);
+        return this;
+    }
+
+    @Description("Builder: set sessionId")
+    public Request sessionId(String s, String s1) {
+        request.sessionId(s, s1);
+        return this;
+    }
+
+    @Description("Builder: get auth spec")
+    public AuthenticationSpecification auth() {
+        return request.auth();
+    }
+
+    @Description("Builder: get auth spec")
+    public Request port(int port) {
+        request.port(port);
         return this;
     }
 
