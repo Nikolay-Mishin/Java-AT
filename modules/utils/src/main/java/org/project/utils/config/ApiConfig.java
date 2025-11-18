@@ -8,22 +8,17 @@ import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
-import static org.project.utils.Helper.debug;
 import static org.project.utils.config.WebBaseConfig.BASE_CONFIG;
 
 public class ApiConfig extends RequestSpecBuilder {
 
     @ConstructorProperties({})
     public ApiConfig() {
-        super();
-        //debug(build());
         config();
     }
 
     @ConstructorProperties({"config"})
     public ApiConfig(WebBaseConfig config) {
-        super();
-        //debug(build());
         config(config);
     }
 
