@@ -66,8 +66,13 @@ public class Request {
 
     @Description("Set base uri")
     public Request uri(String uri) throws MalformedURLException, URISyntaxException {
+        return uri(uri, path);
+    }
+
+    @Description("Set base uri")
+    public Request uri(String uri, Object... pathList) throws MalformedURLException, URISyntaxException {
         request.baseUri(uri);
-        URI = new URI(baseUri());
+        url(pathList);
         return this;
     }
 
@@ -223,22 +228,47 @@ public class Request {
 
     @Description("Get endpoint")
     public String endpoint() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return (String) getProp(this, "endpoint");
+        return endpoint;
     }
 
     @Description("Get url")
     public String url() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return (String) getProp(this, "url");
+        return url;
+    }
+
+    @Description("Get uri")
+    public URI uri() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return URI;
+    }
+
+    @Description("Get path")
+    public String path() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return path;
     }
 
     @Description("Print endpoint")
-    public String printEndpoint() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return (String) getProp(this, "endpoint", true);
+    public void printEndpoint() {
+        debug(endpoint);
     }
 
     @Description("Print method")
-    public METHOD printMethod() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return (METHOD) getProp(this, "method", true);
+    public void printMethod() {
+        debug(method);
+    }
+
+    @Description("Print url")
+    public void printUrl() {
+        debug(url);
+    }
+
+    @Description("Print uri")
+    public void printUri() {
+        debug(URI);
+    }
+
+    @Description("Print path")
+    public void printPath() {
+        debug(path);
     }
 
     @Description("Print method string")
@@ -246,17 +276,14 @@ public class Request {
         return (METHOD) getPropStr(this, "method", true);
     }
 
-    @Description("Print url")
-    public String printUrl() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return (String) getProp(this, "url", true);
-    }
-
     @Description("Print request")
     public void print() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        debug(printEndpoint());
-        debug(printUrl());
-        debug(printMethod());
-        //debug(printMethodStr());
+        printEndpoint();
+        printMethod();
+        printUrl();
+        printUri();
+        printPath();
+        //printMethodStr();
     }
 
 }
