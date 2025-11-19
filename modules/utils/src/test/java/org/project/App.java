@@ -80,8 +80,12 @@ public class App {
         debug(list1);
         debug(JsonSchema.toList(chromedriver, "platform", "win64"));
 
+        Map<String, Object> map0 = json.toMap("downloads.chromedriver", "platform", "win64");
+        String url = (String) map0.get("url");
+
         debug(json.arrayToMap("downloads.chromedriver"));
         debug(json.toMap("downloads.chromedriver", o -> ((JSONObject) o).get("platform").equals("win64")));
-        debug(json.toMap("downloads.chromedriver", "platform", "win64"));
+        debug(map0);
+        debug(url);
     }
 }
