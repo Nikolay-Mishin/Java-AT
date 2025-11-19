@@ -59,6 +59,11 @@ public class Response<T extends Response<T>> {
         return notNull(response) ? response : response();
     }
 
+    @Description("Response: get statusCode")
+    public int statusCode() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return getResponse().statusCode();
+    }
+
     @Description("Response: get response as String")
     public String asString() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return getResponse().asString();
