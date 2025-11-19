@@ -38,6 +38,10 @@ public class JsonSchema {
         return o.toMap();
     }
 
+    public static List<Object> toList(JSONArray a) {
+        return a.toList();
+    }
+
     public static List<JSONObject> toList(JSONArray a, String k, String v) {
         return toList(a, o -> o.get(k).equals(v));
     }
@@ -59,7 +63,6 @@ public class JsonSchema {
     }
 
     public JSONObject data() {
-        //debug(jsonData);
         return jsonData;
     }
 
@@ -73,6 +76,10 @@ public class JsonSchema {
 
     public Map<String, Object> toMap(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return toMap((JSONObject) get(k));
+    }
+
+    public List<Object> toList(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toList((JSONArray) get(k, "array"));
     }
 
     public List<JSONObject> toList(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
