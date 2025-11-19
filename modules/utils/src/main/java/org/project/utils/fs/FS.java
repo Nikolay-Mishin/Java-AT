@@ -24,7 +24,14 @@ public class FS {
             .toArray(String[]::new));
     }
 
-    protected static String readFromInputStream(InputStream inputStream) throws IOException {
+    public static String readFile(String path) throws IOException {
+        FileInputStream inputStream = new FileInputStream(path);
+        String data = readFile(inputStream);
+        debug(data);
+        return data;
+    }
+
+    public static String readFile(InputStream inputStream) throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
@@ -33,13 +40,6 @@ public class FS {
             }
         }
         return resultStringBuilder.toString();
-    }
-
-    public static String readFile(String path) throws IOException {
-        FileInputStream inputStream = new FileInputStream(path);
-        String data = readFromInputStream(inputStream);
-        debug(data);
-        return data;
     }
 
     public static Stream<File> folderList(final String path) throws IOException {
