@@ -1,6 +1,9 @@
 package org.project.utils;
 
+import static java.lang.String.join;
 import static java.lang.System.*;
+import static java.text.MessageFormat.format;
+import static java.util.Arrays.stream;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
@@ -8,11 +11,10 @@ import java.nio.charset.Charset;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static java.lang.String.join;
-import static java.text.MessageFormat.format;
-
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,17 +39,34 @@ public class Helper {
     }
 
     public static <A> A[] toArray(A[] array, IntFunction<A[]> generator) {
-        return toArray(Arrays.stream(array), generator);
+        return toArray(stream(array), generator);
     }
 
     public static <A> A[] toArray(Stream<A> array, IntFunction<A[]> generator) {
         return array.toArray(generator);
     }
 
-    public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator, Function<A, A> mapper) {
-        return Arrays.stream(array)
+    public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return stream(array)
             .map(mapper)
             .toArray(generator);
+    }
+
+    //public static <I> List<I> toList(Iterator<I> iterator) {
+    //public static <T, I> ImmutableList<T> toList(Iterator<I> iterator) {
+    public static <T, I> List<T> toList(Iterator<I> iterator) {
+        //return Lists.newArrayList(iterator);
+        //return ImmutableList.copyOf(iterator);
+        return IteratorUtils.toList(iterator);
+    }
+
+    public static <T, I> List<T> toList(Iterator<I> iterator, Predicate<? super T> filter) {
+        //return ((List<T>) toList(iterator)).stream().filter(filter).toList();
+        return toList(toList(iterator), filter);
+    }
+
+    public static <T> List<T> toList(List<T> list, Predicate<? super T> filter) {
+        return list.stream().filter(filter).toList();
     }
 
     private static Boolean is(Object type, Class<?> clazz) {
