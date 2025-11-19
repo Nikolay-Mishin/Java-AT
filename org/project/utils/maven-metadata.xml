@@ -53,7 +53,8 @@
       <version>4.10.2-SNAPSHOT</version>
       <version>4.10.3-SNAPSHOT</version>
       <version>4.10.4-SNAPSHOT</version>
+      <version>4.10.5-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20251119134549</lastUpdated>
+    <lastUpdated>20251119180659</lastUpdated>
   </versioning>
 </metadata>
