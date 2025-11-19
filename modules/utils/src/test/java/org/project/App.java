@@ -48,11 +48,16 @@ public class App {
         req.printFullPath();
     }
 
-    public static void testJson() throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        String uri = "https://googlechromelabs.github.io/chrome-for-testing/142.0.7444.61.json";
+    public static void testJson()
+        throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
+        String ver = "142.0.7444.61";
+        String uri = "https://googlechromelabs.github.io/";
+        String endpoint = "chrome-for-testing/" + ver + ".json";
 
-        Request req = new Request(GET).uri(uri);
+        Request req = new Request(GET, endpoint).uri(uri);
         String jsonStr = req.asString();
+
         debug(req.asPrettyString());
 
         JsonSchema json = new JsonSchema(jsonStr);
@@ -63,23 +68,23 @@ public class App {
         debug(version);
         debug(chromedriver);
         debug(map);
+        //debug(json.array("downloads.chromedriver"));
 
-        List<JSONObject> list = toList(chromedriver, o -> o.get("platform").equals("win64"));
+        debug(map.get("downloads"));
+        debug(json.toMap("downloads"));
+
+        List<JSONObject> list = json.toList("downloads.chromedriver", o -> o.get("platform").equals("win64"));
         debug(list);
+        debug(json.toList("downloads.chromedriver", "platform", "win64"));
+
+        List<JSONObject> list1 = JsonSchema.toList(chromedriver, o -> o.get("platform").equals("win64"));
+        debug(list1);
+        debug(JsonSchema.toList(chromedriver, "platform", "win64"));
 
         Map<String, Object> map0 = list.get(0).toMap();
         debug(map0);
         debug(map0.get("url"));
-        debug(map.get("downloads"));
-
-        debug(json.toMap("downloads"));
-
-        List<JSONObject> list1 = json.toList("downloads.chromedriver", o -> o.get("platform").equals("win64"));
-        debug(list1);
-        debug(json.toList("downloads.chromedriver", "platform", "win64"));
-
-        List<JSONObject> list2 = JsonSchema.toList(chromedriver, o -> o.get("platform").equals("win64"));
-        debug(list2);
-        debug(JsonSchema.toList(chromedriver, "platform", "win64"));
+        //debug(json.get("downloads.chromedriver.0.url"));
+        debug(chromedriver.toList());
     }
 }
