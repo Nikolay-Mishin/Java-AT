@@ -1,25 +1,23 @@
 package org.project.utils.json;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.project.utils.Helper;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
+
+import org.json.*;
+
+import static org.project.utils.Helper.*;
+import static org.project.utils.config.WebConfig.config;
+import static org.project.utils.fs.FS.readFile;
+import static org.project.utils.reflection.Reflection.*;
+
 import org.project.utils.base.HashMap;
 import org.project.utils.base.Model;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.fs.FS;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-
-import static org.project.utils.Helper.*;
-import static org.project.utils.Helper.toList;
-import static org.project.utils.config.WebConfig.config;
-import static org.project.utils.fs.FS.readFile;
-import static org.project.utils.reflection.Reflection.getClassSimpleName;
-import static org.project.utils.reflection.Reflection.invoke;
+import org.project.utils.Helper;
 
 public class JsonSchema {
 
@@ -76,6 +74,45 @@ public class JsonSchema {
 
     public Map<String, Object> toMap(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return toMap((JSONObject) get(k));
+    }
+
+    public Map<String, Object> arrayToMap(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toObject(k).toMap();
+    }
+
+    public Map<String, Object> toMap(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toObject(key, k, v).toMap();
+    }
+
+    public <T> Map<String, Object> toMap(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toObject(k, filter).toMap();
+    }
+
+    protected JSONObject toObject(JSONArray a) {
+        if (a.length() == 1) return (JSONObject) a.get(0);
+        AtomicInteger i = new AtomicInteger();
+        JSONArray names = new JSONArray(Helper.toArray(a.toList(), String[]::new, o -> String.valueOf(i.getAndIncrement())));
+        return a.toJSONObject(names);
+    }
+
+    protected JSONObject toObject(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toObject((JSONArray) get(k, "array"));
+    }
+
+    protected JSONObject toObject(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toObject(toArray(key, k, v));
+    }
+
+    protected <T> JSONObject toObject(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toObject(toArray(k, filter));
+    }
+
+    public JSONArray toArray(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return new JSONArray(toList(key, k, v));
+    }
+
+    public <T> JSONArray toArray(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return new JSONArray(toList(k, filter));
     }
 
     public List<Object> toList(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
