@@ -52,12 +52,20 @@ public class Helper {
             .toArray(generator);
     }
 
+    public static <T, I> List<T> toList(Iterable<I> iterable) {
+        return toList(iterable.iterator());
+    }
+
     //public static <I> List<I> toList(Iterator<I> iterator) {
     //public static <T, I> ImmutableList<T> toList(Iterator<I> iterator) {
     public static <T, I> List<T> toList(Iterator<I> iterator) {
         //return Lists.newArrayList(iterator);
         //return ImmutableList.copyOf(iterator);
         return IteratorUtils.toList(iterator);
+    }
+
+    public static <T, I> List<T> toList(Iterable<I> iterable, Predicate<? super T> filter) {
+        return toList(iterable.iterator(), filter);
     }
 
     public static <T, I> List<T> toList(Iterator<I> iterator, Predicate<? super T> filter) {
