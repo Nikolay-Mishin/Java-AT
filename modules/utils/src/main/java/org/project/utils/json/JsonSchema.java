@@ -9,6 +9,7 @@ import org.project.utils.fs.FS;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.WebConfig.config;
@@ -42,12 +43,16 @@ public class JsonSchema {
     }
 
     public JSONObject data() {
-        debug(jsonData);
+        //debug(jsonData);
         return jsonData;
     }
 
     private void data(String jsonString) {
         jsonData = new JSONObject(jsonString);
+    }
+
+    public Map<String, Object> toMap() {
+        return jsonData.toMap();
     }
 
     private JsonSchema _path(String path, Object... pathList) throws IOException {
