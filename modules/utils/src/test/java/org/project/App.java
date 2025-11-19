@@ -49,9 +49,7 @@ public class App {
         req.printFullPath();
     }
 
-    public static void testJson()
-        throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+    public static void testJson() throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         String ver = "142.0.7444.61";
         String uri = "https://googlechromelabs.github.io/";
         String endpoint = "chrome-for-testing/" + ver + ".json";
