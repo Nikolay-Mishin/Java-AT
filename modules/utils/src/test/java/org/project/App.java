@@ -3,13 +3,11 @@ package org.project;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import io.appium.java_client.windows.WindowsDriver;
+import io.restassured.response.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
@@ -21,6 +19,7 @@ import org.project.utils.request.Request;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
+import static org.project.utils.fs.FS.*;
 
 public class App {
     protected static WebDriver driver;
@@ -87,5 +86,24 @@ public class App {
         debug(json.toMap("downloads.chromedriver", o -> ((JSONObject) o).get("platform").equals("win64")));
         debug(map0);
         debug(url);
+
+        debug(path(url));
+
+        Request req1 = new Request(GET).uri(url);
+        Request req2 = new Request(GET).uri(url);
+
+        debug(req1.statusCode());
+
+        InputStream inputStream = req1.asInputStream();
+        byte[] bytes = req2.asByteArray();
+
+        debug(inputStream.toString());
+
+        String last = last(url, "/");
+        debug(last);
+
+        writeFile("filename.txt", String.valueOf(1));
+        writeFile(last, inputStream);
+        writeFile("filename.zip", bytes);
     }
 }
