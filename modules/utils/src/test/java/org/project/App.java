@@ -3,11 +3,13 @@ package org.project;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.appium.java_client.windows.WindowsDriver;
-import io.restassured.response.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
@@ -17,8 +19,7 @@ import org.openqa.selenium.WebElement;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
-import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.toList;
+import static org.project.utils.Helper.*;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 
 public class App {
@@ -81,10 +82,8 @@ public class App {
         debug(list1);
         debug(JsonSchema.toList(chromedriver, "platform", "win64"));
 
-        Map<String, Object> map0 = list.get(0).toMap();
-        debug(map0);
-        debug(map0.get("url"));
-        //debug(json.get("downloads.chromedriver.0.url"));
-        debug(chromedriver.toList());
+        debug(json.arrayToMap("downloads.chromedriver"));
+        debug(json.toMap("downloads.chromedriver", o -> ((JSONObject) o).get("platform").equals("win64")));
+        debug(json.toMap("downloads.chromedriver", "platform", "win64"));
     }
 }
