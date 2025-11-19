@@ -1,18 +1,17 @@
 package org.project.utils.fs;
 
-import jdk.jfr.Description;
+import static java.lang.String.join;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import static java.lang.String.join;
-import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.isInstance;
+import jdk.jfr.Description;
+import static org.apache.commons.io.IOUtils.*;
+
+import static org.project.utils.Helper.*;
 
 public class FS {
 
@@ -25,21 +24,73 @@ public class FS {
     }
 
     public static String readFile(String path) throws IOException {
-        FileInputStream inputStream = new FileInputStream(path);
-        String data = readFile(inputStream);
-        debug(data);
-        return data;
+        return readFile(new FileInputStream(path));
     }
 
-    public static String readFile(InputStream inputStream) throws IOException {
+    public static String readFile(InputStream input) throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(input))) {
             String line;
             while ((line = br.readLine()) != null) {
                 resultStringBuilder.append(line).append("\n");
             }
+        } catch (IOException e) {
+            debug("Error reading file.");
         }
         return resultStringBuilder.toString();
+    }
+
+    public static void writeFile(String path, InputStream input) throws IOException {
+        /*try (FileOutputStream output = new FileOutputStream(path)) {
+            copy(input, output);
+            debug("Successfully write to the file.");
+        } catch (IOException e) {
+            debug("Error writing file.");
+        }*/
+        writeFile(path, input.readAllBytes());
+        input.close();
+    }
+
+    public static void writeFile(String path, byte[] data) {
+        try (FileOutputStream output = new FileOutputStream(path)) {
+            writeStream(output, data);
+            debug("Successfully write to the file.");
+        } catch (IOException e) {
+            debug("Error writing file.");
+        }
+    }
+
+    public static void writeFile(String path, String data) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+            bw.write(data);
+            debug("Successfully write to the file.");
+        } catch (IOException e) {
+            debug("Error writing file.");
+        }
+    }
+
+    public static void writeStream(OutputStream output, InputStream input) throws IOException {
+        writeStream(output, input.readAllBytes());
+        input.close();
+    }
+
+    public static void writeStream(OutputStream output, byte[] data) {
+        try (output) {
+            //output.write(data);
+            write(data, output);
+            debug("Successfully write to the file.");
+        } catch (IOException e) {
+            debug("Error writing file.");
+        }
+    }
+
+    public static void writeStream(OutputStream output, String data) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(output))) {
+            bw.write(data);
+            debug("Successfully write to the file.");
+        } catch (IOException e) {
+            debug("Error writing file.");
+        }
     }
 
     public static Stream<File> folderList(final String path) throws IOException {
