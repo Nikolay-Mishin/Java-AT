@@ -42,8 +42,16 @@ public class Helper {
         return toArray(stream(array), generator);
     }
 
-    public static <A> A[] toArray(Stream<A> array, IntFunction<A[]> generator) {
-        return array.toArray(generator);
+    public static <A> A[] toArray(Stream<A> stream, IntFunction<A[]> generator) {
+        return stream.toArray(generator);
+    }
+
+    public static <A> A[] toArray(List<A> list, IntFunction<A[]> generator) {
+        return list.toArray(generator);
+    }
+
+    public static <A, T> T[] toArray(List<A> list, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return toArray((A[]) list.toArray(), generator, mapper);
     }
 
     public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
