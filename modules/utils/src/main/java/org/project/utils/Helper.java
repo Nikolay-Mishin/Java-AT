@@ -173,6 +173,15 @@ public class Helper {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
+    public static <T> T last(T[] arr) {
+        return arr[arr.length - 1];
+    }
+
+    public static String last(String s, String split) {
+        //return s.substring(s.lastIndexOf(split) + 1);
+        return last(s.split(split));
+    }
+
     public static <T> T[] removeLast(T[] arr) {
         return remove(arr, arr.length - 1);
     }
