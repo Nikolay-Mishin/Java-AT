@@ -2,6 +2,7 @@ package org.project.utils.json;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.project.utils.Helper;
 import org.project.utils.base.HashMap;
 import org.project.utils.base.Model;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
@@ -9,9 +10,12 @@ import org.project.utils.fs.FS;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.toList;
 import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
@@ -28,6 +32,18 @@ public class JsonSchema {
     }
 
     public JsonSchema() {
+    }
+
+    public static Map<String, Object> toMap(JSONObject o) {
+        return o.toMap();
+    }
+
+    public static List<JSONObject> toList(JSONArray a, String k, String v) {
+        return toList(a, o -> o.get(k).equals(v));
+    }
+
+    public static <T> List<T> toList(JSONArray a, Predicate<? super T> filter) {
+        return Helper.toList(a, filter);
     }
 
     public JsonSchema path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
@@ -53,6 +69,18 @@ public class JsonSchema {
 
     public Map<String, Object> toMap() {
         return jsonData.toMap();
+    }
+
+    public Map<String, Object> toMap(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toMap((JSONObject) get(k));
+    }
+
+    public List<JSONObject> toList(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toList(key, o -> o.get(k).equals(v));
+    }
+
+    public <T> List<T> toList(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return toList((JSONArray) get(k, "array"), filter);
     }
 
     private JsonSchema _path(String path, Object... pathList) throws IOException {
