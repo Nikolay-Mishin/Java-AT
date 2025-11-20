@@ -67,12 +67,12 @@ public class Response<T extends Response<T>> {
 
     @Description("Response: get response as String")
     public String string() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return response().asString();
+        return getResponse().asString();
     }
 
     @Description("Response: get response as PrettyString")
     public String pretty() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return response().asPrettyString();
+        return getResponse().asPrettyString();
     }
 
     @Description("Response: get response as InputStream")
