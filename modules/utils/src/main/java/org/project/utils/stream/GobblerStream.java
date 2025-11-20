@@ -2,13 +2,16 @@ package org.project.utils.stream;
 
 import java.beans.ConstructorProperties;
 import java.io.*;
+import java.io.InputStream;
 
-public class StreamGobbler extends Thread {
+import static org.project.utils.Helper.debug;
+
+public class GobblerStream extends Thread {
     private InputStream in;
     private PrintStream out;
 
     @ConstructorProperties({"in", "out"})
-    public StreamGobbler(InputStream in, PrintStream out) {
+    public GobblerStream(InputStream in, PrintStream out) {
         this.in = in;
         this.out = out;
     }
@@ -27,15 +30,15 @@ public class StreamGobbler extends Thread {
             BufferedReader input = new BufferedReader(new InputStreamReader(in));
             String line = null;
             while ((line = input.readLine()) != null)
-                out.println(line);
+                debug(line);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void stream(Process p, PrintStream out) {
-        StreamGobbler pOut = new StreamGobbler(p.getInputStream(), out);
-        StreamGobbler err = new StreamGobbler(p.getErrorStream(), out);
+        GobblerStream pOut = new GobblerStream(p.getInputStream(), out);
+        GobblerStream err = new GobblerStream(p.getErrorStream(), out);
         pOut.start();
         err.start();
     }
@@ -68,4 +71,5 @@ public class StreamGobbler extends Thread {
     public static void transfer(org.project.utils.Process p) throws IOException {
         transfer(p.p());
     }
+
 }

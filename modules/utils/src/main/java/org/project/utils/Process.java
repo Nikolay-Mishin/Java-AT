@@ -5,7 +5,7 @@ import java.beans.ConstructorProperties;
 import java.io.*;
 import java.util.Arrays;
 
-import org.project.utils.stream.StreamGobbler;
+import org.project.utils.stream.GobblerStream;
 
 import static java.awt.Desktop.getDesktop;
 import static java.awt.Desktop.isDesktopSupported;
@@ -88,18 +88,18 @@ public class Process {
     }
 
     public void stream() {
-        StreamGobbler.stream(p);
+        GobblerStream.stream(p);
     }
 
     public void stream(PrintStream out) {
-        StreamGobbler.stream(p, out);
+        GobblerStream.stream(p, out);
     }
 
     public void transfer() throws IOException {
-        StreamGobbler.transfer(p);
+        GobblerStream.transfer(p);
     }
 
     public void transfer(PrintStream out) throws IOException {
-        StreamGobbler.transfer(p, out);
+        GobblerStream.transfer(p, out);
     }
 }
