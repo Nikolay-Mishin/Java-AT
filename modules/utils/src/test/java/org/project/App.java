@@ -93,21 +93,26 @@ public class App {
 
         Request req1 = new Request(GET).uri(url);
 
+        InputStream inputStream = req1.stream();
+        byte[] bytes = req1.bytes();
+        String str = req1.string();
+
+        debug(str);
+        debug(req1.pretty());
+
         debug(req.statusCode());
         debug(req1.statusCode());
         debug(req1.statusCode());
 
-        InputStream inputStream = req1.stream();
-        byte[] bytes = req1.bytes();
-
-        //debug(inputStream.toString());
+        debug(inputStream.toString());
 
         String last = last(url, "/");
         debug(last);
 
-        writeFile("filename.txt", String.valueOf(1));
         writeFile(last, inputStream);
         writeFile("filename.zip", bytes);
+        writeFile("filename.txt", str);
+        writeFile("filename.txt", req.string() + "\n" + req.pretty());
 
         debug(Path.of("lib/chromedriver", "chromedriver.exe"));
         debug(Paths.get("lib/chromedriver", "chromedriver.exe"));
@@ -120,5 +125,8 @@ public class App {
 
         printAttrs();
         printAttrs("lib/chromedriver/chromedriver.exe");
+
+        debug(req.string());
+        debug(req.pretty());
     }
 }
