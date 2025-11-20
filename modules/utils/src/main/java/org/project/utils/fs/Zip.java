@@ -111,4 +111,20 @@ public class Zip {
         }
     }
 
+    public static void unzipSelenium(String src, String out) throws IOException {
+        unzipSelenium(input(src), new File(out));
+    }
+
+    public static void unzipSelenium(Path src, Path out) throws IOException {
+        unzipSelenium(src.toString(), out.toString());
+    }
+
+    public static void unzipSelenium(File src, File out) throws IOException {
+        unzipSelenium(input(src), out);
+    }
+
+    public static void unzipSelenium(InputStream src, File out) throws IOException {
+        org.openqa.selenium.io.Zip.unzip(src, out);
+    }
+
 }
