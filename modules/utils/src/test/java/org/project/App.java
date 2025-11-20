@@ -3,25 +3,23 @@ package org.project;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.util.*;
 
 import io.appium.java_client.windows.WindowsDriver;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.Response;
-import org.project.utils.json.JsonSchema;
-import org.project.utils.request.Request;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
+import static org.project.utils.fs.Attributes.printAttrs;
 import static org.project.utils.fs.FS.*;
+
+import org.project.utils.json.JsonSchema;
+import org.project.utils.request.Request;
 
 public class App {
     protected static WebDriver driver;
