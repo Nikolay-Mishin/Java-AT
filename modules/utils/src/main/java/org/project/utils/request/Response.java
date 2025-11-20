@@ -9,6 +9,7 @@ import io.restassured.http.*;
 import io.restassured.specification.RequestSpecification;
 import jdk.jfr.Description;
 
+import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
 import static org.project.utils.reflection.Reflection.invoke;
@@ -65,23 +66,23 @@ public class Response<T extends Response<T>> {
     }
 
     @Description("Response: get response as String")
-    public String asString() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return getResponse().asString();
+    public String string() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return response().asString();
     }
 
     @Description("Response: get response as PrettyString")
-    public String asPrettyString() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return getResponse().asPrettyString();
+    public String pretty() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return response().asPrettyString();
     }
 
     @Description("Response: get response as InputStream")
-    public InputStream asInputStream() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return getResponse().asInputStream();
+    public InputStream stream() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return response().asInputStream();
     }
 
     @Description("Response: get response as ByteArray")
-    public byte[] asByteArray() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        return getResponse().asByteArray();
+    public byte[] bytes() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return response().asByteArray();
     }
 
     @Description("Response: get contentType")
