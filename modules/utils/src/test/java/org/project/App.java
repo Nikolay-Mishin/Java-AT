@@ -3,17 +3,19 @@ package org.project;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
 import io.appium.java_client.windows.WindowsDriver;
-import io.restassured.response.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.Response;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
@@ -54,9 +56,9 @@ public class App {
         String endpoint = "chrome-for-testing/" + ver + ".json";
 
         Request req = new Request(GET, endpoint).uri(uri);
-        String jsonStr = req.asString();
+        String jsonStr = req.string();
 
-        debug(req.asPrettyString());
+        debug(req.pretty());
 
         JsonSchema json = new JsonSchema(jsonStr);
         String version = json.get("version", "string");
@@ -90,14 +92,15 @@ public class App {
         debug(path(url));
 
         Request req1 = new Request(GET).uri(url);
-        Request req2 = new Request(GET).uri(url);
 
+        debug(req.statusCode());
+        debug(req1.statusCode());
         debug(req1.statusCode());
 
-        InputStream inputStream = req1.asInputStream();
-        byte[] bytes = req2.asByteArray();
+        InputStream inputStream = req1.stream();
+        byte[] bytes = req1.bytes();
 
-        debug(inputStream.toString());
+        //debug(inputStream.toString());
 
         String last = last(url, "/");
         debug(last);
@@ -105,5 +108,17 @@ public class App {
         writeFile("filename.txt", String.valueOf(1));
         writeFile(last, inputStream);
         writeFile("filename.zip", bytes);
+
+        debug(Path.of("lib/chromedriver", "chromedriver.exe"));
+        debug(Paths.get("lib/chromedriver", "chromedriver.exe"));
+        debug(Paths.get("lib/chromedriver", "chromedriver.exe").toString());
+        debug(new File(Paths.get("lib/chromedriver", "chromedriver.exe").toString()));
+        debug(pathStr("lib/chromedriver", "chromedriver.exe"));
+        debug(pathOf("lib/chromedriver", "chromedriver.exe"));
+
+        new Request(GET, "path", 1).uri("https://googlechromelabs.github.io/");
+
+        printAttrs();
+        printAttrs("lib/chromedriver/chromedriver.exe");
     }
 }
