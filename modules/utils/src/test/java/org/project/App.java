@@ -17,6 +17,7 @@ import static org.project.utils.Helper.*;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.fs.Attributes.printAttrs;
 import static org.project.utils.fs.FS.*;
+import static org.project.utils.fs.Zip.unzip;
 
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
@@ -126,5 +127,10 @@ public class App {
 
         debug(req.string());
         debug(req.pretty());
+
+        org.openqa.selenium.io.Zip.unzip();
+        unzip();
+        unzip();
+        unzip();
     }
 }
