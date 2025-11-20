@@ -2,6 +2,7 @@
 /lib/
 /Java/out/
 **/allure-results/
+/test/
 
 ### NPM ###
 node_modules/
