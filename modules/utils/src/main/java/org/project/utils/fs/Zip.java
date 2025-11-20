@@ -6,6 +6,9 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.zip.*;
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+
 import static org.project.utils.fs.FS.*;
 import static org.project.utils.stream.InputStream.*;
 
@@ -89,6 +92,22 @@ public class Zip {
                 }
                 ze = zipIn.getNextEntry();
             }
+        }
+    }
+
+    public static void unzipPass(String src, String out) {
+        unzip(src, out, "");
+    }
+
+    public static void unzip(String src, String out, String password) {
+        try {
+            ZipFile zipFile = new ZipFile(src);
+            if (zipFile.isEncrypted()) {
+                zipFile.setPassword(password);
+            }
+            zipFile.extractAll(out);
+        } catch (ZipException e) {
+            e.printStackTrace();
         }
     }
 
