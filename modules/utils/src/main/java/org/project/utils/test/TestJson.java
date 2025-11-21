@@ -20,7 +20,9 @@ public class TestJson {
     protected static String uri = "https://googlechromelabs.github.io/";
     protected static String endpoint = "chrome-for-testing/" + ver + ".json";
 
-    public static void main(String[] args) throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void main(String[] args)
+        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException
+    {
         testJson();
     }
 

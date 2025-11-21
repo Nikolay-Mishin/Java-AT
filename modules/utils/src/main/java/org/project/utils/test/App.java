@@ -22,7 +22,9 @@ public class App extends TestZip {
     protected static ChromeDriver webDriver;
     protected static RemoteWebDriver remoteDriver;
 
-    public static void main(String[] args) throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void main(String[] args)
+        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException
+    {
         //testMain();
         //testApi();
         //testJson();
