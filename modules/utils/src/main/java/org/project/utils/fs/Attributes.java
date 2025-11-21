@@ -11,6 +11,7 @@ import static java.nio.file.Files.*;
 import static org.project.utils.Helper.*;
 import static org.project.utils.fs.FS.pathStr;
 import static org.project.utils.fs.File.path;
+import static org.project.utils.reflection.Reflection.getClassSimpleName;
 
 public class Attributes {
     protected static Class<BasicFileAttributes> baseAttrs = BasicFileAttributes.class;
@@ -63,7 +64,7 @@ public class Attributes {
     }
 
     public static <T extends BasicFileAttributes> T attrs(final Path path, Class<T> clazz) {
-        debug("Reading " + clazz + " attributes: " + path(path));
+        debug("Reading " + getClassSimpleName(clazz) + " attributes: " + path(path));
         try {
             return readAttributes(path, clazz);
         } catch (IOException|UnsupportedOperationException e) {
