@@ -1,5 +1,7 @@
 package org.project.utils.test;
 
+import static java.lang.Long.valueOf;
+
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -9,8 +11,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import static java.lang.Long.valueOf;
 import static org.project.utils.Helper.debug;
+import static org.project.utils.test.TestFS.*;
 
 public class App extends TestZip {
     protected static WebDriver driver;
@@ -25,7 +27,9 @@ public class App extends TestZip {
         //testApi();
         //testJson();
         //testZip();
-        testLong();
+        //testLong();
+        //testFS();
+        testAttrs();
     }
 
     public static void testLong() {
