@@ -5,16 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 import io.appium.java_client.windows.WindowsDriver;
-import io.restassured.response.Response;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import static java.lang.Long.valueOf;
 import static org.project.utils.Helper.debug;
-import static org.project.utils.constant.RequestConstants.METHOD.GET;
-import static org.testng.Assert.assertEquals;
-
-import org.project.utils.request.Request;
 
 public class App extends TestZip {
     protected static WebDriver driver;
@@ -28,7 +24,26 @@ public class App extends TestZip {
         //testMain();
         //testApi();
         //testJson();
-        testZip();
+        //testZip();
+        testLong();
+    }
+
+    public static void testLong() {
+        int _int = 0;
+        long _long = Integer.valueOf(_int).longValue();
+
+        _long((long) _int);
+        _long((long) Integer.valueOf(_int));
+        _long(Integer.valueOf(_int).longValue());
+
+        _long(_long);
+        _long(valueOf(0));
+        _long(valueOf(_int));
+        _long(valueOf(_long));
+    }
+
+    public static void _long(Long id) {
+        debug(id);
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
