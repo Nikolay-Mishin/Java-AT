@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
+import static java.lang.Long.valueOf;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.reflection.Instance.create;
@@ -65,7 +66,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response get(int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        //return get(Long.valueOf(id));
+        //return get(valueOf(id));
         return get((long) id);
     }
 
@@ -99,7 +100,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response delete(int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
-        //return delete(Long.valueOf(id));
+        //return delete(valueOf(id));
         return delete((long) id);
     }
 
