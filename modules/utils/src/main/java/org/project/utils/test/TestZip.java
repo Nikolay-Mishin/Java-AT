@@ -1,4 +1,4 @@
-package org.project.test;
+package org.project.utils.test;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +17,20 @@ import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
 public class TestZip extends TestJson {
+    protected static String rootZip = "test/";
+    protected static String outZip = rootZip + "zip/";
+    protected static String nameZip = "filename";
+    protected static String filename = outZip + nameZip;
+    protected static String filenameZip = filename + ".zip";
+    protected static String filenameTxt = filename + ".txt";
+    protected static String chromedriverRoot = "lib/chromedriver";
+    protected static String chromedriverFile = "chromedriver.exe";
+    protected static Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
+
+    protected static String mkdirRoot = "testDir/";
+    protected static String mkdir = mkdirRoot + "1";
+    protected static String readDir = "src/main/resources";
+    protected static String delete = "filename1.zip";
 
     public static void main(String[] args) throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         testZip();
@@ -47,16 +61,7 @@ public class TestZip extends TestJson {
         String last = last(url, "/");
         debug(last);
 
-        String out = "test/zip/";
-        String name = "filename";
-        String filename = out + name;
-        String filenameZip = filename + ".zip";
-        String filenameTxt = filename + ".txt";
-        String chromedriverRoot = "lib/chromedriver";
-        String chromedriverFile = "chromedriver.exe";
-        Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
-
-        writeFile(out + last, inputStream);
+        writeFile(outZip + last, inputStream);
         writeFile(filenameZip, bytes);
         writeFile(filenameTxt, str);
         writeFile(filenameTxt, req.string() + "\n" + "\n" + req.pretty());
@@ -64,45 +69,45 @@ public class TestZip extends TestJson {
         printAttrs();
         printAttrs(chromedriverPath);
 
-        Path resolve = resolve(out);
-        Path resolve1 = resolve(out, out);
+        Path resolve = resolve(outZip);
+        Path resolve1 = resolve(outZip, outZip);
         debug(resolve);
         debug(resolve1);
 
         debug(absolute(filenameZip).isAbsolute());
-        debug(absolute(out).isAbsolute());
+        debug(absolute(outZip).isAbsolute());
 
         debug(absolute(filenameZip));
-        debug(absolute(out));
+        debug(absolute(outZip));
 
         debug(isDir(filenameZip));
         debug(isFile(filenameZip));
-        debug(isDir(out));
-        debug(isFile(out));
+        debug(isDir(outZip));
+        debug(isFile(outZip));
 
         debug(isDir(pathStr(filenameZip)) ? pathStr(filenameZip) : pathStr(filenameZip).getParent());
-        debug(isDir(pathStr(out)) ? pathStr(out) : pathStr(out).getParent());
+        debug(isDir(pathStr(outZip)) ? pathStr(outZip) : pathStr(outZip).getParent());
 
         debug(pathStr(filenameZip).getParent());
-        debug(pathStr(out).getParent());
+        debug(pathStr(outZip).getParent());
 
-        debug(mkdirs(out));
+        debug(mkdirs(outZip));
         debug(mkdirs(filenameZip));
-        debug(mkdirs("testDir/1"));
+        debug(mkdirs(mkdir));
 
-        debug(new File(out).toString());
+        debug(new File(outZip).toString());
 
-        debug(readDir("src/test"));
-        debug(readDir("src/test").toList());
+        debug(readDir(readDir).toList());
+        debug(readDir(outZip).toList());
 
-        debug(delete("filename3.zip"));
-        debug(delete("test"));
-        debug(delete("testDir"));
+        debug(delete(delete));
+        debug(delete(rootZip));
+        debug(delete(mkdirRoot));
 
-        unzip(filenameZip, out);
-        unzipFile(filenameZip, out + "1");
-        unzipPass(filenameZip, out + "2");
-        unzipSelenium(filenameZip, out + "3");
+        unzip(filenameZip, outZip);
+        unzipFile(filenameZip, outZip + "1");
+        unzipPass(filenameZip, outZip + "2");
+        unzipSelenium(filenameZip, outZip + "3");
     }
 
 }

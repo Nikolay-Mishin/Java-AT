@@ -1,4 +1,4 @@
-package org.project;
+package org.project.utils.test;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -11,7 +11,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 
-import org.project.test.TestZip;
 import org.project.utils.request.Request;
 
 public class App extends TestZip {
@@ -38,7 +37,7 @@ public class App extends TestZip {
     }
 
     public static void testApi() throws IOException, URISyntaxException {
-        Request req = new Request(GET, "path").uri("https://googlechromelabs.github.io/");
+        Request req = new Request(GET).uri(TestJson.uri);
         req.printFullPath();
     }
 

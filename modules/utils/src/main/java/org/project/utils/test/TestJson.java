@@ -1,4 +1,4 @@
-package org.project.test;
+package org.project.utils.test;
 
 import org.json.*;
 
