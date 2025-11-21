@@ -61,6 +61,15 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response get() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        return get(id);
+    }
+
+    protected Response get(int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        //return get(Long.valueOf(id));
+        return get((long) id);
+    }
+
+    protected Response get(Long id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Response resp = req.get(id);
         debug(resp.getStatusCode());
         return resp;
@@ -86,6 +95,15 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response delete() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        return delete(id);
+    }
+
+    protected Response delete(int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+        //return delete(Long.valueOf(id));
+        return delete((long) id);
+    }
+
+    protected Response delete(Long id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
         Response resp = req.delete(id);
         debug(resp.getStatusCode());
         return resp;
