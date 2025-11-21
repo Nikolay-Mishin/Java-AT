@@ -26,7 +26,6 @@ public class TestZip extends TestJson {
     protected static String chromedriverRoot = "lib/chromedriver";
     protected static String chromedriverFile = "chromedriver.exe";
     protected static Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
-
     protected static String mkdirRoot = "testDir/";
     protected static String mkdir = mkdirRoot + "1";
     protected static String readDir = "src/main/resources";
