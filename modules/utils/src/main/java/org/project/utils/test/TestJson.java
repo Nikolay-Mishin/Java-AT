@@ -15,10 +15,7 @@ import static org.project.utils.json.JsonSchema.jsonSchema;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
-public class TestJson {
-    protected static String ver = "142.0.7444.61";
-    protected static String uri = "https://googlechromelabs.github.io/";
-    protected static String endpoint = "chrome-for-testing/" + ver + ".json";
+public class TestJson extends TestApi {
 
     public static void main(String[] args)
         throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException
