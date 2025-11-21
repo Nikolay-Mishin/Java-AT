@@ -1,8 +1,7 @@
 package org.project.utils.fs;
 
-import static java.nio.file.Files.createDirectories;
-
 import java.io.*;
+import java.io.File;
 import java.nio.file.*;
 import java.util.zip.*;
 
@@ -11,6 +10,7 @@ import net.lingala.zip4j.exception.ZipException;
 
 import static org.project.utils.fs.FS.*;
 import static org.project.utils.stream.InputStream.*;
+import static org.project.utils.stream.OutputStream.bufOut;
 
 public class Zip {
 
@@ -38,17 +38,19 @@ public class Zip {
         out = out.toAbsolutePath();
         try (ZipInputStream zipIn = zipIn(src)) {
             for (ZipEntry ze; (ze = zipIn.getNextEntry()) != null; ) {
-                Path resolve = out.resolve(ze.getName()).normalize();
+                Path resolve = resolve(out, ze.getName());
                 if (!resolve.startsWith(out)) {
                     // see: https://snyk.io/research/zip-slip-vulnerability
                     throw new RuntimeException("Entry with an illegal path: " + ze.getName());
                 }
-                if (ze.isDirectory()) {
+                /*if (ze.isDirectory()) {
                     createDirectories(resolve);
                 } else {
                     createDirectories(resolve.getParent());
                     Files.copy(zipIn, resolve);
-                }
+                }*/
+                mkdirs(ze, resolve);
+                Files.copy(zipIn, resolve);
             }
         }
     }
@@ -66,7 +68,7 @@ public class Zip {
     }
 
     public static void unzip(File src, String out) throws IOException {
-        try (ZipInputStream zipIn = new ZipInputStream(new FileInputStream(src))) {
+        try (ZipInputStream zipIn = zipIn(src)) {
             ZipEntry ze = zipIn.getNextEntry();
             while (ze != null) {
                 File file = new File(out, ze.getName());
@@ -80,7 +82,7 @@ public class Zip {
                         parent.mkdirs();
                     }
 
-                    try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file))) {
+                    try (BufferedOutputStream bos = bufOut(file)) {
                         int bufferSize = Math.toIntExact(ze.getSize());
                         byte[] buffer = new byte[bufferSize > 0 ? bufferSize : 1];
                         int location;

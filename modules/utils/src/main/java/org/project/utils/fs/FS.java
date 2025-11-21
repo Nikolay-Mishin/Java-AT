@@ -1,57 +1,21 @@
 package org.project.utils.fs;
 
-import static java.lang.String.join;
+import static java.nio.file.Files.createDirectories;
 
 import java.io.*;
+import java.io.File;
 import java.nio.file.*;
-import java.util.Arrays;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
 
 import static org.apache.commons.io.IOUtils.*;
 
-import jdk.jfr.Description;
-
 import static org.project.utils.Helper.*;
-import static org.project.utils.fs.Reader.bufReader;
 import static org.project.utils.fs.Writer.bufWriter;
 import static org.project.utils.stream.InputStream.*;
 import static org.project.utils.stream.OutputStream.output;
 
-public class FS {
-
-    @Description("Generate url path")
-    public static String path(Object... pathList) {
-        debug(Arrays.toString(pathList));
-        return join("/", Arrays.stream(pathList.length == 1 && !(pathList[0] instanceof String) ? (Object[]) pathList[0] : pathList)
-            .map(path -> isInstance(path, Object[].class) ? path(path) : path.toString())
-            .toArray(String[]::new));
-    }
-
-    @Description("Get string from Path")
-    public static String path(Path path) {
-        return path.toString();
-    }
-
-    @Description("Get Path from string")
-    public static Path pathStr(String path) {
-        return Paths.get(path);
-    }
-
-    @Description("Get Path from string")
-    public static Path pathStr(String... pathList) {
-        return Paths.get(Arrays.toString(pathList));
-    }
-
-    @Description("Get Path from string")
-    public static Path pathOf(String path) {
-        return Path.of(path);
-    }
-
-    @Description("Get Path from string")
-    public static Path pathOf(String... pathList) {
-        return Path.of(Arrays.toString(pathList));
-    }
+public class FS extends Reader {
 
     public static String readFile(String path) throws IOException {
         return readFile(input(path));
@@ -126,28 +90,30 @@ public class FS {
         }
     }
 
-    public static Stream<File> folderList(final String path) throws IOException {
-        return folderPathList(path).map(Path::toFile);
+    public static boolean mkdirs(String path) throws IOException {
+        return mkdirs(new File(path));
     }
 
-    public static Stream<File> fileList(final String path) throws IOException {
-        return pathList(path).map(Path::toFile);
+    public static boolean mkdirs(Path path) throws IOException {
+        //return mkdirs(path.toFile());
+        return createDirectories(isDir(path) ? path : path.getParent()).isAbsolute();
     }
 
-    public static Stream<Path> folderPathList(final String path) throws IOException {
-        return readDir(path, Files::isDirectory);
+    public static boolean mkdirs(File file) throws IOException {
+        //return (isDir(file) ? file : file.getParentFile()).mkdirs();
+        return mkdirs(file.toPath());
     }
 
-    public static Stream<Path> pathList(final String path) throws IOException {
-        return readDir(path, Files::isRegularFile);
+    public static boolean mkdirs(ZipEntry ze, Path path) throws IOException {
+        return mkdirs(isDir(ze) ? path : path.getParent());
     }
 
-    public static Stream<Path> readDir(final String path, final Predicate<? super Path> filter) throws IOException {
-        return readDir(path).filter(filter);
-    }
-
-    public static Stream<Path> readDir(final String path) throws IOException {
-        return Files.walk(pathStr(path));
+    public static boolean deleteDirWalk(final String path) throws IOException {
+        try (Stream<File> fileStream = dirReverseToFile(path)) {
+            fileStream.forEach(File::delete);
+            //fileStream.forEach(File::delete()); // ошибки игнорируются
+        }
+        return exist(path);
     }
 
     public static void printFile(final String path) {

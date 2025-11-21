@@ -18,6 +18,22 @@ public class OutputStream {
         return new FileOutputStream(file);
     }
 
+    public static BufferedOutputStream bufOut(String path) throws IOException {
+        return bufOut(output(path));
+    }
+
+    public static BufferedOutputStream bufOut(Path path) throws IOException {
+        return bufOut(output(path));
+    }
+
+    public static BufferedOutputStream bufOut(File file) throws IOException {
+        return bufOut(output(file));
+    }
+
+    public static BufferedOutputStream bufOut(java.io.OutputStream output) {
+        return new BufferedOutputStream(output);
+    }
+
     public static ByteArrayOutputStream arrayOut(int size) {
         return new ByteArrayOutputStream(size);
     }

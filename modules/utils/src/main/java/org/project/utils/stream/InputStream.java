@@ -18,6 +18,22 @@ public class InputStream {
         return new FileInputStream(file);
     }
 
+    public static BufferedInputStream bufIn(String path) throws IOException {
+        return bufIn(input(path));
+    }
+
+    public static BufferedInputStream bufIn(Path path) throws IOException {
+        return bufIn(input(path));
+    }
+
+    public static BufferedInputStream bufIn(File file) throws IOException {
+        return bufIn(input(file));
+    }
+
+    public static BufferedInputStream bufIn(java.io.InputStream input) {
+        return new BufferedInputStream(input);
+    }
+
     public static ByteArrayInputStream arrayIn(byte[] b) {
         return new ByteArrayInputStream(b);
     }
