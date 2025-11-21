@@ -2,6 +2,8 @@ package org.project.utils.json;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -10,6 +12,7 @@ import org.json.*;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.WebConfig.config;
+import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.reflection.Reflection.*;
 
@@ -18,18 +21,40 @@ import org.project.utils.base.Model;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.fs.FS;
 import org.project.utils.Helper;
+import org.project.utils.request.Request;
 
 public class JsonSchema {
 
     private JSONObject jsonData;
     private JSONObject obj;
     private JSONArray arr;
+    private Request req;
+
+    public JsonSchema() {}
 
     public JsonSchema(String jsonString) {
         data(jsonString);
     }
 
-    public JsonSchema() {
+    public JsonSchema(Request req) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        this.req = req;
+        data(req.string());
+    }
+
+    public Request req() {
+        return req;
+    }
+
+    public static JsonSchema jsonSchema(String endpoint)
+        throws MalformedURLException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
+        return new JsonSchema(new Request(GET, endpoint));
+    }
+
+    public static JsonSchema jsonSchema(String endpoint, String uri)
+        throws MalformedURLException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
+    {
+        return new JsonSchema(new Request(GET, endpoint).uri(uri));
     }
 
     public static Map<String, Object> toMap(JSONObject o) {
