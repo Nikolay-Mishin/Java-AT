@@ -26,10 +26,10 @@ public class App extends TestZip {
         //testMain();
         //testApi();
         //testJson();
-        //testZip();
+        testZip();
         //testLong();
         //testFS();
-        testAttrs();
+        //testAttrs();
     }
 
     public static void testLong() {
