@@ -10,6 +10,7 @@ import net.lingala.zip4j.exception.ZipException;
 
 import static java.lang.Math.toIntExact;
 import static java.nio.file.Files.copy;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.fs.FS.*;
 import static org.project.utils.stream.InputStream.*;
 import static org.project.utils.stream.OutputStream.bufOut;
@@ -37,6 +38,8 @@ public class Zip {
     }
 
     public static void unzip(InputStream src, Path out) throws IOException {
+        debug("Clear: " + out);
+        debug(delete(out));
         out = out.toAbsolutePath();
         try (ZipInputStream zipIn = zipIn(src)) {
             for (ZipEntry ze; (ze = zipIn.getNextEntry()) != null; ) {
