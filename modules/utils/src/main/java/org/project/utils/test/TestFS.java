@@ -1,19 +1,17 @@
 package org.project.utils.test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 
-import static java.nio.file.Files.readAttributes;
 import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.notNull;
-import static org.project.utils.fs.Attributes.attrs;
 import static org.project.utils.fs.Attributes.printAttrs;
-import static org.project.utils.fs.File.delete;
-import static org.project.utils.fs.File.exist;
+import static org.project.utils.fs.File.*;
 
-public class TestFS extends App {
+public class TestFS extends TestZip {
+    protected static String chromedriverRoot = "lib/chromedriver";
+    protected static String chromedriverFile = "chromedriver.exe";
+    protected static Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
+    protected static String attrsTest = "home/user/example.txt";
 
     public static void main(String[] args) throws IOException {
         //testFS();
@@ -54,9 +52,10 @@ public class TestFS extends App {
     public static void testAttrs() {
         debug(FileSystems.getDefault().supportedFileAttributeViews());
         printAttrs();
-        printAttrs("home/user/example.txt");
-        printAttrs("/home/user/example.txt");
-        printAttrs("filename.zip");
+        printAttrs(attrsTest);
+        printAttrs("/" + attrsTest);
+        printAttrs(filenameZip);
+        printAttrs(chromedriverPath);
     }
 
 }
