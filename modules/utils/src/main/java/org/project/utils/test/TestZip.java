@@ -8,7 +8,6 @@ import java.util.Map;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
-import static org.project.utils.fs.Attributes.printAttrs;
 import static org.project.utils.fs.FS.*;
 import static org.project.utils.fs.Zip.*;
 import static org.project.utils.json.JsonSchema.jsonSchema;
@@ -17,19 +16,15 @@ import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
 public class TestZip extends TestJson {
-    protected static String rootZip = "test/";
-    protected static String outZip = rootZip + "zip/";
+    protected static String rootTest = "tests/";
+    protected static String outZip = rootTest + "zip/";
     protected static String nameZip = "filename";
-    protected static String filename = outZip + nameZip;
+    protected static String filename = rootTest + nameZip;
     protected static String filenameZip = filename + ".zip";
     protected static String filenameTxt = filename + ".txt";
-    protected static String chromedriverRoot = "lib/chromedriver";
-    protected static String chromedriverFile = "chromedriver.exe";
-    protected static Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
-    protected static String mkdirRoot = "testDir/";
+    protected static String mkdirRoot = rootTest + "testDir/";
     protected static String mkdir = mkdirRoot + "1";
     protected static String readDir = "src/main/resources";
-    protected static String delete = "filename1.zip";
 
     public static void main(String[] args)
         throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException
@@ -67,9 +62,6 @@ public class TestZip extends TestJson {
         writeFile(filenameTxt, str);
         writeFile(filenameTxt, req.string() + "\n" + "\n" + req.pretty());
 
-        printAttrs();
-        printAttrs(chromedriverPath);
-
         Path resolve = resolve(outZip);
         Path resolve1 = resolve(outZip, outZip);
         debug(resolve);
@@ -101,14 +93,15 @@ public class TestZip extends TestJson {
         debug(readDir(readDir).toList());
         debug(readDir(outZip).toList());
 
-        debug(delete(delete));
-        debug(delete(rootZip));
+        debug(delete(filenameTxt));
         debug(delete(mkdirRoot));
 
         unzip(filenameZip, outZip);
         unzipFile(filenameZip, outZip + "1");
         unzipPass(filenameZip, outZip + "2");
         unzipSelenium(filenameZip, outZip + "3");
+
+        debug(filenameZip);
     }
 
 }

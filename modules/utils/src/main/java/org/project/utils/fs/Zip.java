@@ -8,6 +8,8 @@ import java.util.zip.*;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
+import static java.lang.Math.toIntExact;
+import static java.nio.file.Files.copy;
 import static org.project.utils.fs.FS.*;
 import static org.project.utils.stream.InputStream.*;
 import static org.project.utils.stream.OutputStream.bufOut;
@@ -43,14 +45,8 @@ public class Zip {
                     // see: https://snyk.io/research/zip-slip-vulnerability
                     throw new RuntimeException("Entry with an illegal path: " + ze.getName());
                 }
-                /*if (ze.isDirectory()) {
-                    createDirectories(resolve);
-                } else {
-                    createDirectories(resolve.getParent());
-                    Files.copy(zipIn, resolve);
-                }*/
                 mkdirs(ze, resolve);
-                Files.copy(zipIn, resolve);
+                copy(zipIn, resolve);
             }
         }
     }
@@ -72,27 +68,23 @@ public class Zip {
             ZipEntry ze = zipIn.getNextEntry();
             while (ze != null) {
                 File file = new File(out, ze.getName());
-
-                if (ze.isDirectory()) {
-                    file.mkdirs();
-                } else {
-                    File parent = file.getParentFile();
-
-                    if (!parent.exists()) {
-                        parent.mkdirs();
-                    }
-
-                    try (BufferedOutputStream bos = bufOut(file)) {
-                        int bufferSize = Math.toIntExact(ze.getSize());
-                        byte[] buffer = new byte[bufferSize > 0 ? bufferSize : 1];
-                        int location;
-
-                        while ((location = zipIn.read(buffer)) != -1) {
-                            bos.write(buffer, 0, location);
-                        }
-                    }
+                mkdirs(ze, file);
+                if (!isDir(ze)) {
+                    writeFile(zipIn, ze, file);
                 }
                 ze = zipIn.getNextEntry();
+            }
+        }
+    }
+
+    public static void writeFile(ZipInputStream zipIn, ZipEntry ze, File file) throws IOException {
+        try (BufferedOutputStream bos = bufOut(file)) {
+            int bufferSize = toIntExact(ze.getSize());
+            byte[] buffer = new byte[bufferSize > 0 ? bufferSize : 1];
+            int location;
+
+            while ((location = zipIn.read(buffer)) != -1) {
+                bos.write(buffer, 0, location);
             }
         }
     }
