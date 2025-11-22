@@ -31,12 +31,12 @@ public class Attributes {
         return attrs(pathStr(path), baseAttrs);
     }
 
-    public static BasicFileAttributes baseAttrs(final Path path) {
-        return attrs(path, baseAttrs);
-    }
-
     public static BasicFileAttributes baseAttrs(final java.io.File file) {
         return attrs(file.toPath(), baseAttrs);
+    }
+
+    public static BasicFileAttributes baseAttrs(final Path path) {
+        return attrs(path, baseAttrs);
     }
 
     public static DosFileAttributes dosAttrs(final String path) {
@@ -51,6 +51,10 @@ public class Attributes {
         return attrs(path, dosAttrs);
     }
 
+    public static PosixFileAttributes posAttrs(final java.io.File file) {
+        return attrs(file.toPath(), posAttrs);
+    }
+
     public static PosixFileAttributes posAttrs(final String path) {
         return attrs(pathStr(path), posAttrs);
     }
@@ -59,14 +63,10 @@ public class Attributes {
         return attrs(path, posAttrs);
     }
 
-    public static PosixFileAttributes posAttrs(final java.io.File file) {
-        return attrs(file.toPath(), posAttrs);
-    }
-
-    public static <T extends BasicFileAttributes> T attrs(final Path path, Class<T> clazz) {
-        debug("Reading " + getClassSimpleName(clazz) + " attributes: " + path(path));
+    public static <A extends BasicFileAttributes> A attrs(final Path path, Class<A> type) {
+        debug("Reading " + getClassSimpleName(type) + " attributes: " + path(path));
         try {
-            return readAttributes(path, clazz);
+            return readAttributes(path, type);
         } catch (IOException|UnsupportedOperationException e) {
             //Logger.getLogger(MGSiap.class.getName()).log(Level.SEVERE, null, e);
             debug("Error reading attributes.");
@@ -75,12 +75,24 @@ public class Attributes {
         return null;
     }
 
+    public static UserDefinedFileAttributeView customAttrView(String path) {
+        return getFileAttributeView(pathStr(path), userAttrsView);
+    }
+
+    public static UserDefinedFileAttributeView customAttrView(java.io.File file) {
+        return getFileAttributeView(file.toPath(), userAttrsView);
+    }
+
     public static UserDefinedFileAttributeView customAttrView(Path path) {
         return getFileAttributeView(path, userAttrsView);
     }
 
     public static String customAttr(String path, String name) {
         return customAttr(pathStr(path), name);
+    }
+
+    public static String customAttr(java.io.File file, String name) {
+        return customAttr(file.toPath(), name);
     }
 
     public static String customAttr(Path path, String name) {
@@ -100,6 +112,10 @@ public class Attributes {
 
     public static String customAttr(String path, String name, String value) {
         return customAttr(pathStr(path), name, value);
+    }
+
+    public static String customAttr(java.io.File file, String name, String value) {
+        return customAttr(file.toPath(), name, value);
     }
 
     public static String customAttr(Path path, String name, String value) {
@@ -125,6 +141,10 @@ public class Attributes {
         printAttrs(pathStr(path));
     }
 
+    public static void printAttrs(java.io.File file) {
+        printAttrs(file.toPath());
+    }
+
     public static void printAttrs(Path path) {
         printBaseAttrs(path);
         printPosAttrs(path);
@@ -137,7 +157,11 @@ public class Attributes {
     }
 
     public static void printCustomAttrs(String path, String name, String value) {
-        printCustomAttrs(pathStr(""), name, value);
+        printCustomAttrs(pathStr(path), name, value);
+    }
+
+    public static void printCustomAttrs(java.io.File file, String name, String value) {
+        printCustomAttrs(file.toPath(), name, value);
     }
 
     public static void printCustomAttrs(Path path, String name, String value) {
@@ -151,6 +175,10 @@ public class Attributes {
 
     public static void printBaseAttrs(String path) {
         printBaseAttrs(pathStr(path));
+    }
+
+    public static void printBaseAttrs(java.io.File file) {
+        printBaseAttrs(file.toPath());
     }
 
     public static void printBaseAttrs(Path path) {
@@ -176,6 +204,10 @@ public class Attributes {
         printPosAttrs(pathStr(path));
     }
 
+    public static void printPosAttrs(java.io.File file) {
+        printPosAttrs(file.toPath());
+    }
+
     public static void printPosAttrs(Path path) {
         PosixFileAttributes attrs = posAttrs(path);
         debug(attrs);
@@ -193,6 +225,10 @@ public class Attributes {
 
     public static void printDosAttrs(String path) {
         printDosAttrs(pathStr(path));
+    }
+
+    public static void printDosAttrs(java.io.File file) {
+        printDosAttrs(file.toPath());
     }
 
     public static void printDosAttrs(Path path) {

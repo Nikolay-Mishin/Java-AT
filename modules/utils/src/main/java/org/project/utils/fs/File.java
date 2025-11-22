@@ -53,6 +53,10 @@ public class File {
         return absolute(pathStr(path));
     }
 
+    public static Path absolute(java.io.File file) {
+        return absolute(file.toPath());
+    }
+
     public static Path absolute(Path path) {
         return path.toAbsolutePath();
     }
@@ -61,12 +65,20 @@ public class File {
         return resolve(pathStr(path));
     }
 
+    public static Path resolve(java.io.File file) {
+        return resolve(file.toPath());
+    }
+
     public static Path resolve(Path path) {
         return path.normalize();
     }
 
     public static Path resolve(String path, String other) {
         return resolve(pathStr(path), pathStr(other));
+    }
+
+    public static Path resolve(java.io.File file, String other) {
+        return resolve(file.toPath(), pathStr(other));
     }
 
     public static Path resolve(Path path, String other) {
@@ -81,12 +93,12 @@ public class File {
         return isDir(pathStr(path));
     }
 
-    public static boolean isDir(final Path path) throws IOException {
-        return pathIsDir(path);
-    }
-
     public static boolean isDir(final java.io.File file) throws IOException {
         return pathIsDir(file.toPath());
+    }
+
+    public static boolean isDir(final Path path) throws IOException {
+        return pathIsDir(path);
     }
 
     public static boolean isDir(final ZipEntry ze) {
@@ -97,12 +109,12 @@ public class File {
         return !isDir(path);
     }
 
-    public static boolean isFile(final Path path) throws IOException {
-        return !isDir(path);
-    }
-
     public static boolean isFile(final java.io.File file) throws IOException {
         return !isDir(file);
+    }
+
+    public static boolean isFile(final Path path) throws IOException {
+        return !isDir(path);
     }
 
     // check if the file/directory is already there
@@ -122,12 +134,12 @@ public class File {
         return Files.exists(pathStr(path));
     }
 
-    public static boolean exist(final Path path) throws IOException {
-        return Files.exists(path);
-    }
-
     public static boolean exist(final java.io.File file) throws IOException {
         return Files.exists(file.toPath());
+    }
+
+    public static boolean exist(final Path path) throws IOException {
+        return Files.exists(path);
     }
 
     public static boolean delete(final String path) throws IOException {
