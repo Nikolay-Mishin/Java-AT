@@ -2,11 +2,8 @@
 /lib/
 /Java/out/
 **/allure-results/
-/test/
-*.zip
-*.txt
-**/modules/**/*.zip
-**/modules/**/*.txt
+/tests/
+/modules/**/tests/
 
 ### NPM ###
 node_modules/
