@@ -91,7 +91,8 @@ public class FS extends Reader {
     }
 
     public static boolean mkdirs(String path) throws IOException {
-        return mkdirs(new File(path));
+        //return mkdirs(new File(path));
+        return mkdirs(pathStr(path));
     }
 
     public static boolean mkdirs(Path path) throws IOException {
@@ -101,6 +102,15 @@ public class FS extends Reader {
 
     public static boolean mkdirs(File file) throws IOException {
         //return (isDir(file) ? file : file.getParentFile()).mkdirs();
+        return mkdirs(file.toPath());
+    }
+
+    public static boolean mkdirs(ZipEntry ze, String path) throws IOException {
+        return mkdirs(ze, pathStr(path));
+    }
+
+    public static boolean mkdirs(ZipEntry ze, File file) throws IOException {
+        //return mkdirs(isDir(ze) ? file : file.getParentFile());
         return mkdirs(file.toPath());
     }
 
