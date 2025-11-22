@@ -152,7 +152,7 @@ public class File {
 
     public static boolean deleteDir(final java.io.File file) throws IOException {
         deleteDirectory(file);
-        return exist(file);
+        return !exist(file);
     }
 
 }
