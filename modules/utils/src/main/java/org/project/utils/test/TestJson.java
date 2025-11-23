@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.*;
 
-import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.*;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.fs.FS.*;
 import static org.project.utils.json.JsonSchema.jsonSchema;
@@ -62,6 +62,14 @@ public class TestJson extends TestApi {
         debug(map0);
         debug(url);
         debug(path(url));
+
+        Object obj = new Object(){ public int k = 1; };
+
+        debug(entries(obj));
+        debug(entriesList(obj));
+        debug(entriesArray(obj));
+        debug(Arrays.toString(entriesList(obj).get(0)));
+        debug(Arrays.toString((Object[]) entriesArray(obj)[0]));
     }
 
 }

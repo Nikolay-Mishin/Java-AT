@@ -5,14 +5,14 @@ import static java.lang.System.*;
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
 import java.nio.charset.Charset;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Stream;
+
+import static com.google.common.collect.ImmutableList.copyOf;
+import static org.testng.collections.Lists.newArrayList;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -31,33 +31,15 @@ public class Helper {
     }
 
     public static void debug(String msg, String... args) {
-        if (debugLvl() > 0) debug(format("{0} {1}", msg, join(", ", toArray(args, String[]::new))));
+        if (debugLvl() > 0) debug(format("{0} {1}", msg, join(", ", args)));
     }
 
     public static void debug(String msg, int debugLvl, String... args) {
         if (debugLvl() >= debugLvl) debug(msg, args);
     }
 
-    public static <A> A[] toArray(A[] array, IntFunction<A[]> generator) {
-        return toArray(stream(array), generator);
-    }
-
-    public static <A> A[] toArray(Stream<A> stream, IntFunction<A[]> generator) {
-        return stream.toArray(generator);
-    }
-
-    public static <A> A[] toArray(List<A> list, IntFunction<A[]> generator) {
-        return list.toArray(generator);
-    }
-
-    public static <A, T> T[] toArray(List<A> list, IntFunction<T[]> generator, Function<A, T> mapper) {
-        return toArray((A[]) list.toArray(), generator, mapper);
-    }
-
-    public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
-        return stream(array)
-            .map(mapper)
-            .toArray(generator);
+    public static <A> List<A> toList(A[] array) {
+        return stream(array).toList();
     }
 
     public static <T, I> List<T> toList(Iterable<I> iterable) {
@@ -67,22 +49,46 @@ public class Helper {
     //public static <I> List<I> toList(Iterator<I> iterator) {
     //public static <T, I> ImmutableList<T> toList(Iterator<I> iterator) {
     public static <T, I> List<T> toList(Iterator<I> iterator) {
-        //return Lists.newArrayList(iterator);
-        //return ImmutableList.copyOf(iterator);
+        //return newArrayList(iterator);
+        //return copyOf(iterator);
         return IteratorUtils.toList(iterator);
     }
 
-    public static <T, I> List<T> toList(Iterable<I> iterable, Predicate<? super T> filter) {
+    public static <T, I> List<T> toList(Iterable<I> iterable, Predicate<T> filter) {
         return toList(iterable.iterator(), filter);
     }
 
-    public static <T, I> List<T> toList(Iterator<I> iterator, Predicate<? super T> filter) {
+    public static <T, I> List<T> toList(Iterator<I> iterator, Predicate<T> filter) {
         //return ((List<T>) toList(iterator)).stream().filter(filter).toList();
-        return toList(toList(iterator), filter);
+        return filter(toList(iterator), filter);
     }
 
-    public static <T> List<T> toList(List<T> list, Predicate<? super T> filter) {
-        return list.stream().filter(filter).toList();
+    public static <A, T> T[] map(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return map(stream(array), generator, mapper);
+    }
+
+    public static <A, T> T[] map(List<A> list, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return map(list.stream(), generator, mapper);
+    }
+
+    public static <A, T> T[] map(Stream<A> stream, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return stream
+            .map(mapper)
+            .toArray(generator);
+    }
+
+    public static <A> List<A> filter(A[] array, Predicate<A> filter) {
+        return filter(stream(array), filter);
+    }
+
+    public static <T> List<T> filter(List<T> list, Predicate<T> filter) {
+        return filter(list.stream(), filter);
+    }
+
+    public static <T> List<T> filter(Stream<T> stream, Predicate<T> filter) {
+        return stream
+            .filter(filter)
+            .toList();
     }
 
     private static Boolean is(Object type, Class<?> clazz) {
@@ -195,22 +201,104 @@ public class Helper {
         return (T[]) ArrayUtils.remove(arr, index);
     }
 
-    public static Map<String, Object> getObjectFields(Object obj) throws IllegalAccessException {
-        // See:
-        //  - https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value
-        //  - https://www.geeksforgeeks.org/reflection-in-java
-        //  - https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-
-        Class<?> objClass = obj.getClass();
-        Field[] objFields = objClass.getDeclaredFields();
-        Map<String, Object> entriesMap = new HashMap<>();
+    public static Map<String, Object> entries(Object obj) {
+        return entries(obj, new HashMap<>(), (entries, field) -> {
+            try {entries.put(fieldName(field), field.get(obj));}
+            catch (IllegalAccessException e) {throw new RuntimeException(e);}
+            return entries;
+        });
+    }
 
-        for (Field field : objFields) {
-            String fieldSuffix = field.toString().replaceAll("(^.*)(\\.)([^\\.]+)$", "$3");
+    public static List<Object[]> entriesList(Object obj) {
+        return entries(obj, new ArrayList<>(), (entries, field) -> {
+            try {
+                Collection<Object> objects = new ArrayList<>();
+                Collections.addAll(objects, fieldName(field), field.get(obj));
+                entries.add(objects.toArray());
+            }
+            catch (IllegalAccessException e) {throw new RuntimeException(e);}
+            return entries;
+        });
+    }
+
+    public static Object[] entriesArray(Object obj) {
+        return entries(obj, new ArrayList<>(), (entries, field) -> {
+            try {
+                Collection<Object> objects = new ArrayList<>();
+                Collections.addAll(objects, fieldName(field), field.get(obj));
+                entries.add(objects.toArray());
+            }
+            catch (IllegalAccessException e) {throw new RuntimeException(e);}
+            return entries;
+        }).toArray();
+    }
+
+    // See:
+    //  - https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value
+    //  - https://www.geeksforgeeks.org/reflection-in-java
+    //  - https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-
+    public static <T> T entries(Object obj, T entries, BiFunction<T, Field, T> func) {
+        Class<?> clazz = obj.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
             field.setAccessible(true);
-            entriesMap.put(fieldSuffix, field.get(obj));
+            func.apply(entries, field);
         }
 
-        return entriesMap;
+        return entries;
+    }
+
+    public static String fieldName(Field field) {
+        return field.toString().replaceAll("(^.*)(\\.)([^\\.]+)$", "$3");
+    }
+
+    public static Set<String> keys(Object obj) throws IllegalAccessException {
+        return keys(entries(obj));
+    }
+
+    public static Collection<Object> values(Object obj) throws IllegalAccessException {
+        return values(entries(obj));
+    }
+
+    public static Object[] keysArray(Object obj) {
+        return keysArray(entries(obj));
+    }
+
+    public static Object[] valuesArray(Object obj) {
+        return valuesArray(entries(obj));
+    }
+
+    public static List<String> keysList(Object obj) {
+        return keysList(entries(obj));
+    }
+
+    public static List<Object> valuesList(Object obj) {
+        return valuesList(entries(obj));
+    }
+
+    public static Set<String> keys(Map<String, Object> entriesMap) throws IllegalAccessException {
+        return entriesMap.keySet();
+    }
+
+    public static Collection<Object> values(Map<String, Object> entriesMap) throws IllegalAccessException {
+        return entriesMap.values();
+    }
+
+    public static Object[] keysArray(Map<String, Object> entriesMap) {
+        return entriesMap.keySet().toArray();
+    }
+
+    public static Object[] valuesArray(Map<String, Object> entriesMap) {
+        return entriesMap.values().toArray();
+    }
+
+    public static List<String> keysList(Map<String, Object> entriesMap) {
+        return entriesMap.keySet().stream().toList();
+    }
+
+    public static List<Object> valuesList(Map<String, Object> entriesMap) {
+        return entriesMap.values().stream().toList();
     }
 
     public static String sb(Object... args) {

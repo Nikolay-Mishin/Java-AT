@@ -16,7 +16,6 @@ import org.openqa.selenium.remote.*;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
-import static org.project.utils.Helper.debug;
 import static org.project.utils.Process.run;
 import static org.project.utils.reflection.Reflection.*;
 import static org.project.utils.windriver.DriverBaseConfig.*;
@@ -144,7 +143,7 @@ public class RemoteWebDriver extends WebElement {
     //[Capabilities]
     public static DesiredCapabilities setCap() throws IllegalAccessException {
         if (experimental) cap.setCapability("ms:experimental-webdriver", experimental);
-        Map<String, Object> map = getObjectFields(new Capabilities());
+        Map<String, Object> map = entries(new Capabilities());
         debug(map);
         for (Entry<String, Object> entry : map.entrySet()) {
             String k = entry.getKey();
