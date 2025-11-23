@@ -187,11 +187,11 @@ public class JsonSchema {
         debug(pathList[0]);
         debug(isClass(pathList[0]));
         debug(!isClass(pathList[0]) ? pathList[0] : jsonSchemaName((Class<?>) pathList[0]));
-        String _path = !isClass(pathList[0]) ? (String) pathList[0] : jsonSchemaName((Class<?>) pathList[0]);
+        Object jsonSchema = !isClass(pathList[0]) ? pathList[0] : jsonSchemaName((Class<?>) pathList[0]);
         Object[] _pathList = shift(pathList);
-        debug(_path);
+        debug(jsonSchema);
         debug(_pathList);
-        String path = FS.path(config().getJsonRoot(), _path, _pathList) + ".json";
+        String path = FS.path(config().getJsonRoot(), _pathList, jsonSchema) + ".json";
         debug(path);
         if (pathList.length > 0) data(readFile(path));
         return this;
