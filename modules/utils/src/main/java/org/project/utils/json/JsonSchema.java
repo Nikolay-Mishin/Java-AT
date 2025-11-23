@@ -187,6 +187,12 @@ public class JsonSchema {
         Object[] _pathList = shift(pathList);
         debug(jsonSchema);
         debug(Arrays.toString(_pathList));
+        debug(_pathList[0]);
+        debug(_pathList[0].toString());
+        debug(FS.path(_pathList));
+        debug(FS.path(_pathList[0]));
+        debug(FS.path(_pathList[0].toString()));
+        debug(FS.path(config().getJsonRoot(), FS.path(_pathList), jsonSchema));
         String path = FS.path(config().getJsonRoot(), _pathList, jsonSchema) + ".json";
         debug(path);
         if (pathList.length > 0) data(readFile(path));
