@@ -37,7 +37,7 @@ public class App extends TestZip {
         //testFS();
         //testAttrs();
         testEntries();
-        testAuth();
+        //testAuth();
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
