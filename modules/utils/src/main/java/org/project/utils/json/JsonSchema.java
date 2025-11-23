@@ -30,6 +30,7 @@ public class JsonSchema {
     private JSONObject obj;
     private JSONArray arr;
     private Request req;
+    private static String delimiter = "\\.";
 
     public JsonSchema() {}
 
@@ -58,6 +59,26 @@ public class JsonSchema {
         return new JsonSchema(new Request(GET, endpoint).uri(uri));
     }
 
+    public static JsonSchema jsonSchema(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
+        return new JsonSchema().path(method, modelClass, pathList);
+    }
+
+    public static JsonSchema jsonSchema(Class<?> modelClass, Object... pathList) throws IOException {
+        return new JsonSchema().path(modelClass, pathList);
+    }
+
+    public static JsonSchema jsonSchema(Object... pathList) throws IOException {
+        return new JsonSchema().path(pathList);
+    }
+
+    public static String delimiter() {
+        return delimiter;
+    }
+
+    public static String delimiter(String s) {
+        return delimiter = s;
+    }
+
     public static Map<String, Object> toMap(JSONObject o) {
         return o.toMap();
     }
@@ -75,15 +96,15 @@ public class JsonSchema {
     }
 
     public JsonSchema path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
-        return _path(jsonSchemaPath(method, modelClass, pathList), pathList);
+        return _path(method, modelClass, pathList);
     }
 
     public JsonSchema path(Class<?> modelClass, Object... pathList) throws IOException {
-        return _path(jsonSchemaPath(modelClass, pathList), pathList);
+        return _path(modelClass, pathList);
     }
 
     public JsonSchema path(Object... pathList) throws IOException {
-        return _path(jsonSchemaPath(pathList), pathList);
+        return _path(pathList);
     }
 
     public JSONObject data() {
@@ -91,7 +112,7 @@ public class JsonSchema {
     }
 
     private void data(String jsonString) {
-        jsonData = new JSONObject(jsonString);
+        jsonData = new JSONObject(jsonString == "" ? "{}" : jsonString);
     }
 
     public Map<String, Object> toMap() {
@@ -153,26 +174,22 @@ public class JsonSchema {
         return toList((JSONArray) get(k, "array"), filter);
     }
 
-    private JsonSchema _path(String path, Object... pathList) throws IOException {
-        path +=  ".json";
+    private JsonSchema _path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
+        return _path(pathList, jsonSchemaName(method, modelClass));
+    }
+
+    private JsonSchema _path(Class<? extends Model<?>> modelClass, Object... pathList) throws IOException {
+        return _path(pathList, jsonSchemaName(modelClass));
+    }
+
+    private JsonSchema _path(Object... pathList) throws IOException {
+        String path = jsonSchemaPath(pathList) + ".json";
         debug(path);
         if (pathList.length > 0) data(readFile(path));
         return this;
     }
 
-    private static String jsonSchemaPath(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList){
-        return _jsonSchemaPath(pathList, jsonSchemaName(method, modelClass));
-    }
-
-    private static String jsonSchemaPath(Class<? extends Model<?>> modelClass, Object... pathList){
-        return _jsonSchemaPath(pathList, jsonSchemaName(modelClass));
-    }
-
-    private static String jsonSchemaPath(Object... pathList) {
-        return _jsonSchemaPath(pathList);
-    }
-
-    private static String _jsonSchemaPath(Object... pathList){
+    private static String jsonSchemaPath(Object... pathList){
         return FS.path(config().getJsonRoot(), pathList);
     }
 
@@ -218,7 +235,7 @@ public class JsonSchema {
     }
 
     public static String[] parsePath(String path) {
-        return path.split("\\.");
+        return path.split(delimiter);
     }
 
     public JsonSchema object(String key) {
