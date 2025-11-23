@@ -30,7 +30,7 @@ public class JsonSchema {
     private JSONObject obj;
     private JSONArray arr;
     private Request req;
-    private static String delimiter = "\\.";
+    private static String delimiter = "."; // "\\."
 
     public JsonSchema() {}
 
