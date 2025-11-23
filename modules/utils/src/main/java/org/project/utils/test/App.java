@@ -10,8 +10,12 @@ import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.project.utils.auth.Auth;
+import org.project.utils.auth.AuthToken;
+import org.project.utils.json.JsonSchema;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.test.TestEntries.testEntries;
 import static org.project.utils.test.TestFS.*;
 
 public class App extends TestZip {
@@ -25,11 +29,31 @@ public class App extends TestZip {
     {
         //testMain();
         //testApi();
-        //testJson();
-        testZip();
+        testJson();
+        //testZip();
         //testLong();
         //testFS();
         //testAttrs();
+        testEntries();
+        //Auth.init(new AuthToken(new JsonSchema().path("auth", "token")));
+
+        /*
+        1. jsonDelimetr
+        2. static jsonSchema(path)
+        3. Auth.init(JsonSchema)
+        4. Auth.init(path)
+        8. fromEntries(array)
+        */
+    }
+
+    public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
+        driver = org.project.utils.windriver.RemoteWebDriver.start();
+        remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
+        webDriver = org.project.utils.windriver.WebDriver.start();
+        winDriver = org.project.utils.windriver.WinDriver.start();
+        org.project.utils.windriver.WinDriver.printCall();
+        //org.project.utils.windriver.WebDriver.stop();
+        //org.project.utils.windriver.WebDriver.quit();
     }
 
     public static void testLong() {
@@ -48,16 +72,6 @@ public class App extends TestZip {
 
     public static void _long(Long id) {
         debug(id);
-    }
-
-    public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
-        driver = org.project.utils.windriver.RemoteWebDriver.start();
-        remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
-        webDriver = org.project.utils.windriver.WebDriver.start();
-        winDriver = org.project.utils.windriver.WinDriver.start();
-        org.project.utils.windriver.WinDriver.printCall();
-        //org.project.utils.windriver.WebDriver.stop();
-        //org.project.utils.windriver.WebDriver.quit();
     }
 
 }

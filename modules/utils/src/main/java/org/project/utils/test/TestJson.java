@@ -62,14 +62,6 @@ public class TestJson extends TestApi {
         debug(map0);
         debug(url);
         debug(path(url));
-
-        Object obj = new Object(){ public int k = 1; };
-
-        debug(entries(obj));
-        debug(entriesList(obj));
-        debug(entriesArray(obj));
-        debug(Arrays.toString(entriesList(obj).get(0)));
-        debug(Arrays.toString((Object[]) entriesArray(obj)[0]));
     }
 
 }
