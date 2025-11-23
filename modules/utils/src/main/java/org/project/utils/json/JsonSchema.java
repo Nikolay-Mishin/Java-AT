@@ -180,14 +180,13 @@ public class JsonSchema {
 
     private JsonSchema _path(Object... pathList) throws IOException {
         Object path0 = pathList[0];
-        debug(pathList);
+        debug(Arrays.toString(pathList));
         debug(path0);
         debug(isClass(path0));
-        debug(!isClass(path0) ? path0 : jsonSchemaName((Class<?>) path0));
         Object jsonSchema = !isClass(path0) ? path0 : jsonSchemaName((Class<?>) path0);
         Object[] _pathList = shift(pathList);
         debug(jsonSchema);
-        debug(_pathList);
+        debug(Arrays.toString(_pathList));
         String path = FS.path(config().getJsonRoot(), _pathList, jsonSchema) + ".json";
         debug(path);
         if (pathList.length > 0) data(readFile(path));
