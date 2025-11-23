@@ -1,15 +1,16 @@
 package org.project.utils;
 
+import static java.awt.Desktop.getDesktop;
+import static java.awt.Desktop.isDesktopSupported;
+
 import java.awt.*;
 import java.beans.ConstructorProperties;
 import java.io.*;
 import java.util.Arrays;
 
-import org.project.utils.stream.GobblerStream;
-
-import static java.awt.Desktop.getDesktop;
-import static java.awt.Desktop.isDesktopSupported;
 import static org.project.utils.Helper.debug;
+
+import org.project.utils.stream.GobblerStream;
 
 public class Process {
     public static final Desktop desktop = getDesktop();
@@ -29,7 +30,15 @@ public class Process {
     }
 
     public static Process run(String app, String... params) throws IOException {
+        debug(Arrays.toString(params));
         return new Process(app, Arrays.toString(params));
+    }
+
+    public void run(String... params) throws IOException {
+        debug(params);
+        pb = new ProcessBuilder(params);
+        if (inherit) pb = pb.inheritIO();
+        p = pb.start();
     }
 
     public static void open(String app) {
@@ -52,12 +61,6 @@ public class Process {
             debug("Encountered Exception\n");
             throw new RuntimeException(e);
         }
-    }
-
-    public void run(String... params) throws IOException {
-        pb = new ProcessBuilder(params);
-        if (inherit) pb = pb.inheritIO();
-        p = pb.start();
     }
 
     //[ProcessDestroy]

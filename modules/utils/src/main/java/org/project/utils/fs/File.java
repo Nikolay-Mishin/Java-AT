@@ -1,6 +1,7 @@
 package org.project.utils.fs;
 
 import static java.lang.String.join;
+import static java.util.Arrays.stream;
 
 import java.io.*;
 import java.nio.file.*;
@@ -11,15 +12,14 @@ import static org.apache.commons.io.FileUtils.deleteDirectory;
 
 import jdk.jfr.Description;
 
-import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.isInstance;
+import static org.project.utils.Helper.*;
 
 public class File {
 
     @Description("Generate url path")
     public static String path(Object... pathList) {
         debug(Arrays.toString(pathList));
-        return join("/", Arrays.stream(pathList.length == 1 && !(pathList[0] instanceof String) ? (Object[]) pathList[0] : pathList)
+        return join("/", stream(pathList.length == 1 && !(pathList[0] instanceof String) ? (Object[]) pathList[0] : pathList)
             .map(path -> isInstance(path, Object[].class) ? path(path) : path.toString())
             .toArray(String[]::new));
     }
