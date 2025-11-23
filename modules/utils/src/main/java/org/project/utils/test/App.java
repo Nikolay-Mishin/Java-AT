@@ -15,6 +15,8 @@ import org.project.utils.auth.AuthToken;
 import org.project.utils.json.JsonSchema;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.auth.Auth.init;
+import static org.project.utils.test.TestAuth.testAuth;
 import static org.project.utils.test.TestEntries.testEntries;
 import static org.project.utils.test.TestFS.*;
 
@@ -35,13 +37,7 @@ public class App extends TestZip {
         //testFS();
         //testAttrs();
         testEntries();
-        //Auth.init(new AuthToken(new JsonSchema().path("auth", "token")));
-
-        /*
-        3. Auth.init(JsonSchema)
-        4. Auth.init(path)
-        8. fromEntries(array)
-        */
+        testAuth();
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
