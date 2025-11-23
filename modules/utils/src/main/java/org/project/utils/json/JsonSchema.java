@@ -183,10 +183,15 @@ public class JsonSchema {
     }
 
     private JsonSchema _path(Object... pathList) throws IOException {
+        debug(pathList);
         debug(pathList[0]);
         debug(isClass(pathList[0]));
         debug(!isClass(pathList[0]) ? pathList[0] : jsonSchemaName((Class<?>) pathList[0]));
-        String path = FS.path(config().getJsonRoot(), pathList) + ".json";
+        String _path = !isClass(pathList[0]) ? (String) pathList[0] : jsonSchemaName((Class<?>) pathList[0]);
+        Object[] _pathList = shift(pathList);
+        debug(_path);
+        debug(_pathList);
+        String path = FS.path(config().getJsonRoot(), _path, _pathList) + ".json";
         debug(path);
         if (pathList.length > 0) data(readFile(path));
         return this;
@@ -230,7 +235,7 @@ public class JsonSchema {
         String[] pathList = parsePath(path);
         boolean isValue = pathList.length == 1;
         Object value = pathList[pathList.length - 1];
-        pathList = removeLast(pathList);
+        pathList = pop(pathList);
         for (String key : pathList) object(key);
         value = invoke(isValue ? jsonData : obj, "get" + (type.equals("object") || type.equals("array") ? "JSON" : "") + toUpperCaseFirst(type), value);
         obj = null;
