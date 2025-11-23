@@ -5,9 +5,11 @@ import org.project.utils.json.JsonSchema;
 import org.project.utils.reflection.SingleInstance;
 
 import java.beans.ConstructorProperties;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.json.JsonSchema.jsonSchema;
 
 public class Auth extends SingleInstance<Auth> {
 
@@ -27,8 +29,22 @@ public class Auth extends SingleInstance<Auth> {
         return auth.token;
     }
 
-    public static void init(AuthToken token) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public static void init(AuthToken token)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+    {
         auth = instance(token);
+    }
+
+    public static void init(JsonSchema json)
+        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException
+    {
+        init(new AuthToken(json));
+    }
+
+    public static void init(Object... pathList)
+        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException
+    {
+        init(jsonSchema(pathList));
     }
 
     public static void refreshTokens(Response tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
