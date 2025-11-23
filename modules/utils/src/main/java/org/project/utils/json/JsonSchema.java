@@ -178,10 +178,6 @@ public class JsonSchema {
         return _path(pathList, jsonSchemaName(method, modelClass));
     }
 
-    private JsonSchema _path(Class<? extends Model<?>> modelClass, Object... pathList) throws IOException {
-        return _path(pathList, jsonSchemaName(modelClass));
-    }
-
     private JsonSchema _path(Object... pathList) throws IOException {
         Object path0 = pathList[0];
         debug(pathList);
@@ -196,10 +192,6 @@ public class JsonSchema {
         debug(path);
         if (pathList.length > 0) data(readFile(path));
         return this;
-    }
-
-    private static String jsonSchemaPath(Object... pathList){
-        return FS.path(config().getJsonRoot(), pathList);
     }
 
     private static String jsonSchemaName(METHOD_LOWER_CASE method, Class<?> modelClass){
