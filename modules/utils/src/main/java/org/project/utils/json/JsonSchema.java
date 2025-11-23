@@ -30,7 +30,7 @@ public class JsonSchema {
     private JSONObject obj;
     private JSONArray arr;
     private Request req;
-    private static String delimiter = "."; // "\\."
+    private static String delimiter = "\\."; // "\\."
 
     public JsonSchema() {}
 
@@ -183,7 +183,10 @@ public class JsonSchema {
     }
 
     private JsonSchema _path(Object... pathList) throws IOException {
-        String path = jsonSchemaPath(pathList) + ".json";
+        debug(pathList[0]);
+        debug(isClass(pathList[0]));
+        debug(!isClass(pathList[0]) ? pathList[0] : jsonSchemaName((Class<?>) pathList[0]));
+        String path = FS.path(config().getJsonRoot(), pathList) + ".json";
         debug(path);
         if (pathList.length > 0) data(readFile(path));
         return this;
