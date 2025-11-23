@@ -183,11 +183,12 @@ public class JsonSchema {
     }
 
     private JsonSchema _path(Object... pathList) throws IOException {
+        Object path0 = pathList[0];
         debug(pathList);
-        debug(pathList[0]);
-        debug(isClass(pathList[0]));
-        debug(!isClass(pathList[0]) ? pathList[0] : jsonSchemaName((Class<?>) pathList[0]));
-        Object jsonSchema = !isClass(pathList[0]) ? pathList[0] : jsonSchemaName((Class<?>) pathList[0]);
+        debug(path0);
+        debug(isClass(path0));
+        debug(!isClass(path0) ? path0 : jsonSchemaName((Class<?>) path0));
+        Object jsonSchema = !isClass(path0) ? path0 : jsonSchemaName((Class<?>) path0);
         Object[] _pathList = shift(pathList);
         debug(jsonSchema);
         debug(_pathList);
