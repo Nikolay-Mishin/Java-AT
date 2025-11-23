@@ -3,6 +3,7 @@ package org.project.utils;
 import static java.lang.String.join;
 import static java.lang.System.*;
 import static java.text.MessageFormat.format;
+import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 
 import java.lang.reflect.*;
@@ -12,6 +13,7 @@ import java.util.function.*;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.ImmutableList.copyOf;
+import static java.util.Collections.rotate;
 import static org.testng.collections.Lists.newArrayList;
 
 import org.apache.commons.collections.IteratorUtils;
@@ -188,12 +190,45 @@ public class Helper {
         return last(s.split(split));
     }
 
-    public static <T> T[] removeLast(T[] arr) {
+    public static <T> T[] push(T[] arr, T item) {
+        T[] tmp = Arrays.copyOf(arr, arr.length + 1);
+        tmp[tmp.length - 1] = item;
+        return tmp;
+    }
+
+    public static <T> T[] shift(T[] arr) {
+        return remove(arr, 0);
+    }
+
+    public static <T> T[] shiftSkip(T[] arr) {
+        return skip(arr, 1);
+    }
+
+    public static <T> T[] shiftList(T[] arr) {
+        return pop(rotate(arr, -1));
+    }
+
+    public static <T> T[] pop(T[] arr) {
         return remove(arr, arr.length - 1);
     }
 
-    public static <T> T[] removeFirst(T[] arr) {
-        return remove(arr, 0);
+    public static <T> T[] popCopy(T[] arr) {
+        return Arrays.copyOf(arr, arr.length - 1);
+    }
+
+    public static <T> T[] popSkip(T[] arr) {
+        return skip(rotate(arr, 1), 1);
+    }
+
+    public static <T> T[] skip(T[] arr, int n) {
+        return (T[]) stream(arr).skip(n).toArray();
+    }
+
+    public static <T> T[] rotate(T[] arr, int distance) {
+        //List<T> list = asList(arr); // меняет исходный массив (работает как ссылка)
+        List<T> list = new ArrayList<>(List.of(arr));
+        Collections.rotate(list, distance);
+        return (T[]) list.toArray();
     }
 
     @SuppressWarnings("unchecked")
