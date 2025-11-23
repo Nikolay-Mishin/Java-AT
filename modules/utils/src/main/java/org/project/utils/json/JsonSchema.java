@@ -96,14 +96,38 @@ public class JsonSchema {
     }
 
     public JsonSchema path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
+        debug(method);
+        debug(modelClass);
+        debug(pathList);
+        debug(Arrays.toString(pathList));
+        debug(jsonSchemaName(modelClass));
+        debug(jsonSchemaName(modelClass).toLowerCase());
+        debug(jsonSchemaName(modelClass).toLowerCase().toUpperCase());
+        debug(FS.path(pathList));
+        debug(FS.path(config().getJsonRoot(), pathList, jsonSchemaName(modelClass)));
+        debug(FS.path(config().getJsonRoot(), FS.path(pathList), jsonSchemaName(modelClass)));
         return _path(method, modelClass, pathList);
     }
 
     public JsonSchema path(Class<?> modelClass, Object... pathList) throws IOException {
+        debug(modelClass);
+        debug(pathList);
+        debug(Arrays.toString(pathList));
+        debug(jsonSchemaName(modelClass));
+        debug(jsonSchemaName(modelClass).toLowerCase());
+        debug(jsonSchemaName(modelClass).toLowerCase().toUpperCase());
+        debug(FS.path(pathList));
+        debug(FS.path(config().getJsonRoot(), pathList, jsonSchemaName(modelClass)));
+        debug(FS.path(config().getJsonRoot(), FS.path(pathList), jsonSchemaName(modelClass)));
         return _path(modelClass, pathList);
     }
 
     public JsonSchema path(Object... pathList) throws IOException {
+        debug(pathList);
+        debug(Arrays.toString(pathList));
+        debug(FS.path(pathList));
+        debug(FS.path(config().getJsonRoot(), pathList));
+        debug(FS.path(config().getJsonRoot(), FS.path(pathList)));
         return _path(pathList);
     }
 
@@ -200,7 +224,7 @@ public class JsonSchema {
     }
 
     private static String jsonSchemaName(METHOD_LOWER_CASE method, Class<?> modelClass){
-        return method + jsonSchemaName(modelClass).toLowerCase();
+        return method + jsonSchemaName(modelClass).toUpperCase();
     }
 
     private static String jsonSchemaName(Class<?> modelClass){
