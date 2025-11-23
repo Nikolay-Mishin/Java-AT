@@ -87,7 +87,7 @@ public class Model<T> {
         debug("setData");
         debug(jsonData);
         if (isNull(jsonData)) {
-            keys = removeFirst(pathList);
+            keys = shift(pathList);
             return;
         }
         JSONObject obj = !isList ? jsonData.getJSONObject(key) : jsonData.getJSONArray(key).getJSONObject(0);
