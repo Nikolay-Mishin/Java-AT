@@ -1,19 +1,18 @@
 package org.project.utils.reflection;
 
-import jdk.jfr.Description;
-import org.apache.commons.beanutils.BeanUtils;
-import org.project.utils.exception.AssertException;
-
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.lang.reflect.*;
+import java.util.*;
 
 import static org.apache.commons.beanutils.PropertyUtils.*;
+
+import org.apache.commons.beanutils.BeanUtils;
+
+import jdk.jfr.Description;
+
 import static org.project.utils.Helper.*;
+
+import org.project.utils.exception.AssertException;
 
 public class Reflection {
 
@@ -57,7 +56,7 @@ public class Reflection {
 
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
         debug(Arrays.toString(args));
-        Class<?>[] argTypes = toArray(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass());
+        Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass());
         debug(Arrays.toString(argTypes));
         return argTypes;
     }

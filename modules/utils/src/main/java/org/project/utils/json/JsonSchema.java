@@ -1,9 +1,10 @@
 package org.project.utils.json;
 
+import static java.lang.String.valueOf;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.net.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -69,7 +70,7 @@ public class JsonSchema {
         return toList(a, o -> o.get(k).equals(v));
     }
 
-    public static <T> List<T> toList(JSONArray a, Predicate<? super T> filter) {
+    public static <T> List<T> toList(JSONArray a, Predicate<T> filter) {
         return Helper.toList(a, filter);
     }
 
@@ -109,14 +110,14 @@ public class JsonSchema {
         return toObject(key, k, v).toMap();
     }
 
-    public <T> Map<String, Object> toMap(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> Map<String, Object> toMap(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return toObject(k, filter).toMap();
     }
 
     protected JSONObject toObject(JSONArray a) {
         if (a.length() == 1) return (JSONObject) a.get(0);
         AtomicInteger i = new AtomicInteger();
-        JSONArray names = new JSONArray(Helper.toArray(a.toList(), String[]::new, o -> String.valueOf(i.getAndIncrement())));
+        JSONArray names = new JSONArray(map(a.toList(), String[]::new, o -> valueOf(i.getAndIncrement())));
         return a.toJSONObject(names);
     }
 
@@ -128,7 +129,7 @@ public class JsonSchema {
         return toObject(toArray(key, k, v));
     }
 
-    protected <T> JSONObject toObject(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected <T> JSONObject toObject(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return toObject(toArray(k, filter));
     }
 
@@ -136,7 +137,7 @@ public class JsonSchema {
         return new JSONArray(toList(key, k, v));
     }
 
-    public <T> JSONArray toArray(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> JSONArray toArray(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return new JSONArray(toList(k, filter));
     }
 
@@ -148,7 +149,7 @@ public class JsonSchema {
         return toList(key, o -> o.get(k).equals(v));
     }
 
-    public <T> List<T> toList(String k, Predicate<? super T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> List<T> toList(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return toList((JSONArray) get(k, "array"), filter);
     }
 
