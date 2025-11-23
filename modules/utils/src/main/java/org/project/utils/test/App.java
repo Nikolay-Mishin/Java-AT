@@ -29,7 +29,7 @@ public class App extends TestZip {
     {
         //testMain();
         //testApi();
-        testJson();
+        //testJson();
         //testZip();
         //testLong();
         //testFS();
@@ -38,8 +38,6 @@ public class App extends TestZip {
         //Auth.init(new AuthToken(new JsonSchema().path("auth", "token")));
 
         /*
-        1. jsonDelimetr
-        2. static jsonSchema(path)
         3. Auth.init(JsonSchema)
         4. Auth.init(path)
         8. fromEntries(array)
