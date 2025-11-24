@@ -1,11 +1,10 @@
 package org.project.utils.request;
 
+import java.lang.reflect.InvocationTargetException;
+import java.net.*;
+
 import io.restassured.response.Response;
 import jdk.jfr.Description;
-
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
@@ -15,8 +14,18 @@ public class BaseRequests<T> {
     protected String baseUrl;
 
     public BaseRequests(String baseUrl) {
+        baseUrl(baseUrl);
+    }
+
+    @Description("Get baseUrl")
+    public String baseUrl() {
+        return baseUrl;
+    }
+
+    @Description("Set baseUrl")
+    public String baseUrl(String baseUrl) {
         debug("setBaseUrl: " + baseUrl);
-        this.baseUrl = baseUrl;
+        return this.baseUrl = baseUrl;
     }
 
     @Description("Add a new object")
