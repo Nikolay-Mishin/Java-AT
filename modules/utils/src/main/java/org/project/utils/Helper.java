@@ -39,6 +39,10 @@ public class Helper {
         if (debugLvl() >= debugLvl) debug(msg, args);
     }
 
+    public static <A> String toString(A[] array) {
+        return Arrays.toString(array);
+    }
+
     public static <A> List<A> newArrayList(A[] array) {
         return new ArrayList<>(List.of(array));
     }
