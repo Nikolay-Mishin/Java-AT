@@ -15,6 +15,7 @@ import static org.project.utils.Helper.*;
 import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.fs.FS.readFile;
+import static org.project.utils.fs.File.exist;
 import static org.project.utils.reflection.Reflection.*;
 
 import org.project.utils.base.HashMap;
@@ -186,7 +187,7 @@ public class JsonSchema {
         String path = FS.path(config().getJsonRoot(), pathList) + ".json";
         debug(Arrays.toString(pathList));
         debug(path);
-        if (pathList.length > 0) data(readFile(path));
+        if (exist(path)) data(readFile(path));
         return this;
     }
 
