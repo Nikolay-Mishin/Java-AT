@@ -1,22 +1,21 @@
 package org.project.utils.base;
 
-import org.json.JSONObject;
-import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
-import org.project.utils.exception.AssertException;
-import org.project.utils.json.JsonSchema;
-
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
+import java.util.*;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+
+import org.json.JSONObject;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.base.HashMap.keys;
 import static org.project.utils.json.JsonSchema.parsePath;
 import static org.project.utils.reflection.Reflection.*;
+
+import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
+import org.project.utils.exception.AssertException;
+import org.project.utils.json.JsonSchema;
 
 public class Model<T> {
 
@@ -115,6 +114,8 @@ public class Model<T> {
             debug("parseRow");
 
             boolean isTable = isList(dataTable.get(i));
+            debug(isTable);
+
             List<String> row = (List<String>) (isTable ? dataTable.get(i) : dataTable);
             String rowName = row.get(0);
             pathList = parsePath(rowName);
@@ -130,7 +131,7 @@ public class Model<T> {
             boolean isList = type == List.class;
             debug(type);
 
-            Class<T> hashEl = notNull(hashMap) ? (Class<T>) hashMap.get(name) : null;
+            Class<T> hashEl = isNull(hashMap) ? null : (Class<T>) hashMap.get(name);
             boolean isModel = notNull(hashEl);
             debug(hashEl);
 
