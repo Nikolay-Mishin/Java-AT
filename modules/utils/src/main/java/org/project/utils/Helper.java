@@ -13,7 +13,6 @@ import java.util.function.*;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.ImmutableList.copyOf;
-import static java.util.Collections.rotate;
 import static org.testng.collections.Lists.newArrayList;
 
 import org.apache.commons.collections.IteratorUtils;

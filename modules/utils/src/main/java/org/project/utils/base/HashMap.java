@@ -1,16 +1,14 @@
 package org.project.utils.base;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.IntFunction;
-
-import org.project.utils.exception.AssertException;
-import org.project.utils.json.JsonSchema;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.reflection.Reflection.invoke;
+
+import org.project.utils.exception.AssertException;
+import org.project.utils.json.JsonSchema;
 
 public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> {
     private final K[] keys;

@@ -9,7 +9,6 @@ import io.restassured.http.*;
 import io.restassured.specification.RequestSpecification;
 import jdk.jfr.Description;
 
-import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
 import static org.project.utils.reflection.Reflection.invoke;

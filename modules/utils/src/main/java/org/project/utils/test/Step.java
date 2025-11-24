@@ -1,8 +1,5 @@
 package org.project.utils.test;
 
-import io.cucumber.java.ru.Когда;
-import org.project.utils.base.BaseStep;
-
 import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +7,12 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+
+import io.cucumber.java.ru.Когда;
+
 import static org.project.utils.config.WebBaseConfig.BASE_CONFIG;
+
+import org.project.utils.base.BaseStep;
 
 public class Step extends BaseStep<Requests, Order> {
 
