@@ -58,7 +58,8 @@ public class TestFS extends TestZip {
         printAttrs(filenameZip);
         printAttrs(chromedriverPath);
         printCustomAttrs(filenameZip, "customAttr");
-        //printCustomAttrs(filenameZip, "customAttr", "value");
+        printCustomAttrs(filenameZip, "customAttr", "value");
+        printCustomAttrs(filenameZip, "customAttr");
     }
 
 }
