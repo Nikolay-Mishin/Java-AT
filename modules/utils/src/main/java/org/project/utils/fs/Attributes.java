@@ -1,13 +1,13 @@
 package org.project.utils.fs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.*;
 
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.util.Set;
 
-import static java.nio.file.Files.*;
 import static org.project.utils.Helper.*;
 import static org.project.utils.fs.FS.pathStr;
 import static org.project.utils.fs.File.path;
@@ -149,10 +149,25 @@ public class Attributes {
         printBaseAttrs(path);
         printPosAttrs(path);
         printDosAttrs(path);
-        printCustomAttrs(path, "customAttr", "value");
     }
 
-    public static void printCustomAttrs(String name, String value) {
+    public static void printCustomAttrs(String name) {
+        printCustomAttrs("", name);
+    }
+
+    public static void printCustomAttrs(String path, String name) {
+        printCustomAttrs(pathStr(path), name);
+    }
+
+    public static void printCustomAttrs(java.io.File file, String name) {
+        printCustomAttrs(file.toPath(), name);
+    }
+
+    public static void printCustomAttrs(Path path, String name) {
+        customAttr(path, name);
+    }
+
+    public static void printCustomSetAttrs(String name, String value) {
         printCustomAttrs("", name, value);
     }
 
@@ -165,7 +180,6 @@ public class Attributes {
     }
 
     public static void printCustomAttrs(Path path, String name, String value) {
-        customAttr(path, name);
         customAttr(path, name, value);
     }
 

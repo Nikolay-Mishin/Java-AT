@@ -5,6 +5,7 @@ import java.nio.file.*;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.fs.Attributes.printAttrs;
+import static org.project.utils.fs.Attributes.printCustomAttrs;
 import static org.project.utils.fs.File.*;
 
 public class TestFS extends TestZip {
@@ -56,6 +57,8 @@ public class TestFS extends TestZip {
         printAttrs("/" + attrsTest);
         printAttrs(filenameZip);
         printAttrs(chromedriverPath);
+        printCustomAttrs(filenameZip, "customAttr");
+        //printCustomAttrs(filenameZip, "customAttr", "value");
     }
 
 }
