@@ -10,15 +10,12 @@ import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.project.utils.auth.Auth;
-import org.project.utils.auth.AuthToken;
-import org.project.utils.json.JsonSchema;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.auth.Auth.init;
-import static org.project.utils.test.TestAuth.testAuth;
-import static org.project.utils.test.TestEntries.testEntries;
+import static org.project.utils.test.TestAuth.*;
+import static org.project.utils.test.TestEntries.*;
 import static org.project.utils.test.TestFS.*;
+import static org.project.utils.test.TestReq.*;
 
 public class App extends TestZip {
     protected static WebDriver driver;
@@ -36,8 +33,9 @@ public class App extends TestZip {
         //testLong();
         //testFS();
         //testAttrs();
-        testEntries();
+        //testEntries();
         //testAuth();
+        testReq();
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {

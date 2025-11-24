@@ -12,7 +12,7 @@ import static org.project.utils.fs.Attributes.printAttrs;
 import static org.project.utils.fs.File.delete;
 import static org.project.utils.fs.File.pathStr;
 
-public class TestAuth extends App {
+public class TestAuth {
 
     public static void main(String[] args)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException

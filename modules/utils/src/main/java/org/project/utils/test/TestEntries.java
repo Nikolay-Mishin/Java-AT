@@ -5,7 +5,7 @@ import java.util.Arrays;
 import static org.project.utils.Helper.*;
 import static org.project.utils.Helper.debug;
 
-public class TestEntries extends App {
+public class TestEntries {
 
     public static void main(String[] args) {
         testEntries();
