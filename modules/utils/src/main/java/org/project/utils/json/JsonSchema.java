@@ -18,7 +18,6 @@ import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.reflection.Reflection.*;
 
 import org.project.utils.base.HashMap;
-import org.project.utils.base.Model;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.fs.FS;
 import org.project.utils.Helper;
@@ -30,7 +29,7 @@ public class JsonSchema {
     private JSONObject obj;
     private JSONArray arr;
     private Request req;
-    private static String delimiter = "\\."; // "\\."
+    private static String delimiter = "\\.";
 
     public JsonSchema() {}
 
@@ -96,67 +95,15 @@ public class JsonSchema {
     }
 
     public JsonSchema path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
-        debug(method);
-        debug(modelClass);
-        debug(pathList);
-        debug(Arrays.toString(pathList));
-        debug(jsonSchemaName(modelClass));
-        debug(FS.path(pathList));
-        debug(jsonSchemaPath(pathList, jsonSchemaName(modelClass)));
-        debug(jsonSchemaPath(FS.path(pathList), jsonSchemaName(modelClass)));
-        return _path(jsonSchemaPath(method, modelClass, pathList), pathList);
+        return _path(method, modelClass, pathList);
     }
 
     public JsonSchema path(Class<?> modelClass, Object... pathList) throws IOException {
-        debug(modelClass);
-        debug(pathList);
-        debug(Arrays.toString(pathList));
-        debug(jsonSchemaName(modelClass));
-        debug(FS.path(pathList));
-        debug(jsonSchemaPath(pathList, jsonSchemaName(modelClass)));
-        debug(jsonSchemaPath(FS.path(pathList), jsonSchemaName(modelClass)));
-        return _path(jsonSchemaPath(modelClass, pathList), pathList);
+        return _path(modelClass, pathList);
     }
 
     public JsonSchema path(Object... pathList) throws IOException {
-        debug(pathList);
-        debug(Arrays.toString(pathList));
-        debug(FS.path(pathList));
-        debug(jsonSchemaPath(pathList));
-        debug(jsonSchemaPath(FS.path(pathList)));
-        return _path(jsonSchemaPath(pathList), pathList);
-    }
-
-    public JsonSchema pathList(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
-        debug(method);
-        debug(modelClass);
-        debug(pathList);
-        debug(Arrays.toString(pathList));
-        debug(jsonSchemaName(modelClass));
-        debug(FS.path(pathList));
-        debug(jsonSchemaPath(pathList, jsonSchemaName(modelClass)));
-        debug(jsonSchemaPath(FS.path(pathList), jsonSchemaName(modelClass)));
-        return _pathList(method, modelClass, pathList);
-    }
-
-    public JsonSchema pathList(Class<?> modelClass, Object... pathList) throws IOException {
-        debug(modelClass);
-        debug(pathList);
-        debug(Arrays.toString(pathList));
-        debug(jsonSchemaName(modelClass));
-        debug(FS.path(pathList));
-        debug(jsonSchemaPath(pathList, jsonSchemaName(modelClass)));
-        debug(jsonSchemaPath(FS.path(pathList), jsonSchemaName(modelClass)));
-        return _pathList(modelClass, pathList);
-    }
-
-    public JsonSchema pathList(Object... pathList) throws IOException {
-        debug(pathList);
-        debug(Arrays.toString(pathList));
-        debug(FS.path(pathList));
-        debug(jsonSchemaPath(pathList));
-        debug(jsonSchemaPath(FS.path(pathList)));
-        return _pathList(pathList);
+        return _path(pathList);
     }
 
     public JSONObject data() {
@@ -165,6 +112,7 @@ public class JsonSchema {
 
     private void data(String jsonString) {
         jsonData = new JSONObject(jsonString == "" ? "{}" : jsonString);
+        debug(jsonData);
     }
 
     public Map<String, Object> toMap() {
@@ -226,60 +174,28 @@ public class JsonSchema {
         return toList((JSONArray) get(k, "array"), filter);
     }
 
-    private JsonSchema _path(String path, Object... pathList) throws IOException {
-        path +=  ".json";
-        debug(path);
-        if (pathList.length > 0) data(readFile(path));
-        return this;
+    private JsonSchema _path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
+        return _path(pathList, jsonSchemaName(method, modelClass));
     }
 
-    private static String jsonSchemaPath(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList){
-        return _jsonSchemaPath(pathList, jsonSchemaName(method, modelClass));
+    private JsonSchema _path(Class<?> modelClass, Object... pathList) throws IOException {
+        return _path(pathList, jsonSchemaName(modelClass));
     }
 
-    private static String jsonSchemaPath(Class<? extends Model<?>> modelClass, Object... pathList){
-        return _jsonSchemaPath(pathList, jsonSchemaName(modelClass));
-    }
-
-    private static String jsonSchemaPath(Object... pathList) {
-        return _jsonSchemaPath(pathList);
-    }
-
-    private static String _jsonSchemaPath(Object... pathList){
-        return FS.path(config().getJsonRoot(), pathList);
-    }
-
-    private JsonSchema _pathList(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
-        return _pathList(pathList, jsonSchemaName(method, modelClass));
-    }
-
-    private JsonSchema _pathList(Object... pathList) throws IOException {
-        Object path0 = pathList[0];
+    private JsonSchema _path(Object... pathList) throws IOException {
+        String path = FS.path(config().getJsonRoot(), pathList) + ".json";
         debug(Arrays.toString(pathList));
-        debug(path0);
-        debug(isClass(path0));
-        Object jsonSchema = !isClass(path0) ? path0 : jsonSchemaName((Class<?>) path0);
-        Object[] _pathList = shift(pathList);
-        debug(jsonSchema);
-        debug(Arrays.toString(_pathList));
-        debug(_pathList[0]);
-        debug(_pathList[0].toString());
-        debug(FS.path(_pathList));
-        debug(FS.path(_pathList[0]));
-        debug(FS.path(_pathList[0].toString()));
-        debug(FS.path(config().getJsonRoot(), FS.path(_pathList), jsonSchema));
-        String path = jsonSchemaPath(_pathList, jsonSchema) + ".json";
         debug(path);
         if (pathList.length > 0) data(readFile(path));
         return this;
     }
 
-    private static String jsonSchemaName(METHOD_LOWER_CASE method, Class<?> modelClass){
-        return method + jsonSchemaName(modelClass).toLowerCase();
+    private static String jsonSchemaName(METHOD_LOWER_CASE method, Class<?> modelClass) {
+        return method + toUpperCaseFirst(jsonSchemaName(modelClass));
     }
 
-    private static String jsonSchemaName(Class<?> modelClass){
-        return getClassSimpleName(modelClass);
+    private static String jsonSchemaName(Class<?> modelClass) {
+        return toLowerCaseFirst(getClassSimpleName(modelClass));
     }
 
     public String[] keys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
