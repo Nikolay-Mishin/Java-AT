@@ -40,8 +40,28 @@ public class Helper {
         if (debugLvl() >= debugLvl) debug(msg, args);
     }
 
+    public static <A> List<A> newArrayList(A[] array) {
+        return new ArrayList<>(List.of(array));
+    }
+
+    public static <T> List<List<T>> table(T[]... row) {
+        return toList(row, List[]::new, Helper::newArrayList);
+    }
+
     public static <A> List<A> toList(A[] array) {
         return stream(array).toList();
+    }
+
+    public static <A, T> List<T> toList(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return toList(map(array, generator, mapper));
+    }
+
+    public static <A, T> List<T> toList(List<A> list, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return toList(map(list, generator, mapper));
+    }
+
+    public static <A, T> List<T> toList(Stream<A> stream, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return toList(map(stream, generator, mapper));
     }
 
     public static <T, I> List<T> toList(Iterable<I> iterable) {
@@ -226,7 +246,7 @@ public class Helper {
 
     public static <T> T[] rotate(T[] arr, int distance) {
         //List<T> list = asList(arr); // меняет исходный массив (работает как ссылка)
-        List<T> list = new ArrayList<>(List.of(arr));
+        List<T> list = newArrayList(arr);
         Collections.rotate(list, distance);
         return (T[]) list.toArray();
     }
