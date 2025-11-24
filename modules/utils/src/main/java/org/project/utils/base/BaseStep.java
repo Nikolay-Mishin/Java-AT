@@ -1,22 +1,22 @@
 package org.project.utils.base;
 
-import io.restassured.response.Response;
-import org.project.utils.config.WebBaseConfig;
-import org.project.utils.request.BaseRequests;
+import static java.lang.Long.*;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.net.*;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.lang.Long.parseLong;
-import static java.lang.Long.valueOf;
+import io.restassured.response.Response;
+
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getGenericClass;
+
+import org.project.utils.config.WebBaseConfig;
+import org.project.utils.request.BaseRequests;
 
 public class BaseStep<R extends BaseRequests<M>, M> {
 
@@ -37,7 +37,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         init(req, modelClass);
     }
 
-    public BaseStep(WebBaseConfig config, R req, Class<M> modelClass) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public BaseStep(WebBaseConfig config, R req, Class<M> modelClass) {
         config(config);
         init(req, modelClass);
     }
@@ -77,7 +77,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response post(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        M model = new Model<>(modelClass, dataTable, hashMap).get();
+        M model = new Model<>(modelClass, dataTable, hashMap, req.baseUrl()).get();
         Response resp = req.post(model);
         //id = resp.jsonPath().get("id");
         id = parseLong(resp.path("id").toString());
@@ -87,7 +87,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response put(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
-        M model = new Model<>(modelClass, dataTable).get();
+        M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
         Response resp = req.put(model);
         id = resp.path("id");
         debug(id);
