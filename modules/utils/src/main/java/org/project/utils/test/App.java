@@ -11,7 +11,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.*;
 import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestEntries.*;
 import static org.project.utils.test.TestFS.*;
@@ -30,12 +30,12 @@ public class App extends TestZip {
         //testApi();
         //testJson();
         //testZip();
-        //testLong();
         //testFS();
         //testAttrs();
-        //testEntries();
+        //testReq();
+        //testLong();
+        testEntries();
         //testAuth();
-        testReq();
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
