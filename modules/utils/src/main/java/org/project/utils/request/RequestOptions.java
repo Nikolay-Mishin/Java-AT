@@ -16,6 +16,14 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
     protected String path;
     protected String endpoint;
 
+    @Description("Builder: get headers")
+    public static Headers getHeaders(RequestSpecification req) {
+        if (req instanceof FilterableRequestSpecification) {
+            return ((FilterableRequestSpecification) req).getHeaders();
+        }
+        return new Headers();
+    }
+
     @Description("Builder: get spec")
     public RequestSpecification spec() {
         return request;
@@ -132,10 +140,7 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
 
     @Description("Builder: get headers")
     public Headers getHeaders() {
-        if (request instanceof FilterableRequestSpecification) {
-            return ((FilterableRequestSpecification) request).getHeaders();
-        }
-        return new Headers();
+        return getHeaders(request);
     }
 
     @Description("Builder: set headers")

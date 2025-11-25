@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 import static io.restassured.http.ContentType.ANY;
+import static org.project.utils.request.RequestOptions.getHeaders;
 import static org.testng.Assert.assertEquals;
 
 import io.restassured.http.Header;
@@ -64,6 +65,7 @@ public class TestApi {
 
     public static void testHeaders() throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         Request req = new Request(GET, "store/order", 0);
+
         debug(req.statusCode());
         debug(req.contentType());
         debug(req.headers());
@@ -74,34 +76,30 @@ public class TestApi {
         debug(req.auth().basic("login", "password"));
         debug(req.auth());
 
-        req.accept(ANY);
 
         //req.header("Authorization", "");
-        req.header("Accept", "*/*");
-        req.header(new Header("Accept-Encoding", "gzip, deflate, br"));
+        //req.header("Cache-Control", "no-cache");
+        //req.header("Accept", "*/*");
+        //req.accept(ANY);
+        //req.header("Accept-Encoding", "gzip, deflate, br");
         //req.header("Connection", "keep-alive");
-        req.header("Cache-Control", "no-cache");
-        req.header("Host", "tds-test.itorum.ru");
+        //req.header("Content-Length", "");
+        //req.header("Host", "tds-test.itorum.ru");
         //req.header("Origin", "https://tds-test.itorum.ru");
         //req.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 YaBrowser/25.10.0.0 Safari/537.36");
-        req.header("User-Agent", "PostmanRuntime/7.49.1");
-        req.header("kamaz-user-agent", "TDS-Frontend");
+        //req.header("User-Agent", "PostmanRuntime/7.49.1");
+        //req.header("kamaz-user-agent", "TDS-Frontend");
 
         debug(req.headers());
 
-        ApiConfig apiConfig = new ApiConfig();
-
-        apiConfig.addHeader("Accept", "*/*");
-
-        RequestSpecification spec = apiConfig.get();
-
-        debug(spec);
+        RequestSpecification spec = new ApiConfig().get();
 
         debug(req.body());
 
         debug(spec instanceof FilterableRequestSpecification);
-        debug(new Headers());
         debug(req.getHeaders());
+        debug(new Headers());
+        debug(getHeaders(spec));
     }
 
 }
