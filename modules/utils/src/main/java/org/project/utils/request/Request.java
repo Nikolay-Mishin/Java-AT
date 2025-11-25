@@ -12,7 +12,7 @@ import static org.project.utils.reflection.Reflection.*;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants.METHOD;
 
-public class Request extends RequestOptions<Request> {
+public class Request extends RequestAuth<Request> {
 
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
