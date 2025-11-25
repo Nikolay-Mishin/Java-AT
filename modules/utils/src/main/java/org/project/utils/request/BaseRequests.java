@@ -9,7 +9,7 @@ import jdk.jfr.Description;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
 
-public class BaseRequests<T> {
+public class BaseRequests<T> extends Request {
 
     protected String baseUrl;
 
