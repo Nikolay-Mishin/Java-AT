@@ -1,9 +1,10 @@
 package org.project.utils.auth;
 
-import io.restassured.response.Response;
-import org.project.utils.json.JsonSchema;
-
 import java.lang.reflect.InvocationTargetException;
+
+import io.restassured.response.Response;
+
+import org.project.utils.json.JsonSchema;
 
 public class AuthToken extends Token {
 
