@@ -21,10 +21,10 @@ public class TestAuth {
     {
         new Step();
         init("auth/token");
+        printTokens();
         debug("instance: " + instance());
         debug("Auth: " + auth());
         debug("SingleInstance: " + SingleInstance.instance());
-        printTokens();
     }
 
 }
