@@ -130,6 +130,14 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
         return (T) this;
     }
 
+    @Description("Builder: get headers")
+    public Headers getHeaders() {
+        if (request instanceof FilterableRequestSpecification) {
+            return ((FilterableRequestSpecification) request).getHeaders();
+        }
+        return new Headers();
+    }
+
     @Description("Builder: set headers")
     public T headers(Headers headers) {
         request.headers(headers);

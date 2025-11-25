@@ -8,11 +8,13 @@ import static io.restassured.http.ContentType.ANY;
 import static org.testng.Assert.assertEquals;
 
 import io.restassured.http.Header;
+import io.restassured.http.Headers;
 import io.restassured.response.Response;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 
+import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.request.Request;
@@ -77,7 +79,6 @@ public class TestApi {
         //req.header("Authorization", "");
         req.header("Accept", "*/*");
         req.header(new Header("Accept-Encoding", "gzip, deflate, br"));
-        req.header("Accept", "*/*");
         //req.header("Connection", "keep-alive");
         req.header("Cache-Control", "no-cache");
         req.header("Host", "tds-test.itorum.ru");
@@ -97,6 +98,10 @@ public class TestApi {
         debug(spec);
 
         debug(req.body());
+
+        debug(spec instanceof FilterableRequestSpecification);
+        debug(new Headers());
+        debug(req.getHeaders());
     }
 
 }
