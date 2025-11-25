@@ -7,7 +7,6 @@ import java.net.URISyntaxException;
 import static io.restassured.http.ContentType.ANY;
 import static org.testng.Assert.assertEquals;
 
-import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 

@@ -33,9 +33,9 @@ public class App extends TestZip {
         //testZip();
         //testFS();
         //testAttrs();
-        //testReq();
         //testLong();
         //testEntries();
+        //testReq();
         //testAuth();
     }
 
