@@ -143,6 +143,11 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
     }
 
     @Description("Builder: set headers")
+    public T headers(Header... headers) {
+        return headers(new Headers());
+    }
+
+    @Description("Builder: set headers")
     public T headers(String s, Object o, Object... objects) {
         request.headers(s, o, objects);
         return (T) this;
@@ -151,6 +156,12 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
     @Description("Builder: set header")
     public T header(Header header) {
         request.header(header);
+        return (T) this;
+    }
+
+    @Description("Builder: set header")
+    public T header(String name, String value) {
+        request.header(new Header(name, value));
         return (T) this;
     }
 
