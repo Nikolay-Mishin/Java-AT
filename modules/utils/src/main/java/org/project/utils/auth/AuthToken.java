@@ -1,5 +1,6 @@
 package org.project.utils.auth;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import io.restassured.response.Response;
@@ -14,6 +15,10 @@ public class AuthToken extends Token {
 
     public AuthToken(JsonSchema tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
         super(tokens);
+    }
+
+    public AuthToken(Object... pathList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, IOException {
+        super(pathList);
     }
 
     public Token accessToken() throws ClassNotFoundException {
