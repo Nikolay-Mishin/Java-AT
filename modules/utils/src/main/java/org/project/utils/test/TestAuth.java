@@ -23,7 +23,6 @@ public class TestAuth {
         init("auth/token");
         printTokens();
         debug("instance: " + instance());
-        debug("Auth: " + auth());
         debug("SingleInstance: " + SingleInstance.instance());
     }
 
