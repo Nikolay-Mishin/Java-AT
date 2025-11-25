@@ -27,7 +27,7 @@ public class TestZip extends TestJson {
     protected static String readDir = "src/main/resources";
 
     public static void main(String[] args)
-        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException
+        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException, NoSuchFieldException
     {
         testZip();
     }

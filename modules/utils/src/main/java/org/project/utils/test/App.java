@@ -24,7 +24,7 @@ public class App extends TestZip {
     protected static RemoteWebDriver remoteDriver;
 
     public static void main(String[] args)
-        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException
+        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException, NoSuchFieldException
     {
         //testMain();
         //testApi();
