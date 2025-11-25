@@ -1,20 +1,21 @@
 package com.project.stepDefinitions.auth;
 
-import io.cucumber.java.ru.Когда;
-import org.project.utils.auth.Auth;
-import org.project.utils.auth.AuthToken;
-import org.project.utils.base.BaseStep;
-import org.project.utils.json.JsonSchema;
-import pojo.json.auth.Token;
-import requests.auth.AuthRequests;
-
 import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import static config.WebConfig.BASE_CONFIG;
+import io.cucumber.java.ru.Когда;
+import requests.auth.AuthRequests;
+
 import static org.project.utils.auth.Auth.printTokens;
 import static org.project.utils.base.Register.printRegisterMap;
+
+import org.project.utils.auth.Auth;
+import org.project.utils.base.BaseStep;
+
+import static config.WebConfig.BASE_CONFIG;
+
+import pojo.json.auth.Token;
 
 public class AuthStep extends BaseStep<AuthRequests, Token> {
 
@@ -25,9 +26,9 @@ public class AuthStep extends BaseStep<AuthRequests, Token> {
 
     @Когда("авторизоваться")
     public void auth()
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, ClassNotFoundException, InstantiationException
+        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, ClassNotFoundException, InstantiationException, NoSuchFieldException
     {
-        Auth.init(new AuthToken(new JsonSchema().path("auth", "token")));
+        Auth.init("auth/token");
         printTokens();
         printRegisterMap();
     }
