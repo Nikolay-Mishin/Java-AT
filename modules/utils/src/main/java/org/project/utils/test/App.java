@@ -28,6 +28,7 @@ public class App extends TestZip {
     {
         //testMain();
         //testApi();
+        testHeaders();
         //testJson();
         //testZip();
         //testFS();
@@ -35,7 +36,7 @@ public class App extends TestZip {
         //testReq();
         //testLong();
         //testEntries();
-        testAuth();
+        //testAuth();
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
