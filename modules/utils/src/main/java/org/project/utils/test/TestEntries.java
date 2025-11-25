@@ -3,16 +3,15 @@ package org.project.utils.test;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.*;
-import static org.project.utils.Helper.debug;
 
 public class TestEntries {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchFieldException {
         testEntries();
     }
 
-    public static void testEntries() {
-        Object obj = new Object(){ public int k = 1; };
+    public static void testEntries() throws NoSuchFieldException {
+        Object obj = new Object(){ public int k = 1; protected static int p = 11; private int pp = 111; };
 
         debug(entries(obj));
         debug(entriesList(obj));
@@ -36,6 +35,8 @@ public class TestEntries {
         debug(Arrays.toString(pop(array)));
         debug(Arrays.toString(popCopy(array)));
         debug(Arrays.toString(popSkip(array)));
+
+        debug(obj.getClass().getField("k"));
     }
 
 }
