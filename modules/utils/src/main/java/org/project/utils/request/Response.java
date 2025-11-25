@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.Map;
 
 import io.restassured.http.*;
+import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import jdk.jfr.Description;
 
@@ -23,6 +24,18 @@ public class Response<T extends Response<T>> {
     protected Object body;
     protected io.restassured.response.Response response;
 
+    @Description("Builder: get response body")
+    public ResponseBody body() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return getResponse().body();
+    }
+
+    @Description("Builder: set request body")
+    public T body(Object body) {
+        this.body = body;
+        request.body(body);
+        return (T) this;
+    }
+
     @Description("Builder: get response")
     public io.restassured.response.Response response() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return response(body);
@@ -33,13 +46,6 @@ public class Response<T extends Response<T>> {
         //request = (body != null && (method == POST || method == PUT) ? request.body(body) : request).when(); // body json
         if (body != null && (method == POST || method == PUT)) body(body);
         return response = send().andReturn();
-    }
-
-    @Description("Builder: set body request")
-    public T body(Object body) {
-        this.body = body;
-        request.body(body);
-        return (T) this;
     }
 
     @Description("Send request")
