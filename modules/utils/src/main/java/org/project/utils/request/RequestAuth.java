@@ -31,28 +31,131 @@ import io.restassured.specification.RequestSpecification;
  */
 public class RequestAuth<T extends RequestAuth<T>> extends RequestOptions<T> {
 
+    public String bearerToken(String accessToken) {
+        return "Bearer " + accessToken;
+    }
+
     public RequestSpecification none() {
         return auth().none();
     }
 
+    /**
+     * При упреждающей аутентификации данные для аутентификации отправляются в заголовке запроса независимо от того, запрашивает ли их сервер.
+     * @param username
+     * @param password
+     * @return RequestSpecification
+     */
     public RequestSpecification basic(String username, String password) {
         return auth().basic(username, password);
     }
 
+    /**
+     * При упреждающей аутентификации данные для аутентификации отправляются в заголовке запроса независимо от того, запрашивает ли их сервер.
+     * @param username
+     * @param password
+     * @return RequestSpecification
+     */
     public RequestSpecification preemptive(String username, String password) {
         return auth().preemptive().basic(username, password);
     }
 
+    /**
+     * Этот метод похож на аутентификацию на основе запроса, но он более безопасен, так как в последующих запросах используется дайджест-ключ.
+     * <p>Обратите внимание, что мы не можем использовать {@code preemptive()} метод, аналогичный базовой аутентификации, поскольку в этой схеме используется только аутентификация по запросу.
+     * @param username
+     * @param password
+     * @return RequestSpecification
+     */
     public RequestSpecification digest(String username, String password) {
         return auth().digest(username, password);
     }
 
+    /**
+     * Сначала проанализирует HTML-ответ, чтобы найти поля для ввода, а затем отправит параметры формы.
+     * <p>Процесс может завершиться неудачей, например, если веб-страница сложная или если сервис настроен с использованием контекстного пути, который не указан в атрибуте {@code action}.
+     * @param username
+     * @param password
+     * @return RequestSpecification
+     */
     public RequestSpecification form(String username, String password) {
         return auth().form(username, password);
     }
 
+    /**
+     * Сначала проанализирует HTML-ответ, чтобы найти поля для ввода, а затем отправит параметры формы.
+     * <p>{@code new FormAuthConfig("/perform_signIn", "user", "password");}
+     * Помимо этих базовых конфигураций, REST Assured предоставляет следующие функции:
+     * <ul>
+     * <li>обнаружение или указание поля токена CSRF на веб-странице.
+     * <li>использование дополнительных полей формы в запросе.
+     * <li>запись информации о процессе аутентификации в журнал.
+     * </ul>
+     * @param username
+     * @param password
+     * @param action
+     * @param userNameTag
+     * @param passwordTag
+     * @return RequestSpecification
+     */
+    public RequestSpecification form(String username, String password, String action, String userNameTag, String passwordTag) {
+        return form(username, password, new FormAuthConfig(action, userNameTag, passwordTag));
+    }
+
+    /**
+     * Сначала проанализирует HTML-ответ, чтобы найти поля для ввода, а затем отправит параметры формы.
+     * <p>{@code new FormAuthConfig("/perform_signIn", "user", "password");}
+     * @param username
+     * @param password
+     * @return RequestSpecification
+     */
     public RequestSpecification form(String username, String password, FormAuthConfig config) {
         return auth().form(username, password, config);
+    }
+
+    /**
+     * Параметры <b>OAuth</b> динамически считывают необходимые данные от пользователя.
+     * @param consumerKey
+     * @param consumerSecret
+     * @param accessToken
+     * @param tokenSecret
+     * @return RequestSpecification
+     */
+    public RequestSpecification oauth(String consumerKey, String consumerSecret, String accessToken, String tokenSecret) {
+        return auth().oauth(consumerKey, consumerSecret, accessToken, tokenSecret);
+    }
+
+    /**
+     * Параметры <b>OAuth</b> динамически считывают необходимые данные от пользователя.
+     * @param consumerKey
+     * @param consumerSecret
+     * @param accessToken
+     * @param tokenSecret
+     * @param sign
+     * @return RequestSpecification
+     */
+    public RequestSpecification oauth(String consumerKey, String consumerSecret, String accessToken, String tokenSecret, OAuthSignature sign) {
+        return auth().oauth(consumerKey, consumerSecret, accessToken, tokenSecret, sign);
+    }
+
+    /**
+     * При использовании <b>OAuth 2.0</b> необходимо напрямую передавать токен доступа.
+     * <p>Нужно будет добавить зависимость {@code scribejava-apis}, если мы используем функции OAuth 2.0 в версии ниже 2.5.0 или если мы используем функции OAuth 1.0a.
+     * @param accessToken
+     * @return RequestSpecification
+     */
+    public RequestSpecification oauth2(String accessToken) {
+        return auth().oauth2(accessToken);
+    }
+
+    /**
+     * При использовании <b>OAuth 2.0</b> необходимо напрямую передавать токен доступа.
+     * <p>Нужно будет добавить зависимость {@code scribejava-apis}, если мы используем функции OAuth 2.0 в версии ниже 2.5.0 или если мы используем функции OAuth 1.0a.
+     * @param accessToken
+     * @param sign
+     * @return RequestSpecification
+     */
+    public RequestSpecification oauth2(String accessToken, OAuthSignature sign) {
+        return auth().oauth2(accessToken, sign);
     }
 
     public RequestSpecification certificate(String username, String password) {
@@ -63,20 +166,12 @@ public class RequestAuth<T extends RequestAuth<T>> extends RequestOptions<T> {
         return auth().certificate(username, password, config);
     }
 
-    public RequestSpecification oauth(String s, String s1, String s2, String s3) {
-        return auth().oauth(s, s1, s2, s3);
+    public RequestSpecification bearer(String accessToken) {
+        return oauth2(bearerToken(accessToken));
     }
 
-    public RequestSpecification oauth(String s, String s1, String s2, String s3, OAuthSignature sign) {
-        return auth().oauth(s, s1, s2, s3, sign);
-    }
-
-    public RequestSpecification oauth2(String s) {
-        return auth().oauth2(s);
-    }
-
-    public RequestSpecification oauth2(String s, OAuthSignature sign) {
-        return auth().oauth2(s, sign);
+    public RequestSpecification bearer(String accessToken, OAuthSignature sign) {
+        return oauth2(bearerToken(accessToken), sign);
     }
 
 }
