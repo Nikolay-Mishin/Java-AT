@@ -2,6 +2,7 @@ package org.project.utils.config;
 
 import java.beans.ConstructorProperties;
 
+import static io.restassured.http.ContentType.JSON;
 import static io.restassured.RestAssured.given;
 
 import io.qameta.allure.restassured.AllureRestAssured;
@@ -11,6 +12,7 @@ import io.restassured.specification.RequestSpecification;
 import static org.project.utils.config.WebBaseConfig.BASE_CONFIG;
 
 public class ApiConfig extends RequestSpecBuilder {
+    protected WebBaseConfig config;
 
     @ConstructorProperties({})
     public ApiConfig() {
@@ -22,9 +24,18 @@ public class ApiConfig extends RequestSpecBuilder {
         config(config);
     }
 
-    public static RequestSpecification getRequestSpec() {
-        return given(new RequestSpecBuilder()
-            .setBaseUri(BASE_CONFIG.getBaseUrl())
+    public static RequestSpecification requestSpec() {
+        return requestSpec(new RequestSpecBuilder(), BASE_CONFIG);
+    }
+
+    public static RequestSpecification requestSpec(WebBaseConfig config) {
+        return requestSpec(new RequestSpecBuilder(), config);
+    }
+
+    public static RequestSpecification requestSpec(RequestSpecBuilder builder, WebBaseConfig config) {
+        return given(builder
+            .setBaseUri(config.getBaseUrl())
+            .setContentType(JSON)
             .addFilter(new AllureRestAssured())
             .build());
     }
@@ -34,12 +45,16 @@ public class ApiConfig extends RequestSpecBuilder {
     }
 
     public ApiConfig config(WebBaseConfig config) {
-        return (ApiConfig) setBaseUri(config.getBaseUrl());
+        this.config = config;
+        return this;
     }
 
     public RequestSpecification get() {
-        return given(this
-            .addFilter(new AllureRestAssured())
-            .build());
+        return get(config);
     }
+
+    public RequestSpecification get(WebBaseConfig config) {
+        return requestSpec(this, config);
+    }
+
 }

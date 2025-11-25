@@ -4,8 +4,6 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 
-import static io.restassured.http.ContentType.*;
-
 import jdk.jfr.Description;
 
 import static org.project.utils.Helper.debug;
@@ -31,7 +29,6 @@ public class Request extends RequestOptions<Request> {
         methodSend = method.toString().toLowerCase();
         url(pathList); // задаем базовый путь для запроса
         endpoint = this.method + " " + path;
-        contentType(JSON); // header
         debug(endpoint);
         debug(URL);
         debug(URI);
