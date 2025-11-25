@@ -20,6 +20,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import static org.project.utils.config.Config.debugLvl;
+import static org.project.utils.reflection.Reflection.*;
 
 public class Helper {
 
@@ -256,7 +257,7 @@ public class Helper {
     }
 
     public static Map<String, Object> entries(Object obj) {
-        return entries(obj, new HashMap<>(), (entries, field) -> {
+        return entries(obj, new HashMap<>(), (field, entries) -> {
             try {entries.put(fieldName(field), field.get(obj));}
             catch (IllegalAccessException e) {throw new RuntimeException(e);}
             return entries;
@@ -264,7 +265,7 @@ public class Helper {
     }
 
     public static List<Object[]> entriesList(Object obj) {
-        return entries(obj, new ArrayList<>(), (entries, field) -> {
+        return entries(obj, new ArrayList<>(), (field, entries) -> {
             try {
                 Collection<Object> objects = new ArrayList<>();
                 Collections.addAll(objects, fieldName(field), field.get(obj));
@@ -276,7 +277,7 @@ public class Helper {
     }
 
     public static Object[] entriesArray(Object obj) {
-        return entries(obj, new ArrayList<>(), (entries, field) -> {
+        return entries(obj, new ArrayList<>(), (field, entries) -> {
             try {
                 Collection<Object> objects = new ArrayList<>();
                 Collections.addAll(objects, fieldName(field), field.get(obj));
@@ -291,13 +292,14 @@ public class Helper {
     //  - https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value
     //  - https://www.geeksforgeeks.org/reflection-in-java
     //  - https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-
-    public static <T> T entries(Object obj, T entries, BiFunction<T, Field, T> func) {
+    public static <T> T entries(Object obj, T entries, BiFunction<Field, T, T> func) {
         Class<?> clazz = obj.getClass();
         Field[] fields = clazz.getDeclaredFields();
 
         for (Field field : fields) {
-            field.setAccessible(true);
-            func.apply(entries, field);
+            makeAccessible(field, obj);
+            func.apply(field, entries);
+            makeUnAccessible(field);
         }
 
         return entries;
