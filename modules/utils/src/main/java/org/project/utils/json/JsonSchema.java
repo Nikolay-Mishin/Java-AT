@@ -43,10 +43,6 @@ public class JsonSchema {
         data(req.string());
     }
 
-    public Request req() {
-        return req;
-    }
-
     public static JsonSchema jsonSchema(String endpoint)
         throws MalformedURLException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
     {
@@ -95,6 +91,19 @@ public class JsonSchema {
         return Helper.toList(a, filter);
     }
 
+    public Request req() {
+        return req;
+    }
+
+    public JSONObject data() {
+        return jsonData;
+    }
+
+    private void data(String jsonString) {
+        jsonData = new JSONObject(jsonString == "" ? "{}" : jsonString);
+        debug(jsonData);
+    }
+
     public JsonSchema path(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
         return _path(method, modelClass, pathList);
     }
@@ -105,15 +114,6 @@ public class JsonSchema {
 
     public JsonSchema path(Object... pathList) throws IOException {
         return _path(pathList);
-    }
-
-    public JSONObject data() {
-        return jsonData;
-    }
-
-    private void data(String jsonString) {
-        jsonData = new JSONObject(jsonString == "" ? "{}" : jsonString);
-        debug(jsonData);
     }
 
     public Map<String, Object> toMap() {
