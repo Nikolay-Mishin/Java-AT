@@ -10,12 +10,12 @@ import static org.project.utils.Helper.debug;
 
 import org.project.utils.json.JsonSchema;
 import org.project.utils.reflection.SingleInstance;
-import org.project.utils.request.AuthRequests;
+import org.project.utils.request.AuthBaseRequests;
 
 public class Auth extends SingleInstance<Auth> {
 
     protected static Auth instance;
-    protected static AuthRequests<?> auth;
+    protected static AuthBaseRequests<?> auth;
     protected static String baseUrl;
     protected final AuthToken token;
 
@@ -28,15 +28,15 @@ public class Auth extends SingleInstance<Auth> {
         return SingleInstance.instance();
     }
 
-    public static AuthRequests<?> auth() {
+    public static AuthBaseRequests<?> auth() {
         return auth;
     }
 
-    public static AuthRequests<?> auth(String baseUrl) {
-        return auth = new AuthRequests<>(baseUrl);
+    public static AuthBaseRequests<?> auth(String baseUrl) {
+        return auth = new AuthBaseRequests<>(baseUrl);
     }
 
-    public static AuthRequests<?> auth(AuthRequests<?> req) {
+    public static AuthBaseRequests<?> auth(AuthBaseRequests<?> req) {
         return auth = req;
     }
 
@@ -53,7 +53,7 @@ public class Auth extends SingleInstance<Auth> {
         return instance.token;
     }
 
-    public static Auth init(AuthRequests<?> req, AuthToken token)
+    public static Auth init(AuthBaseRequests<?> req, AuthToken token)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException
     {
         debug("Auth: req, AuthToken");
@@ -61,7 +61,7 @@ public class Auth extends SingleInstance<Auth> {
         return init(token);
     }
 
-    public static Auth init(AuthRequests<?> req, Response tokens)
+    public static Auth init(AuthBaseRequests<?> req, Response tokens)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
         debug("Auth: req, Response");
@@ -69,7 +69,7 @@ public class Auth extends SingleInstance<Auth> {
         return init(tokens);
     }
 
-    public static Auth init(AuthRequests<?> req, JsonSchema tokens)
+    public static Auth init(AuthBaseRequests<?> req, JsonSchema tokens)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
         debug("Auth: req, JsonSchema");
@@ -77,7 +77,7 @@ public class Auth extends SingleInstance<Auth> {
         return init(tokens);
     }
 
-    public static Auth init(AuthRequests<?> req, Object... pathList)
+    public static Auth init(AuthBaseRequests<?> req, Object... pathList)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
         debug("Auth: req, pathList");
