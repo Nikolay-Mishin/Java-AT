@@ -7,14 +7,16 @@ import java.lang.reflect.InvocationTargetException;
 import io.restassured.response.Response;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.json.JsonSchema.jsonSchema;
 
 import org.project.utils.json.JsonSchema;
 import org.project.utils.reflection.SingleInstance;
+import org.project.utils.request.AuthRequests;
 
 public class Auth extends SingleInstance<Auth> {
 
     protected static Auth instance;
+    protected static AuthRequests<?> auth;
+    protected static String baseUrl;
     protected final AuthToken token;
 
     @ConstructorProperties({"token"})
@@ -22,34 +24,93 @@ public class Auth extends SingleInstance<Auth> {
         this.token = token;
     }
 
-    public static <T extends SingleInstance<?>> T instance() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+    public static Auth instance() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
         return SingleInstance.instance();
     }
 
-    public static Auth auth() {
-        return instance;
+    public static AuthRequests<?> auth() {
+        return auth;
+    }
+
+    public static AuthRequests<?> auth(String baseUrl) {
+        return auth = new AuthRequests<>(baseUrl);
+    }
+
+    public static AuthRequests<?> auth(AuthRequests<?> req) {
+        return auth = req;
+    }
+
+    public static String baseUrl() {
+        return baseUrl;
+    }
+
+    public static String baseUrl(String baseUrl) {
+        auth(baseUrl);
+        return Auth.baseUrl = baseUrl;
     }
 
     public static AuthToken token() {
         return instance.token;
     }
 
+    public static Auth init(AuthRequests<?> req, AuthToken token)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException
+    {
+        debug("Auth: req, AuthToken");
+        auth(req);
+        return init(token);
+    }
+
+    public static Auth init(AuthRequests<?> req, Response tokens)
+        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
+    {
+        debug("Auth: req, Response");
+        auth(req);
+        return init(tokens);
+    }
+
+    public static Auth init(AuthRequests<?> req, JsonSchema tokens)
+        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
+    {
+        debug("Auth: req, JsonSchema");
+        auth(req);
+        return init(tokens);
+    }
+
+    public static Auth init(AuthRequests<?> req, Object... pathList)
+        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
+    {
+        debug("Auth: req, pathList");
+        auth(req);
+        return init(pathList);
+    }
+
     public static Auth init(AuthToken token)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException
     {
+        debug("Auth: AuthToken");
         return instance(token);
     }
 
-    public static Auth init(JsonSchema json)
+    public static Auth init(Response tokens)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
-        return init(new AuthToken(json));
+        debug("Auth: Response");
+        return init(new AuthToken(tokens));
+    }
+
+    public static Auth init(JsonSchema tokens)
+        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
+    {
+        debug("Auth: JsonSchema");
+        return init(new AuthToken(tokens));
     }
 
     public static Auth init(Object... pathList)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
-        return init(jsonSchema(pathList));
+        debug("Auth: pathList");
+        return init(new AuthToken(pathList));
     }
 
     public static void refreshTokens(Response tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
