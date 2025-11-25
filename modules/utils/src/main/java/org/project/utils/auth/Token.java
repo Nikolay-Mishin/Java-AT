@@ -1,21 +1,22 @@
 package org.project.utils.auth;
 
-import io.restassured.response.Response;
-import org.project.utils.base.HashMap;
-import org.project.utils.base.Register;
-import org.project.utils.json.JsonSchema;
-
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+
+import io.restassured.response.Response;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.reflection.Reflection.invoke;
 
+import org.project.utils.base.*;
+import org.project.utils.json.JsonSchema;
+
 public class Token extends Register<String, Token> {
 
     protected static String[] keys;
-    protected static HashMap<String, String> keysMap;
+    protected static Map<String, Object> keysMap;
 
     protected HashMap<String, String> token;
     protected String key;
@@ -86,34 +87,40 @@ public class Token extends Register<String, Token> {
     }
 
     protected void init(Object tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
-        if (isNull(keys)) setKeys();
+        if (isNull(keys)) setKeys(tokens);
         _refreshTokens(tokens);
     }
 
-    protected static void setKeys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected static void setKeys(Object tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         JsonSchema jsonData = new JsonSchema(config().getTokenKeys());
         keys = jsonData.keys();
-        keysMap = new HashMap<String, String>(keys).values(jsonData, "string");
+        //keysMap = new HashMap<String, String>(keys).values(jsonData, "string");
+        keysMap = jsonData.toMap();
+        debug("setKeys: " + keysMap);
     }
 
     protected void _refreshTokens(Object tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        boolean isJson = isInstance(tokens, JsonSchema.class);
+        debug("refreshTokens: " + tokens);
+        debug("jsonNotNull: " + jsonNotNull(tokens));
         for (String key : keys) {
             String path = key(key);
             String token = null;
-            try {
-                token = !isJson ? invoke(tokens, "path", path) : invoke(tokens, "get", path, "string");
-            }
-            catch (NoSuchMethodException ignored) {}
-            catch (InvocationTargetException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            if (!isJson(tokens)) token = invoke(tokens, "path", path);
+            else if (jsonNotNull(tokens)) token = invoke(tokens, "get", path, "string");
             token(key, new Token(key, token, path));
         }
     }
 
+    protected static boolean isJson(Object tokens) {
+        return isInstance(tokens, JsonSchema.class);
+    }
+
+    protected static boolean jsonNotNull(Object tokens) {
+        return isJson(tokens) && notNull(((JsonSchema) tokens).data());
+    }
+
     protected String key(String key) {
-        return keysMap.get(key);
+        return (String) keysMap.get(key);
     }
 
     protected void token(String key, Token token) throws ClassNotFoundException {
