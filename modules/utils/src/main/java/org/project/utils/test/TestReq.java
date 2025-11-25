@@ -3,8 +3,7 @@ package org.project.utils.test;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.project.utils.Helper.*;
 
