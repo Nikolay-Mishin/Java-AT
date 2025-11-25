@@ -14,6 +14,9 @@ import org.project.utils.constant.RequestConstants.METHOD;
 
 public class Request extends RequestAuth<Request> {
 
+    @ConstructorProperties({})
+    public Request() {}
+
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         init(method, pathList);
