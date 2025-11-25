@@ -1,13 +1,13 @@
 package org.project.utils.reflection;
 
-import org.project.utils.base.Register;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.function.Supplier;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.reflection.ReflectionUtils.getGenericParameterClass;
+
+import org.project.utils.base.Register;
 
 public class Instance<T> extends Register<Class<T>, T> {
 
