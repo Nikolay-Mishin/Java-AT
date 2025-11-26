@@ -2,7 +2,7 @@ package org.project.utils.config;
 
 import org.aeonbits.owner.Config.*;
 
-import static org.project.utils.config.WinConfig.*;
+import static org.project.utils.config.DriverConfig.*;
 
 @Sources({"classpath:${env}.properties"})
 public interface DriverBaseConfig extends BaseConfig {

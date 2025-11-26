@@ -13,12 +13,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.remote.*;
+import org.project.utils.config.DriverBaseConfig;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.Process.run;
 import static org.project.utils.reflection.Reflection.*;
-import static org.project.utils.windriver.DriverBaseConfig.*;
+import static org.project.utils.config.DriverBaseConfig.*;
 
 import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;
