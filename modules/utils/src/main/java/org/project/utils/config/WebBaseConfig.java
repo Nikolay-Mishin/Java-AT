@@ -2,11 +2,11 @@ package org.project.utils.config;
 
 import static org.aeonbits.owner.Config.*;
 
-import static org.project.utils.config.Config.*;
+import static org.project.utils.config.WebConfig.*;
 
 @Sources({"classpath:dev.properties"})
 public interface WebBaseConfig extends BaseConfig {
-    WebBaseConfig BASE_CONFIG = config("web", WebBaseConfig.class);
+    WebBaseConfig BASE_CONFIG = config(WebBaseConfig.class);
 
     //at
     @Key("BASE_URL")
