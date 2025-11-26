@@ -354,7 +354,6 @@ public class Reflection {
 
     @Description("Invoke method of className")
     public static <T> T invoke(String className, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
-        debug("invokeClass: " + getClass(className));
         return invoke(getClass(className), method, args); // вызов метода с аргументами
     }
 
