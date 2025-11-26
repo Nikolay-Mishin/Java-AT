@@ -4,8 +4,7 @@ import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import io.cucumber.java.ru.Когда;
-import requests.auth.AuthRequests;
+import io.cucumber.java.en.*;
 
 import static org.project.utils.auth.Auth.printTokens;
 import static org.project.utils.base.Register.printRegisterMap;
@@ -16,6 +15,7 @@ import org.project.utils.base.BaseStep;
 import static config.WebConfig.BASE_CONFIG;
 
 import pojo.json.auth.Token;
+import requests.auth.AuthRequests;
 
 public class AuthStep extends BaseStep<AuthRequests, Token> {
 
@@ -24,7 +24,7 @@ public class AuthStep extends BaseStep<AuthRequests, Token> {
         super(BASE_CONFIG);
     }
 
-    @Когда("авторизоваться")
+    @When("авторизоваться")
     public void auth()
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, ClassNotFoundException, InstantiationException, NoSuchFieldException
     {
