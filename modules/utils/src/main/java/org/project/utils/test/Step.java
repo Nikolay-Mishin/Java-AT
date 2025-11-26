@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-import io.cucumber.java.ru.Когда;
+import io.cucumber.java.en.When;
 
 import static org.project.utils.config.WebBaseConfig.BASE_CONFIG;
 
@@ -26,7 +26,7 @@ public class Step extends BaseStep<Requests, Order> {
         assertEquals(statusCode, get(id).getStatusCode());
     }
 
-    @Когда("создать заказ gen статус {int}")
+    @When("создать заказ gen статус {int}")
     public void postOrder(int statusCode, List<List<String>> dataTable)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
         assertEquals(statusCode, post(dataTable).getStatusCode());
