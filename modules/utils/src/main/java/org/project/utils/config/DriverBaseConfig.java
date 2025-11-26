@@ -1,19 +1,18 @@
-package org.project.utils.windriver;
+package org.project.utils.config;
 
 import org.aeonbits.owner.Config.*;
-import org.project.utils.config.BaseConfig;
 
-import static org.project.utils.config.Config.config;
+import static org.project.utils.config.WinConfig.*;
 
 @Sources({"classpath:${env}.properties"})
 public interface DriverBaseConfig extends BaseConfig {
-    DriverBaseConfig BASE_CONFIG = config("win", DriverBaseConfig.class);
-    boolean IS_WINIUM = BASE_CONFIG.getIsWinium();
-    int WINIUM_PORT = BASE_CONFIG.getWiniumPort();
-    String WINIUM_HOST = BASE_CONFIG.getWiniumHost();
-    String WINDRIVER_NAME = IS_WINIUM ? BASE_CONFIG.getWiniumName() : BASE_CONFIG.getWindriverName();
-    String WINDRIVER = IS_WINIUM ? BASE_CONFIG.getWinium() : BASE_CONFIG.getWindriver();
-    int WINDRIVER_PORT = IS_WINIUM ? WINIUM_PORT : BASE_CONFIG.getWindriverPort();
+    DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);
+    boolean IS_WINIUM = config().getIsWinium();
+    int WINIUM_PORT = config().getWiniumPort();
+    String WINIUM_HOST = config().getWiniumHost();
+    String WINDRIVER_NAME = IS_WINIUM ? config().getWiniumName() : config().getWindriverName();
+    String WINDRIVER = IS_WINIUM ? config().getWinium() : config().getWindriver();
+    int WINDRIVER_PORT = IS_WINIUM ? WINIUM_PORT : config().getWindriverPort();
     String WINDRIVER_HOST = IS_WINIUM ? WINIUM_HOST : WINIUM_HOST.replaceAll(String.valueOf(WINIUM_PORT), String.valueOf(WINDRIVER_PORT));
 
     // app

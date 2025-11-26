@@ -1,6 +1,4 @@
-package org.project.utils.windriver;
-
-import org.project.utils.config.Config;
+package org.project.utils.config;
 
 public class DriverConfig extends Config {
     public static DriverBaseConfig config() {
