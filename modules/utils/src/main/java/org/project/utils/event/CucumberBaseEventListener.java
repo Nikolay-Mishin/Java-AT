@@ -7,9 +7,20 @@ import io.cucumber.plugin.event.*;
 
 import static org.project.utils.Helper.debug;
 
+/**
+ * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
+ * <p>Возможны следующие типы:
+ * <ul>
+ * <li>{@code java.net.URI}</li>
+ * <li>{@code java.net.URL}</li>
+ * <li>{@code java.io.File}</li>
+ * <li>{@code java.lang.String}</li>
+ * <li>{@code java.lang.Appendable}</li>
+ * </ul>
+ */
 public class CucumberBaseEventListener implements ConcurrentEventListener {
     protected File reportDir;
-    protected final boolean eventHandler = false;
+    protected boolean eventHandler = false;
     //private final EventHandler<TestRunStarted> runStartedHandler = event -> startReport(event);
     protected final EventHandler<Event> runEventHandler = this::event;
     protected final EventHandler<TestRunStarted> runStartedHandler = this::runStart;
@@ -25,17 +36,6 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
 
     public CucumberBaseEventListener() {}
 
-    /**
-     * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
-     * <p>Возможны следующие типы:
-     * <ul>
-     * <li>{@code java.net.URI}</li>
-     * <li>{@code java.net.URL}</li>
-     * <li>{@code java.io.File}</li>
-     * <li>{@code java.lang.String}</li>
-     * <li>{@code java.lang.Appendable}</li>
-     * </ul>
-     */
     public CucumberBaseEventListener(String arg) {
         debug("CucumberEventListener: " + arg);
     }
