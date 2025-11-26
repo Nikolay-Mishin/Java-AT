@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.*;
+import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestEntries.*;
 import static org.project.utils.test.TestFS.*;
@@ -26,6 +27,7 @@ public class App extends TestZip {
     public static void main(String[] args)
         throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException, NoSuchFieldException
     {
+        new Step();
         //testMain();
         //testApi();
         testHeaders();
@@ -37,6 +39,7 @@ public class App extends TestZip {
         //testEntries();
         //testReq();
         //testAuth();
+        debug(configs());
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
