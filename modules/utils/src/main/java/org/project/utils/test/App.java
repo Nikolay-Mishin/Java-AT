@@ -14,6 +14,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.TestAuth.*;
+import static org.project.utils.test.TestConfig.*;
 import static org.project.utils.test.TestEntries.*;
 import static org.project.utils.test.TestFS.*;
 import static org.project.utils.test.TestReq.*;
@@ -27,6 +28,7 @@ public class App extends TestZip {
     public static void main(String[] args)
         throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException, NoSuchFieldException
     {
+        debug(configs());
         new Step();
         //testMain();
         //testApi();
@@ -39,6 +41,8 @@ public class App extends TestZip {
         //testEntries();
         //testReq();
         //testAuth();
+        testConfig();
+        testWinDriverConfig();
         debug(configs());
     }
 
