@@ -130,6 +130,24 @@ public class Reflection {
         return clazz;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> Class<T> getClass(String name) throws ClassNotFoundException {
+        return (Class<T>) Class.forName(name);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends S, S> Class<T> asSubClass(String name, Class<S> subClass) throws ClassNotFoundException {
+        return (Class<T>) getClass(name).asSubclass(subClass);
+    }
+
+    public static <T> Class<T> getClass(int index) throws ClassNotFoundException {
+        return getClass(getClassName(index + 1));
+    }
+
+    public static <T> Class<T> getClass(StackTraceElement stackTraceEl) throws ClassNotFoundException {
+        return getClass(getClassName(stackTraceEl));
+    }
+
     public static String getClassName(Object obj) {
         String name = getClass(obj).getName();
         debug(name);
@@ -140,6 +158,14 @@ public class Reflection {
         String name = getClass(obj).getSimpleName();
         debug(name);
         return name;
+    }
+
+    public static String getClassName(int index) {
+        return getClassName(getStackTraceEl(index + 1));
+    }
+
+    public static String getClassName(StackTraceElement stackTraceEl) {
+        return stackTraceEl.getClassName();
     }
 
     public static StackTraceElement[] getStackTrace() {
@@ -154,9 +180,12 @@ public class Reflection {
         return getStackTraceEl(1);
     }
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public static <T> Class<T> getCallingClass(int index) throws ClassNotFoundException {
-        return (Class<T>) Class.forName(getStackTraceEl(++index).getClassName());
+        //debug("getClassName: " + getClassName(index + 1));
+        //debug("getClass: " + getClass(index + 1));
+        //return (Class<T>) Class.forName(getStackTraceEl(++index).getClassName());
+        return getClass(++index);
     }
 
     public static <T> Class<T> getCallingClass() throws ClassNotFoundException {
