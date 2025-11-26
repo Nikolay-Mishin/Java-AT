@@ -1,6 +1,6 @@
 {
     "name": "maven-at",
-    "version": "7.11.3",
+    "version": "7.12.0",
     "main": "index.js",
     "type": "module",
     "exports": {
