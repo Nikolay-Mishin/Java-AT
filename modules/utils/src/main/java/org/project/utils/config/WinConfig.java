@@ -3,11 +3,11 @@ package org.project.utils.config;
 public class WinConfig extends Config {
     protected static String key = "win";
 
-    public static WebBaseConfig config() {
+    public static DriverBaseConfig config() {
         return config(key);
     }
     public static <T extends BaseConfig> T config(Class<T> clazz) {return config(key, clazz);}
-    public static WebBaseConfig config(WebBaseConfig config) {
+    public static DriverBaseConfig config(DriverBaseConfig config) {
         return config(key, config);
     }
 }
