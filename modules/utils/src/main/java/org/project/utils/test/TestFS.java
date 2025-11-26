@@ -20,6 +20,7 @@ public class TestFS extends TestZip {
     }
 
     public static void testFS() throws IOException {
+        debug("testFS");
         for (FileStore store: FileSystems.getDefault().getFileStores()) {
             long total = store.getTotalSpace() / 1024;
             long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024;
@@ -51,6 +52,7 @@ public class TestFS extends TestZip {
     }
 
     public static void testAttrs() {
+        debug("testAttrs");
         debug(FileSystems.getDefault().supportedFileAttributeViews());
         printAttrs();
         printAttrs(attrsTest);

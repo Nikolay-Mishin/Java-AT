@@ -25,12 +25,14 @@ public class TestReq {
     public static void testReqGet()
         throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException
     {
+        debug("testReqGet");
         new Step().getOrder(200, 0);
     }
 
     public static void testReqPost()
         throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException
     {
+        debug("testReqPost");
         //[[id, 0], [petId, 0], [quantity, 0], [shipDate, 2023-09-11T09:37:57.828Z], [status, placed], [complete, true]]
         Integer[][] arrayInt = {{1, 2}};
         String[][] arrayStr = {{"id", "0"}};

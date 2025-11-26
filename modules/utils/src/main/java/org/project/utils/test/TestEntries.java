@@ -11,6 +11,7 @@ public class TestEntries {
     }
 
     public static void testEntries() throws NoSuchFieldException {
+        debug("testEntries");
         Object obj = new Object(){ public int k = 1; protected static int p = 11; private int pp = 111; };
 
         debug(entries(obj));

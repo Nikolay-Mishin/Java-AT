@@ -24,6 +24,7 @@ public class TestJson extends TestApi {
     }
 
     public static void testJson() throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        debug("testJson");
         JsonSchema json = jsonSchema(endpoint, uri);
         Request req = json.req();
 

@@ -16,6 +16,7 @@ public class TestConfig extends App {
     }
 
     public static void testConfig() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        debug("testConfig");
         debug(config().getClass());
         printConfigs();
         debug(config("config").getClass());
@@ -34,6 +35,7 @@ public class TestConfig extends App {
     }
 
     public static void printConfigs() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        debug("printConfigs");
         HashMap<String, BaseConfig> map = configs();
         debug("map: " + map);
         for (String k : map.keys()) {
@@ -43,6 +45,7 @@ public class TestConfig extends App {
     }
 
     public static void testWinDriverConfig() {
+        debug("testWinDriverConfig");
         debug(WebBaseConfig.BASE_CONFIG.getBaseUrl());
         debug(BaseConfig.BASE_CONFIG.getDebugLevel());
         debug(DriverBaseConfig.BASE_CONFIG.getIsWinium());

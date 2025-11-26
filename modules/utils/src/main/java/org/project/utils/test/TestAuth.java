@@ -19,6 +19,7 @@ public class TestAuth {
     public static void testAuth()
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
+        debug("testAuth");
         init("auth/token");
         printTokens();
         debug("instance: " + instance());
