@@ -13,6 +13,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.configs;
+import static org.project.utils.reflection.Reflection.invoke;
 import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestConfig.*;
 import static org.project.utils.test.TestEntries.*;
@@ -44,7 +45,7 @@ public class App extends TestZip {
         //testAuth();
         testConfig();
         testWinDriverConfig();
-        debug(configs());
+        testInvoke();
         //testApi(true);
     }
 
@@ -76,6 +77,14 @@ public class App extends TestZip {
 
     public static void _long(Long id) {
         debug(id);
+    }
+
+    public static void testInvoke() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        invoke("org.project.utils.test.App", "invokeName");
+    }
+
+    public static void invokeName() {
+        debug(configs());
     }
 
 }
