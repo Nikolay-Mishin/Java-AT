@@ -28,11 +28,12 @@ public class App extends TestZip {
     public static void main(String[] args)
         throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException, NoSuchFieldException
     {
+        debug("App:main");
         debug(configs());
         new Step();
         //testMain();
         //testApi();
-        testHeaders();
+        //testHeaders();
         //testJson();
         //testZip();
         //testFS();
@@ -44,9 +45,11 @@ public class App extends TestZip {
         testConfig();
         testWinDriverConfig();
         debug(configs());
+        //testApi(true);
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
+        debug("testMain");
         driver = org.project.utils.windriver.RemoteWebDriver.start();
         remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
         webDriver = org.project.utils.windriver.WebDriver.start();
@@ -57,6 +60,7 @@ public class App extends TestZip {
     }
 
     public static void testLong() {
+        debug("testLong");
         int _int = 0;
         long _long = Integer.valueOf(_int).longValue();
 
