@@ -4,7 +4,7 @@ import org.aeonbits.owner.Config.*;
 
 import static org.project.utils.config.DriverConfig.*;
 
-@Sources({"classpath:${env}.properties"})
+@Sources({"classpath:win.properties"})
 public interface DriverBaseConfig extends BaseConfig {
     DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);
     boolean IS_WINIUM = config().getIsWinium();
