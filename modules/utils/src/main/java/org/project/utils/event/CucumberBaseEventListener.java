@@ -34,10 +34,44 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
     protected final EventHandler<TestCaseFinished> caseFinishedHandler = this::caseFinish;
     protected final EventHandler<TestRunFinished> runFinishedHandler = this::runFinish;
 
+    /**
+     * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
+     * <p>Возможны следующие типы:
+     * <ul>
+     * <li>{@code java.net.URI}</li>
+     * <li>{@code java.net.URL}</li>
+     * <li>{@code java.io.File}</li>
+     * <li>{@code java.lang.String}</li>
+     * <li>{@code java.lang.Appendable}</li>
+     * </ul>
+     */
     public CucumberBaseEventListener() {}
 
+    /**
+     * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
+     * <p>Возможны следующие типы:
+     * <ul>
+     * <li>{@code java.net.URI}</li>
+     * <li>{@code java.net.URL}</li>
+     * <li>{@code java.io.File}</li>
+     * <li>{@code java.lang.String}</li>
+     * <li>{@code java.lang.Appendable}</li>
+     * </ul>
+     */
     public CucumberBaseEventListener(String arg) {
         debug("CucumberEventListener: " + arg);
+    }
+
+    protected boolean eventHandler() {
+        return eventHandler;
+    }
+
+    protected boolean eventHandler(boolean eventHandler) {
+        return this.eventHandler = eventHandler;
+    }
+
+    protected boolean setEventHandler() {
+        return eventHandler(true);
     }
 
     /**
