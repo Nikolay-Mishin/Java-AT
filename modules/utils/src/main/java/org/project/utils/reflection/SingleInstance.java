@@ -10,7 +10,8 @@ public class SingleInstance<T> extends Instance<T> {
     protected static SingleInstance<?> instance;
 
     public static <T extends SingleInstance<?>> T instance() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
-        //debug("instanceChildCall: " + getCallingChildClass());
+        //debug("instanceCall: " + getCallingClass());
+        debug("instanceChildCall: " + getCallingChildClass());
         //debug("generic: " + getGenericClass());
         try {return (T) getField(getGenericClass(), "instance");}
         catch (IllegalArgumentException e) {return (T) instance;}
