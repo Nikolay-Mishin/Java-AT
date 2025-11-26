@@ -12,17 +12,19 @@ import static org.project.utils.Helper.*;
 import org.project.utils.base.HashMap;
 
 public class Config {
-    protected static Factory f = f();
+    protected static String key = "config";
+    protected static String envKey = "env";
     protected static HashMap<String, BaseConfig> map = new HashMap<>();
     protected static String env = ENV;
     protected static int debugLvl = DEBUG_LEVEL;
+    protected static Factory f = f();
 
     public static HashMap<String, BaseConfig> configs() {
         return map;
     }
 
     public static <T extends BaseConfig> T config() {
-        return config("config");
+        return config(key);
     }
 
     @SuppressWarnings("unchecked")
@@ -47,7 +49,7 @@ public class Config {
     }
 
     public static <T extends BaseConfig> T compare(T config) {
-        return compare("config", init(config));
+        return compare(key, init(config));
     }
 
     public static <T extends BaseConfig> T compare(String k, T config) {
@@ -68,7 +70,7 @@ public class Config {
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
         debug("createConfig: " + clazz);
         //return init(create(clazz, getenv(), getProperties()));
-        return init(getOrCreate(clazz, getenv(), getProperties()));
+        return init(getOrCreate(clazz));
     }
 
     public static <T extends BaseConfig> T init(T config) {
@@ -83,17 +85,17 @@ public class Config {
 
     protected static <T extends BaseConfig> String env(T config) {
         //String env = config.getEnv();
-        String env = getProperty("env");
+        String env = getProperty(envKey);
         if (isNull(env)) {
             env = config.getEnv();
-            setProperty("env", env);
+            setProperty(envKey, env);
         }
         debug("env: " + env);
         return env(env);
     }
 
     protected static String env(String value) {
-        return env = set("env", value);
+        return env = set(envKey, value);
     }
 
     public static <T extends BaseConfig> void printEnvList() {
@@ -127,11 +129,9 @@ public class Config {
     }
 
     public static void printProps() {
-        debug("prop: " + get("env"));
-        debug("envD: " + get("envD"));
+        debug("prop: " + get(envKey));
         debug("props: " + get());
-        debug("arg: " + getProperty("env"));
-        debug("argD: " + getProperty("envD"));
+        debug("arg: " + getProperty(envKey));
     }
 
     public static void printList() {
