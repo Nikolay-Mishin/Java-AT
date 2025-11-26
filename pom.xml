@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.11.1</version>
+    <version>7.11.2</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -15,6 +15,11 @@
         <annotator.ver>3.7.4-SNAPSHOT</annotator.ver>
         <pojo.ver>3.7.5-SNAPSHOT</pojo.ver>
         <utils.ver>4.19.0-SNAPSHOT</utils.ver>
+        <src.dir>src/main</src.dir>
+        <src.test>src/test</src.test>
+        <res.dir>${src.dir}/resources</res.dir>
+        <conf.dir>${src.dir}/config</conf.dir>
+        <res.test.dir>${src.test}/resources</res.test.dir>
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
         <github.global.url>https://${github.global.server}.com</github.global.url>
@@ -26,7 +31,7 @@
         <github.repo.url>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.url>
         <repo.dir>repo</repo.dir>
         <repo.path>${basedir}/${repo.dir}</repo.path>
-        <pojo.src>${basedir}/src/main/resources/json</pojo.src>
+        <pojo.src>${basedir}/${res.dir}/json</pojo.src>
         <pojo.out>${project.build.sourceDirectory}</pojo.out>
         <pojo.pkg>pojo.gen</pojo.pkg>
         <annotator>org.project.annotator.lombok.LombokAnnotator</annotator>
@@ -63,10 +68,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
-                <!-- <includes>
-                        <include>dev.properties</include>
-                </includes> -->
+                <directory>${res.dir}</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
@@ -116,7 +118,7 @@
                     </argLine>
                     <parallel>methods</parallel>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
-                    <!--<threadCount>16</threadCount>-->
+                    <!--<threadCount>32</threadCount>-->
                     <!--<perCoreThreadCount>true</perCoreThreadCount>-->
                 </configuration>
                 <dependencies>
@@ -191,23 +193,11 @@
 
         <!-- dev dependencies -->
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>7.11.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
             <version>2.24.0</version>
         </dependency>
 
         <!-- test dependencies -->
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>7.11.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 </project>
