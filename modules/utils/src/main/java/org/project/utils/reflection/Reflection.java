@@ -324,9 +324,7 @@ public class Reflection {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T instance(Class<?> clazz, Object... args)
-        throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException
-    {
+    public static <T> T instance(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         T instance = (T) getConstructor(clazz, args).newInstance(args);
         debug(instance);
         return instance;
@@ -354,20 +352,22 @@ public class Reflection {
         return _method;
     }
 
+    @Description("Invoke method of className")
+    public static <T> T invoke(String className, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
+        debug("invokeClass: " + getClass(className));
+        return invoke(getClass(className), method, args); // вызов метода с аргументами
+    }
+
     @Description("Invoke method of object")
     @SuppressWarnings("unchecked")
-    public static <T> T invoke(Object obj, String method, Object... args)
-        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
-    {
+    public static <T> T invoke(Object obj, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method methodWithArgs = getMethod(obj, method, args); // получение метода с аргументами
         return (T) methodWithArgs.invoke(obj, args); // вызов метода с аргументами
     }
 
     @Description("Invoke parse number method")
     @SuppressWarnings("unchecked")
-    public static <T> T invokeParse(Class<?> type, Object value)
-        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException
-    {
+    public static <T> T invokeParse(Class<?> type, Object value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         if (!isParseType(type)) return (T) value;
         Class<?> _type = type;
         String name = getClassSimpleName(type);
