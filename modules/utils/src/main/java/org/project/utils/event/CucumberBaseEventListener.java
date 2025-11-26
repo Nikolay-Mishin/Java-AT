@@ -7,7 +7,7 @@ import io.cucumber.plugin.event.*;
 
 import static org.project.utils.Helper.debug;
 
-public class CucumberEventListener implements ConcurrentEventListener {
+public class CucumberBaseEventListener implements ConcurrentEventListener {
     protected File reportDir;
     protected final boolean eventHandler = false;
     //private final EventHandler<TestRunStarted> runStartedHandler = event -> startReport(event);
@@ -23,7 +23,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
     protected final EventHandler<TestCaseFinished> caseFinishedHandler = this::caseFinish;
     protected final EventHandler<TestRunFinished> runFinishedHandler = this::runFinish;
 
-    public CucumberEventListener() {}
+    public CucumberBaseEventListener() {}
 
     /**
      * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
@@ -36,7 +36,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * <li>{@code java.lang.Appendable}</li>
      * </ul>
      */
-    public CucumberEventListener(String arg) {
+    public CucumberBaseEventListener(String arg) {
         debug("CucumberEventListener: " + arg);
     }
 
