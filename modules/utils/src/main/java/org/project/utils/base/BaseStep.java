@@ -26,35 +26,37 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     protected HashMap<String, Class<?>> hashMap;
 
     public BaseStep(WebBaseConfig config)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        config(config);
-        init();
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+    {
+        init(config);
     }
 
     public BaseStep(WebBaseConfig config, Class<R> req, Class<M> modelClass)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        config(config);
-        init(req, modelClass);
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+    {
+        init(config, req, modelClass);
     }
 
     public BaseStep(WebBaseConfig config, R req, Class<M> modelClass) {
-        config(config);
-        init(req, modelClass);
+        init(config, req, modelClass);
     }
 
-    protected void init() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    protected void init(WebBaseConfig config) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+    {
         Class<R> t1 = getGenericClass();
         Class<M> t2 = getGenericClass(1);
-        init(t1, t2);
+        init(config, t1, t2);
     }
 
-    protected void init(Class<R> req, Class<M> modelClass)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        init(create(req), modelClass);
+    protected void init(WebBaseConfig config, Class<R> req, Class<M> modelClass)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
+    {
+        init(config, create(req), modelClass);
     }
 
-    protected void init(R req, Class<M> modelClass) {
+    protected void init(WebBaseConfig config, R req, Class<M> modelClass) {
         debug("BaseStep#init");
+        config(config);
         this.req = req;
         this.modelClass = modelClass;
         debug("req: " + req);
