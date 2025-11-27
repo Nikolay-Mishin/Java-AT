@@ -23,8 +23,6 @@ public class TestInvoke extends TestZip {
         getClazz("org.project.utils.test.TestInvoke::invokeName", "::");
         debug(getField("org.project.utils.test.TestInvoke::driver"));
         debug(getField("org.project.utils.test.TestInvoke"));
-        //debug(invoke("org.project.utils.test.TestInvoke", "invokeName"));
-        debug(invoke("org.project.utils.test.TestInvoke::invokeName"));
 
         try {debug(getField("org.project.utils.test.TestInvoke::invokeName"));}
         catch (ReflectiveOperationException e) {e.printStackTrace();}
@@ -34,6 +32,15 @@ public class TestInvoke extends TestZip {
 
         try {debug(invoke("org.project.utils.test.App1::invokeName"));}
         catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        try {debug("getClass: " + getClazz("org.project.utils.config.WebBaseConfig"));}
+        catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        try {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG"));}
+        catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        //debug(invoke("org.project.utils.test.TestInvoke", "invokeName"));
+        debug(invoke("org.project.utils.test.TestInvoke::invokeName"));
     }
 
     public static String invokeName() {

@@ -20,16 +20,16 @@ import static org.project.utils.test.TestFS.*;
 import static org.project.utils.test.TestInvoke.*;
 import static org.project.utils.test.TestReq.*;
 
-public class App extends TestZip {
-    protected static WebDriver driver;
+public class App extends TestInvoke {
     protected static WindowsDriver<WebElement> winDriver;
     protected static ChromeDriver webDriver;
     protected static RemoteWebDriver remoteDriver;
 
     public static void main(String[] args) throws IOException, ReflectiveOperationException, URISyntaxException {
         debug("App:main");
-        debug(configs());
-        new Step();
+        //debug(configs());
+        //new Step();
+        testInvoke();
         //testMain();
         //testApi();
         //testHeaders();
@@ -43,7 +43,6 @@ public class App extends TestZip {
         //testAuth();
         //testConfig();
         //testWinDriverConfig();
-        testInvoke();
         //testApi(true);
     }
 
