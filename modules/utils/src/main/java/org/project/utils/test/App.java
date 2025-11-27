@@ -3,7 +3,6 @@ package org.project.utils.test;
 import static java.lang.Long.valueOf;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 import io.appium.java_client.windows.WindowsDriver;
@@ -18,6 +17,7 @@ import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestConfig.*;
 import static org.project.utils.test.TestEntries.*;
 import static org.project.utils.test.TestFS.*;
+import static org.project.utils.test.TestInvoke.*;
 import static org.project.utils.test.TestReq.*;
 
 public class App extends TestZip {
@@ -26,9 +26,7 @@ public class App extends TestZip {
     protected static ChromeDriver webDriver;
     protected static RemoteWebDriver remoteDriver;
 
-    public static void main(String[] args)
-        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException, NoSuchFieldException
-    {
+    public static void main(String[] args) throws IOException, ReflectiveOperationException, URISyntaxException {
         debug("App:main");
         debug(configs());
         new Step();
@@ -77,19 +75,6 @@ public class App extends TestZip {
 
     public static void _long(Long id) {
         debug(id);
-    }
-
-    public static void testInvoke() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, NoSuchFieldException {
-        getClazz("org.project.utils.test.App", "::");
-        getClazz("org.project.utils.test.App::driver", "::");
-        getClazz("org.project.utils.test.App::invokeName", "::");
-        debug(getField("org.project.utils.test.App::driver"));
-        //invoke("org.project.utils.test.App", "invokeName");
-        invoke("org.project.utils.test.App::invokeName");
-    }
-
-    public static void invokeName() {
-        debug(toTable(configs()));
     }
 
 }
