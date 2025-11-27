@@ -1,5 +1,7 @@
 package org.project.utils.reflection;
 
+import static java.lang.reflect.Array.newInstance;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.*;
 import java.util.*;
@@ -75,7 +77,7 @@ public class Reflection {
 
     @Description("Get method of object")
     private static Method _getMethod(String get, Object obj, String method, Object... args) throws NoSuchMethodException {
-        Class<?> clazz = getClass(obj);
+        Class<?> clazz = getClazz(obj);
         Method _method;
         boolean declared = Objects.equals(get, "declared");
         get = declared ? "getDeclaredMethod" : "getMethod";
@@ -110,7 +112,7 @@ public class Reflection {
     }
 
     public static Class<?> getPrimitiveType(Object obj) {
-        Class<?> clazz = isInstance(obj, List.class) ? List.class : getClass(obj);
+        Class<?> clazz = isInstance(obj, List.class) ? List.class : getClazz(obj);
         String name = getClassSimpleName(clazz);
         return switch (name) {
             case ("Boolean") -> boolean.class;
@@ -124,38 +126,65 @@ public class Reflection {
         };
     }
 
-    public static Class<?> getClass(Object obj) {
+    @Description("Get ClassName of parse")
+    public static String parseClassName(String className) {
+        return parseClassName(className, "::", "$1,$2");
+    }
+
+    @Description("Get ClassName of parse")
+    public static String parseClassName(String className, String sep) {
+        return parseClassName(className, sep, "$1,$2");
+    }
+
+    @Description("Get ClassName of parse")
+    public static String parseClassName(String className, String sep, String replace) {
+        String parsedClassName = className.replaceAll("(.+)" + sep + "(.+)", replace);
+        debug("parseClassName: " + className.replaceAll("(.+)" + sep + "(.+)", "$1,$2"));
+        return parsedClassName;
+    }
+
+    public static Class<?> getClazz(Object obj) {
         Class<?> clazz = isClass(obj) ? (Class<?>) obj : obj.getClass();
         debug(clazz);
         return clazz;
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Class<T> getClass(String name) throws ClassNotFoundException {
+    public static <T> Class<T> getClazz(String name) throws ClassNotFoundException {
         return (Class<T>) Class.forName(name);
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends S, S> Class<T> asSubClass(String name, Class<S> subClass) throws ClassNotFoundException {
-        return (Class<T>) getClass(name).asSubclass(subClass);
+        return (Class<T>) getClazz(name).asSubclass(subClass);
     }
 
-    public static <T> Class<T> getClass(int index) throws ClassNotFoundException {
-        return getClass(getClassName(index + 1));
+    @Description("Get Class by className with parse")
+    public static <T> Class<T> getClazz(String className, String sep) throws ClassNotFoundException {
+        return getClazz(parseClassName(className, sep, "$1"));
     }
 
-    public static <T> Class<T> getClass(StackTraceElement stackTraceEl) throws ClassNotFoundException {
-        return getClass(getClassName(stackTraceEl));
+    @Description("Get Class by className with parse")
+    public static <T> Class<T> getClassParse(String className) throws ClassNotFoundException {
+        return getClazz(className, "::");
+    }
+
+    public static <T> Class<T> getClazz(int index) throws ClassNotFoundException {
+        return getClazz(getClassName(index + 1));
+    }
+
+    public static <T> Class<T> getClazz(StackTraceElement stackTraceEl) throws ClassNotFoundException {
+        return getClazz(getClassName(stackTraceEl));
     }
 
     public static String getClassName(Object obj) {
-        String name = getClass(obj).getName();
+        String name = getClazz(obj).getName();
         debug(name);
         return name;
     }
 
     public static String getClassSimpleName(Object obj) {
-        String name = getClass(obj).getSimpleName();
+        String name = getClazz(obj).getSimpleName();
         debug(name);
         return name;
     }
@@ -183,9 +212,9 @@ public class Reflection {
     //@SuppressWarnings("unchecked")
     public static <T> Class<T> getCallingClass(int index) throws ClassNotFoundException {
         //debug("getClassName: " + getClassName(index + 1));
-        //debug("getClass: " + getClass(index + 1));
+        //debug("getClazz: " + getClazz(index + 1));
         //return (Class<T>) Class.forName(getStackTraceEl(++index).getClassName());
-        return getClass(++index);
+        return getClazz(++index);
     }
 
     public static <T> Class<T> getCallingClass() throws ClassNotFoundException {
@@ -302,7 +331,7 @@ public class Reflection {
 
     @Description("Get property descriptors")
     public static List<PropertyDescriptor> getPropDescriptors(Object obj) {
-        PropertyDescriptor[] descList = getPropertyDescriptors(getClass(obj));
+        PropertyDescriptor[] descList = getPropertyDescriptors(getClazz(obj));
         debug(Arrays.toString(descList));
         return List.of(descList);
     }
@@ -330,6 +359,21 @@ public class Reflection {
         return instance;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T[] arrInstance(Class<?> clazz, int size) {
+        T[] instance = (T[]) newInstance(clazz, size);
+        debug(instance);
+        return instance;
+    }
+
+    public static <T> T[] arrInstance(T[] a, int size) {
+        return arrInstance(getType(a), size);
+    }
+
+    public static Class<?> getType(Object o) {
+        return getClazz(o).getComponentType();
+    }
+
     public static Class<?>[] getTypes(Object... args) {
         return _getTypes(false, args);
     }
@@ -352,9 +396,22 @@ public class Reflection {
         return _method;
     }
 
+    @Description("Get className and method or field")
+    public static String[] getInvoke(String className) {
+        return parseClassName(className, "::").split(",");
+    }
+
+    @Description("Invoke method of className with parse")
+    public static <T> T invoke(String className, Object... args)
+        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException
+    {
+        String[] invoke = getInvoke(className);
+        return invoke(getClazz(invoke[0]), invoke[1], args); // вызов метода с аргументами
+    }
+
     @Description("Invoke method of className")
     public static <T> T invoke(String className, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
-        return invoke(getClass(className), method, args); // вызов метода с аргументами
+        return invoke(getClazz(className), method, args); // вызов метода с аргументами
     }
 
     @Description("Invoke method of object")
@@ -379,8 +436,14 @@ public class Reflection {
     }
 
     @Description("Get field")
+    public static Field field(String className) throws NoSuchFieldException, ClassNotFoundException {
+        String[] invoke = getInvoke(className);
+        return field(getClazz(invoke[0]), invoke[1]);
+    }
+
+    @Description("Get field")
     public static Field field(Object obj, String name) throws NoSuchFieldException {
-        return field(getClass(obj), name);
+        return field(getClazz(obj), name);
     }
 
     //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
@@ -395,11 +458,23 @@ public class Reflection {
     }
 
     @Description("Get field value")
+    public static Object getField(String className) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+        String[] invoke = getInvoke(className);
+        return getField(getClazz(invoke[0]), invoke[1]);
+    }
+
+    @Description("Get field value")
     public static Object getField(Object obj, String name) throws NoSuchFieldException, IllegalAccessException {
         return field(obj, name, field -> {
             try {return field.get(obj);}
             catch (IllegalAccessException e) {throw new RuntimeException(e);}
         });
+    }
+
+    @Description("Set field value")
+    public static Object setField(String className, Object value) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
+        String[] invoke = getInvoke(className);
+        return setField(getClazz(invoke[0]), invoke[1], value);
     }
 
     @Description("Set field value")
