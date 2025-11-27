@@ -5,18 +5,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 import static io.restassured.http.ContentType.ANY;
-import static org.project.utils.request.RequestOptions.getHeaders;
 import static org.testng.Assert.assertEquals;
 
-import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
+import io.restassured.specification.*;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
+import static org.project.utils.request.RequestOptions.getHeaders;
 
-import io.restassured.specification.FilterableRequestSpecification;
-import io.restassured.specification.RequestSpecification;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.request.Request;
 
@@ -80,10 +78,6 @@ public class TestApi {
         debug(req.cookies());
         debug(req.detailedCookies());
         debug(req.sessionId());
-        debug(req.auth());
-        debug(req.auth().basic("login", "password"));
-        debug(req.auth());
-
 
         //req.header("Authorization", "");
         //req.header("Cache-Control", "no-cache");
@@ -108,6 +102,18 @@ public class TestApi {
         debug(req.getHeaders());
         debug(new Headers());
         debug(getHeaders(spec));
+
+        AuthenticationSpecification authSpec = req.auth();
+        RequestSpecification authBasic = req.auth().basic("login", "password");
+        RequestSpecification oauth2 = req.auth().oauth2("token");
+
+        debug(authSpec);
+        debug(authBasic);
+        debug(getHeaders(authBasic));
+        debug(req.auth());
+        debug(getHeaders(oauth2));
+        debug(new Headers());
+        debug(req.getHeaders());
     }
 
 }
