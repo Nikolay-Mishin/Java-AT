@@ -101,7 +101,8 @@
       <version>5.0.5-SNAPSHOT</version>
       <version>5.1.0-SNAPSHOT</version>
       <version>5.2.0-SNAPSHOT</version>
+      <version>5.2.1-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20251127164333</lastUpdated>
+    <lastUpdated>20251127173652</lastUpdated>
   </versioning>
 </metadata>
