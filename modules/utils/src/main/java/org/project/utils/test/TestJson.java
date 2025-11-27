@@ -17,9 +17,7 @@ import org.project.utils.request.Request;
 
 public class TestJson extends TestApi {
 
-    public static void main(String[] args)
-        throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException, ClassNotFoundException, InstantiationException, NoSuchFieldException
-    {
+    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
         testJson();
     }
 
