@@ -16,6 +16,8 @@ import jdk.jfr.Description;
 import static org.project.utils.Helper.*;
 
 import org.project.utils.exception.AssertException;
+import org.project.utils.function.BiFunctionWithExceptions;
+import org.project.utils.function.TriFunctionWithExceptions;
 
 public class Reflection {
 
@@ -396,17 +398,27 @@ public class Reflection {
         return _method;
     }
 
-    @Description("Get className and method or field")
+    @Description("Get method or field by className")
     public static String[] getInvoke(String className) {
         return parseClassName(className, "::").split(",");
     }
 
-    @Description("Invoke method of className with parse")
-    public static <T> T invoke(String className, Object... args)
-        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException
-    {
+    @SafeVarargs
+    @Description("Get method or field by className")
+    public static <T, R, E extends Exception> R invoke(String className, TriFunctionWithExceptions<Class<?>, String, T[], R, E> cb, T... args) throws ClassNotFoundException, E {
         String[] invoke = getInvoke(className);
-        return invoke(getClazz(invoke[0]), invoke[1], args); // вызов метода с аргументами
+        return invoke.length == 1 ? null : cb.apply(getClazz(invoke[0]), invoke[1], args);
+    }
+
+    @Description("Get method or field by className")
+    public static <R, E extends Exception> R invoke(String className, BiFunctionWithExceptions<Class<?>, String, R, E> cb) throws ReflectiveOperationException, E {
+        String[] invoke = getInvoke(className);
+        return invoke.length == 1 ? null : cb.apply(getClazz(invoke[0]), invoke[1]);
+    }
+
+    @Description("Invoke method of className with parse")
+    public static <T> T invoke(String className, Object... args) throws ReflectiveOperationException {
+        return invoke(className, Reflection::invoke, args);
     }
 
     @Description("Invoke method of className")
@@ -436,9 +448,8 @@ public class Reflection {
     }
 
     @Description("Get field")
-    public static Field field(String className) throws NoSuchFieldException, ClassNotFoundException {
-        String[] invoke = getInvoke(className);
-        return field(getClazz(invoke[0]), invoke[1]);
+    public static Field field(String className) throws ReflectiveOperationException {
+        return invoke(className, Reflection::field);
     }
 
     @Description("Get field")
@@ -458,9 +469,8 @@ public class Reflection {
     }
 
     @Description("Get field value")
-    public static Object getField(String className) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
-        String[] invoke = getInvoke(className);
-        return getField(getClazz(invoke[0]), invoke[1]);
+    public static Object getField(String className) throws ReflectiveOperationException {
+        return invoke(className, Reflection::getField);
     }
 
     @Description("Get field value")
@@ -472,9 +482,8 @@ public class Reflection {
     }
 
     @Description("Set field value")
-    public static Object setField(String className, Object value) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
-        String[] invoke = getInvoke(className);
-        return setField(getClazz(invoke[0]), invoke[1], value);
+    public static Object setField(String className, Object value) throws ReflectiveOperationException {
+        return invoke(className, Reflection::setField, value);
     }
 
     @Description("Set field value")
