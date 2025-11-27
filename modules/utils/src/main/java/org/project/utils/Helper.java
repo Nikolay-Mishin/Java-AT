@@ -3,7 +3,6 @@ package org.project.utils;
 import static java.lang.String.join;
 import static java.lang.System.*;
 import static java.text.MessageFormat.format;
-import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 
 import java.lang.reflect.*;
@@ -17,7 +16,7 @@ import static org.testng.collections.Lists.newArrayList;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.*;
 
 import static org.project.utils.config.Config.debugLvl;
 import static org.project.utils.reflection.Reflection.*;
@@ -40,16 +39,31 @@ public class Helper {
         if (debugLvl() >= debugLvl) debug(msg, args);
     }
 
-    public static <A> List<A> newArrayList(A[] array) {
+    @SafeVarargs
+    public static <T> List<List<T>> table(T[]... row) {
+        return toList(row, List[]::new, Helper::arrayList);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <K, V> List<List<V>> toTable(Map<K, V> map) {
+        return toList(map.keySet(), List[]::new, (K k) -> (List<V>) newArrayList(k, map.get(k)));
+    }
+
+    public static <A> List<A> arrayList(A[] array) {
         return new ArrayList<>(List.of(array));
     }
 
-    public static <T> List<List<T>> table(T[]... row) {
-        return toList(row, List[]::new, Helper::newArrayList);
+    @SafeVarargs
+    public static <T> List<T> newArrayList(T... array) {
+        return arrayList(array);
     }
 
     public static <A> List<A> toList(A[] array) {
         return stream(array).toList();
+    }
+
+    public static <A, T> List<T> toList(Set<A> set, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return toList(map(set, generator, mapper));
     }
 
     public static <A, T> List<T> toList(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
@@ -71,7 +85,7 @@ public class Helper {
     //public static <I> List<I> toList(Iterator<I> iterator) {
     //public static <T, I> ImmutableList<T> toList(Iterator<I> iterator) {
     public static <T, I> List<T> toList(Iterator<I> iterator) {
-        //return newArrayList(iterator);
+        //return arrayList(iterator);
         //return copyOf(iterator);
         return IteratorUtils.toList(iterator);
     }
@@ -83,6 +97,10 @@ public class Helper {
     public static <T, I> List<T> toList(Iterator<I> iterator, Predicate<T> filter) {
         //return ((List<T>) toList(iterator)).stream().filter(filter).toList();
         return filter(toList(iterator), filter);
+    }
+
+    public static <A, T> T[] map(Set<A> set, IntFunction<T[]> generator, Function<A, T> mapper) {
+        return map((A[]) set.toArray(), generator, mapper);
     }
 
     public static <A, T> T[] map(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
@@ -113,8 +131,26 @@ public class Helper {
             .toList();
     }
 
+    public static <A> A[] concat(A[] a, A[] b) {
+        return Stream.concat(stream(a), stream(b)).toArray(size -> arrInstance(a, size));
+    }
+
+    public static <A> A[] concatUtils(A[] a, A[] b) {
+        return (A[]) ArrayUtils.addAll(a, b);
+    }
+
+    public static <A> A[] concatAll(A[] a, A... array) {
+        return org.apache.commons.lang3.ArrayUtils.addAll(a, array);
+    }
+
+    @SafeVarargs
+    public static <T> Collection<T> addAll(Collection<T> c, T @NotNull ... elements) {
+        Collections.addAll(c, elements);
+        return c;
+    }
+
     private static Boolean is(Object type, Class<?> clazz) {
-        return type == clazz;
+        return type == clazz || isInstance(type, clazz);
     }
 
     public static Charset defaultCharset() {
@@ -162,7 +198,11 @@ public class Helper {
     }
 
     public static Boolean isParseType(Object type) {
-        return isBool(type) || isInt(type) || isFloat(type)  || isLong(type) || isDouble(type) || isShort(type) || isByte(type);
+        return isString(type) || isBool(type) || isInt(type) || isFloat(type)  || isLong(type) || isDouble(type) || isShort(type) || isByte(type);
+    }
+
+    public static Boolean isString(Object type) {
+        return isInstance(type, String.class);
     }
 
     public static Boolean isBool(Object type) {
@@ -246,7 +286,7 @@ public class Helper {
 
     public static <T> T[] rotate(T[] arr, int distance) {
         //List<T> list = asList(arr); // меняет исходный массив (работает как ссылка)
-        List<T> list = newArrayList(arr);
+        List<T> list = arrayList(arr);
         Collections.rotate(list, distance);
         return (T[]) list.toArray();
     }
@@ -256,36 +296,32 @@ public class Helper {
         return (T[]) ArrayUtils.remove(arr, index);
     }
 
+    public static <T, E> ArrayList<T> addEntries(ArrayList<T> entries, E @NotNull ... elements) {
+        entries.add((T) addAll(new ArrayList<>(), elements));
+        return entries;
+    }
+
+    public static <K, V> Map<K, V> putEntries(Map<K, V> entries, K key, V value) {
+        entries.put(key, value);
+        return entries;
+    }
+
     public static Map<String, Object> entries(Object obj) {
         return entries(obj, new HashMap<>(), (field, entries) -> {
-            try {entries.put(fieldName(field), field.get(obj));}
+            try {return (HashMap<String, Object>) putEntries(entries, fieldName(field), field.get(obj));}
             catch (IllegalAccessException e) {throw new RuntimeException(e);}
-            return entries;
         });
     }
 
     public static List<Object[]> entriesList(Object obj) {
         return entries(obj, new ArrayList<>(), (field, entries) -> {
-            try {
-                Collection<Object> objects = new ArrayList<>();
-                Collections.addAll(objects, fieldName(field), field.get(obj));
-                entries.add(objects.toArray());
-            }
+            try {return addEntries(entries, fieldName(field), field.get(obj));}
             catch (IllegalAccessException e) {throw new RuntimeException(e);}
-            return entries;
         });
     }
 
     public static Object[] entriesArray(Object obj) {
-        return entries(obj, new ArrayList<>(), (field, entries) -> {
-            try {
-                Collection<Object> objects = new ArrayList<>();
-                Collections.addAll(objects, fieldName(field), field.get(obj));
-                entries.add(objects.toArray());
-            }
-            catch (IllegalAccessException e) {throw new RuntimeException(e);}
-            return entries;
-        }).toArray();
+        return entriesList(obj).toArray();
     }
 
     // See:

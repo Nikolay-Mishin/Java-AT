@@ -13,7 +13,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.configs;
-import static org.project.utils.reflection.Reflection.invoke;
+import static org.project.utils.reflection.Reflection.*;
 import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestConfig.*;
 import static org.project.utils.test.TestEntries.*;
@@ -43,8 +43,8 @@ public class App extends TestZip {
         //testEntries();
         //testReq();
         //testAuth();
-        testConfig();
-        testWinDriverConfig();
+        //testConfig();
+        //testWinDriverConfig();
         testInvoke();
         //testApi(true);
     }
@@ -79,12 +79,17 @@ public class App extends TestZip {
         debug(id);
     }
 
-    public static void testInvoke() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        invoke("org.project.utils.test.App", "invokeName");
+    public static void testInvoke() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, NoSuchFieldException {
+        getClazz("org.project.utils.test.App", "::");
+        getClazz("org.project.utils.test.App::driver", "::");
+        getClazz("org.project.utils.test.App::invokeName", "::");
+        debug(getField("org.project.utils.test.App::driver"));
+        //invoke("org.project.utils.test.App", "invokeName");
+        invoke("org.project.utils.test.App::invokeName");
     }
 
     public static void invokeName() {
-        debug(configs());
+        debug(toTable(configs()));
     }
 
 }

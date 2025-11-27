@@ -58,6 +58,13 @@ public class TestJson extends TestApi {
         debug(json.arrayToMap("downloads.chromedriver"));
         debug(json.toMap("downloads.chromedriver", o -> ((JSONObject) o).get("platform").equals("win64")));
 
+        debug(toTable(map0));
+        debug(toTable(map));
+        debug(json.toTable());
+        debug(json.arrayToTable("downloads.chromedriver"));
+        debug(json.toTable("downloads.chromedriver", "platform", "win64"));
+        debug(json.toTable("downloads.chromedriver", o -> ((JSONObject) o).get("platform").equals("win64")));
+
         new Request(GET, "path", 1).uri("https://googlechromelabs.github.io/");
 
         debug(map0);

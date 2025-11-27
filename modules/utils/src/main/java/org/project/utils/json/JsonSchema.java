@@ -75,6 +75,10 @@ public class JsonSchema {
         return delimiter = s;
     }
 
+    public static List<List<Object>> toTable(JSONObject o) {
+        return Helper.toTable(toMap(o));
+    }
+
     public static Map<String, Object> toMap(JSONObject o) {
         return o.toMap();
     }
@@ -114,6 +118,26 @@ public class JsonSchema {
 
     public JsonSchema path(Object... pathList) throws IOException {
         return _path(pathList);
+    }
+
+    public List<List<Object>> toTable() {
+        return toTable(jsonData);
+    }
+
+    public List<List<Object>> toTable(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return Helper.toTable(toMap(k));
+    }
+
+    public List<List<Object>> arrayToTable(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return Helper.toTable(arrayToMap(k));
+    }
+
+    public List<List<Object>> toTable(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return Helper.toTable(toMap(key, k, v));
+    }
+
+    public <T> List<List<Object>> toTable(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return Helper.toTable(toMap(k, filter));
     }
 
     public Map<String, Object> toMap() {
