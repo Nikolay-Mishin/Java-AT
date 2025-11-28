@@ -12,8 +12,6 @@ import io.cucumber.java.en.*;
 
 import org.project.utils.base.BaseStep;
 
-import static config.WebConfig.BASE_CONFIG;
-
 import pojo.gen.store.order.Order;
 import requests.order.OrderGenRequests;
 
@@ -21,7 +19,6 @@ public class OrderGenStep extends BaseStep<OrderGenRequests, Order> {
 
     @ConstructorProperties({})
     public OrderGenStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        super(BASE_CONFIG);
     }
 
     @When("создать заказ gen статус {int}")

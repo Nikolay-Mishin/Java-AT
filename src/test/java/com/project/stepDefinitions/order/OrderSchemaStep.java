@@ -12,8 +12,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.project.utils.base.BaseStep;
 
-import static config.WebConfig.BASE_CONFIG;
-
 import pojo.schema.store.order.OrderSchema;
 import requests.order.OrderSchemaRequests;
 
@@ -21,7 +19,6 @@ public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> 
 
     @ConstructorProperties({})
     public OrderSchemaStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        super(BASE_CONFIG);
     }
 
     @When("создать заказ schema статус {int}")

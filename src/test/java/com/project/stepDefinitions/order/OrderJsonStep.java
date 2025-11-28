@@ -12,8 +12,6 @@ import io.cucumber.java.en.*;
 
 import org.project.utils.base.BaseStep;
 
-import static config.WebConfig.BASE_CONFIG;
-
 import pojo.json.store.order.Order;
 import requests.order.OrderJsonRequests;
 
@@ -21,7 +19,6 @@ public class OrderJsonStep extends BaseStep<OrderJsonRequests, Order> {
 
     @ConstructorProperties({})
     public OrderJsonStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        super(BASE_CONFIG);
     }
 
     @When("создать заказ json статус {int}")

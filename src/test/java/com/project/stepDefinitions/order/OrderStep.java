@@ -13,8 +13,6 @@ import io.cucumber.java.en.*;
 
 import org.project.utils.base.BaseStep;
 
-import static config.WebConfig.BASE_CONFIG;
-
 import models.order.Order;
 import requests.order.OrderRequests;
 
@@ -22,7 +20,6 @@ public class OrderStep extends BaseStep<OrderRequests, Order> {
 
     @ConstructorProperties({})
     public OrderStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        super(BASE_CONFIG);
     }
 
     @When("создать заказ статус {int}")

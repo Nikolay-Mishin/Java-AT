@@ -16,8 +16,6 @@ import static org.project.utils.Helper.debug;
 
 import org.project.utils.base.*;
 
-import static config.WebConfig.BASE_CONFIG;
-
 import models.pet.*;
 import requests.PetRequests;
 
@@ -25,7 +23,7 @@ public class PetStep extends BaseStep<PetRequests, Pet> {
 
     @ConstructorProperties({})
     public PetStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        super(BASE_CONFIG);
+        super();
         hashMap = new HashMap<String, Class<?>>("category", "tags").values(Category.class, TagsItem.class);
     }
 

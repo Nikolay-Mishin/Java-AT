@@ -8,7 +8,11 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     features = "src/test/resources/features", // директория тестов
     glue = "com.project", // название проекта
-    plugin = {"pretty", "html:results.html", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"} // формат вывода результата
+    plugin = {"pretty", "html:results.html", // формат вывода результата
+        "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+        "event.CucumberEventListener:config.WebConfig::BASE_CONFIG",
+        "event.CucumberEventListener:config.WebConfig"
+    }
 )
 public class ApiTest {
 }
