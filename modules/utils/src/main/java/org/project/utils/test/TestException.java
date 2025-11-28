@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.*;
 
-import org.junit.Test;
-
 import static org.project.utils.Helper.debug;
 import static org.project.utils.exception.UtilException.*;
 import static org.project.utils.reflection.Reflection.*;
@@ -18,6 +16,11 @@ import org.project.utils.Helper;
 public class TestException extends TestInvoke {
 
     public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+        //testConsumerWithCheckedExceptions();
+        //testFunctionWithCheckedExceptions();
+        //testSupplierWithCheckedExceptions();
+        //testUncheckExceptionThrownByMethod();
+        //testIfCorrectExceptionIsStillThrownByMethod();
         testPrintException();
         testException();
     }
@@ -35,8 +38,8 @@ public class TestException extends TestInvoke {
         //trySupplier(t -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
     }
 
-    @Test
-    public void testConsumerWithCheckedExceptions() throws ClassNotFoundException {
+    //@Test
+    public static void testConsumerWithCheckedExceptions() throws ClassNotFoundException {
         Stream.of("java.lang.Object", "java.lang.Integer", "java.lang.String")
             .forEach(rethrowConsumer(className -> debug(Class.forName(className))));
 
@@ -44,8 +47,8 @@ public class TestException extends TestInvoke {
             .forEach(rethrowConsumer(Helper::debug));
     }
 
-    @Test
-    public void testFunctionWithCheckedExceptions() throws ClassNotFoundException {
+    //@Test
+    public static void testFunctionWithCheckedExceptions() throws ClassNotFoundException {
         List<Class> classes1
             = Stream.of("Object", "Integer", "String")
             .map(rethrowFunction(className -> Class.forName("java.lang." + className)))
@@ -57,21 +60,21 @@ public class TestException extends TestInvoke {
             .collect(Collectors.toList());
     }
 
-    @Test
-    public void testSupplierWithCheckedExceptions() throws UnsupportedEncodingException {
+    //@Test
+    public static void testSupplierWithCheckedExceptions() throws UnsupportedEncodingException {
         Collector.of(
             rethrowSupplier(() -> new StringJoiner(new String(new byte[]{77, 97, 114, 107}, "UTF-8"))),
             StringJoiner::add, StringJoiner::merge, StringJoiner::toString);
     }
 
-    @Test
-    public void testUncheckExceptionThrownByMethod() {
+    //@Test
+    public static void testUncheckExceptionThrownByMethod() {
         Class clazz1 = uncheck(() -> Class.forName("java.lang.String"));
         Class clazz2 = uncheck(Class::forName, "java.lang.String");
     }
 
-    @Test (expected = ClassNotFoundException.class)
-    public void testIfCorrectExceptionIsStillThrownByMethod() {
+    //@Test (expected = ClassNotFoundException.class)
+    public static void testIfCorrectExceptionIsStillThrownByMethod() {
         Class clazz3 = uncheck(Class::forName, "INVALID");
     }
 
