@@ -1,7 +1,6 @@
 package event;
 
 import static java.lang.System.out;
-import static org.project.utils.Helper.debug;
 import static org.project.utils.exception.UtilException.tryConsumerWithPrint;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
@@ -23,7 +22,7 @@ public class CucumberEventListener extends CucumberBaseEventListener {
     public CucumberEventListener(String arg) throws ReflectiveOperationException {
         super(arg);
         //setEventHandler();
-        tryConsumerWithPrint(t -> debug("getClass: " + getClazz(arg)));
+        tryConsumerWithPrint(t -> out.println("getClass: " + getClazz(arg)));
         tryConsumerWithPrint(() -> out.println("getField: " + getField(arg)));
     }
 }

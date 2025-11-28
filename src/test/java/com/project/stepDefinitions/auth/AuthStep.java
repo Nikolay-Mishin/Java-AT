@@ -12,8 +12,6 @@ import static org.project.utils.base.Register.printRegisterMap;
 import org.project.utils.auth.Auth;
 import org.project.utils.base.BaseStep;
 
-import static config.WebConfig.BASE_CONFIG;
-
 import pojo.json.auth.Token;
 import requests.auth.AuthRequests;
 
@@ -21,7 +19,6 @@ public class AuthStep extends BaseStep<AuthRequests, Token> {
 
     @ConstructorProperties({})
     public AuthStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        super(BASE_CONFIG);
     }
 
     @When("авторизоваться")

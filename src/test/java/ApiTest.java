@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
     glue = "com.project", // название проекта
     plugin = {"pretty", "html:results.html", // формат вывода результата
         "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
-        "event.CucumberEventListener:config.WebConfig::BASE_CONFIG",
         "event.CucumberEventListener:config.WebConfig"
     }
 )
