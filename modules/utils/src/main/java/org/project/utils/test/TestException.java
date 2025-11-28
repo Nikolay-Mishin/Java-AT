@@ -1,6 +1,8 @@
 package org.project.utils.test;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.*;
@@ -9,10 +11,34 @@ import org.junit.Test;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.exception.UtilException.*;
+import static org.project.utils.reflection.Reflection.*;
 
 import org.project.utils.Helper;
 
-public final class TestException {
+public class TestException extends TestInvoke {
+
+    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+        testException();
+    }
+
+    public static void testException() {
+        try {debug(getField("org.project.utils.test.TestInvoke::invokeName"));}
+        catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        try {debug(invoke("org.project.utils.test.TestInvoke::invokeName1"));}
+        catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        try {debug(invoke("org.project.utils.test.App1::invokeName"));}
+        catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        try {debug("getClass: " + getClazz("org.project.utils.config.WebBaseConfig"));}
+        catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        try {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG"));}
+        catch (ReflectiveOperationException e) {e.printStackTrace();}
+
+        //tryCatch(() -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
+    }
 
     @Test
     public void testConsumerWithCheckedExceptions() throws ClassNotFoundException {

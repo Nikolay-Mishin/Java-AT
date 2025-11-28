@@ -12,15 +12,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.configs;
-import static org.project.utils.reflection.Reflection.*;
 import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestConfig.*;
 import static org.project.utils.test.TestEntries.*;
 import static org.project.utils.test.TestFS.*;
-import static org.project.utils.test.TestInvoke.*;
 import static org.project.utils.test.TestReq.*;
 
-public class App extends TestInvoke {
+public class App extends TestException {
     protected static WindowsDriver<WebElement> winDriver;
     protected static ChromeDriver webDriver;
     protected static RemoteWebDriver remoteDriver;
@@ -29,7 +27,6 @@ public class App extends TestInvoke {
         debug("App:main");
         //debug(configs());
         //new Step();
-        testInvoke();
         //testMain();
         //testApi();
         //testHeaders();
@@ -43,6 +40,8 @@ public class App extends TestInvoke {
         //testAuth();
         //testConfig();
         //testWinDriverConfig();
+        testInvoke();
+        testException();
         //testApi(true);
     }
 
