@@ -18,27 +18,20 @@ import org.project.utils.Helper;
 public class TestException extends TestInvoke {
 
     public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+        testPrintException();
         testException();
     }
 
+    public static void testPrintException() throws ReflectiveOperationException {
+        tryConsumerWithPrint(t -> debug(getField("org.project.utils.test.TestInvoke::invokeName")));
+        tryConsumerWithPrint(t -> debug(invoke("org.project.utils.test.TestInvoke::invokeName1")));
+        tryConsumerWithPrint(t -> debug(invoke("org.project.utils.test.App1::invokeName")));
+    }
+
     public static void testException() throws ReflectiveOperationException {
-        try {debug(getField("org.project.utils.test.TestInvoke::invokeName"));}
-        catch (ReflectiveOperationException e) {e.printStackTrace();}
-
-        try {debug(invoke("org.project.utils.test.TestInvoke::invokeName1"));}
-        catch (ReflectiveOperationException e) {e.printStackTrace();}
-
-        try {debug(invoke("org.project.utils.test.App1::invokeName"));}
-        catch (ReflectiveOperationException e) {e.printStackTrace();}
-
-        try {debug("getClass: " + getClazz("org.project.utils.config.WebBaseConfig"));}
-        catch (ReflectiveOperationException e) {e.printStackTrace();}
-
-        try {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG"));}
-        catch (ReflectiveOperationException e) {e.printStackTrace();}
-
-        tryCatch(t -> {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")); return t;});
-        tryConsumer(t -> {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG"));});
+        tryConsumer(t -> debug("getClass: " + getClazz("org.project.utils.config.WebBaseConfig")));
+        tryConsumer(t -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
+        trySupplier(t -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
     }
 
     @Test

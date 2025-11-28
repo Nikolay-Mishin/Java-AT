@@ -41,6 +41,7 @@ public class App extends TestException {
         //testConfig();
         //testWinDriverConfig();
         testInvoke();
+        testPrintException();
         testException();
         //testApi(true);
     }
