@@ -23,7 +23,7 @@ public class App extends TestException {
     protected static ChromeDriver webDriver;
     protected static RemoteWebDriver remoteDriver;
 
-    public static void main(String[] args) throws IOException, ReflectiveOperationException, URISyntaxException {
+    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("App:main");
         //debug(configs());
         //new Step();
