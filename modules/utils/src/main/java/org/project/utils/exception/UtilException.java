@@ -58,4 +58,42 @@ public final class UtilException {
     @SuppressWarnings ("unchecked")
     private static <E extends Throwable> void throwAsUnchecked(Exception exception) throws E { throw (E)exception; }
 
+    public static <T, R, E extends Exception> Function<T, R> tryCatch(FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryCatch(cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <T, R, E extends Exception> Function<T, R> tryWithPrint(FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryCatch(cb, e -> { e.printStackTrace(); return null; });
+    }
+
+    public static <T, R, E extends Exception> Function<T, R> tryWithIgnore(FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryCatch(cb, e -> null);
+    }
+
+    public static <T, R, E extends Exception> Function<T, R> tryCatch(FunctionWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+        return t -> {
+            try { return cb.apply(t); }
+            catch (Exception e) { return catchCb.apply(e); }
+        };
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> Function<T, R> tryRes(S res, FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryRes(res, cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> Function<T, R> tryResWithPrint(S res, FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryRes(res, cb, e -> { e.printStackTrace(); return null; });
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> Function<T, R> tryResWithIgnore(S res, FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryRes(res, cb, e -> null);
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> Function<T, R> tryRes(S res, FunctionWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+        return t -> {
+            try (res) { return cb.apply(t); }
+            catch (Exception e) { return catchCb.apply(e); }
+        };
+    }
+
 }
