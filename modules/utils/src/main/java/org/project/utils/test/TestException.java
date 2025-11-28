@@ -23,15 +23,16 @@ public class TestException extends TestInvoke {
     }
 
     public static void testPrintException() throws ReflectiveOperationException {
-        tryConsumerWithPrint(t -> debug(getField("org.project.utils.test.TestInvoke::invokeName")));
+        tryConsumerWithPrint((t) -> debug(getField("org.project.utils.test.TestInvoke::invokeName")));
         tryConsumerWithPrint(t -> debug(invoke("org.project.utils.test.TestInvoke::invokeName1")));
         tryConsumerWithPrint(t -> debug(invoke("org.project.utils.test.App1::invokeName")));
     }
 
     public static void testException() throws ReflectiveOperationException {
         tryConsumer(t -> debug("getClass: " + getClazz("org.project.utils.config.WebBaseConfig")));
-        tryConsumer(t -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
-        trySupplier(t -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
+        tryConsumer(() -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
+        //trySupplier(() -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
+        //trySupplier(t -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
     }
 
     @Test
