@@ -21,7 +21,7 @@ public class TestException extends TestInvoke {
         testException();
     }
 
-    public static void testException() {
+    public static void testException() throws ReflectiveOperationException {
         try {debug(getField("org.project.utils.test.TestInvoke::invokeName"));}
         catch (ReflectiveOperationException e) {e.printStackTrace();}
 
@@ -37,7 +37,8 @@ public class TestException extends TestInvoke {
         try {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG"));}
         catch (ReflectiveOperationException e) {e.printStackTrace();}
 
-        //tryCatch(() -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
+        tryCatch(t -> {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")); return t;});
+        tryConsumer(t -> {debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG"));});
     }
 
     @Test

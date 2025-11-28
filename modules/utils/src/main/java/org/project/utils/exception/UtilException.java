@@ -96,4 +96,43 @@ public final class UtilException {
         };
     }
 
+    public static <T, E extends Exception> Consumer<T> tryConsumer(ConsumerWithExceptions<T, E> cb) throws E {
+        return tryConsumer(cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <T, R, E extends Exception> Consumer<T> tryConsumerWithPrint(ConsumerWithExceptions<T, E> cb) throws E {
+        return tryConsumer(cb, e -> { e.printStackTrace(); });
+    }
+
+    public static <T, R, E extends Exception> Consumer<T> tryConsumerWithIgnore(ConsumerWithExceptions<T, E> cb) throws E {
+        return tryConsumer(cb, e -> {});
+    }
+
+    public static <T, E extends Exception> Consumer<T> tryConsumer(ConsumerWithExceptions<T, E> cb, Consumer<Exception> catchCb) throws E {
+        return t -> {
+            try { cb.accept(t); }
+            catch (Exception e) { catchCb.accept(e); }
+        };
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> Consumer<T> tryResConsumer(S res, ConsumerWithExceptions<T, E> cb) throws E {
+        return tryResConsumer(res, cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> Consumer<T> tryResConsumerWithPrint(S res, ConsumerWithExceptions<T, E> cb) throws E {
+        return tryResConsumer(res, cb, e -> { e.printStackTrace(); });
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> Consumer<T> tryResConsumerWithIgnore(S res, ConsumerWithExceptions<T, E> cb) throws E {
+        return tryResConsumer(res, cb, e -> {});
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> Consumer<T> tryResConsumer(S res, ConsumerWithExceptions<T, E> cb, Consumer<Exception> catchCb)
+        throws E
+    {
+        return t -> {
+            try (res) { cb.accept(t); }
+            catch (Exception e) { catchCb.accept(e); }
+        };
+    }
 }
