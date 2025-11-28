@@ -25,7 +25,7 @@ public class TestException extends TestInvoke {
     public static void testPrintException() throws ReflectiveOperationException {
         tryConsumerWithPrint((t) -> debug(getField("org.project.utils.test.TestInvoke::invokeName")));
         tryConsumerWithPrint(t -> debug(invoke("org.project.utils.test.TestInvoke::invokeName1")));
-        tryConsumerWithPrint(t -> debug(invoke("org.project.utils.test.App1::invokeName")));
+        tryConsumerWithPrint(() -> debug(invoke("org.project.utils.test.App1::invokeName")));
     }
 
     public static void testException() throws ReflectiveOperationException {

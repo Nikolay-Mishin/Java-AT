@@ -113,6 +113,14 @@ public final class UtilException {
         tryConsumer(cb, e -> { throw new RuntimeException(e); });
     }
 
+    public static <T, E extends Exception> void tryConsumerWithPrint(ConsumerVoidWithExceptions<T, E> cb) throws E {
+        tryConsumer(cb, e -> { e.printStackTrace(); });
+    }
+
+    public static <T, E extends Exception> void tryConsumerWithIgnore(ConsumerVoidWithExceptions<T, E> cb) throws E {
+        tryConsumer(cb, e -> {});
+    }
+
     public static <T, E extends Exception> void tryConsumer(ConsumerVoidWithExceptions<T, E> cb, Consumer<Exception> catchCb) throws E {
         try { cb.accept(); }
         catch (Exception e) { catchCb.accept(e); }
@@ -141,6 +149,23 @@ public final class UtilException {
 
     public static <S extends AutoCloseable, T, E extends Exception> void tryResConsumer(S res, ConsumerWithExceptions<T, E> cb, Consumer<Exception> catchCb) throws E {
         try (res) { cb.accept(null); }
+        catch (Exception e) { catchCb.accept(e); }
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> void tryResConsumer(S res, ConsumerVoidWithExceptions<T, E> cb) throws E {
+        tryResConsumer(res, cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> void tryResConsumerWithPrint(S res, ConsumerVoidWithExceptions<T, E> cb) throws E {
+        tryResConsumer(res, cb, e -> { e.printStackTrace(); });
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> void tryResConsumerWithIgnore(S res, ConsumerVoidWithExceptions<T, E> cb) throws E {
+        tryResConsumer(res, cb, e -> {});
+    }
+
+    public static <S extends AutoCloseable, T, E extends Exception> void tryResConsumer(S res, ConsumerVoidWithExceptions<T, E> cb, Consumer<Exception> catchCb) throws E {
+        try (res) { cb.accept(); }
         catch (Exception e) { catchCb.accept(e); }
     }
 }
