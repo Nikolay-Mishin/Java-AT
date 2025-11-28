@@ -10,7 +10,7 @@ import org.project.utils.config.*;
 
 public class TestConfig extends App {
 
-    public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void main(String[] args) throws ReflectiveOperationException {
         testConfig();
         testWinDriverConfig();
     }

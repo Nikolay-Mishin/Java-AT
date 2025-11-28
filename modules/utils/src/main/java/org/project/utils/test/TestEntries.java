@@ -7,7 +7,7 @@ import static org.project.utils.reflection.Reflection.getField;
 
 public class TestEntries {
 
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+    public static void main(String[] args) throws ReflectiveOperationException {
         testEntries();
     }
 

@@ -10,14 +10,12 @@ import org.project.utils.reflection.SingleInstance;
 
 public class TestAuth {
 
-    public static void main(String[] args)
-        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
-    {
+    public static void main(String[] args) throws IOException, ReflectiveOperationException {
         testAuth();
     }
 
     public static void testAuth()
-        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
+        throws IOException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException
     {
         debug("testAuth");
         init("auth/token");

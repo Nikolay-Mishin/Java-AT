@@ -9,29 +9,24 @@ import static org.project.utils.Helper.*;
 
 public class TestReq {
 
-    public static void main(String[] args)
-        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, URISyntaxException
-    {
+    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
         testReq();
     }
 
     public static void testReq()
-        throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException
-    {
+        throws IOException, URISyntaxException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         //testReqGet();
         testReqPost();
     }
 
     public static void testReqGet()
-        throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException
-    {
+        throws IOException, URISyntaxException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("testReqGet");
         new Step().getOrder(200, 0);
     }
 
     public static void testReqPost()
-        throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, InstantiationException
-    {
+        throws IOException, URISyntaxException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("testReqPost");
         //[[id, 0], [petId, 0], [quantity, 0], [shipDate, 2023-09-11T09:37:57.828Z], [status, placed], [complete, true]]
         Integer[][] arrayInt = {{1, 2}};
