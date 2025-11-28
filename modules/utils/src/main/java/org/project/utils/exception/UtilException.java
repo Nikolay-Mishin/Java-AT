@@ -109,7 +109,16 @@ public final class UtilException {
         catch (Exception e) { catchCb.accept(e); }
     }
 
-    public static <T, E extends Exception> void tryConsumer(SupplierWithExceptions<T, E> cb) throws E {
+    public static <T, E extends Exception> void tryConsumer(ConsumerVoidWithExceptions<T, E> cb) throws E {
+        tryConsumer(cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <T, E extends Exception> void tryConsumer(ConsumerVoidWithExceptions<T, E> cb, Consumer<Exception> catchCb) throws E {
+        try { cb.accept(); }
+        catch (Exception e) { catchCb.accept(e); }
+    }
+
+    public static <T, E extends Exception> void trySupplier(SupplierWithExceptions<T, E> cb) throws E {
         trySupplier(cb, e -> { throw new RuntimeException(e); });
     }
 
