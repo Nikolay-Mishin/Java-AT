@@ -18,6 +18,7 @@ public class TestInvoke extends TestZip {
     }
 
     public static void testInvoke() throws ReflectiveOperationException {
+        debug("testInvoke");
         getClazz("org.project.utils.test.TestInvoke", "::");
         getClazz("org.project.utils.test.TestInvoke::driver", "::");
         getClazz("org.project.utils.test.TestInvoke::invokeName", "::");
@@ -28,6 +29,7 @@ public class TestInvoke extends TestZip {
     }
 
     public static String invokeName() {
+        debug("invokeName");
         debug(toTable(configs()));
         return "invokeName";
     }
