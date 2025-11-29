@@ -25,7 +25,7 @@ public class Response<T extends Response<T>> {
     protected io.restassured.response.Response response;
 
     @Description("Builder: get response body")
-    public ResponseBody body() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public ResponseBody<?> body() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return getResponse().body();
     }
 
