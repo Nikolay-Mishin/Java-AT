@@ -6,15 +6,15 @@ import static org.project.utils.Helper.*;
 import static org.project.utils.reflection.Reflection.*;
 
 public class SingleInstance<T> extends Instance<T> {
-
-    protected static SingleInstance<?> instance;
+    protected static String iField = "i";
+    protected static SingleInstance<? extends SingleInstance<?>> i;
 
     public static <T extends SingleInstance<?>> T instance() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         //debug("instanceCall: " + getCallingClass());
         debug("instanceChildCall: " + getCallingChildClass());
         //debug("generic: " + getGenericClass());
-        try {return (T) getField(getGenericClass(), "instance");}
-        catch (IllegalArgumentException e) {return (T) instance;}
+        try {return (T) getField(getGenericClass(), iField);}
+        catch (IllegalArgumentException e) {return (T) i;}
     }
 
     public static <T extends SingleInstance<?>> T instance(Object... args)
@@ -31,10 +31,9 @@ public class SingleInstance<T> extends Instance<T> {
     protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, Object... args)
         throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchFieldException {
         debug("instance: " + clazz);
-        T instance = (T) getField(clazz, "instance");
-        debug("field.get: " + instance);
-        //return (T) (notNull(instance) ? instance : (instance = create(clazz, args)));
-        return notNull(instance) ? instance : (T) setField(clazz, "instance", create(clazz, args));
+        T i = (T) getField(clazz, iField);
+        debug("field.get: " + i);
+        return notNull(i) ? i : (T) setField(clazz, iField, create(clazz, args));
     }
 
 }
