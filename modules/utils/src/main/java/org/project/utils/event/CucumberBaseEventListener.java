@@ -7,7 +7,7 @@ import io.cucumber.plugin.event.*;
 
 import static java.lang.System.out;
 import static org.project.utils.Helper.debug;
-import static org.project.utils.exception.UtilException.tryConsumer;
+import static org.project.utils.exception.UtilException.tryConsumerWithPrint;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 
@@ -87,8 +87,8 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
 
     public void init(String arg, boolean eventHandler) throws ReflectiveOperationException {
         debug("CucumberEventListener: " + arg);
-        tryConsumer(() -> out.println("getClass: " + getClazz(arg)));
-        tryConsumer(() -> out.println("getField: " + getField(arg)));
+        tryConsumerWithPrint(() -> out.println("getClass: " + getClazz(arg)));
+        tryConsumerWithPrint(() -> out.println("getField: " + getField(arg)));
         eventHandler(eventHandler);
     }
 
