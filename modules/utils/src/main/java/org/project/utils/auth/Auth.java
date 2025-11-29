@@ -17,9 +17,9 @@ import org.project.utils.reflection.SingleInstance;
 import org.project.utils.request.AuthBaseRequests;
 import org.project.utils.request.Request;
 
-public class Auth<T> extends SingleInstance<Auth<T>> {
-    protected static Auth instance;
-    protected AuthBaseRequests<T> req;
+public class Auth extends SingleInstance<Auth> {
+    protected static Auth i;
+    protected AuthBaseRequests<?> req;
     protected String baseUrl;
     protected Request auth;
     protected final AuthToken token;
@@ -33,16 +33,20 @@ public class Auth<T> extends SingleInstance<Auth<T>> {
         return SingleInstance.instance();
     }
 
-    public static <T> AuthBaseRequests req() {
-        return instance.req;
+    public static <T> AuthBaseRequests<T> req() {
+        return (AuthBaseRequests<T>) i.req;
     }
 
-    public static <T> AuthBaseRequests req(String baseUrl) throws MalformedURLException, URISyntaxException {
-        return instance.req = /*notNull(instance.req) ? instance.req.init(baseUrl) : */new AuthBaseRequests<>(baseUrl);
+    public static <T> AuthBaseRequests<T> req(AuthBaseRequests<T> req) {
+        return (AuthBaseRequests<T>) (i.req = req);
+    }
+
+    public static <T> AuthBaseRequests<T> req(String baseUrl) throws MalformedURLException, URISyntaxException {
+        return req(notNull(i.req) ? (AuthBaseRequests<T>) req().init(baseUrl) : new AuthBaseRequests<>(baseUrl));
     }
 
     public static String baseUrl() {
-        return instance.baseUrl;
+        return i.baseUrl;
     }
 
     public static String baseUrl(Object... pathList) throws MalformedURLException, URISyntaxException {
@@ -51,30 +55,30 @@ public class Auth<T> extends SingleInstance<Auth<T>> {
 
     public static String baseUrl(String baseUrl) throws MalformedURLException, URISyntaxException {
         auth(baseUrl);
-        return instance.baseUrl = baseUrl;
+        return i.baseUrl = baseUrl;
     }
 
     public static Request auth() {
-        return instance.auth;
+        return i.auth;
     }
 
     public static Request auth(String baseUrl) throws MalformedURLException, URISyntaxException {
         return auth(req(baseUrl));
     }
 
-    public static Request auth(AuthBaseRequests<?> req) {
+    public static <T> Request auth(AuthBaseRequests<T> req) {
         return auth(req.post());
     }
 
     public static Request auth(Request req) {
-        return instance.auth = req;
+        return i.auth = req;
     }
 
     public static AuthToken token() {
-        return instance.token;
+        return i.token;
     }
 
-    public static Auth init(AuthBaseRequests<?> req, AuthToken token)
+    public static <T> Auth init(AuthBaseRequests<T> req, AuthToken token)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException
     {
         debug("Auth: req, AuthToken");
@@ -83,7 +87,7 @@ public class Auth<T> extends SingleInstance<Auth<T>> {
         return instance();
     }
 
-    public static Auth init(AuthBaseRequests<?> req, Response tokens)
+    public static <T> Auth init(AuthBaseRequests<T> req, Response tokens)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
         debug("Auth: req, Response");
@@ -92,7 +96,7 @@ public class Auth<T> extends SingleInstance<Auth<T>> {
         return instance();
     }
 
-    public static Auth init(AuthBaseRequests<?> req, JsonSchema tokens)
+    public static <T> Auth init(AuthBaseRequests<T> req, JsonSchema tokens)
         throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
     {
         debug("Auth: req, JsonSchema");
@@ -101,7 +105,7 @@ public class Auth<T> extends SingleInstance<Auth<T>> {
         return instance();
     }
 
-    public static Auth init(AuthBaseRequests<?> req, Object... pathList)
+    public static <T> Auth init(AuthBaseRequests<T> req, Object... pathList)
         throws IOException, URISyntaxException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException
     {
         debug("Auth: req, pathList");
@@ -135,8 +139,9 @@ public class Auth<T> extends SingleInstance<Auth<T>> {
         throws IOException, URISyntaxException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, NoSuchFieldException, InstantiationException
     {
         debug("Auth: pathList");
+        init(new AuthToken(pathList));
         baseUrl(pathList);
-        return init(new AuthToken(pathList));
+        return instance();
     }
 
     public static void refreshTokens(Response tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -169,8 +174,8 @@ public class Auth<T> extends SingleInstance<Auth<T>> {
     public static void printTokens() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         token().printTokens();
         debug("instance: " + instance(Auth.class));
-        debug("auth: " + instance);
-        debug("SingleInstance: " + SingleInstance.instance);
+        debug("auth: " + i);
+        debug("SingleInstance: " + SingleInstance.i);
     }
 
 }
