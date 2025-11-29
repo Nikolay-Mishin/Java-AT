@@ -16,7 +16,7 @@ import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.constant.RequestConstants.METHOD;
 
-public class Response<T extends Response<T>> {
+public class Response {
     protected RequestSpecification request;
     protected METHOD method;
     protected String methodSend;
@@ -30,10 +30,10 @@ public class Response<T extends Response<T>> {
     }
 
     @Description("Builder: set request body")
-    public T body(Object body) {
+    public <R extends Response> R body(Object body) {
         this.body = body;
         request.body(body);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: get response")

@@ -10,7 +10,7 @@ import jdk.jfr.Description;
 
 import org.project.utils.fs.FS;
 
-public class RequestOptions<T extends RequestOptions<T>> extends org.project.utils.request.Response<T> {
+public class RequestOptions extends org.project.utils.request.Response {
     protected String baseUrl;
     protected String url;
     protected URI URI;
@@ -28,6 +28,11 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
     @Description("Builder: get spec")
     public RequestSpecification spec() {
         return request;
+    }
+
+    @Description("Get baseUrl")
+    public String baseUrl() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        return baseUrl;
     }
 
     @Description("Get url")
@@ -71,38 +76,45 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
         return query().getURI();
     }
 
+    @Description("Builder: set baseUrl request")
+    public <R extends RequestOptions> R baseUrl(Object... pathList) throws MalformedURLException, URISyntaxException {
+        url(pathList);
+        baseUrl = basePath();
+        return (R) this;
+    }
+
     @Description("Builder: set url request")
-    public T url(Object... pathList) throws MalformedURLException, URISyntaxException {
+    public <R extends RequestOptions> R url(Object... pathList) throws MalformedURLException, URISyntaxException {
         path(pathList);
         url = fullPath();
         URL = new URL(url);
         URI = new URI(baseUri());
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Set base uri")
-    public T uri(String uri) throws MalformedURLException, URISyntaxException {
+    public <R extends RequestOptions> R uri(String uri) throws MalformedURLException, URISyntaxException {
         return uri(uri, path);
     }
 
     @Description("Set base uri")
-    public T uri(String uri, Object... pathList) throws MalformedURLException, URISyntaxException {
+    public <R extends RequestOptions> R uri(String uri, Object... pathList) throws MalformedURLException, URISyntaxException {
         request.baseUri(uri);
         url(pathList);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set path request")
-    public T path(Object... pathList) {
+    public <R extends RequestOptions> R path(Object... pathList) {
         request.basePath(FS.path(pathList)); // задаем базовый путь для запроса
         path = basePath();
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set endpoint")
-    public T endpoint(Object... pathList) throws MalformedURLException, URISyntaxException {
+    public <R extends RequestOptions> R endpoint(Object... pathList) throws MalformedURLException, URISyntaxException {
         url(baseUrl, pathList);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: get auth spec")
@@ -116,33 +128,33 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
     }
 
     @Description("Builder: set content type")
-    public T contentType(ContentType contentType) {
+    public <R extends RequestOptions> R contentType(ContentType contentType) {
         request.contentType(contentType);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set content type")
-    public T contentType(String contentType) {
+    public <R extends RequestOptions> R contentType(String contentType) {
         request.contentType(contentType);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: no content type")
-    public T noContentType() {
+    public <R extends RequestOptions> R noContentType() {
         request.noContentType();
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set accept")
-    public T accept(ContentType contentType) {
+    public <R extends RequestOptions> R accept(ContentType contentType) {
         request.accept(contentType);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set accept")
-    public T accept(String accept) {
+    public <R extends RequestOptions> R accept(String accept) {
         request.accept(accept);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: get headers")
@@ -151,61 +163,61 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
     }
 
     @Description("Builder: set headers")
-    public T headers(Headers headers) {
+    public <R extends RequestOptions> R headers(Headers headers) {
         request.headers(headers);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set headers")
-    public T headers(Map<String, ?> map) {
+    public <R extends RequestOptions> R headers(Map<String, ?> map) {
         request.headers(map);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set headers")
-    public T headers(Header... headers) {
+    public <R extends RequestOptions> R headers(Header... headers) {
         return headers(new Headers());
     }
 
     @Description("Builder: set headers")
-    public T headers(String s, Object o, Object... objects) {
+    public <R extends RequestOptions> R headers(String s, Object o, Object... objects) {
         request.headers(s, o, objects);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set header")
-    public T header(Header header) {
+    public <R extends RequestOptions> R header(Header header) {
         request.header(header);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set header")
-    public T header(String name, String value) {
+    public <R extends RequestOptions> R header(String name, String value) {
         request.header(new Header(name, value));
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set header")
-    public T header(String s, Object o, Object... objects) {
+    public <R extends RequestOptions> R header(String s, Object o, Object... objects) {
         request.header(s, o, objects);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set sessionId")
-    public T sessionId(String s) {
+    public <R extends RequestOptions> R sessionId(String s) {
         request.sessionId(s);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set sessionId")
-    public T sessionId(String s, String s1) {
+    public <R extends RequestOptions> R sessionId(String s, String s1) {
         request.sessionId(s, s1);
-        return (T) this;
+        return (R) this;
     }
 
     @Description("Builder: set port")
-    public T port(int port) {
+    public <R extends RequestOptions> R port(int port) {
         request.port(port);
-        return (T) this;
+        return (R) this;
     }
 }
