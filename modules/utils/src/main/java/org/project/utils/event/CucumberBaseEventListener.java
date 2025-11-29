@@ -5,7 +5,11 @@ import java.io.File;
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
 
+import static java.lang.System.out;
 import static org.project.utils.Helper.debug;
+import static org.project.utils.exception.UtilException.tryConsumer;
+import static org.project.utils.reflection.Reflection.getClazz;
+import static org.project.utils.reflection.Reflection.getField;
 
 /**
  * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
@@ -58,8 +62,34 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
      * <li>{@code java.lang.Appendable}</li>
      * </ul>
      */
-    public CucumberBaseEventListener(String arg) {
+    public CucumberBaseEventListener(String arg) throws ReflectiveOperationException {
+        init(arg);
+    }
+
+    /**
+     * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
+     * <p>Возможны следующие типы:
+     * <ul>
+     * <li>{@code java.net.URI}</li>
+     * <li>{@code java.net.URL}</li>
+     * <li>{@code java.io.File}</li>
+     * <li>{@code java.lang.String}</li>
+     * <li>{@code java.lang.Appendable}</li>
+     * </ul>
+     */
+    public CucumberBaseEventListener(String arg, boolean eventHandler) throws ReflectiveOperationException {
+        init(arg, eventHandler);
+    }
+
+    public void init(String arg) throws ReflectiveOperationException {
+        init(arg, false);
+    }
+
+    public void init(String arg, boolean eventHandler) throws ReflectiveOperationException {
         debug("CucumberEventListener: " + arg);
+        tryConsumer(() -> out.println("getClass: " + getClazz(arg)));
+        tryConsumer(() -> out.println("getField: " + getField(arg)));
+        eventHandler(eventHandler);
     }
 
     protected boolean eventHandler() {
