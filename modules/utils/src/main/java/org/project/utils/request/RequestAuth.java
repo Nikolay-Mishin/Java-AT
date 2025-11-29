@@ -29,7 +29,7 @@ import io.restassured.specification.RequestSpecification;
  * @see     RequestOptions#auth()
  * @since   4.18.0
  */
-public class RequestAuth<T extends RequestAuth<T>> extends RequestOptions<T> {
+public class RequestAuth extends RequestOptions {
 
     public String bearerToken(String accessToken) {
         return "Bearer " + accessToken;
