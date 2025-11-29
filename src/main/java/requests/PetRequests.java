@@ -1,14 +1,16 @@
 package requests;
 
-import models.pet.Pet;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import org.project.utils.request.BaseRequests;
 
 import static constant.UrlConstants.PET_URL;
 
-public class PetRequests extends BaseRequests<Pet> {
+import models.pet.Pet;
 
-    public PetRequests() {
+public class PetRequests extends BaseRequests<Pet> {
+    public PetRequests() throws MalformedURLException, URISyntaxException {
         super(PET_URL);
     }
-
 }

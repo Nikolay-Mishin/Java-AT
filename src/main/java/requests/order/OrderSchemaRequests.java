@@ -1,14 +1,16 @@
 package requests.order;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import org.project.utils.request.BaseRequests;
-import pojo.schema.store.order.OrderSchema;
 
 import static constant.UrlConstants.ORDER_URL;
 
-public class OrderSchemaRequests extends BaseRequests<OrderSchema> {
+import pojo.schema.store.order.OrderSchema;
 
-    public OrderSchemaRequests() {
+public class OrderSchemaRequests extends BaseRequests<OrderSchema> {
+    public OrderSchemaRequests() throws MalformedURLException, URISyntaxException {
         super(ORDER_URL);
     }
-
 }

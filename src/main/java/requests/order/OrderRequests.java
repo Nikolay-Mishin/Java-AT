@@ -1,14 +1,16 @@
 package requests.order;
 
-import models.order.Order;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
 import org.project.utils.request.BaseRequests;
 
 import static constant.UrlConstants.ORDER_URL;
 
-public class OrderRequests extends BaseRequests<Order> {
+import models.order.Order;
 
-    public OrderRequests() {
+public class OrderRequests extends BaseRequests<Order> {
+    public OrderRequests() throws MalformedURLException, URISyntaxException {
         super(ORDER_URL);
     }
-
 }
