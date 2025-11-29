@@ -1,7 +1,6 @@
 package org.project.utils.fs;
 
 import static java.lang.String.join;
-import static java.util.Arrays.stream;
 
 import java.io.*;
 import java.nio.file.*;
@@ -19,9 +18,7 @@ public class File {
     @Description("Generate url path")
     public static String path(Object... pathList) {
         debug(Arrays.toString(pathList));
-        return join("/", stream(pathList.length == 1 && !(pathList[0] instanceof String) ? (Object[]) pathList[0] : pathList)
-            .map(path -> isInstance(path, Object[].class) ? path(path) : path.toString())
-            .toArray(String[]::new));
+        return join("/", map(pathList, String[]::new, path -> isArray(path) ? path((Object[]) path) : path.toString()));
     }
 
     @Description("Get string from Path")
