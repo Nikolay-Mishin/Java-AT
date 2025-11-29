@@ -26,11 +26,10 @@ public class App extends TestException {
     public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("App:main");
         debug(configs());
-        new Step();
         testException();
         //testMain();
-        //testApi();
-        testHeaders();
+        testApi();
+        //testHeaders();
         //testJson();
         //testZip();
         //testFS();
@@ -43,6 +42,7 @@ public class App extends TestException {
         //testWinDriverConfig();
         //testPrintException();
         //testInvoke();
+        //testReqGet();
         //testApi(true);
     }
 
