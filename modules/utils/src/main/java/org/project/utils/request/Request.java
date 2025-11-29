@@ -31,6 +31,7 @@ public class Request extends RequestAuth<Request> {
         this.method = method;
         methodSend = method.toString().toLowerCase();
         url(pathList); // задаем базовый путь для запроса
+        baseUrl = basePath();
         endpoint = this.method + " " + path;
         debug(endpoint);
         debug(URL);

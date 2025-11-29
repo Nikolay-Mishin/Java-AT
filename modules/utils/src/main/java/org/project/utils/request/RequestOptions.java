@@ -11,6 +11,7 @@ import jdk.jfr.Description;
 import org.project.utils.fs.FS;
 
 public class RequestOptions<T extends RequestOptions<T>> extends org.project.utils.request.Response<T> {
+    protected String baseUrl;
     protected String url;
     protected URI URI;
     protected String path;
@@ -95,6 +96,12 @@ public class RequestOptions<T extends RequestOptions<T>> extends org.project.uti
     public T path(Object... pathList) {
         request.basePath(FS.path(pathList)); // задаем базовый путь для запроса
         path = basePath();
+        return (T) this;
+    }
+
+    @Description("Builder: set endpoint")
+    public T endpoint(Object... pathList) throws MalformedURLException, URISyntaxException {
+        url(baseUrl, pathList);
         return (T) this;
     }
 
