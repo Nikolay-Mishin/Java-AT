@@ -36,32 +36,61 @@ public class TestApi {
         throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
     {
         debug("testApi:" + setAssert);
-        Response resp1 = new Request(GET, "store/order", 0).response();
+        Request req = new Request(GET, "store/order", 0);
+        Response resp = req.response();
 
-        debug(resp1);
-        debug(resp1.asString());
-        debug(resp1.asPrettyString());
-        debug(resp1.asInputStream());
-        debug(resp1.asByteArray());
-        debug(resp1.contentType());
-        debug(resp1.headers());
-        debug(resp1.sessionId());
-        debug(resp1.cookies());
-        debug(resp1.detailedCookies());
+        debug(req);
+        debug(resp);
+        debug(resp.asString());
+        debug(resp.asPrettyString());
+        debug(resp.asInputStream());
+        debug(resp.asByteArray());
+        debug(resp.contentType());
+        debug(resp.headers());
+        debug(resp.sessionId());
+        debug(resp.cookies());
+        debug(resp.detailedCookies());
 
         Request req1 = new Request(GET, "store/order", 1);
-        String resp2 = req1.string();
+        String resp1 = req1.string();
 
         debug(req1);
+        debug(resp1);
+
+        Request req2 = new Request(GET).uri(uri);
+        Response resp2 = req2.response();
+        req2.printFullPath();
+        req2.printUri();
+        req2.printPath();
         debug(resp2);
 
-        Request req = new Request(GET).uri(uri);
-        Response resp = req.response();
-        req.printFullPath();
-        req.printUrl();
-        debug(req.baseUri());
-        debug(resp);
-        debug(resp);
+        Request req3 = new Request(GET, "baseUrl");
+        req3.printUri();
+        req3.printPath();
+
+        req3.url("url");
+        req3.printFullPath();
+        req3.printUri();
+        req3.printPath();
+
+        req3.url(2);
+        req3.printFullPath();
+        req3.printUri();
+        req3.printPath();
+
+        Request req4 = new Request(GET, "baseUrl");
+        req4.printUri();
+        req4.printPath();
+
+        req4.endpoint("id");
+        req4.printFullPath();
+        req4.printUri();
+        req4.printPath();
+
+        req4.endpoint(1);
+        req4.printFullPath();
+        req4.printUri();
+        req4.printPath();
 
         if (setAssert) assertEquals(resp.getStatusCode(), 200);
     }
