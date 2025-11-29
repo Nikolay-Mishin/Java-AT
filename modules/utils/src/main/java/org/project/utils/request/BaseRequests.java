@@ -7,14 +7,29 @@ import io.restassured.response.Response;
 import jdk.jfr.Description;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.notNull;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
 
-public class BaseRequests<T> extends Request {
-
+public class BaseRequests<T> {
     protected String baseUrl;
+    protected Request post;
+    protected Request get;
+    protected Request put;
+    protected Request delete;
 
-    public BaseRequests(String baseUrl) {
+    public BaseRequests(String baseUrl) throws MalformedURLException, URISyntaxException {
+        init(baseUrl);
+    }
+
+    @Description("Get baseUrl")
+    public <T extends BaseRequests<T>> T init(String baseUrl) throws MalformedURLException, URISyntaxException {
+        debug("setBaseUrl: " + baseUrl);
         baseUrl(baseUrl);
+        post = notNull(post) ? post.endpoint(baseUrl) : new Request(POST, baseUrl);
+        get = notNull(get) ? get.endpoint(baseUrl) : new Request(GET, baseUrl);
+        put = notNull(put) ? put.endpoint(baseUrl) : new Request(PUT, baseUrl);
+        delete = notNull(delete) ? delete.endpoint(baseUrl) : new Request(DELETE, baseUrl);
+        return (T) this;
     }
 
     @Description("Get baseUrl")
@@ -24,34 +39,67 @@ public class BaseRequests<T> extends Request {
 
     @Description("Set baseUrl")
     public String baseUrl(String baseUrl) {
-        debug("setBaseUrl: " + baseUrl);
         return this.baseUrl = baseUrl;
+    }
+
+    @Description("Get POST request")
+    public Request post() {
+        return post;
+    }
+
+    @Description("Set POST request")
+    public Request post(Request req) {
+        return post = req;
+    }
+
+    @Description("Get GET request")
+    public Request get() {
+        return get;
+    }
+
+    @Description("Set GET request")
+    public Request get(Request req) {
+        return get = req;
+    }
+
+    @Description("Get PUT request")
+    public Request put() {
+        return put;
+    }
+
+    @Description("Set PUT request")
+    public Request put(Request req) {
+        return put = req;
+    }
+
+    @Description("Get DELETE request")
+    public Request delete() {
+        return delete;
+    }
+
+    @Description("Set DELETE request")
+    public Request delete(Request req) {
+        return delete = req;
     }
 
     @Description("Add a new object")
     public Response post(T model) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return new Request(POST, baseUrl)
-            .body(model)
-            .response();
+        return post.body(model).response();
     }
 
     @Description("Find object by ID")
     public Response get(Long id) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        Request request = new Request(GET, baseUrl, id);
-        //request.print();
-        return request.response();
+        return get.endpoint(id).response();
     }
 
     @Description("Update object")
     public Response put(T model) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return new Request(PUT, baseUrl)
-            .body(model)
-            .response();
+        return put.body(model).response();
     }
 
     @Description("Delete object")
     public Response delete(Long id) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return new Request(DELETE, baseUrl, id).response();
+        return delete.endpoint(id).response();
     }
 
 }
