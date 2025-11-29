@@ -161,8 +161,12 @@ public class Helper {
         debug(defaultCharset());
     }
 
+    public static boolean isEmpty(Object value) {
+        return _equals(value, "");
+    }
+
     public static boolean isNull(Object value) {
-        return value == null;
+        return value == null || isEmpty(value);
     }
 
     public static boolean notNull(Object value) {
@@ -185,16 +189,16 @@ public class Helper {
         return clazz.isInstance(obj);
     }
 
+    public static Boolean isArray(Object obj) {
+        return isInstance(obj, Array.class) || getClazz(obj).isArray();
+    }
+
     public static Boolean isList(Object obj) {
         return isInstance(obj, List.class);
     }
 
     public static Boolean isArrayList(Object obj) {
         return isInstance(obj, ArrayList.class);
-    }
-
-    public static Boolean isArray(Object obj) {
-        return isInstance(obj, Array.class);
     }
 
     public static Boolean isParseType(Object type) {
