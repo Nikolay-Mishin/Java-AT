@@ -56,6 +56,10 @@ public class TestZip extends TestJson {
         String last = last(url, "/");
         debug(last);
 
+        debug(mkdirs(outZip));
+        debug(mkdirs(filenameZip));
+        debug(mkdirs(mkdir));
+
         writeFile(outZip + last, inputStream);
         writeFile(filenameZip, bytes);
         writeFile(filenameTxt, str);
@@ -82,10 +86,6 @@ public class TestZip extends TestJson {
 
         debug(pathStr(filenameZip).getParent());
         debug(pathStr(outZip).getParent());
-
-        debug(mkdirs(outZip));
-        debug(mkdirs(filenameZip));
-        debug(mkdirs(mkdir));
 
         debug(new File(outZip).toString());
 

@@ -29,7 +29,7 @@ public class App extends TestException {
         testException();
         //testMain();
         //testApi();
-        //testHeaders();
+        testHeaders();
         //testJson();
         //testZip();
         //testFS();
@@ -37,7 +37,7 @@ public class App extends TestException {
         //testLong();
         //testEntries();
         //testReq();
-        testAuth();
+        //testAuth();
         //testConfig();
         //testWinDriverConfig();
         //testPrintException();
