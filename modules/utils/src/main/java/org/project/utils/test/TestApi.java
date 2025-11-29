@@ -51,46 +51,41 @@ public class TestApi {
         debug(resp.cookies());
         debug(resp.detailedCookies());
 
-        Request req1 = new Request(GET, "store/order", 1);
-        String resp1 = req1.string();
-
-        debug(req1);
+        req.url("store/order", 1);
+        String resp1 = req.string();
         debug(resp1);
 
-        Request req2 = new Request(GET).uri(uri);
-        Response resp2 = req2.response();
-        req2.printFullPath();
-        req2.printUri();
-        req2.printPath();
+        req.uri(uri);
+        Response resp2 = req.response();
         debug(resp2);
+        req.printFullPath();
+        req.printUri();
+        req.printPath();
 
-        Request req3 = new Request(GET, "baseUrl");
-        req3.printUri();
-        req3.printPath();
+        req.url("baseUrl");
+        req.printFullPath();
+        req.printUri();
+        req.printPath();
 
-        req3.url("url");
-        req3.printFullPath();
-        req3.printUri();
-        req3.printPath();
+        req.url("url");
+        req.printFullPath();
+        req.printUri();
+        req.printPath();
 
-        req3.url(2);
-        req3.printFullPath();
-        req3.printUri();
-        req3.printPath();
+        req.baseUrl(2);
+        req.printFullPath();
+        req.printUri();
+        req.printPath();
 
-        Request req4 = new Request(GET, "baseUrl");
-        req4.printUri();
-        req4.printPath();
+        req.endpoint("id");
+        req.printFullPath();
+        req.printUri();
+        req.printPath();
 
-        req4.endpoint("id");
-        req4.printFullPath();
-        req4.printUri();
-        req4.printPath();
-
-        req4.endpoint(1);
-        req4.printFullPath();
-        req4.printUri();
-        req4.printPath();
+        req.endpoint(1);
+        req.printFullPath();
+        req.printUri();
+        req.printPath();
 
         if (setAssert) assertEquals(resp.getStatusCode(), 200);
     }
