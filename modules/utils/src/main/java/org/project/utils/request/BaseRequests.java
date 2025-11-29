@@ -22,14 +22,14 @@ public class BaseRequests<T> {
     }
 
     @Description("Get baseUrl")
-    public <T extends BaseRequests<T>> T init(String baseUrl) throws MalformedURLException, URISyntaxException {
+    public <R extends BaseRequests<T>> R init(String baseUrl) throws MalformedURLException, URISyntaxException {
         debug("setBaseUrl: " + baseUrl);
         baseUrl(baseUrl);
-        post = notNull(post) ? post.endpoint(baseUrl) : new Request(POST, baseUrl);
-        get = notNull(get) ? get.endpoint(baseUrl) : new Request(GET, baseUrl);
-        put = notNull(put) ? put.endpoint(baseUrl) : new Request(PUT, baseUrl);
-        delete = notNull(delete) ? delete.endpoint(baseUrl) : new Request(DELETE, baseUrl);
-        return (T) this;
+        post = notNull(post) ? post.baseUrl(baseUrl) : new Request(POST, baseUrl);
+        get = notNull(get) ? get.baseUrl(baseUrl) : new Request(GET, baseUrl);
+        put = notNull(put) ? put.baseUrl(baseUrl) : new Request(PUT, baseUrl);
+        delete = notNull(delete) ? delete.baseUrl(baseUrl) : new Request(DELETE, baseUrl);
+        return (R) this;
     }
 
     @Description("Get baseUrl")

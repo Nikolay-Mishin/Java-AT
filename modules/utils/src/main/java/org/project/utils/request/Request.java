@@ -12,7 +12,7 @@ import static org.project.utils.reflection.Reflection.*;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants.METHOD;
 
-public class Request extends RequestAuth<Request> {
+public class Request extends RequestAuth {
 
     @ConstructorProperties({})
     public Request() {}
@@ -30,8 +30,7 @@ public class Request extends RequestAuth<Request> {
         request = apiConfig.get();
         this.method = method;
         methodSend = method.toString().toLowerCase();
-        url(pathList); // задаем базовый путь для запроса
-        baseUrl = basePath();
+        baseUrl(pathList); // задаем базовый путь для запроса
         endpoint = this.method + " " + path;
         debug(endpoint);
         debug(URL);
