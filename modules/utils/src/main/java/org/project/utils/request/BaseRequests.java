@@ -7,28 +7,37 @@ import io.restassured.response.Response;
 import jdk.jfr.Description;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.notNull;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
 
 public class BaseRequests<T> {
     protected String baseUrl;
-    protected Request post;
-    protected Request get;
-    protected Request put;
-    protected Request delete;
+    protected Request post = new Request(POST);
+    protected Request get = new Request(GET);
+    protected Request put = new Request(PUT);
+    protected Request delete = new Request(DELETE);
 
     public BaseRequests(String baseUrl) throws MalformedURLException, URISyntaxException {
         init(baseUrl);
     }
 
-    @Description("Get baseUrl")
+    @Description("Init baseUrl")
     public <R extends BaseRequests<T>> R init(String baseUrl) throws MalformedURLException, URISyntaxException {
         debug("setBaseUrl: " + baseUrl);
         baseUrl(baseUrl);
-        post = notNull(post) ? post.baseUrl(baseUrl) : new Request(POST, baseUrl);
-        get = notNull(get) ? get.baseUrl(baseUrl) : new Request(GET, baseUrl);
-        put = notNull(put) ? put.baseUrl(baseUrl) : new Request(PUT, baseUrl);
-        delete = notNull(delete) ? delete.baseUrl(baseUrl) : new Request(DELETE, baseUrl);
+        post.baseUrl(baseUrl);
+        get.baseUrl(baseUrl);
+        put.baseUrl(baseUrl);
+        delete.baseUrl(baseUrl);
+        return (R) this;
+    }
+
+    @Description("Set uri")
+    public <R extends BaseRequests<T>> R uri(String uri) throws MalformedURLException, URISyntaxException {
+        debug("setUri: " + uri);
+        post.uri(uri);
+        get.uri(uri);
+        put.uri(uri);
+        delete.uri(uri);
         return (R) this;
     }
 
