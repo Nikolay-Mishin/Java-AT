@@ -41,7 +41,7 @@ public class Auth extends SingleInstance<Auth> {
         return (AuthBaseRequests<T>) (i.req = req);
     }
 
-    public static <T> AuthBaseRequests<T> req(String baseUrl) throws MalformedURLException, URISyntaxException {
+    public static <T> AuthBaseRequests<T> req(String baseUrl) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         return req(notNull(i.req) ? (AuthBaseRequests<T>) req().init(baseUrl) : new AuthBaseRequests<>(baseUrl));
     }
 
@@ -49,11 +49,11 @@ public class Auth extends SingleInstance<Auth> {
         return i.baseUrl;
     }
 
-    public static String baseUrl(Object... pathList) throws MalformedURLException, URISyntaxException {
+    public static String baseUrl(Object... pathList) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         return baseUrl(path(pathList));
     }
 
-    public static String baseUrl(String baseUrl) throws MalformedURLException, URISyntaxException {
+    public static String baseUrl(String baseUrl) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         auth(baseUrl);
         return i.baseUrl = baseUrl;
     }
@@ -62,7 +62,7 @@ public class Auth extends SingleInstance<Auth> {
         return i.auth;
     }
 
-    public static Request auth(String baseUrl) throws MalformedURLException, URISyntaxException {
+    public static Request auth(String baseUrl) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         return auth(req(baseUrl));
     }
 
