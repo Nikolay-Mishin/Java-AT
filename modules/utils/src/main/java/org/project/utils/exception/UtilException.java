@@ -4,6 +4,8 @@ import java.util.function.*;
 
 import org.project.utils.function.*;
 
+import static org.project.utils.Helper._equals;
+
 public final class UtilException {
 
     /** .forEach(rethrowConsumer(name -> System.out.println(Class.forName(name)))); or .forEach(rethrowConsumer(ClassNameUtil::println)); */
@@ -75,6 +77,63 @@ public final class UtilException {
         catch (Exception e) { return catchCb.apply(e); }
     }
 
+    public static <T, R, E extends Exception> R tryCatchNoArgs(FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryCatchNoArgs(cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <T, R, E extends Exception> R tryNoArgsWithPrint(FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryCatchNoArgs(cb, e -> { e.printStackTrace(); return null; });
+    }
+
+    public static <T, R, E extends Exception> R tryNoArgsWithIgnore(FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryCatchNoArgs(cb, e -> null);
+    }
+
+    public static <T, R, E extends Exception> R tryCatchNoArgs(FunctionNoArgsWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+        try { return cb.apply(); }
+        catch (Exception e) { return catchCb.apply(e); }
+    }
+
+    public static <T, R, E extends Exception> R tryCatchMsg(String msg, FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryCatchMsg(msg, cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <T, R, E extends Exception> R tryWithPrintMsg(String msg, FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryCatchMsg(msg, cb, e -> { e.printStackTrace(); return null; });
+    }
+
+    public static <T, R, E extends Exception> R tryWithIgnoreMsg(String msg, FunctionWithExceptions<T, R, E> cb) throws E {
+        return tryCatchMsg(msg, cb, e -> null);
+    }
+
+    public static <T, R, E extends Exception> R tryCatchMsg(String msg, FunctionWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+        try { return cb.apply(null); }
+        catch (Exception e) {
+            if (_equals(e.getMessage(), msg)) return catchCb.apply(e);
+            else throw new RuntimeException(e);
+        }
+    }
+
+    public static <T, R, E extends Exception> R tryCatchNoArgsMsg(String msg, FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryCatchNoArgsMsg(msg, cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <T, R, E extends Exception> R tryNoArgsWithPrintMsg(String msg, FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryCatchNoArgsMsg(msg, cb, e -> { e.printStackTrace(); return null; });
+    }
+
+    public static <T, R, E extends Exception> R tryNoArgsWithIgnoreMsg(String msg, FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryCatchNoArgsMsg(msg, cb, e -> null);
+    }
+
+    public static <T, R, E extends Exception> R tryCatchNoArgsMsg(String msg, FunctionNoArgsWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+        try { return cb.apply(); }
+        catch (Exception e) {
+            if (_equals(e.getMessage(), msg)) return catchCb.apply(e);
+            else throw new RuntimeException(e);
+        }
+    }
+
     public static <S extends AutoCloseable, T, R, E extends Exception> R tryRes(S res, FunctionWithExceptions<T, R, E> cb) throws E {
         return tryRes(res, cb, e -> { throw new RuntimeException(e); });
     }
@@ -89,6 +148,23 @@ public final class UtilException {
 
     public static <S extends AutoCloseable, T, R, E extends Exception> R tryRes(S res, FunctionWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
         try (res) { return cb.apply(null); }
+        catch (Exception e) { return catchCb.apply(e); }
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> R tryResNoArgs(S res, FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryResNoArgs(res, cb, e -> { throw new RuntimeException(e); });
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> R tryResNoArgsWithPrint(S res, FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryResNoArgs(res, cb, e -> { e.printStackTrace(); return null; });
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> R tryResNoArgsWithIgnore(S res, FunctionNoArgsWithExceptions<T, R, E> cb) throws E {
+        return tryResNoArgs(res, cb, e -> null);
+    }
+
+    public static <S extends AutoCloseable, T, R, E extends Exception> R tryResNoArgs(S res, FunctionNoArgsWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+        try (res) { return cb.apply(); }
         catch (Exception e) { return catchCb.apply(e); }
     }
 
