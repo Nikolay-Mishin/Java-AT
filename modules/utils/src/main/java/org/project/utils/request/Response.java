@@ -43,8 +43,7 @@ public class Response {
 
     @Description("Builder: get response")
     public io.restassured.response.Response response(Object body) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        //request = (body != null && (method == POST || method == PUT) ? request.body(body) : request).when(); // body json
-        if (body != null && (method == POST || method == PUT)) body(body);
+        if (body != null && (method == POST || method == PUT)) body(body); // body json
         return response = send().andReturn();
     }
 
