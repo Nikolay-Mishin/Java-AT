@@ -7,7 +7,7 @@ import java.util.function.Function;
 import org.apache.commons.lang3.function.TriFunction;
 
 @FunctionalInterface
-public interface TriFunctionWithExceptions<T, U, V, R, E extends Exception> {
+public interface TriFunctionWithExceptions<T, U, V, R, E extends Exception> extends Lambda {
     R apply(T t, U u, V v) throws E;
 
     default <W> TriFunction<T, U, V, W> andThen(Function<? super R, ? extends W> after) {
