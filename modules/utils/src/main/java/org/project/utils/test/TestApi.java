@@ -87,6 +87,15 @@ public class TestApi {
         req.printUri();
         req.printPath();
 
+        req = new Request(GET);
+        req.printUri();
+        req.printPath();
+
+        req.baseUrl("url");
+        req.printFullPath();
+        req.printUri();
+        req.printPath();
+
         if (setAssert) assertEquals(resp.getStatusCode(), 200);
     }
 
