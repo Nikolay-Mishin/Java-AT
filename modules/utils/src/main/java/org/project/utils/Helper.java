@@ -58,6 +58,10 @@ public class Helper {
         return arrayList(array);
     }
 
+    public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator) {
+        return stream(array).toArray(generator);
+    }
+
     public static <A> List<A> toList(A[] array) {
         return stream(array).toList();
     }
@@ -133,6 +137,10 @@ public class Helper {
 
     public static <A> A[] concat(A[] a, A[] b) {
         return Stream.concat(stream(a), stream(b)).toArray(size -> arrInstance(a, size));
+    }
+
+    public static <A, B> Object[] concatTo(A[] a, B[] b) {
+        return concat(toArray(a, Object[]::new), new Object[]{b});
     }
 
     public static <A> A[] concatUtils(A[] a, A[] b) {
@@ -328,21 +336,8 @@ public class Helper {
         return entriesList(obj).toArray();
     }
 
-    // See:
-    //  - https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value
-    //  - https://www.geeksforgeeks.org/reflection-in-java
-    //  - https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-
     public static <T> T entries(Object obj, T entries, BiFunction<Field, T, T> func) {
-        Class<?> clazz = obj.getClass();
-        Field[] fields = clazz.getDeclaredFields();
-
-        for (Field field : fields) {
-            makeAccessible(field, obj);
-            func.apply(field, entries);
-            makeUnAccessible(field);
-        }
-
-        return entries;
+        return fields(obj, func, entries);
     }
 
     public static String fieldName(Field field) {
