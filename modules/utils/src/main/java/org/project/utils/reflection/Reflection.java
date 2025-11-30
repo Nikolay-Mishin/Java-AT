@@ -1,10 +1,14 @@
 package org.project.utils.reflection;
 
+import static java.lang.invoke.MethodType.fromMethodDescriptorString;
 import static java.lang.reflect.Array.newInstance;
 
 import java.beans.PropertyDescriptor;
+import java.io.Serializable;
+import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static org.apache.commons.beanutils.PropertyUtils.*;
@@ -14,9 +18,11 @@ import org.apache.commons.beanutils.BeanUtils;
 import jdk.jfr.Description;
 
 import static org.project.utils.Helper.*;
+import static org.project.utils.exception.UtilException.*;
 
 import org.project.utils.exception.AssertException;
 import org.project.utils.function.BiFunctionWithExceptions;
+import org.project.utils.function.FunctionWithExceptions;
 import org.project.utils.function.TriFunctionWithExceptions;
 
 public class Reflection {
@@ -78,25 +84,21 @@ public class Reflection {
     }
 
     @Description("Get method of object")
-    private static Method _getMethod(String get, Object obj, String method, Object... args) throws NoSuchMethodException {
-        Class<?> clazz = getClazz(obj);
-        Method _method;
-        boolean declared = Objects.equals(get, "declared");
-        get = declared ? "getDeclaredMethod" : "getMethod";
-        debug(get);
-        try {
-            _method = _getMethod(declared, clazz, method, getTypes(args));
-        } catch (NoSuchMethodException e) {
-            _method = _getMethod(declared, clazz, method, getPrimitiveTypes(args));
-        }
-        new AssertException(_method).notNull();
-        debug(Arrays.toString(_method.getParameterTypes()));
-        return _method;
+    private static Method _getDeclaredMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        return _getMethod(obj, clazz -> clazz.getDeclaredMethod(method, getTypes(args)));
     }
 
     @Description("Get method of object")
-    private static Method _getMethod(boolean declared, Class<?> clazz, String method, Class<?>... types) throws NoSuchMethodException {
-        return declared ? clazz.getDeclaredMethod(method, types) : clazz.getMethod(method, types);
+    private static Method _getMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        return _getMethod(obj, clazz -> clazz.getMethod(method, getPrimitiveTypes(args)));
+    }
+
+    @Description("Get method of object")
+    private static <E extends Exception> Method _getMethod(Object obj, FunctionWithExceptions<Class<?>, Method, E> cb) throws E {
+        Method _method = cb.apply(getClazz(obj));
+        new AssertException(_method).notNull();
+        debug(Arrays.toString(_method.getParameterTypes()));
+        return _method;
     }
 
     public static Class<?> getParseType(Class<?> type) {
@@ -149,6 +151,24 @@ public class Reflection {
         Class<?> clazz = isClass(obj) ? (Class<?>) obj : obj.getClass();
         debug(clazz);
         return clazz;
+    }
+
+    public static Class<?> getClazz(Method method) {
+        return method.getDeclaringClass();
+    }
+
+    /**
+     * get class from lambda expression
+     *
+     * @param lambda
+     * @return String
+     */
+    public static Class<?> getClazz(Serializable lambda) throws ClassNotFoundException {
+        return getClazz(getClassName(lambda));
+    }
+
+    public static String getClassName(Serializable lambda) {
+        return lambda(lambda, SerializedLambda::getImplClass).replace("/", ".");
     }
 
     @SuppressWarnings("unchecked")
@@ -384,13 +404,38 @@ public class Reflection {
         return _getTypes(true, args);
     }
 
+    @Description("Get types of object")
+    public static Class<?>[] getTypes(Object obj, String descriptor) throws NullPointerException {
+        return fromMethodDescriptorString(descriptor, getClassLoader(obj)).parameterArray();
+    }
+
+    @Description("Get classLoader of object")
+    public static ClassLoader getClassLoader(Object obj) throws NullPointerException {
+        return getClazz(obj).getClassLoader();
+    }
+
+    @Description("Get descriptor of lambda object")
+    public static String getDescriptor(Object obj) throws NullPointerException {
+        return getClazz(obj).descriptorString();
+    }
+
+    @Description("Get descriptor of lambda expression")
+    public static String getDescriptor(SerializedLambda sl) throws NullPointerException {
+        return sl.getImplMethodSignature();
+    }
+
+    @Description("Get method name of lambda expression")
+    public static String getMethodName(SerializedLambda sl) throws NullPointerException {
+        return sl.getImplMethodName();
+    }
+
     @Description("Get method of object")
     public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException, NullPointerException {
         Method _method;
         try {
-            _method = _getMethod("declared", obj, method, args);
+            _method = _getDeclaredMethod(obj, method, args);
         } catch (NoSuchMethodException e) {
-            _method = _getMethod("all", obj, method, args);
+            _method = _getMethod(obj, method, args);
         }
         debug(_method);
         new AssertException(_method).notNull();
@@ -398,22 +443,93 @@ public class Reflection {
         return _method;
     }
 
+    @Description("Get method of object")
+    public static Method getMethod(Object obj, String method, Class<?>... args) throws NoSuchMethodException, NullPointerException {
+        return getClazz(obj).getDeclaredMethod(method, args);
+    }
+
+    @Description("Get method of object")
+    public static Method getMethod(Object obj, String method, String descriptor) throws NoSuchMethodException, NullPointerException {
+        return getMethod(obj, method, getTypes(obj, descriptor));
+    }
+
+    @Description("Get method of object")
+    public static Method getMethod(Object obj, String method, SerializedLambda sl) throws NoSuchMethodException, NullPointerException {
+        return getMethod(obj, method, getDescriptor(sl));
+    }
+
+    @Description("Get method of object")
+    public static Method getMethod(Object obj, SerializedLambda sl) throws NoSuchMethodException, NullPointerException {
+        return getMethod(obj, getMethodName(sl), getDescriptor(sl));
+    }
+
+    /**
+     * get method name from lambda expression
+     *
+     * @param lambda
+     * @return String
+     */
+    public static String lambdaMethodName(Serializable lambda) {
+        return lambda(lambda, SerializedLambda::getImplMethodName);
+    }
+
+    /**
+     * get method from lambda expression
+     *
+     * @param lambda
+     * @return String
+     */
+    public static Method lambdaMethod(Serializable lambda) throws ReflectiveOperationException {
+        return lambda(lambda, sl -> getMethod(getClazz(lambda), sl));
+    }
+
+    public static Method lambdaMethod(Object obj, Serializable lambda) throws ReflectiveOperationException {
+        return lambda(lambda, sl -> getMethod(obj, sl));
+    }
+
+    /**
+     * get method from lambda expression
+     *
+     * @param lambda
+     * @param cb
+     * @return String
+     */
+    public static <R, E extends Exception> R lambda(Serializable lambda, FunctionWithExceptions<SerializedLambda, R, E> cb) throws E {
+        try {
+            Method m = getMethod(lambda, "writeReplace");
+            m.setAccessible(true);
+            return cb.apply((SerializedLambda) m.invoke(lambda));
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Description("Get method or field by className")
-    public static String[] getInvoke(String className) {
-        return parseClassName(className, "::").split(",");
+    public static Object[] getInvoke(String className) throws ClassNotFoundException {
+        List<Object> list = arrayList(parseClassName(className, "::").split(","));
+        list.set(0, getClazz(list.get(0).toString()));
+        Object[] invoke = list.toArray();
+        debug("list: " + list);
+        debug("invoke0: " + invoke[0]);
+        debug("getInvoke0: " + invoke[0]);
+        debug("getClazz0: " + getClazz(invoke[0]));
+        debug("getInvoke: " + invoke);
+        debug("getInvoke: " + Arrays.toString(invoke));
+        debug("parseClassName: " + parseClassName(className, "::").split(","));
+        //debug("invoke1: " + list.get(1));
+        return list.toArray();
     }
 
     @SafeVarargs
     @Description("Get method or field by className")
-    public static <T, R, E extends Exception> R invoke(String className, TriFunctionWithExceptions<Class<?>, String, T[], R, E> cb, T... args) throws ClassNotFoundException, E {
-        String[] invoke = getInvoke(className);
-        return invoke.length == 1 ? null : cb.apply(getClazz(invoke[0]), invoke[1], args);
+    public static <T, R, E extends Exception> R invoke(String className, TriFunctionWithExceptions<Class<?>, String, T[], R, E> cb, T... args)
+        throws E, ReflectiveOperationException {
+        return tryNoArgsWithPrintMsg("wrong number of arguments", () -> cb.invoke(concatTo(getInvoke(className), args)));
     }
 
     @Description("Get method or field by className")
     public static <R, E extends Exception> R invoke(String className, BiFunctionWithExceptions<Class<?>, String, R, E> cb) throws ReflectiveOperationException, E {
-        String[] invoke = getInvoke(className);
-        return invoke.length == 1 ? null : cb.apply(getClazz(invoke[0]), invoke[1]);
+        return tryNoArgsWithPrintMsg("wrong number of arguments", () -> cb.invoke(getInvoke(className)));
     }
 
     @Description("Invoke method of className with parse")
@@ -426,11 +542,22 @@ public class Reflection {
         return invoke(getClazz(className), method, args); // вызов метода с аргументами
     }
 
+    @Description("Invoke method of lambda expression")
+    @SuppressWarnings("unchecked")
+    public static <T> T invokeLambda(Serializable lambda, Object... args) throws ReflectiveOperationException {
+        return (T) lambdaMethod(lambda).invoke(lambda, args); // получение и вызов метода с аргументами
+    }
+
+    /*@Description("Invoke method of lambda expression")
+    @SuppressWarnings("unchecked")
+    public static <T> T invokeLambda(Serializable lambda, Object... args) throws ReflectiveOperationException {
+        return (T) lambdaMethod(lambda).invoke(lambda, args); // получение и вызов метода с аргументами
+    }*/
+
     @Description("Invoke method of object")
     @SuppressWarnings("unchecked")
     public static <T> T invoke(Object obj, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method methodWithArgs = getMethod(obj, method, args); // получение метода с аргументами
-        return (T) methodWithArgs.invoke(obj, args); // вызов метода с аргументами
+        return (T) getMethod(obj, method, args).invoke(obj, args); // получение и вызов метода с аргументами
     }
 
     @Description("Invoke parse number method")
@@ -445,6 +572,23 @@ public class Reflection {
         debug(_type == type);
         debug(method);
         return invoke(type, method, value); // вызов метода с аргументами
+    }
+
+    public static Field[] fields(Object obj) {
+        return getClazz(obj).getDeclaredFields();
+    }
+
+    // See:
+    //  - https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value
+    //  - https://www.geeksforgeeks.org/reflection-in-java
+    //  - https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-
+    public static <T, R> T fields(Object obj, BiFunction<Field, T, R> func, T arg) {
+        for (Field field : fields(obj)) {
+            boolean make = makeAccessible(field, obj);
+            func.apply(field, arg);
+            makeUnAccessible(field, make);
+        }
+        return arg;
     }
 
     @Description("Get field")
@@ -499,30 +643,30 @@ public class Reflection {
     @Description("Set field value")
     public static Object field(Object obj, String name, Function<Field, Object> cb) throws NoSuchFieldException, IllegalAccessException {
         Field field = field(obj, name);
-        boolean makeAccessible = makeAccessible(field, obj);
+        boolean make = makeAccessible(field, obj);
         debug("field: " + field);
         Object value = cb.apply(field);
-        makeUnAccessible(field, makeAccessible);
+        makeUnAccessible(field, make);
         return value;
     }
 
     @Description("Field set accessible to true")
     public static boolean makeAccessible(Field field, Object obj) {
-        boolean makeAccessible = !canAccess(field, obj);
-        if (makeAccessible) field.setAccessible(true);
-        return makeAccessible;
+        boolean make = !canAccess(field, obj);
+        if (make) field.setAccessible(true);
+        return make;
     }
 
     @Description("Field set accessible to true")
     public static boolean makeAccessible(Field field) {
-        boolean makeAccessible = !isPublic(field);
+        boolean make = !isPublic(field);
         if (!isPublic(field)) field.setAccessible(true);
-        return makeAccessible;
+        return make;
     }
 
     @Description("Field set accessible to false")
-    public static void makeUnAccessible(Field field, boolean makeAccessible) {
-        if (makeAccessible) field.setAccessible(false);
+    public static void makeUnAccessible(Field field, boolean make) {
+        if (make) field.setAccessible(false);
     }
 
     @Description("Field set accessible to false")
