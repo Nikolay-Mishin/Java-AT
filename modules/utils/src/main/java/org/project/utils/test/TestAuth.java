@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
@@ -16,16 +15,13 @@ public class TestAuth {
         testAuth();
     }
 
-    public static void testAuth()
-        throws IOException, URISyntaxException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException
-    {
+    public static void testAuth() throws IOException, URISyntaxException, ReflectiveOperationException {
         testAuth("auth/token");
+        req().uri("https://googlechromelabs.github.io/");
         testAuth("auth/tokens");
     }
 
-    public static void testAuth(Object... pathList)
-        throws IOException, URISyntaxException, NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException
-    {
+    public static void testAuth(Object... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testAuth: " + Arrays.toString(pathList));
         init(pathList);
         printTokens();
