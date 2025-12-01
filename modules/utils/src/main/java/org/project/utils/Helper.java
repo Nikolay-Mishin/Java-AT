@@ -58,6 +58,14 @@ public class Helper {
         return arrayList(array);
     }
 
+    public static <A, T> T[] newArray(A[] array) {
+        return array.length == 1 ? (T[]) new Object[]{array} : toArray(array);
+    }
+
+    public static <A, T> T[] toArray(A[] array) {
+        return (T[]) stream(array).toArray();
+    }
+
     public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator) {
         return stream(array).toArray(generator);
     }
