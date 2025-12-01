@@ -16,6 +16,7 @@ import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 
 import org.project.utils.config.WebBaseConfig;
+import org.project.utils.function.FunctionWithExceptions;
 import org.project.utils.request.BaseRequests;
 
 public class BaseStep<R extends BaseRequests<M>, M> {
@@ -120,17 +121,18 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     }
 
     protected Response put(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
-        M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
-        Response resp = req.put(model);
-        id = resp.path("id");
-        debug(id);
-        debug(resp.getStatusCode());
-        return resp;
+        return put(dataTable, m -> req.patch(m));
     }
 
-    protected Response patch(List<List<String>> dataTable) throws ReflectiveOperationException, IOException {
+    protected Response patch(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
+        return put(dataTable, m -> req.patch(m));
+    }
+
+    protected <E extends ReflectiveOperationException> Response put(List<List<String>> dataTable, FunctionWithExceptions<M, Response, E> cb)
+        throws IOException, URISyntaxException, ReflectiveOperationException
+    {
         M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
-        Response resp = req.patch(model);
+        Response resp = cb.apply(model);
         id = resp.path("id");
         debug(id);
         debug(resp.getStatusCode());
