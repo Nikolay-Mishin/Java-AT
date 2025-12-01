@@ -1,6 +1,7 @@
 package org.project.utils.test;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,10 @@ import org.openqa.selenium.WebDriver;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.toTable;
 import static org.project.utils.config.Config.configs;
+import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.reflection.Reflection.*;
+
+import org.project.utils.request.Request;
 
 public class TestInvoke extends TestZip {
     protected static WebDriver driver;
@@ -17,13 +21,20 @@ public class TestInvoke extends TestZip {
         testInvoke();
     }
 
-    public static void testInvoke() throws ReflectiveOperationException {
+    public static void testInvoke() throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         debug("testInvoke");
         getClazz("org.project.utils.test.TestInvoke", "::");
         getClazz("org.project.utils.test.TestInvoke::driver", "::");
         getClazz("org.project.utils.test.TestInvoke::invokeName", "::");
         debug(getField("org.project.utils.test.TestInvoke::driver"));
         debug(getField("org.project.utils.test.TestInvoke"));
+
+        Request req = new Request(GET);
+        //req.uri("https://googlechromelabs.github.io/");
+        invoke(req, "uri", "https://googlechromelabs.github.io/");
+        req.printFullPath();
+        Requests req1 = new Requests();
+
         //debug(invoke("org.project.utils.test.TestInvoke", "invokeName"));
         debug(invoke("org.project.utils.test.TestInvoke::invokeName"));
     }
