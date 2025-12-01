@@ -24,32 +24,32 @@ public class BaseRequests<T> {
     protected Request patch = new Request(PATCH);
     protected Request delete = new Request(DELETE);
 
-    public BaseRequests(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public BaseRequests(Object... pathList) throws Exception {
         init(pathList);
     }
 
     @Description("Init baseUrl")
-    public <R extends BaseRequests<T>> R init(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public <R extends BaseRequests<T>> R init(Object... pathList) throws Exception {
         debug("setBaseUrl: " + Arrays.toString(pathList));
         baseUrl(pathList);
-        return init(req -> invoke(req, "baseUrl", newArray(pathList)));
+        return init(req -> req.baseUrl(pathList));
     }
 
     @Description("Set uri")
-    public <R extends BaseRequests<T>> R uri(String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public <R extends BaseRequests<T>> R uri(String uri) throws Exception {
         debug("setUri: " + uri);
-        return init(req -> invoke(req, "uri", uri));
+        return init(req -> req.uri(uri));
     }
 
     @Description("Set endpoint")
-    public <R extends BaseRequests<T>> R endpoint(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public <R extends BaseRequests<T>> R endpoint(Object... pathList) throws Exception {
         debug("setEndpoint: " + Arrays.toString(pathList));
-        return init(req -> invoke(req, "endpoint", newArray(pathList)));
+        return init(req -> req.endpoint(pathList));
     }
 
     @Description("Init with cb")
-    public <R extends BaseRequests<T>, V, E extends Exception> R init(FunctionWithExceptions<Request, V, E> cb)
-        throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, E {
+    public <R extends BaseRequests<T>, V extends RequestOptions, E extends Exception> R init(FunctionWithExceptions<Request, V, E> cb)
+        throws URISyntaxException, NoSuchFieldException, IllegalAccessException, E {
         for (METHOD_LOWER_CASE method : METHOD_LOWER_CASE.values())
             cb.apply((Request) getField(this, method.toString()));
         return (R) this;
