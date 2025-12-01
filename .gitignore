@@ -4,6 +4,9 @@
 **/allure-results/
 /tests/
 /modules/**/tests/
+*.properties
+!dev.properties
+!win.properties
 
 ### NPM ###
 node_modules/
