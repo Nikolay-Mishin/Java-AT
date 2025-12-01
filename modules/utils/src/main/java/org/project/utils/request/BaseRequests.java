@@ -2,12 +2,14 @@ package org.project.utils.request;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
+import java.util.Arrays;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;
 
-import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.*;
 import static org.project.utils.constant.RequestConstants.METHOD.*;
+import static org.project.utils.fs.File.path;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
 
@@ -22,23 +24,27 @@ public class BaseRequests<T> {
     protected Request patch = new Request(PATCH);
     protected Request delete = new Request(DELETE);
 
-    public BaseRequests(String baseUrl) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        init(baseUrl);
+    public BaseRequests(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        init(pathList);
     }
 
     @Description("Init baseUrl")
-    public <R extends BaseRequests<T>> R init(String baseUrl) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        debug("setBaseUrl: " + baseUrl);
-        baseUrl(baseUrl);
-        //init(req -> invoke(req, "baseUrl", baseUrl));
-        return init(req -> invoke(this, "baseUrl", req, baseUrl));
+    public <R extends BaseRequests<T>> R init(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        debug("setBaseUrl: " + Arrays.toString(pathList));
+        baseUrl(pathList);
+        return init(req -> invoke(req, "baseUrl", newArray(pathList)));
     }
 
     @Description("Set uri")
     public <R extends BaseRequests<T>> R uri(String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         debug("setUri: " + uri);
-        //init(req -> invoke(req, "uri", uri));
-        return init(req -> invoke(this, "uri", req, uri));
+        return init(req -> invoke(req, "uri", uri));
+    }
+
+    @Description("Set endpoint")
+    public <R extends BaseRequests<T>> R endpoint(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        debug("setEndpoint: " + Arrays.toString(pathList));
+        return init(req -> invoke(req, "endpoint", newArray(pathList)));
     }
 
     @Description("Init with cb")
@@ -49,19 +55,14 @@ public class BaseRequests<T> {
         return (R) this;
     }
 
-    @Description("Set baseUrl request")
-    public Request baseUrl(Request req, String baseUrl) throws MalformedURLException, URISyntaxException {
-        return req.baseUrl(baseUrl);
-    }
-
-    @Description("Set uri request")
-    public Request uri(Request req, String uri) throws MalformedURLException, URISyntaxException {
-        return req.uri(uri);
-    }
-
     @Description("Get baseUrl")
     public String baseUrl() {
         return baseUrl;
+    }
+
+    @Description("Set baseUrl")
+    public String baseUrl(Object... pathList) {
+        return baseUrl(path(pathList));
     }
 
     @Description("Set baseUrl")
