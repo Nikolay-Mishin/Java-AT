@@ -83,24 +83,6 @@ public class Reflection {
         return (Class<T>) ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
     }
 
-    @Description("Get method of object")
-    private static Method _getDeclaredMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
-        return _getMethod(obj, clazz -> clazz.getDeclaredMethod(method, getTypes(args)));
-    }
-
-    @Description("Get method of object")
-    private static Method _getMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
-        return _getMethod(obj, clazz -> clazz.getMethod(method, getPrimitiveTypes(args)));
-    }
-
-    @Description("Get method of object")
-    private static <E extends Exception> Method _getMethod(Object obj, FunctionWithExceptions<Class<?>, Method, E> cb) throws E {
-        Method _method = cb.apply(getClazz(obj));
-        new AssertException(_method).notNull();
-        debug(Arrays.toString(_method.getParameterTypes()));
-        return _method;
-    }
-
     public static Class<?> getParseType(Class<?> type) {
         String name = getClassSimpleName(type);
         return switch (name) {
@@ -116,7 +98,7 @@ public class Reflection {
     }
 
     public static Class<?> getPrimitiveType(Object obj) {
-        Class<?> clazz = isInstance(obj, List.class) ? List.class : getClazz(obj);
+        Class<?> clazz = isList(obj) ? List.class : getClazz(obj);
         String name = getClassSimpleName(clazz);
         return switch (name) {
             case ("Boolean") -> boolean.class;
@@ -392,21 +374,39 @@ public class Reflection {
         return arrInstance(getType(a), size);
     }
 
-    public static Class<?> getType(Object o) {
-        return getClazz(o).getComponentType();
+    @Description("Get descriptor of class")
+    public static String getDescriptorForClass(final Class<?> c) {
+        if (c.isPrimitive()) {
+            if (c == byte.class)
+                return "B";
+            if (c == char.class)
+                return "C";
+            if (c == double.class)
+                return "D";
+            if (c == float.class)
+                return "F";
+            if (c == int.class)
+                return "I";
+            if (c == long.class)
+                return "J";
+            if (c == short.class)
+                return "S";
+            if (c == boolean.class)
+                return "Z";
+            if (c == void.class)
+                return "V";
+            throw new RuntimeException("Unrecognized primitive " + c);
+        }
+        if (c.isArray()) return c.getName().replace('.', '/');
+        return ('L' + c.getName() + ';').replace('.', '/');
     }
 
-    public static Class<?>[] getTypes(Object... args) {
-        return _getTypes(false, args);
-    }
-
-    public static Class<?>[] getPrimitiveTypes(Object... args) {
-        return _getTypes(true, args);
-    }
-
-    @Description("Get types of object")
-    public static Class<?>[] getTypes(Object obj, String descriptor) throws NullPointerException {
-        return fromMethodDescriptorString(descriptor, getClassLoader(obj)).parameterArray();
+    static String getMethodDescriptor(Method m) {
+        String s = "(";
+        for (final Class<?> c: m.getParameterTypes())
+            s += getDescriptorForClass(c);
+        s += ')';
+        return s + getDescriptorForClass(m.getReturnType());
     }
 
     @Description("Get classLoader of object")
@@ -424,28 +424,81 @@ public class Reflection {
         return sl.getImplMethodSignature();
     }
 
+    public static Class<?> getType(Object o) {
+        return getClazz(o).getComponentType();
+    }
+
+    public static Class<?>[] getTypes(Object... args) {
+        return _getTypes(false, args);
+    }
+
+    public static Class<?>[] getPrimitiveTypes(Object... args) {
+        return _getTypes(true, args);
+    }
+
+    @Description("Get types of object")
+    public static Class<?>[] getTypes(Object obj, String descriptor) throws NullPointerException {
+        return fromMethodDescriptorString(descriptor, getClassLoader(obj)).parameterArray();
+    }
+
     @Description("Get method name of lambda expression")
     public static String getMethodName(SerializedLambda sl) throws NullPointerException {
         return sl.getImplMethodName();
     }
 
     @Description("Get method of object")
-    public static Method getMethod(Object obj, String method, Object... args) throws NoSuchMethodException, NullPointerException {
-        Method _method;
-        try {
-            _method = _getDeclaredMethod(obj, method, args);
-        } catch (NoSuchMethodException e) {
-            _method = _getMethod(obj, method, args);
-        }
-        debug(_method);
+    public static Method getDeclaredMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        debug("getDeclaredMethod");
+        //debug("declaredMethods: " + Arrays.toString(getClazz(obj).getDeclaredMethods()));
+        return getMethod(obj, clazz -> clazz.getDeclaredMethod(method, getTypes(args)));
+    }
+
+    @Description("Get method of object")
+    public static Method getDeclaredPrimitiveMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        debug("getDeclaredPrimitiveMethod");
+        return getMethod(obj, clazz -> clazz.getDeclaredMethod(method, getPrimitiveTypes(args)));
+    }
+
+    @Description("Get method of object")
+    public static Method getSuperMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        debug("getSuperMethod");
+        //debug("methods: " + Arrays.toString(getClazz(obj).getMethods()));
+        return getMethod(obj, clazz -> clazz.getMethod(method, getTypes(args)));
+    }
+
+    @Description("Get method of object")
+    public static Method getPrimitiveMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
+        debug("getPrimitiveMethod");
+        return getMethod(obj, clazz -> clazz.getMethod(method, getPrimitiveTypes(args)));
+    }
+
+    @Description("Get method of object")
+    public static <E extends Exception> Method getMethod(Object obj, FunctionWithExceptions<Class<?>, Method, E> cb) throws E {
+        Method _method = cb.apply(getClazz(obj));
         new AssertException(_method).notNull();
         debug(Arrays.toString(_method.getParameterTypes()));
         return _method;
     }
 
     @Description("Get method of object")
+    public static Method getMethod(Object obj, String method, Object... args) throws ReflectiveOperationException, NullPointerException {
+        /*Method _method = tryCatchNoArgs(() -> tryCatchNoArgs(() -> getDeclaredMethod(obj, method, args), e -> getDeclaredPrimitiveMethod(obj, method, args)),
+            e -> tryCatchNoArgs(() -> getSuperMethod(obj, method, args), _e -> getPrimitiveMethod(obj, method, args)));*/
+        Method _method = getInvoke(obj, c -> tryCatchNoArgs(() -> getDeclaredMethod(c, method, args), e -> getDeclaredPrimitiveMethod(c, method, args)));
+        debug(_method);
+        new AssertException(_method).notNull();
+        debug(Arrays.toString(_method.getParameterTypes()));
+        return _method;
+    }
+
+    @Description("Get method of class")
+    public static Method getMethod(Class<?> clazz, String method, Class<?>... args) throws NoSuchMethodException, NullPointerException {
+        return clazz.getDeclaredMethod(method, args);
+    }
+
+    @Description("Get method of object")
     public static Method getMethod(Object obj, String method, Class<?>... args) throws NoSuchMethodException, NullPointerException {
-        return getClazz(obj).getDeclaredMethod(method, args);
+        return getMethod(getClazz(obj), method, args);
     }
 
     @Description("Get method of object")
@@ -504,19 +557,45 @@ public class Reflection {
         }
     }
 
+    @Description("Get method or field from class or superclass")
+    public static <R, E extends ReflectiveOperationException> R getInvoke(Object obj, FunctionWithExceptions<Class<?>, R, E> cb) throws E {
+        return getInvoke(getClazz(obj), cb);
+    }
+
+    //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
+    @Description("Get method or field from class or superclass")
+    public static <R, E extends ReflectiveOperationException> R getInvoke(Class<?> clazz, FunctionWithExceptions<Class<?>, R, E> cb) throws E {
+        try { return cb.apply(clazz); }
+        catch (ReflectiveOperationException e) {
+            Class<?> superClass = clazz.getSuperclass();
+            if (isNull(superClass)) throw e;
+            else {
+                debug("getSuperClass");
+                return getInvoke(superClass, cb);
+            }
+        }
+        /*return getInvoke(clazz, cb, (c, e) -> {
+            Class<?> superClass = c.getSuperclass();
+            if (isNull(superClass)) throw e;
+            else {
+                debug("getSuperClass");
+                return getInvoke(superClass, cb);
+            }
+        });*/
+    }
+
+    //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
+    @Description("Get method or field from class or superclass")
+    public static <R, E extends ReflectiveOperationException> R getInvoke
+    (Class<?> clazz, FunctionWithExceptions<Class<?>, R, E> cb, BiFunctionWithExceptions<Class<?>, ReflectiveOperationException, R, E> catchCb) throws E {
+        try { return cb.apply(clazz); }
+        catch (ReflectiveOperationException e) { return catchCb.apply(clazz, e); }
+    }
+
     @Description("Get method or field by className")
     public static Object[] getInvoke(String className) throws ClassNotFoundException {
         List<Object> list = arrayList(parseClassName(className, "::").split(","));
         list.set(0, getClazz(list.get(0).toString()));
-        Object[] invoke = list.toArray();
-        debug("list: " + list);
-        debug("invoke0: " + invoke[0]);
-        debug("getInvoke0: " + invoke[0]);
-        debug("getClazz0: " + getClazz(invoke[0]));
-        debug("getInvoke: " + invoke);
-        debug("getInvoke: " + Arrays.toString(invoke));
-        debug("parseClassName: " + parseClassName(className, "::").split(","));
-        //debug("invoke1: " + list.get(1));
         return list.toArray();
     }
 
@@ -538,7 +617,7 @@ public class Reflection {
     }
 
     @Description("Invoke method of className")
-    public static <T> T invoke(String className, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
+    public static <T> T invoke(String className, String method, Object... args) throws ReflectiveOperationException {
         return invoke(getClazz(className), method, args); // вызов метода с аргументами
     }
 
@@ -548,21 +627,15 @@ public class Reflection {
         return (T) lambdaMethod(lambda).invoke(lambda, args); // получение и вызов метода с аргументами
     }
 
-    /*@Description("Invoke method of lambda expression")
-    @SuppressWarnings("unchecked")
-    public static <T> T invokeLambda(Serializable lambda, Object... args) throws ReflectiveOperationException {
-        return (T) lambdaMethod(lambda).invoke(lambda, args); // получение и вызов метода с аргументами
-    }*/
-
     @Description("Invoke method of object")
     @SuppressWarnings("unchecked")
-    public static <T> T invoke(Object obj, String method, Object... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static <T> T invoke(Object obj, String method, Object... args) throws ReflectiveOperationException {
         return (T) getMethod(obj, method, args).invoke(obj, args); // получение и вызов метода с аргументами
     }
 
     @Description("Invoke parse number method")
     @SuppressWarnings("unchecked")
-    public static <T> T invokeParse(Class<?> type, Object value) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static <T> T invokeParse(Class<?> type, Object value) throws ReflectiveOperationException {
         if (!isParseType(type)) return (T) value;
         Class<?> _type = type;
         String name = getClassSimpleName(type);
@@ -604,12 +677,7 @@ public class Reflection {
     //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
     @Description("Get field")
     public static Field field(Class<?> clazz, String name) throws NoSuchFieldException {
-        try {return clazz.getDeclaredField(name);}
-        catch (NoSuchFieldException e) {
-            Class<?> superClass = clazz.getSuperclass();
-            if (superClass == null) throw e;
-            else return field(superClass, name);
-        }
+        return getInvoke(clazz, c -> c.getDeclaredField(name));
     }
 
     @Description("Get field value")
