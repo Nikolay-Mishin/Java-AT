@@ -72,7 +72,7 @@ public final class UtilException {
         return tryCatch(cb, e -> null);
     }
 
-    public static <T, R, E extends Exception> R tryCatch(FunctionWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+    public static <T, R, E extends Exception> R tryCatch(FunctionWithExceptions<T, R, E> cb, FunctionWithExceptions<Exception, R, E> catchCb) throws E {
         try { return cb.apply(null); }
         catch (Exception e) { return catchCb.apply(e); }
     }
@@ -89,7 +89,7 @@ public final class UtilException {
         return tryCatchNoArgs(cb, e -> null);
     }
 
-    public static <T, R, E extends Exception> R tryCatchNoArgs(FunctionNoArgsWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+    public static <T, R, E extends Exception> R tryCatchNoArgs(FunctionNoArgsWithExceptions<T, R, E> cb, FunctionWithExceptions<Exception, R, E> catchCb) throws E {
         try { return cb.apply(); }
         catch (Exception e) { return catchCb.apply(e); }
     }
@@ -106,7 +106,7 @@ public final class UtilException {
         return tryCatchMsg(msg, cb, e -> null);
     }
 
-    public static <T, R, E extends Exception> R tryCatchMsg(String msg, FunctionWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+    public static <T, R, E extends Exception> R tryCatchMsg(String msg, FunctionWithExceptions<T, R, E> cb, FunctionWithExceptions<Exception, R, E> catchCb) throws E {
         try { return cb.apply(null); }
         catch (Exception e) {
             if (_equals(e.getMessage(), msg)) return catchCb.apply(e);
@@ -126,7 +126,7 @@ public final class UtilException {
         return tryCatchNoArgsMsg(msg, cb, e -> null);
     }
 
-    public static <T, R, E extends Exception> R tryCatchNoArgsMsg(String msg, FunctionNoArgsWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+    public static <T, R, E extends Exception> R tryCatchNoArgsMsg(String msg, FunctionNoArgsWithExceptions<T, R, E> cb, FunctionWithExceptions<Exception, R, E> catchCb) throws E {
         try { return cb.apply(); }
         catch (Exception e) {
             if (_equals(e.getMessage(), msg)) return catchCb.apply(e);
@@ -146,7 +146,7 @@ public final class UtilException {
         return tryRes(res, cb, e -> null);
     }
 
-    public static <S extends AutoCloseable, T, R, E extends Exception> R tryRes(S res, FunctionWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+    public static <S extends AutoCloseable, T, R, E extends Exception> R tryRes(S res, FunctionWithExceptions<T, R, E> cb, FunctionWithExceptions<Exception, R, E> catchCb) throws E {
         try (res) { return cb.apply(null); }
         catch (Exception e) { return catchCb.apply(e); }
     }
@@ -163,7 +163,7 @@ public final class UtilException {
         return tryResNoArgs(res, cb, e -> null);
     }
 
-    public static <S extends AutoCloseable, T, R, E extends Exception> R tryResNoArgs(S res, FunctionNoArgsWithExceptions<T, R, E> cb, Function<Exception, R> catchCb) throws E {
+    public static <S extends AutoCloseable, T, R, E extends Exception> R tryResNoArgs(S res, FunctionNoArgsWithExceptions<T, R, E> cb, FunctionWithExceptions<Exception, R, E> catchCb) throws E {
         try (res) { return cb.apply(); }
         catch (Exception e) { return catchCb.apply(e); }
     }
