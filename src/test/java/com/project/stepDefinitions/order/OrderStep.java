@@ -23,17 +23,17 @@ public class OrderStep extends BaseStep<OrderRequests, Order> {
     }
 
     @When("создать заказ статус {int}")
-    public void postOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
+    public void postOrder(int statusCode, List<List<String>> dataTable) throws ReflectiveOperationException, URISyntaxException, IOException {
         assertEquals(statusCode, post(dataTable).getStatusCode());
     }
 
     @Then("получить заказ статус {int}")
-    public void getOrder(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    public void getOrder(int statusCode) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         assertEquals(statusCode, get().getStatusCode());
     }
 
     @And("удалить заказ статус {int}")
-    public void deleteOrder(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    public void deleteOrder(int statusCode) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         assertEquals(statusCode, delete().getStatusCode());
     }
 

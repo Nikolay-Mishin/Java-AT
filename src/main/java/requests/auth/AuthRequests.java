@@ -10,7 +10,7 @@ import static constant.UrlConstants.AUTH_URL;
 import pojo.json.auth.Token;
 
 public class AuthRequests extends AuthBaseRequests<Token> {
-    public AuthRequests() throws MalformedURLException, URISyntaxException {
+    public AuthRequests() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         super(AUTH_URL);
     }
 }

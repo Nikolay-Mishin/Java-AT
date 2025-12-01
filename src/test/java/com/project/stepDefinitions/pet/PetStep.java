@@ -22,14 +22,13 @@ import requests.PetRequests;
 public class PetStep extends BaseStep<PetRequests, Pet> {
 
     @ConstructorProperties({})
-    public PetStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public PetStep() throws ReflectiveOperationException {
         super();
         hashMap = new HashMap<String, Class<?>>("category", "tags").values(Category.class, TagsItem.class);
     }
 
     @Override
-    protected Response post(List<List<String>> dataTable)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+    protected Response post(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
         Response resp = super.post(dataTable);
         int categoryId = resp.path("category.id");
         debug(categoryId);
@@ -37,18 +36,17 @@ public class PetStep extends BaseStep<PetRequests, Pet> {
     }
 
     @When("создать животное статус {int}")
-    public void postPet(int statusCode, List<List<String>> dataTable)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+    public void postPet(int statusCode, List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
         assertEquals(statusCode, post(dataTable).getStatusCode());
     }
 
     @And("получить животное статус {int}")
-    public void getPet(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    public void getPet(int statusCode) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         assertEquals(statusCode, get().getStatusCode());
     }
 
     @And("удалить животное статус {int}")
-    public void deletePet(int statusCode) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    public void deletePet(int statusCode) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         assertEquals(statusCode, delete().getStatusCode());
     }
 

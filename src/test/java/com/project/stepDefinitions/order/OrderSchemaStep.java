@@ -22,7 +22,7 @@ public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> 
     }
 
     @When("создать заказ schema статус {int}")
-    public void postOrder(int statusCode, List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, URISyntaxException, IOException {
+    public void postOrder(int statusCode, List<List<String>> dataTable) throws ReflectiveOperationException, URISyntaxException, IOException {
         assertEquals(statusCode, post(dataTable).getStatusCode());
     }
 

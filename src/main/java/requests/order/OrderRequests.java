@@ -10,7 +10,7 @@ import static constant.UrlConstants.ORDER_URL;
 import models.order.Order;
 
 public class OrderRequests extends BaseRequests<Order> {
-    public OrderRequests() throws MalformedURLException, URISyntaxException {
+    public OrderRequests() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         super(ORDER_URL);
     }
 }

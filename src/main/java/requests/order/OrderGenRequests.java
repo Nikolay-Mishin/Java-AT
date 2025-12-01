@@ -10,7 +10,7 @@ import static constant.UrlConstants.ORDER_URL;
 import pojo.gen.store.order.Order;
 
 public class OrderGenRequests extends BaseRequests<Order> {
-    public OrderGenRequests() throws MalformedURLException, URISyntaxException {
+    public OrderGenRequests() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         super(ORDER_URL);
     }
 }

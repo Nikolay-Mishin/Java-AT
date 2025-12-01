@@ -24,7 +24,7 @@ public class AuthStep extends BaseStep<AuthRequests, Token> {
 
     @When("авторизоваться")
     public void auth()
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, ClassNotFoundException, InstantiationException, NoSuchFieldException, URISyntaxException
+        throws ReflectiveOperationException, IOException, URISyntaxException
     {
         Auth.init("auth/token");
         printTokens();
