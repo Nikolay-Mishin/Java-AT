@@ -1,7 +1,5 @@
 package org.project.utils.test;
 
-import java.lang.reflect.InvocationTargetException;
-
 import static org.project.utils.Helper.*;
 import static org.project.utils.config.Config.*;
 

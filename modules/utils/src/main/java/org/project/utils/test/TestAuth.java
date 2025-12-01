@@ -1,7 +1,5 @@
 package org.project.utils.test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
@@ -11,17 +9,17 @@ import org.project.utils.reflection.SingleInstance;
 
 public class TestAuth {
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void main(String[] args) throws Exception {
         testAuth();
     }
 
-    public static void testAuth() throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void testAuth() throws Exception {
         testAuth("auth/token");
         req().uri("https://googlechromelabs.github.io/");
         testAuth("auth/tokens");
     }
 
-    public static void testAuth(Object... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void testAuth(Object... pathList) throws Exception {
         debug("testAuth: " + Arrays.toString(pathList));
         init(pathList);
         printTokens();

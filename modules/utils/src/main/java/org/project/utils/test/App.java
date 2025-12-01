@@ -3,7 +3,6 @@ package org.project.utils.test;
 import static java.lang.Long.valueOf;
 
 import java.io.*;
-import java.net.URISyntaxException;
 
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.*;
@@ -23,7 +22,7 @@ public class App extends TestException {
     protected static ChromeDriver webDriver;
     protected static RemoteWebDriver remoteDriver;
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void main(String[] args) throws Exception {
         debug("App:main");
         debug(configs());
         testException();

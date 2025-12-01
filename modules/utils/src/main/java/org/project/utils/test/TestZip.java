@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class TestZip extends TestJson {
     protected static String mkdir = mkdirRoot + "1";
     protected static String readDir = "src/main/resources";
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void main(String[] args) throws Exception {
         testZip();
     }
 

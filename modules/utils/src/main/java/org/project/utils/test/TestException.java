@@ -15,7 +15,7 @@ import org.project.utils.Helper;
 
 public class TestException extends TestInvoke {
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void main(String[] args) throws Exception {
         //testConsumerWithCheckedExceptions();
         //testFunctionWithCheckedExceptions();
         //testSupplierWithCheckedExceptions();

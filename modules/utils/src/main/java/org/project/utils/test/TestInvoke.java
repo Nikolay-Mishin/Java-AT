@@ -1,27 +1,20 @@
 package org.project.utils.test;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-
 import org.openqa.selenium.WebDriver;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.toTable;
 import static org.project.utils.config.Config.configs;
-import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.reflection.Reflection.*;
-
-import org.project.utils.request.Request;
 
 public class TestInvoke extends TestZip {
     protected static WebDriver driver;
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void main(String[] args) throws Exception {
         testInvoke();
     }
 
-    public static void testInvoke() throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
+    public static void testInvoke() throws Exception {
         debug("testInvoke");
         getClazz("org.project.utils.test.TestInvoke", "::");
         getClazz("org.project.utils.test.TestInvoke::driver", "::");

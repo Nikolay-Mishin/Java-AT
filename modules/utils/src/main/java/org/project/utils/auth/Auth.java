@@ -3,8 +3,6 @@ package org.project.utils.auth;
 import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 import io.restassured.response.Response;
 
@@ -41,7 +39,7 @@ public class Auth extends SingleInstance<Auth> {
         return (AuthBaseRequests<T>) (i.req = req);
     }
 
-    public static <T> AuthBaseRequests<T> req(String baseUrl) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static <T> AuthBaseRequests<T> req(String baseUrl) throws Exception {
         return req(notNull(i.req) ? (AuthBaseRequests<T>) req().init(baseUrl) : new AuthBaseRequests<>(baseUrl));
     }
 
@@ -49,11 +47,11 @@ public class Auth extends SingleInstance<Auth> {
         return i.baseUrl;
     }
 
-    public static String baseUrl(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static String baseUrl(Object... pathList) throws Exception {
         return baseUrl(path(pathList));
     }
 
-    public static String baseUrl(String baseUrl) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static String baseUrl(String baseUrl) throws Exception {
         auth(baseUrl);
         return i.baseUrl = baseUrl;
     }
@@ -62,7 +60,7 @@ public class Auth extends SingleInstance<Auth> {
         return i.auth;
     }
 
-    public static Request auth(String baseUrl) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static Request auth(String baseUrl) throws Exception {
         return auth(req(baseUrl));
     }
 
@@ -103,7 +101,7 @@ public class Auth extends SingleInstance<Auth> {
         return instance();
     }
 
-    public static <T> Auth init(AuthBaseRequests<T> req, Object... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static <T> Auth init(AuthBaseRequests<T> req, Object... pathList) throws Exception {
         debug("Auth: req, pathList");
         init(pathList);
         auth(req);
@@ -129,7 +127,7 @@ public class Auth extends SingleInstance<Auth> {
         return init(new AuthToken(tokens));
     }
 
-    public static Auth init(Object... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static Auth init(Object... pathList) throws Exception {
         debug("Auth: pathList");
         init(new AuthToken(pathList));
         baseUrl(pathList);
@@ -156,7 +154,7 @@ public class Auth extends SingleInstance<Auth> {
         return token().fileToken();
     }
 
-    public static void printTokens(Object... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void printTokens(Object... pathList) throws Exception {
         init(pathList);
         printTokens();
     }

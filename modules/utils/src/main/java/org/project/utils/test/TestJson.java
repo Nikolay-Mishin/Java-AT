@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -17,7 +16,7 @@ import org.project.utils.request.Request;
 
 public class TestJson extends TestApi {
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void main(String[] args) throws Exception {
         testJson();
     }
 
