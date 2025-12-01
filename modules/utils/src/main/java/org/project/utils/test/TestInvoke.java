@@ -29,11 +29,15 @@ public class TestInvoke extends TestZip {
         debug(getField("org.project.utils.test.TestInvoke::driver"));
         debug(getField("org.project.utils.test.TestInvoke"));
 
-        Request req = new Request(GET);
-        //req.uri("https://googlechromelabs.github.io/");
-        invoke(req, "uri", "https://googlechromelabs.github.io/");
-        req.printFullPath();
-        Requests req1 = new Requests();
+        Requests req = new Requests();
+        req.init("baseUrl");
+        req.post().printFullPath();
+        req.uri("https://googlechromelabs.github.io/");
+        req.post().printFullPath();
+        req.endpoint("id");
+        req.post().printFullPath();
+        req.endpoint(1);
+        req.post().printFullPath();
 
         //debug(invoke("org.project.utils.test.TestInvoke", "invokeName"));
         debug(invoke("org.project.utils.test.TestInvoke::invokeName"));

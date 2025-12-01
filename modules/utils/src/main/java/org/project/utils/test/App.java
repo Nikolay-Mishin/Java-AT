@@ -37,11 +37,11 @@ public class App extends TestException {
         //testLong();
         //testEntries();
         //testReq();
-        testAuth();
+        //testAuth();
         //testConfig();
         //testWinDriverConfig();
         //testPrintException();
-        //testInvoke();
+        testInvoke();
         //testReqGet();
         //testApi(true);
     }
