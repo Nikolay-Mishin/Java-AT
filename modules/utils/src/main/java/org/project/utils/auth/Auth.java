@@ -88,8 +88,7 @@ public class Auth extends SingleInstance<Auth> {
     }
 
     public static <T> Auth init(AuthBaseRequests<T> req, Response tokens)
-        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
-    {
+        throws IOException, ReflectiveOperationException {
         debug("Auth: req, Response");
         init(tokens);
         auth(req);
@@ -97,8 +96,7 @@ public class Auth extends SingleInstance<Auth> {
     }
 
     public static <T> Auth init(AuthBaseRequests<T> req, JsonSchema tokens)
-        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
-    {
+        throws IOException, ReflectiveOperationException {
         debug("Auth: req, JsonSchema");
         init(tokens);
         auth(req);
@@ -120,15 +118,13 @@ public class Auth extends SingleInstance<Auth> {
     }
 
     public static Auth init(Response tokens)
-        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
-    {
+        throws IOException, ReflectiveOperationException {
         debug("Auth: Response");
         return init(new AuthToken(tokens));
     }
 
     public static Auth init(JsonSchema tokens)
-        throws IOException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException
-    {
+        throws IOException, ReflectiveOperationException {
         debug("Auth: JsonSchema");
         return init(new AuthToken(tokens));
     }
@@ -140,11 +136,11 @@ public class Auth extends SingleInstance<Auth> {
         return instance();
     }
 
-    public static void refreshTokens(Response tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void refreshTokens(Response tokens) throws ReflectiveOperationException {
         token().refreshTokens(tokens);
     }
 
-    public static void refreshTokens(JsonSchema tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void refreshTokens(JsonSchema tokens) throws ReflectiveOperationException {
         token().refreshTokens(tokens);
     }
 

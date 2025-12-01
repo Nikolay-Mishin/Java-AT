@@ -31,27 +31,27 @@ public class Model<T> {
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, hashMap, method, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, null, method, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, Object... jsonSchemaPathList)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, hashMap, null, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable, Object... jsonSchemaPathList)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, null, null, jsonSchemaPathList);
     }
 
     public Model(Class<T> clazz, List<List<String>> dataTable)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, null, null);
     }
 
@@ -60,7 +60,7 @@ public class Model<T> {
     }
 
     private void _model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException {
+        throws ReflectiveOperationException, IOException {
             jsonData = method != null ? getJsonData(method, clazz, jsonSchemaPathList) : getJsonData(clazz, jsonSchemaPathList);
             builder = builder(clazz);
             model(clazz, dataTable, hashMap);
@@ -74,15 +74,15 @@ public class Model<T> {
         return new JsonSchema().path(clazz, jsonSchemaPathList).data();
     }
 
-    private T model(Class<T> clazz, List<String> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private T model(Class<T> clazz, List<String> dataTable) throws ReflectiveOperationException {
         return model(clazz, dataTable, null);
     }
 
-    private Object builder(Class<T> clazz) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private Object builder(Class<T> clazz) throws ReflectiveOperationException {
         return invoke(clazz, "builder");
     }
 
-    private void setKeys(String key, boolean isList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    private void setKeys(String key, boolean isList) throws ReflectiveOperationException {
         debug("setData");
         debug(jsonData);
         if (isNull(jsonData)) {
@@ -97,8 +97,7 @@ public class Model<T> {
 
     @SuppressWarnings("unchecked")
     private T model(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap)
-        throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
-    {
+        throws ReflectiveOperationException {
         debug("model");
 
         Object _builder = builder(clazz);

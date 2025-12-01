@@ -9,15 +9,15 @@ import org.project.utils.json.JsonSchema;
 
 public class AuthToken extends Token {
 
-    public AuthToken(Response tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
+    public AuthToken(Response tokens) throws ReflectiveOperationException {
         super(tokens);
     }
 
-    public AuthToken(JsonSchema tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
+    public AuthToken(JsonSchema tokens) throws ReflectiveOperationException {
         super(tokens);
     }
 
-    public AuthToken(Object... pathList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, IOException {
+    public AuthToken(Object... pathList) throws ReflectiveOperationException, IOException {
         super(pathList);
     }
 

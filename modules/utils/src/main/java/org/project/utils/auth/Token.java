@@ -26,36 +26,36 @@ public class Token extends Register<String, Token> {
     protected String path;
 
     @ConstructorProperties({"key", "value"})
-    public Token(String key, String value) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public Token(String key, String value) throws ReflectiveOperationException {
         debug("Token: key, value");
         init(key, value, value);
     }
 
     @ConstructorProperties({"key", "value", "path"})
-    public Token(String key, String value, String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public Token(String key, String value, String path) throws ReflectiveOperationException {
         debug("Token: key, value, path");
         init(key, value, path);
     }
 
     @ConstructorProperties({"tokens"})
-    public Token(Response tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
+    public Token(Response tokens) throws ReflectiveOperationException {
         debug("Token: Response");
         init(tokens);
     }
 
     @ConstructorProperties({"tokens"})
-    public Token(JsonSchema tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
+    public Token(JsonSchema tokens) throws ReflectiveOperationException {
         debug("Token: JsonSchema");
         init(tokens);
     }
 
     @ConstructorProperties({"pathList"})
-    public Token(Object... pathList) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException, IOException {
+    public Token(Object... pathList) throws ReflectiveOperationException, IOException {
         debug("Token: pathList");
         init(pathList);
     }
 
-    protected static void setKeys(Object tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected static void setKeys(Object tokens) throws ReflectiveOperationException {
         JsonSchema jsonData = new JsonSchema(config().getTokenKeys());
         keys = jsonData.keys();
         //keysMap = new HashMap<String, String>(keys).values(jsonData, "string");
@@ -71,27 +71,27 @@ public class Token extends Register<String, Token> {
         return isJson(tokens) && notNull(((JsonSchema) tokens).data());
     }
 
-    protected void init(String key, String value, String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected void init(String key, String value, String path) throws ReflectiveOperationException {
         token = new HashMap<String, String>("key", "value", "path").values(key, value, path);
         this.key = key;
         this.value = value;
         this.path = path;
     }
 
-    protected void init(Object... pathList) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, IOException {
+    protected void init(Object... pathList) throws ReflectiveOperationException, IOException {
         init(jsonSchema(pathList));
     }
 
-    protected void init(Object tokens) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
+    protected void init(Object tokens) throws ReflectiveOperationException {
         if (isNull(keys)) setKeys(tokens);
         _refreshTokens(tokens);
     }
 
-    public void refreshTokens(Response tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public void refreshTokens(Response tokens) throws ReflectiveOperationException {
         _refreshTokens(tokens);
     }
 
-    public void refreshTokens(JsonSchema tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public void refreshTokens(JsonSchema tokens) throws ReflectiveOperationException {
         _refreshTokens(tokens);
     }
 
@@ -115,7 +115,7 @@ public class Token extends Register<String, Token> {
         return path;
     }
 
-    protected void _refreshTokens(Object tokens) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected void _refreshTokens(Object tokens) throws ReflectiveOperationException {
         debug("refreshTokens: " + tokens);
         debug("jsonNotNull: " + jsonNotNull(tokens));
         for (String key : keys) {

@@ -76,7 +76,7 @@ public class Register<K, V> {
         return null;
     }
 
-    public static void printRegisterMap() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void printRegisterMap() throws ReflectiveOperationException {
         debug(registerMap);
         for (Class<?> key : keys(registerMap, Class<?>[]::new)) {
             registerMap(key).printRegister();

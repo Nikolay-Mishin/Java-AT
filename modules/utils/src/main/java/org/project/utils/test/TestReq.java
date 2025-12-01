@@ -14,19 +14,19 @@ public class TestReq {
     }
 
     public static void testReq()
-        throws IOException, URISyntaxException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+        throws IOException, URISyntaxException, ReflectiveOperationException {
         //testReqGet();
         testReqPost();
     }
 
     public static void testReqGet()
-        throws IOException, URISyntaxException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testReqGet");
         new Step().getOrder(200, 0);
     }
 
     public static void testReqPost()
-        throws IOException, URISyntaxException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testReqPost");
         //[[id, 0], [petId, 0], [quantity, 0], [shipDate, 2023-09-11T09:37:57.828Z], [status, placed], [complete, true]]
         Integer[][] arrayInt = {{1, 2}};

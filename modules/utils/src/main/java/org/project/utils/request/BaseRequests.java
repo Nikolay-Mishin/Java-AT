@@ -30,14 +30,14 @@ public class BaseRequests<T> {
     public <R extends BaseRequests<T>> R init(String baseUrl) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         debug("setBaseUrl: " + baseUrl);
         baseUrl(baseUrl);
-        //return init(req -> invoke(req, "baseUrl", baseUrl));
+        //init(req -> invoke(req, "baseUrl", baseUrl));
         return init(req -> invoke(this, "baseUrl", req, baseUrl));
     }
 
     @Description("Set uri")
     public <R extends BaseRequests<T>> R uri(String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         debug("setUri: " + uri);
-        //return init(req -> invoke(req, "uri", uri));
+        //init(req -> invoke(req, "uri", uri));
         return init(req -> invoke(this, "uri", req, uri));
     }
 
@@ -120,27 +120,27 @@ public class BaseRequests<T> {
     }
 
     @Description("Add a new object")
-    public Response post(T model) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response post(T model) throws ReflectiveOperationException {
         return post.response(model);
     }
 
     @Description("Find object by ID")
-    public Response get(Long id) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response get(Long id) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return get.endpoint(id).response();
     }
 
     @Description("Update object")
-    public Response put(T model) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response put(T model) throws ReflectiveOperationException {
         return put.response(model);
     }
 
     @Description("Patch object")
-    public Response patch(T model) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response patch(T model) throws ReflectiveOperationException {
         return patch.response(model);
     }
 
     @Description("Delete object")
-    public Response delete(Long id) throws MalformedURLException, URISyntaxException, InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    public Response delete(Long id) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return delete.endpoint(id).response();
     }
 

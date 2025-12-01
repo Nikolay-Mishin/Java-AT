@@ -24,33 +24,29 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
     }
 
     @SuppressWarnings("unchecked")
-    public HashMap<K, V> values(List<V> values) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public HashMap<K, V> values(List<V> values) throws ReflectiveOperationException {
         return values((V[]) values.toArray());
     }
 
     @SafeVarargs
     public final HashMap<K, V> values(V... values)
-        throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws NullPointerException, ReflectiveOperationException {
         return _values(null, null, values);
     }
 
     public HashMap<K, V> values(JsonSchema jsonSchema)
-        throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws NullPointerException, ReflectiveOperationException {
         return _values(jsonSchema, "object");
     }
 
     public HashMap<K, V> values(JsonSchema jsonSchema, String type)
-        throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws NullPointerException, ReflectiveOperationException {
         return _values(jsonSchema, type);
     }
 
     @SafeVarargs
     private HashMap<K, V> _values(JsonSchema jsonSchema, String type, V... values)
-        throws NullPointerException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws NullPointerException, ReflectiveOperationException {
         HashMap<K, V> hashMap = new HashMap<>();
         boolean valuesNotJson = isNull(jsonSchema);
         int valuesLength = valuesNotJson ? values.length : keys.length;
@@ -65,25 +61,23 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
     }
 
     @SuppressWarnings("unchecked")
-    public K[] keys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public K[] keys() throws ReflectiveOperationException {
         return (K[]) keys(this, String[]::new);
     }
 
     public K[] keys(IntFunction<K[]> generator)
-        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws ReflectiveOperationException {
         return keys(this, generator);
     }
 
     @SuppressWarnings("unchecked")
-    public static <K> K[] keys(Object obj) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static <K> K[] keys(Object obj) throws ReflectiveOperationException {
         return (K[]) keys(obj, String[]::new);
     }
 
     @SuppressWarnings("unchecked")
     public static <K> K[] keys(Object obj, IntFunction<K[]> generator)
-        throws InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws ReflectiveOperationException {
         return ((Set<K>) invoke(obj, "keySet")).toArray(generator);
     }
 }

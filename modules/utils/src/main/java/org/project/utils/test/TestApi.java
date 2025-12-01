@@ -28,13 +28,12 @@ public class TestApi {
         testHeaders();
     }
 
-    public static void testApi() throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void testApi() throws IOException, URISyntaxException, ReflectiveOperationException {
         testApi(false);
     }
 
     public static void testApi(boolean setAssert)
-        throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testApi:" + setAssert);
         Request req = new Request(GET, "store/order", 0);
         Response resp = req.response();
@@ -99,7 +98,7 @@ public class TestApi {
         if (setAssert) assertEquals(resp.getStatusCode(), 200);
     }
 
-    public static void testHeaders() throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void testHeaders() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testHeaders");
         Request req = new Request(GET, "store/order", 0);
 

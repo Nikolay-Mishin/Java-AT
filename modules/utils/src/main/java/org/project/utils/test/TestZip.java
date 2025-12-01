@@ -30,7 +30,7 @@ public class TestZip extends TestJson {
         testZip();
     }
 
-    public static void testZip() throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testZip");
         JsonSchema json = jsonSchema(endpoint, uri);
         Request req = json.req();

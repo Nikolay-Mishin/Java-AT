@@ -38,20 +38,18 @@ public class JsonSchema {
         data(jsonString);
     }
 
-    public JsonSchema(Request req) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public JsonSchema(Request req) throws ReflectiveOperationException {
         this.req = req;
         data(req.string());
     }
 
     public static JsonSchema jsonSchema(String endpoint)
-        throws MalformedURLException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return new JsonSchema(new Request(GET, endpoint));
     }
 
     public static JsonSchema jsonSchema(String endpoint, String uri)
-        throws MalformedURLException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException
-    {
+        throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return new JsonSchema(new Request(GET, endpoint).uri(uri));
     }
 
@@ -124,19 +122,19 @@ public class JsonSchema {
         return toTable(jsonData);
     }
 
-    public List<List<Object>> toTable(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public List<List<Object>> toTable(String k) throws ReflectiveOperationException {
         return Helper.toTable(toMap(k));
     }
 
-    public List<List<Object>> arrayToTable(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public List<List<Object>> arrayToTable(String k) throws ReflectiveOperationException {
         return Helper.toTable(arrayToMap(k));
     }
 
-    public List<List<Object>> toTable(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public List<List<Object>> toTable(String key, String k, String v) throws ReflectiveOperationException {
         return Helper.toTable(toMap(key, k, v));
     }
 
-    public <T> List<List<Object>> toTable(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> List<List<Object>> toTable(String k, Predicate<T> filter) throws ReflectiveOperationException {
         return Helper.toTable(toMap(k, filter));
     }
 
@@ -144,19 +142,19 @@ public class JsonSchema {
         return jsonData.toMap();
     }
 
-    public Map<String, Object> toMap(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public Map<String, Object> toMap(String k) throws ReflectiveOperationException {
         return toMap((JSONObject) get(k));
     }
 
-    public Map<String, Object> arrayToMap(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public Map<String, Object> arrayToMap(String k) throws ReflectiveOperationException {
         return toObject(k).toMap();
     }
 
-    public Map<String, Object> toMap(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public Map<String, Object> toMap(String key, String k, String v) throws ReflectiveOperationException {
         return toObject(key, k, v).toMap();
     }
 
-    public <T> Map<String, Object> toMap(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> Map<String, Object> toMap(String k, Predicate<T> filter) throws ReflectiveOperationException {
         return toObject(k, filter).toMap();
     }
 
@@ -167,35 +165,35 @@ public class JsonSchema {
         return a.toJSONObject(names);
     }
 
-    protected JSONObject toObject(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected JSONObject toObject(String k) throws ReflectiveOperationException {
         return toObject((JSONArray) get(k, "array"));
     }
 
-    protected JSONObject toObject(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected JSONObject toObject(String key, String k, String v) throws ReflectiveOperationException {
         return toObject(toArray(key, k, v));
     }
 
-    protected <T> JSONObject toObject(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    protected <T> JSONObject toObject(String k, Predicate<T> filter) throws ReflectiveOperationException {
         return toObject(toArray(k, filter));
     }
 
-    public JSONArray toArray(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public JSONArray toArray(String key, String k, String v) throws ReflectiveOperationException {
         return new JSONArray(toList(key, k, v));
     }
 
-    public <T> JSONArray toArray(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> JSONArray toArray(String k, Predicate<T> filter) throws ReflectiveOperationException {
         return new JSONArray(toList(k, filter));
     }
 
-    public List<Object> toList(String k) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public List<Object> toList(String k) throws ReflectiveOperationException {
         return toList((JSONArray) get(k, "array"));
     }
 
-    public List<JSONObject> toList(String key, String k, String v) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public List<JSONObject> toList(String key, String k, String v) throws ReflectiveOperationException {
         return toList(key, o -> o.get(k).equals(v));
     }
 
-    public <T> List<T> toList(String k, Predicate<T> filter) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> List<T> toList(String k, Predicate<T> filter) throws ReflectiveOperationException {
         return toList((JSONArray) get(k, "array"), filter);
     }
 
@@ -223,28 +221,28 @@ public class JsonSchema {
         return toLowerCaseFirst(getClassSimpleName(modelClass));
     }
 
-    public String[] keys() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public String[] keys() throws ReflectiveOperationException {
         return _keys(null);
     }
 
-    public String[] keys(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public String[] keys(String path) throws ReflectiveOperationException {
         return _keys(path);
     }
 
-    public <T> T get(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> T get(String path) throws ReflectiveOperationException {
         return _get(path, "object");
     }
 
-    public <T> T get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public <T> T get(String path, String type) throws ReflectiveOperationException {
         return _get(path, type);
     }
 
-    private String[] _keys(String path) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    private String[] _keys(String path) throws ReflectiveOperationException {
         return HashMap.keys(isNull(path) ? jsonData : get(path), String[]::new);
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T _get(String path, String type) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    private <T> T _get(String path, String type) throws ReflectiveOperationException {
         type = type.toLowerCase();
         String[] pathList = parsePath(path);
         boolean isValue = pathList.length == 1;

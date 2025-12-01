@@ -15,7 +15,7 @@ public class TestConfig extends App {
         testWinDriverConfig();
     }
 
-    public static void testConfig() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void testConfig() throws ReflectiveOperationException {
         debug("testConfig");
         debug(config().getClass());
         printConfigs();
@@ -34,7 +34,7 @@ public class TestConfig extends App {
         debug(WebBaseConfig.BASE_CONFIG.getConfig());
     }
 
-    public static void printConfigs() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public static void printConfigs() throws ReflectiveOperationException {
         debug("printConfigs");
         HashMap<String, BaseConfig> map = configs();
         debug("map: " + map);

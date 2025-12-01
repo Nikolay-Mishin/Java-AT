@@ -87,7 +87,7 @@ public class LocalStorage {
     }
 
     @SuppressWarnings("unchecked")
-    public HashMap<String, String> items() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    public HashMap<String, String> items() throws ReflectiveOperationException {
         return new HashMap<String, String>(keys()).values(values());
     }
 
