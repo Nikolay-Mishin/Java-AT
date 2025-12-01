@@ -1,9 +1,7 @@
 package com.project.stepDefinitions.auth;
 
 import java.beans.ConstructorProperties;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
 
 import io.cucumber.java.en.*;
 
@@ -23,9 +21,7 @@ public class AuthStep extends BaseStep<AuthRequests, Token> {
     }
 
     @When("авторизоваться")
-    public void auth()
-        throws ReflectiveOperationException, IOException, URISyntaxException
-    {
+    public void auth() throws Exception {
         Auth.init("auth/token");
         printTokens();
         printRegisterMap();
