@@ -482,9 +482,9 @@ public class Reflection {
 
     @Description("Get method of object")
     public static Method getMethod(Object obj, String method, Object... args) throws ReflectiveOperationException, NullPointerException {
-        /*Method _method = tryCatchNoArgs(() -> tryCatchNoArgs(() -> getDeclaredMethod(obj, method, args), e -> getDeclaredPrimitiveMethod(obj, method, args)),
-            e -> tryCatchNoArgs(() -> getSuperMethod(obj, method, args), _e -> getPrimitiveMethod(obj, method, args)));*/
-        Method _method = getInvoke(obj, c -> tryCatchNoArgs(() -> getDeclaredMethod(c, method, args), e -> getDeclaredPrimitiveMethod(c, method, args)));
+        Method _method = tryCatchNoArgs(() -> tryCatchNoArgs(() -> getDeclaredMethod(obj, method, args), e -> getDeclaredPrimitiveMethod(obj, method, args)),
+            e -> tryCatchNoArgs(() -> getSuperMethod(obj, method, args), _e -> getPrimitiveMethod(obj, method, args)));
+        //Method _method = getInvoke(obj, c -> tryCatchNoArgs(() -> getDeclaredMethod(c, method, args), e -> getDeclaredPrimitiveMethod(c, method, args)));
         debug(_method);
         new AssertException(_method).notNull();
         debug(Arrays.toString(_method.getParameterTypes()));
@@ -565,31 +565,22 @@ public class Reflection {
     //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
     @Description("Get method or field from class or superclass")
     public static <R, E extends ReflectiveOperationException> R getInvoke(Class<?> clazz, FunctionWithExceptions<Class<?>, R, E> cb) throws E {
-        try { return cb.apply(clazz); }
-        catch (ReflectiveOperationException e) {
-            Class<?> superClass = clazz.getSuperclass();
-            if (isNull(superClass)) throw e;
-            else {
-                debug("getSuperClass");
-                return getInvoke(superClass, cb);
-            }
-        }
-        /*return getInvoke(clazz, cb, (c, e) -> {
+        return getInvoke(clazz, cb, (c, e) -> {
             Class<?> superClass = c.getSuperclass();
             if (isNull(superClass)) throw e;
             else {
                 debug("getSuperClass");
                 return getInvoke(superClass, cb);
             }
-        });*/
+        });
     }
 
     //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
     @Description("Get method or field from class or superclass")
     public static <R, E extends ReflectiveOperationException> R getInvoke
-    (Class<?> clazz, FunctionWithExceptions<Class<?>, R, E> cb, BiFunctionWithExceptions<Class<?>, ReflectiveOperationException, R, E> catchCb) throws E {
+    (Class<?> clazz, FunctionWithExceptions<Class<?>, R, E> cb, BiFunctionWithExceptions<Class<?>, E, R, E> catchCb) throws E {
         try { return cb.apply(clazz); }
-        catch (ReflectiveOperationException e) { return catchCb.apply(clazz, e); }
+        catch (ReflectiveOperationException e) { return catchCb.apply(clazz, (E) e); }
     }
 
     @Description("Get method or field by className")
