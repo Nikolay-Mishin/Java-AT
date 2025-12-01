@@ -94,22 +94,22 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         debug("modelClass: " + modelClass);
     }
 
-    protected Response get() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    protected Response get() throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         return get(id);
     }
 
-    protected Response get(int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    protected Response get(int id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         //return get((long) id);
         return get(valueOf(id));
     }
 
-    protected Response get(Long id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    protected Response get(Long id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         Response resp = req.get(id);
         debug(resp.getStatusCode());
         return resp;
     }
 
-    protected Response post(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+    protected Response post(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
         M model = new Model<>(modelClass, dataTable, hashMap, req.baseUrl()).get();
         Response resp = req.post(model);
         //id = resp.jsonPath().get("id");
@@ -119,7 +119,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         return resp;
     }
 
-    protected Response put(List<List<String>> dataTable) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, IOException, URISyntaxException {
+    protected Response put(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
         M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
         Response resp = req.put(model);
         id = resp.path("id");
@@ -128,16 +128,25 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         return resp;
     }
 
-    protected Response delete() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    protected Response patch(List<List<String>> dataTable) throws ReflectiveOperationException, IOException {
+        M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
+        Response resp = req.patch(model);
+        id = resp.path("id");
+        debug(id);
+        debug(resp.getStatusCode());
+        return resp;
+    }
+
+    protected Response delete() throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         return delete(id);
     }
 
-    protected Response delete(int id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    protected Response delete(int id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         //return delete((long) id);
         return delete(valueOf(id));
     }
 
-    protected Response delete(Long id) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, MalformedURLException, URISyntaxException {
+    protected Response delete(Long id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         Response resp = req.delete(id);
         debug(resp.getStatusCode());
         return resp;
