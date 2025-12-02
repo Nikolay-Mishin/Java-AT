@@ -6,6 +6,12 @@ import static org.aeonbits.owner.Config.*;
 
 import static org.project.utils.config.WebConfig.*;
 
+//@LoadPolicy(LoadType.MERGE)
+/*@Sources({
+    "system:properties", // -DpropertyName=propertyValue,
+    "classpath:stand.properties",
+    "classpath:dev.properties"
+})*/
 //@Sources({"classpath:dev.properties"})
 @Sources({"file:src/main/resources/dev.properties"})
 public interface WebBaseConfig extends BaseConfig {
