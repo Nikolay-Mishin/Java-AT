@@ -28,9 +28,11 @@ public class Request extends RequestAuth {
 
     public Request init(ApiConfig apiConfig, METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         request = apiConfig.get();
+        //debug("getHeaders: " + getHeaders());
         this.method = method;
         methodSend = method.toString().toLowerCase();
         baseUrl(pathList); // задаем базовый путь для запроса
+        //debug("getHeaders: " + getHeaders());
         endpoint = this.method + " " + path;
         debug(endpoint);
         debug(URL);
