@@ -116,8 +116,6 @@ public class TestApi {
         debug("contentType: " + getContentType());
         debug("accept: " + getAccept());
 
-        //req.header("kamaz-user-agent", "TDS-Frontend");
-
         if (setHeaders) debug(req.setHeaders());
         debug(req.headers());
         debug(req.getHeaders());
