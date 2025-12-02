@@ -9,8 +9,8 @@ import org.project.utils.config.WebBaseConfig;
 @LoadPolicy(LoadType.MERGE)
 @Sources({
     "system:properties", // -DpropertyName=propertyValue
-    "classpath:dev.properties",
-    "classpath:stand.properties"
+    "classpath:stand.properties",
+    "classpath:dev.properties"
 })
 public interface WebConfig extends WebBaseConfig {
     WebConfig BASE_CONFIG = config(WebConfig.class);
