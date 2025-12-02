@@ -1,10 +1,8 @@
 package org.project.utils.test;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
-import static io.restassured.http.ContentType.ANY;
 import static org.testng.Assert.assertEquals;
 
 import io.restassured.http.Headers;
@@ -15,6 +13,8 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.request.RequestOptions.getHeaders;
 
+import static org.project.utils.constant.ContentType.getContentType;
+import static org.project.utils.constant.ContentType.getAccept;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.request.Request;
 
@@ -99,6 +99,10 @@ public class TestApi {
     }
 
     public static void testHeaders() throws IOException, URISyntaxException, ReflectiveOperationException {
+        testHeaders(false);
+    }
+
+    public static void testHeaders(boolean setHeaders) throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testHeaders");
         Request req = new Request(GET, "store/order", 0);
 
@@ -109,20 +113,14 @@ public class TestApi {
         debug(req.detailedCookies());
         debug(req.sessionId());
 
-        //req.header("Authorization", "");
-        //req.header("Cache-Control", "no-cache");
-        //req.header("Accept", "*/*");
-        //req.accept(ANY);
-        //req.header("Accept-Encoding", "gzip, deflate, br");
-        //req.header("Connection", "keep-alive");
-        //req.header("Content-Length", "");
-        //req.header("Host", "tds-test.itorum.ru");
-        //req.header("Origin", "https://tds-test.itorum.ru");
-        //req.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 YaBrowser/25.10.0.0 Safari/537.36");
-        //req.header("User-Agent", "PostmanRuntime/7.49.1");
+        debug("contentType: " + getContentType());
+        debug("accept: " + getAccept());
+
         //req.header("kamaz-user-agent", "TDS-Frontend");
 
+        if (setHeaders) debug(req.setHeaders());
         debug(req.headers());
+        debug(req.getHeaders());
 
         RequestSpecification spec = new ApiConfig().get();
 

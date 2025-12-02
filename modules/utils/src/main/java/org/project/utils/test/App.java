@@ -40,8 +40,9 @@ public class App extends TestException {
         //testConfig();
         //testWinDriverConfig();
         //testPrintException();
-        testInvoke();
+        //testInvoke();
         //testReqGet();
+        testHeaders(true);
         //testApi(true);
     }
 
