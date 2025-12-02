@@ -28,7 +28,7 @@ public class App extends TestException {
         testException();
         //testMain();
         //testApi();
-        //testHeaders();
+        testHeaders();
         //testJson();
         //testZip();
         //testFS();
@@ -42,7 +42,7 @@ public class App extends TestException {
         //testPrintException();
         //testInvoke();
         //testReqGet();
-        testHeaders(true);
+        //testHeaders(true);
         //testApi(true);
     }
 
