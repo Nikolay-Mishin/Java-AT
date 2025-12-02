@@ -4,11 +4,13 @@ import static java.lang.String.join;
 import static java.lang.System.*;
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
+import static java.util.Map.Entry;
 
 import java.lang.reflect.*;
 import java.nio.charset.Charset;
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.ImmutableList.copyOf;
@@ -157,6 +159,26 @@ public class Helper {
 
     public static <A> A[] concatAll(A[] a, A... array) {
         return org.apache.commons.lang3.ArrayUtils.addAll(a, array);
+    }
+
+    public static <K, V> Stream<Entry<K, V>> concat(Map<K, V> map1, Map<K, V> map2) {
+        return Stream.concat(map1.entrySet().stream(), map2.entrySet().stream());
+    }
+
+    public static <K, V> Map<K, V> toMap(Map<K, V> map1, Map<K, V> map2) {
+        return toMap(map1, map2, (v1, v2) -> v2);
+    }
+
+    public static <K, V> Map<K, V> toMap(Map<K, V> map1, Map<K, V> map2, BinaryOperator<V> mergeFn) {
+        return toMap(concat(map1, map2), mergeFn);
+    }
+
+    public static <K, V> Map<K, V> toMap(Stream<Entry<K, V>> map) {
+        return map.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    }
+
+    public static <K, V> Map<K, V> toMap(Stream<Entry<K, V>> map, BinaryOperator<V> mergeFn) {
+        return map.collect(Collectors.toMap(Entry::getKey, Entry::getValue, mergeFn));
     }
 
     @SafeVarargs
