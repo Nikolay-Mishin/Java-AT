@@ -8,7 +8,7 @@ import org.project.utils.config.WebBaseConfig;
 
 @LoadPolicy(LoadType.MERGE)
 @Sources({
-    "system:properties", // -DpropertyName=propertyValue
+    //"system:properties", // -DpropertyName=propertyValue
     "classpath:stand.properties",
     "classpath:dev.properties"
 })
