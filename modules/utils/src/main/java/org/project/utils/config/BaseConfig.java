@@ -6,11 +6,11 @@ import org.aeonbits.owner.Config;
 
 import static org.project.utils.config.Config.*;
 
-//@LoadPolicy(LoadType.MERGE)
-/*@Sources({
+/*@LoadPolicy(LoadType.MERGE)
+@Sources({
     "system:properties", // -DpropertyName=propertyValue,
-    "classpath:stand.properties",
-    "classpath:dev.properties"
+    //"classpath:stand.properties",
+    "classpath:org.project.utils.dev.properties"
 })*/
 @Sources({"classpath:org.project.utils.dev.properties"})
 public interface BaseConfig extends Config {

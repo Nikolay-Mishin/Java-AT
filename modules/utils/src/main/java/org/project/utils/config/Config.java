@@ -69,7 +69,7 @@ public class Config {
 
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
         debug("createConfig: " + clazz);
-        //return init(create(clazz, getenv(), getProperties()));
+        //return init(getOrCreate(clazz, getenv(), getProperties()));
         return init(getOrCreate(clazz));
     }
 
@@ -84,17 +84,11 @@ public class Config {
     }
 
     protected static <T extends BaseConfig> String env(T config) {
-        //String env = config.getEnv();
-        String env = getProperty(envKey);
-        if (isNull(env)) {
-            env = config.getEnv();
-            setProperty(envKey, env);
-        }
-        debug("env: " + env);
-        return env(env);
+        return env(config.getEnv());
     }
 
     protected static String env(String value) {
+        debug("env: " + value);
         return env = set(envKey, value);
     }
 
