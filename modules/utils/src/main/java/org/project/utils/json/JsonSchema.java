@@ -102,6 +102,7 @@ public class JsonSchema {
     }
 
     private void data(String jsonString) {
+        //debug(jsonString);
         jsonData = new JSONObject(jsonString == "" ? "{}" : jsonString);
         debug(jsonData);
     }
