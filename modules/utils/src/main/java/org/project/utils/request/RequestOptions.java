@@ -2,13 +2,19 @@ package org.project.utils.request;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.*;
+import java.util.List;
 import java.util.Map;
 
 import io.restassured.http.*;
 import io.restassured.specification.*;
 import jdk.jfr.Description;
 
+import static org.project.utils.Helper.*;
+import static org.project.utils.config.WebConfig.*;
+
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.fs.FS;
+import org.project.utils.json.JsonSchema;
 
 public class RequestOptions extends org.project.utils.request.Response {
     protected String baseUrl;
@@ -23,6 +29,11 @@ public class RequestOptions extends org.project.utils.request.Response {
             return ((FilterableRequestSpecification) req).getHeaders();
         }
         return new Headers();
+    }
+
+    @Description("Builder: get headers")
+    public static List<Header> getHeaders(Headers headers) {
+        return headers.asList();
     }
 
     @Description("Builder: get spec")
@@ -162,6 +173,11 @@ public class RequestOptions extends org.project.utils.request.Response {
         return getHeaders(request);
     }
 
+    @Description("Builder: get headers")
+    public List<Header> getHeadersList() {
+        return getHeaders(request).asList();
+    }
+
     @Description("Builder: set headers")
     public <R extends RequestOptions> R headers(Headers headers) {
         request.headers(headers);
@@ -176,13 +192,33 @@ public class RequestOptions extends org.project.utils.request.Response {
 
     @Description("Builder: set headers")
     public <R extends RequestOptions> R headers(Header... headers) {
-        return headers(new Headers());
+        return headers(new Headers(headers));
     }
 
     @Description("Builder: set headers")
     public <R extends RequestOptions> R headers(String s, Object o, Object... objects) {
         request.headers(s, o, objects);
         return (R) this;
+    }
+
+    @Description("Builder: set headers")
+    public <R extends RequestOptions> R setHeaders() {
+        return headers(config());
+    }
+
+    @Description("Builder: set headers")
+    public <R extends RequestOptions> R headers(WebBaseConfig config) {
+        return headers(config.getHeaders());
+    }
+
+    @Description("Builder: set headers")
+    public <R extends RequestOptions> R headers(String json) {
+        return headers(new JsonSchema(json));
+    }
+
+    @Description("Builder: set headers")
+    public <R extends RequestOptions> R headers(JsonSchema json) {
+        return headers(toMap(new JsonSchema(config().getBaseHeaders()).toMap(), json.toMap()));
     }
 
     @Description("Builder: set header")
