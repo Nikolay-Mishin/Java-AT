@@ -1,6 +1,5 @@
 package org.project.utils.config;
 
-import static io.restassured.http.ContentType.JSON;
 import static io.restassured.RestAssured.given;
 
 import io.qameta.allure.restassured.AllureRestAssured;
@@ -8,6 +7,8 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
 import static org.project.utils.config.WebConfig.config;
+import static org.project.utils.constant.ContentType.getAccept;
+import static org.project.utils.constant.ContentType.getContentType;
 
 public class ApiConfig extends RequestSpecBuilder {
 
@@ -22,7 +23,8 @@ public class ApiConfig extends RequestSpecBuilder {
     public static RequestSpecification requestSpec(RequestSpecBuilder builder, WebBaseConfig config) {
         return given(builder
             .setBaseUri(config.getBaseUrl())
-            .setContentType(JSON)
+            .setAccept(getAccept())
+            .setContentType(getContentType())
             .addFilter(new AllureRestAssured())
             .build());
     }
