@@ -6,7 +6,13 @@ import org.aeonbits.owner.Config;
 
 import static org.project.utils.config.Config.*;
 
-@Sources({"classpath:dev.properties"})
+//@LoadPolicy(LoadType.MERGE)
+/*@Sources({
+    "system:properties", // -DpropertyName=propertyValue,
+    "classpath:stand.properties",
+    "classpath:dev.properties"
+})*/
+@Sources({"classpath:org.project.utils.dev.properties"})
 public interface BaseConfig extends Config {
     BaseConfig BASE_CONFIG = config(BaseConfig.class);
     String ENV = env();
