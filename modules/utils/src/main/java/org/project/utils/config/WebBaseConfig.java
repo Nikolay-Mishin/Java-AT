@@ -14,11 +14,9 @@ public interface WebBaseConfig extends BaseConfig {
     @Key("HOST")
     String getHost();
 
-    //at
     @Key("ORIGIN")
     String getOrigin();
 
-    //at
     @Key("BASE_URL")
     String getBaseUrl();
 

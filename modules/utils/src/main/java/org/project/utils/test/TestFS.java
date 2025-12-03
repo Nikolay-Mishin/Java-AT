@@ -12,10 +12,10 @@ import static org.project.utils.fs.File.delete;
 import static org.project.utils.fs.File.pathStr;
 
 public class TestFS extends TestZip {
-    protected static String chromedriverRoot = "lib/chromedriver";
-    protected static String chromedriverFile = "chromedriver.exe";
+    protected static String chromedriverRoot = c.getChromeDriverRoot();
+    protected static String chromedriverFile = c.getChromeDriverFile();
     protected static Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
-    protected static String attrsTest = "home/user/example.txt";
+    protected static String attrsTest = c.getFsAttrs();
 
     public static void main(String[] args) throws IOException {
         //testFS();

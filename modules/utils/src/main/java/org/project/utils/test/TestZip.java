@@ -29,15 +29,13 @@ import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
 public class TestZip extends TestJson {
-    protected static String rootTest = "tests/";
-    protected static String outZip = rootTest + "zip/";
-    protected static String nameZip = "filename";
-    protected static String filename = rootTest + nameZip;
-    protected static String filenameZip = filename + ".zip";
-    protected static String filenameTxt = filename + ".txt";
-    protected static String mkdirRoot = rootTest + "testDir/";
-    protected static String mkdir = mkdirRoot + "1";
-    protected static String readDir = "src/main/resources";
+    protected static String outZip = c.getZipOut();
+    protected static String filename = c.getZipFilename();
+    protected static String filenameZip = c.getZipFilenameFull();
+    protected static String filenameTxt = c.getZipFilenameTxt();
+    protected static String mkdirRoot = c.getZipMkdirRoot();
+    protected static String mkdir = c.getZipMkdir();
+    protected static String readDir = c.getZipReadDir();
 
     public static void main(String[] args) throws Exception {
         testZip();

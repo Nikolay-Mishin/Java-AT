@@ -12,18 +12,20 @@ import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.constant.ContentType.getContentType;
 import static org.project.utils.constant.ContentType.getAccept;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.request.RequestOptions.getHeaders;
 
 import org.project.utils.config.ApiConfig;
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.request.Request;
 
 public class TestApi {
-    protected static String ver = "142.0.7444.61";
-    protected static String uri = "https://googlechromelabs.github.io/";
-    protected static String endpoint = "chrome-for-testing/" + ver + ".json";
+    protected static TestBaseConfig c = BASE_CONFIG;
+    protected static String uri = c.getApiUri();
+    protected static String endpoint = c.getEndpoint();
 
     public static void main(String[] args) throws Exception {
         //testApi();
