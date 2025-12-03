@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.15.4</version>
+    <version>7.15.5</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -23,12 +23,16 @@
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
         <github.global.url>https://${github.global.server}.com</github.global.url>
+        <github.global.raw>https://raw.${github.global.server}.com</github.global.raw>
         <github.id>Nikolay-Mishin</github.id>
         <github.url>${github.global.url}/${github.id}</github.url>
         <github.name>Nikolay Mishin</github.name>
         <github.repo>Java-AT</github.repo>
         <github.branch>mvn-repo</github.branch>
         <github.repo.url>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.url>
+        <github.repo.raw>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.raw>
+        <github.repo.snapshots>true</github.repo.snapshots>
+        <github.repo.update>always</github.repo.update>
         <repo.dir>repo</repo.dir>
         <repo.path>${basedir}/${repo.dir}</repo.path>
         <pojo.src>${basedir}/${res.dir}/json</pojo.src>
@@ -59,8 +63,8 @@
             <id>${github.branch}</id>
             <url>${github.repo.url}</url>
             <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>always</updatePolicy>
+                <enabled>${github.repo.snapshots}</enabled>
+                <updatePolicy>${github.repo.update}</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
