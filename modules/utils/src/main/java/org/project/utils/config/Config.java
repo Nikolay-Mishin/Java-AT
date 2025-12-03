@@ -1,13 +1,24 @@
 package org.project.utils.config;
 
-import static java.lang.System.*;
+import static java.lang.System.getenv;
+import static java.lang.System.getProperties;
+import static java.lang.System.getProperty;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import org.aeonbits.owner.*;
+import org.aeonbits.owner.ConfigCache;
+import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.Factory;
 
-import static org.project.utils.config.WebBaseConfig.*;
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper._equals;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.isNull;
+import static org.project.utils.Helper.notNull;
+import static org.project.utils.config.WebBaseConfig.DEBUG_LEVEL;
+import static org.project.utils.config.WebBaseConfig.ENV;
+import static org.project.utils.exception.UtilException.tryCatchNoArgs;
 
 import org.project.utils.base.HashMap;
 
@@ -74,6 +85,7 @@ public class Config {
     }
 
     public static <T extends BaseConfig> T init(T config) {
+        //debug("config: " + config);
         env(config);
         debugLvl(config);
         return config;
@@ -84,53 +96,12 @@ public class Config {
     }
 
     protected static <T extends BaseConfig> String env(T config) {
-        return env(config.getEnv());
+        return tryCatchNoArgs(() -> env(config.getEnv()), e -> env);
     }
 
     protected static String env(String value) {
         debug("env: " + value);
-        return env = set(envKey, value);
-    }
-
-    public static <T extends BaseConfig> void printEnvList() {
-        printEnvList(config());
-    }
-
-    public static <T extends BaseConfig> void printEnvList(T config) {
-        printEnv(config);
-        printProps();
-    }
-
-    public static <T extends BaseConfig> void printEnvListWithSys() {
-        printEnvList();
-        printList();
-    }
-
-    public static <T extends BaseConfig> void printEnvListWithSys(T config) {
-        printEnvList(config);
-        printList();
-    }
-
-    public static void printEnv() {
-        printEnv(config());
-    }
-
-    public static <T extends BaseConfig> void printEnv(T config) {
-        String env = config.getEnv();
-        debug("env: " + env);
-        debug("javaVer: " + config.getJavaVer());
-        debug("javaHome: " + config.getJavaHome());
-    }
-
-    public static void printProps() {
-        debug("prop: " + get(envKey));
-        debug("props: " + get());
-        debug("arg: " + getProperty(envKey));
-    }
-
-    public static void printList() {
-        debug("getenv: " + getenv());
-        debug("getProperties: " + getProperties());
+        return isNull(value) ? env : (env = set(envKey, value));
     }
 
     public static int debugLvl() {
@@ -138,12 +109,11 @@ public class Config {
     }
 
     protected static <T extends BaseConfig> int debugLvl(T config) {
-        int debugLvl = config.getDebugLevel();
-        debug("debugLevel: " + debugLvl);
-        return debugLvl(debugLvl);
+        return tryCatchNoArgs(() -> debugLvl(config.getDebugLevel()), e -> debugLvl);
     }
 
     protected static int debugLvl(int value) {
+        debug("debugLevel: " + value);
         return debugLvl = value;
     }
 
@@ -209,5 +179,46 @@ public class Config {
 
     public static <T extends BaseConfig> T remove(Object k) {
         return ConfigCache.remove(k);
+    }
+
+    public static <T extends BaseConfig> void printEnvList() {
+        printEnvList(config());
+    }
+
+    public static <T extends BaseConfig> void printEnvList(T config) {
+        printEnv(config);
+        printProps();
+    }
+
+    public static <T extends BaseConfig> void printEnvListWithSys() {
+        printEnvList();
+        printList();
+    }
+
+    public static <T extends BaseConfig> void printEnvListWithSys(T config) {
+        printEnvList(config);
+        printList();
+    }
+
+    public static void printEnv() {
+        printEnv(config());
+    }
+
+    public static <T extends BaseConfig> void printEnv(T config) {
+        String env = config.getEnv();
+        debug("env: " + env);
+        debug("javaVer: " + config.getJavaVer());
+        debug("javaHome: " + config.getJavaHome());
+    }
+
+    public static void printProps() {
+        debug("prop: " + get(envKey));
+        debug("props: " + get());
+        debug("arg: " + getProperty(envKey));
+    }
+
+    public static void printList() {
+        debug("getenv: " + getenv());
+        debug("getProperties: " + getProperties());
     }
 }
