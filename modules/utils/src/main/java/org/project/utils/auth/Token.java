@@ -7,12 +7,16 @@ import java.util.Map;
 
 import io.restassured.response.Response;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.isInstance;
+import static org.project.utils.Helper.isNull;
+import static org.project.utils.Helper.notNull;
 import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.json.JsonSchema.jsonSchema;
 import static org.project.utils.reflection.Reflection.invoke;
 
-import org.project.utils.base.*;
+import org.project.utils.base.HashMap;
+import org.project.utils.base.Register;
 import org.project.utils.json.JsonSchema;
 
 public class Token extends Register<String, Token> {

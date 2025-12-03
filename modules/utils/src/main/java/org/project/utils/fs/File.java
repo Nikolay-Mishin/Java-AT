@@ -2,8 +2,10 @@ package org.project.utils.fs;
 
 import static java.lang.String.join;
 
-import java.io.*;
-import java.nio.file.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.zip.ZipEntry;
 
@@ -11,7 +13,9 @@ import static org.apache.commons.io.FileUtils.deleteDirectory;
 
 import jdk.jfr.Description;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.isArray;
+import static org.project.utils.Helper.map;
 
 public class File {
 

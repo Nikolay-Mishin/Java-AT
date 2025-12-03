@@ -1,10 +1,19 @@
 package org.project.utils.exception;
 
-import java.util.function.*;
-
-import org.project.utils.function.*;
+import java.util.function.Consumer;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.project.utils.Helper._equals;
+
+import org.project.utils.function.BiConsumerWithExceptions;
+import org.project.utils.function.ConsumerWithExceptions;
+import org.project.utils.function.ConsumerVoidWithExceptions;
+import org.project.utils.function.FunctionNoArgsWithExceptions;
+import org.project.utils.function.FunctionWithExceptions;
+import org.project.utils.function.RunnableWithExceptions;
+import org.project.utils.function.SupplierWithExceptions;
 
 public final class UtilException {
 

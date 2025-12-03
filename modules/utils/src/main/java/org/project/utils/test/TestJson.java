@@ -2,13 +2,16 @@ package org.project.utils.test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Map;
+import java.util.List;
 
-import org.json.*;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.toTable;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
-import static org.project.utils.fs.FS.*;
+import static org.project.utils.fs.FS.path;
 import static org.project.utils.json.JsonSchema.jsonSchema;
 
 import org.project.utils.json.JsonSchema;

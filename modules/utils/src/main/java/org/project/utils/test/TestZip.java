@@ -1,14 +1,28 @@
 package org.project.utils.test;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Map;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.last;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
-import static org.project.utils.fs.FS.*;
-import static org.project.utils.fs.Zip.*;
+import static org.project.utils.fs.FS.absolute;
+import static org.project.utils.fs.FS.delete;
+import static org.project.utils.fs.FS.isDir;
+import static org.project.utils.fs.FS.isFile;
+import static org.project.utils.fs.FS.mkdirs;
+import static org.project.utils.fs.FS.pathStr;
+import static org.project.utils.fs.FS.readDir;
+import static org.project.utils.fs.FS.resolve;
+import static org.project.utils.fs.FS.writeFile;
+import static org.project.utils.fs.Zip.unzip;
+import static org.project.utils.fs.Zip.unzipFile;
+import static org.project.utils.fs.Zip.unzipPass;
+import static org.project.utils.fs.Zip.unzipSelenium;
 import static org.project.utils.json.JsonSchema.jsonSchema;
 
 import org.project.utils.json.JsonSchema;

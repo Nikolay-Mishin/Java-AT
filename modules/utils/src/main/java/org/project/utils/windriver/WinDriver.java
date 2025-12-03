@@ -1,21 +1,27 @@
 package org.project.utils.windriver;
 
-import java.net.*;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
-import io.appium.java_client.*;
+import io.appium.java_client.HasSettings;
+import io.appium.java_client.Setting;
 import io.appium.java_client.driverscripts.ScriptOptions;
 import io.appium.java_client.driverscripts.ScriptValue;
-import io.appium.java_client.screenrecording.*;
+import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
+import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
 import io.appium.java_client.windows.WindowsDriver;
-import org.openqa.selenium.*;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.Location;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.remote.ExecuteMethod;
+import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
 
-import static org.project.utils.Helper.*;
-import static org.project.utils.reflection.Reflection.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.reflection.Reflection.getGenericClass;
 
 public class WinDriver<T> extends RemoteWebDriver {
     protected static WindowsDriver<WebElement> d;

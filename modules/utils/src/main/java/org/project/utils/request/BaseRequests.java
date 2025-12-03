@@ -1,13 +1,18 @@
 package org.project.utils.request;
 
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import io.restassured.response.Response;
 import jdk.jfr.Description;
 
-import static org.project.utils.Helper.*;
-import static org.project.utils.constant.RequestConstants.METHOD.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.constant.RequestConstants.METHOD.DELETE;
+import static org.project.utils.constant.RequestConstants.METHOD.GET;
+import static org.project.utils.constant.RequestConstants.METHOD.PATCH;
+import static org.project.utils.constant.RequestConstants.METHOD.POST;
+import static org.project.utils.constant.RequestConstants.METHOD.PUT;
 import static org.project.utils.fs.File.path;
 import static org.project.utils.reflection.Reflection.getField;
 

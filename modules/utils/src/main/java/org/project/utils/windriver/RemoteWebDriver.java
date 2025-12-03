@@ -1,25 +1,35 @@
 package org.project.utils.windriver;
 
 import java.io.IOException;
-import java.net.*;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import io.appium.java_client.windows.WindowsDriver;
-import org.openqa.selenium.*;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.*;
-import org.openqa.selenium.remote.*;
+import org.openqa.selenium.interactions.Keyboard;
+import org.openqa.selenium.interactions.Mouse;
+import org.openqa.selenium.remote.Command;
+import org.openqa.selenium.remote.CommandExecutor;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.Response;
+import org.openqa.selenium.remote.SessionId;
 import org.project.utils.config.DriverBaseConfig;
 import org.testng.Assert;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.entries;
 import static org.project.utils.Process.run;
-import static org.project.utils.reflection.Reflection.*;
-import static org.project.utils.config.DriverBaseConfig.*;
+import static org.project.utils.reflection.Reflection.getCallingChildClassSimpleName;
+import static org.project.utils.config.DriverBaseConfig.BASE_CONFIG;
+import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
+import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
+import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
 
 import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;

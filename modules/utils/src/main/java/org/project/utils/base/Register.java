@@ -1,6 +1,5 @@
 package org.project.utils.base;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 

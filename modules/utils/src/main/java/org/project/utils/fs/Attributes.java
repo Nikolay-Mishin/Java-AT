@@ -1,14 +1,20 @@
 package org.project.utils.fs;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.nio.file.Files.*;
+import static java.nio.file.Files.getFileAttributeView;
+import static java.nio.file.Files.readAttributes;
 
-import java.io.*;
-import java.nio.file.*;
-import java.nio.file.attribute.*;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.DosFileAttributes;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Set;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.notNull;
 import static org.project.utils.fs.FS.pathStr;
 import static org.project.utils.fs.File.path;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;

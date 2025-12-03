@@ -2,7 +2,17 @@ package org.project.utils.test;
 
 import java.util.Arrays;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.entries;
+import static org.project.utils.Helper.entriesArray;
+import static org.project.utils.Helper.entriesList;
+import static org.project.utils.Helper.rotate;
+import static org.project.utils.Helper.pop;
+import static org.project.utils.Helper.popCopy;
+import static org.project.utils.Helper.popSkip;
+import static org.project.utils.Helper.shift;
+import static org.project.utils.Helper.shiftList;
+import static org.project.utils.Helper.shiftSkip;
 import static org.project.utils.reflection.Reflection.getField;
 
 public class TestEntries {

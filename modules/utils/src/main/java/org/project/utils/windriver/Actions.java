@@ -2,15 +2,31 @@ package org.project.utils.windriver;
 
 import static java.util.Arrays.stream;
 
-import static org.openqa.selenium.Keys.*;
+import static org.openqa.selenium.Keys.ALT;
+import static org.openqa.selenium.Keys.ARROW_DOWN;
+import static org.openqa.selenium.Keys.ARROW_LEFT;
+import static org.openqa.selenium.Keys.ARROW_RIGHT;
+import static org.openqa.selenium.Keys.ARROW_UP;
+import static org.openqa.selenium.Keys.BACK_SPACE;
+import static org.openqa.selenium.Keys.CANCEL;
+import static org.openqa.selenium.Keys.CONTROL;
+import static org.openqa.selenium.Keys.DELETE;
+import static org.openqa.selenium.Keys.ENTER;
+import static org.openqa.selenium.Keys.ESCAPE;
+import static org.openqa.selenium.Keys.LEFT_ALT;
+import static org.openqa.selenium.Keys.LEFT_CONTROL;
+import static org.openqa.selenium.Keys.LEFT_SHIFT;
+import static org.openqa.selenium.Keys.SHIFT;
+import static org.openqa.selenium.Keys.SPACE;
+import static org.openqa.selenium.Keys.TAB;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.reflection.Reflection.getCallingChildClassName;
 import static org.project.utils.reflection.Reflection.getCallingClassName;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.*;
+import org.openqa.selenium.interactions.Action;
 
 public class Actions {
     protected static org.openqa.selenium.interactions.Actions a;
@@ -166,6 +182,10 @@ public class Actions {
     }
 
     public static org.openqa.selenium.interactions.Actions esc() {
+        return chord(ESCAPE);
+    }
+
+    public static org.openqa.selenium.interactions.Actions cancel() {
         return chord(CANCEL);
     }
 

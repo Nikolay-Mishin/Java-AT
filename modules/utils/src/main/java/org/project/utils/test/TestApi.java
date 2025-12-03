@@ -7,14 +7,16 @@ import static org.testng.Assert.assertEquals;
 
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
-import io.restassured.specification.*;
+import io.restassured.specification.AuthenticationSpecification;
+import io.restassured.specification.FilterableRequestSpecification;
+import io.restassured.specification.RequestSpecification;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.constant.ContentType.getContentType;
+import static org.project.utils.constant.ContentType.getAccept;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.request.RequestOptions.getHeaders;
 
-import static org.project.utils.constant.ContentType.getContentType;
-import static org.project.utils.constant.ContentType.getAccept;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.request.Request;
 

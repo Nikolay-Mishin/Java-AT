@@ -2,8 +2,12 @@ package org.project.utils.reflection;
 
 import java.lang.reflect.InvocationTargetException;
 
-import static org.project.utils.Helper.*;
-import static org.project.utils.reflection.Reflection.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.notNull;
+import static org.project.utils.reflection.Reflection.getCallingChildClass;
+import static org.project.utils.reflection.Reflection.getField;
+import static org.project.utils.reflection.Reflection.getGenericClass;
+import static org.project.utils.reflection.Reflection.setField;
 
 public class SingleInstance<T> extends Instance<T> {
     protected static String iField = "i";

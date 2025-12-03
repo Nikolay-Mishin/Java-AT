@@ -1,11 +1,24 @@
 package org.project.utils.event;
 
+import static java.lang.System.out;
+
 import java.io.File;
 
 import io.cucumber.plugin.ConcurrentEventListener;
-import io.cucumber.plugin.event.*;
+import io.cucumber.plugin.event.Event;
+import io.cucumber.plugin.event.EventHandler;
+import io.cucumber.plugin.event.EventPublisher;
+import io.cucumber.plugin.event.EmbedEvent;
+import io.cucumber.plugin.event.SnippetsSuggestedEvent;
+import io.cucumber.plugin.event.TestCaseFinished;
+import io.cucumber.plugin.event.TestCaseStarted;
+import io.cucumber.plugin.event.TestRunFinished;
+import io.cucumber.plugin.event.TestRunStarted;
+import io.cucumber.plugin.event.TestSourceRead;
+import io.cucumber.plugin.event.TestStepFinished;
+import io.cucumber.plugin.event.TestStepStarted;
+import io.cucumber.plugin.event.WriteEvent;
 
-import static java.lang.System.out;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.exception.UtilException.tryConsumerWithPrint;
 import static org.project.utils.reflection.Reflection.getClazz;

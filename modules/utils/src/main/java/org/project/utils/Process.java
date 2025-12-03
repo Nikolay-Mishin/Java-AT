@@ -3,9 +3,13 @@ package org.project.utils;
 import static java.awt.Desktop.getDesktop;
 import static java.awt.Desktop.isDesktopSupported;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.beans.ConstructorProperties;
-import java.io.*;
+import java.io.IOException;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;

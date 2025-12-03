@@ -5,7 +5,9 @@ import org.openqa.selenium.WebDriver;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.toTable;
 import static org.project.utils.config.Config.configs;
-import static org.project.utils.reflection.Reflection.*;
+import static org.project.utils.reflection.Reflection.getClazz;
+import static org.project.utils.reflection.Reflection.getField;
+import static org.project.utils.reflection.Reflection.invoke;
 
 public class TestInvoke extends TestZip {
     protected static WebDriver driver;

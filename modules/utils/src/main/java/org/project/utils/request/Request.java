@@ -2,12 +2,13 @@ package org.project.utils.request;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import jdk.jfr.Description;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.reflection.Reflection.*;
+import static org.project.utils.reflection.Reflection.getPropStr;
 
 import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants.METHOD;

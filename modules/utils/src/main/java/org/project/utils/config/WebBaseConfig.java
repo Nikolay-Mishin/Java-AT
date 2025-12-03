@@ -2,9 +2,9 @@ package org.project.utils.config;
 
 import io.restassured.http.ContentType;
 
-import static org.aeonbits.owner.Config.*;
+import static org.aeonbits.owner.Config.Sources;
 
-import static org.project.utils.config.WebConfig.*;
+import static org.project.utils.config.WebConfig.config;
 
 @Sources({"classpath:org.project.utils.dev.properties"})
 public interface WebBaseConfig extends BaseConfig {

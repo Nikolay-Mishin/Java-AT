@@ -2,14 +2,14 @@ package org.project.utils.test;
 
 import static java.lang.Long.valueOf;
 
-import java.io.*;
+import java.io.IOException;
 
 import io.appium.java_client.windows.WindowsDriver;
-import org.openqa.selenium.*;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestConfig.*;

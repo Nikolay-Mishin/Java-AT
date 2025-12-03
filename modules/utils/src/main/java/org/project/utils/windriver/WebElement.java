@@ -1,8 +1,8 @@
 package org.project.utils.windriver;
 
-import java.util.*;
+import java.util.List;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 

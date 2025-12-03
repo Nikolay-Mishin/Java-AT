@@ -1,8 +1,6 @@
 package org.project.utils.windriver;
 
 import static java.lang.System.setProperty;
-import static org.project.utils.Helper.debug;
-import static org.project.utils.reflection.Reflection.*;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,6 +10,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
+
+import static org.project.utils.Helper.debug;
+import static org.project.utils.reflection.Reflection.getGenericClass;
 
 public class WebDriver<T> extends RemoteWebDriver {
     protected static ChromeOptions options = new ChromeOptions();

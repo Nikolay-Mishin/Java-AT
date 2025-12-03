@@ -1,17 +1,19 @@
 package org.project.utils.request;
 
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Map;
 
-import io.restassured.http.*;
+import io.restassured.http.Cookies;
+import io.restassured.http.Headers;
 import io.restassured.response.ResponseBody;
 import io.restassured.specification.RequestSpecification;
 import jdk.jfr.Description;
 
 import static org.project.utils.Helper.notNull;
-import static org.project.utils.constant.RequestConstants.METHOD.*;
+import static org.project.utils.constant.RequestConstants.METHOD.PATCH;
+import static org.project.utils.constant.RequestConstants.METHOD.POST;
+import static org.project.utils.constant.RequestConstants.METHOD.PUT;
 import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.constant.RequestConstants.METHOD;
@@ -43,7 +45,7 @@ public class Response {
 
     @Description("Builder: get response")
     public io.restassured.response.Response response(Object body) throws ReflectiveOperationException {
-        if (body != null && (method == POST || method == PUT)) body(body); // body json
+        if (body != null && (method == POST || method == PUT || method == PATCH)) body(body); // body json
         return response = send().andReturn();
     }
 

@@ -1,12 +1,15 @@
 package org.project.utils.test;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Path;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystems;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.fs.Attributes.printAttrs;
 import static org.project.utils.fs.Attributes.printCustomAttrs;
-import static org.project.utils.fs.File.*;
+import static org.project.utils.fs.File.delete;
+import static org.project.utils.fs.File.pathStr;
 
 public class TestFS extends TestZip {
     protected static String chromedriverRoot = "lib/chromedriver";

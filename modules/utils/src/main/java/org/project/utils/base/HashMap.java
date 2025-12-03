@@ -1,10 +1,12 @@
 package org.project.utils.base;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.IntFunction;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.isNull;
 import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.exception.AssertException;

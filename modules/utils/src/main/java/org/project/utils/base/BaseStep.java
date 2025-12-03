@@ -1,10 +1,12 @@
 package org.project.utils.base;
 
-import static java.lang.Long.*;
+import static java.lang.Long.parseLong;
+import static java.lang.Long.valueOf;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 

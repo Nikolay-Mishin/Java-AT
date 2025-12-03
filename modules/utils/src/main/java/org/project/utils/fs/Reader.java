@@ -1,13 +1,22 @@
 package org.project.utils.fs;
 
 import static java.nio.file.Files.walk;
-import static java.util.Comparator.*;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.reverseOrder;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.File;
-import java.nio.file.*;
-import java.util.*;
-import java.util.function.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static org.project.utils.stream.InputStream.input;

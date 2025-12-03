@@ -1,7 +1,10 @@
 package org.project.utils.stream;
 
 import java.beans.ConstructorProperties;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.io.InputStream;
 
 import static org.project.utils.Helper.debug;

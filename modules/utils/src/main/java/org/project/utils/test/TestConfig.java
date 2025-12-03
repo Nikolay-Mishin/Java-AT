@@ -1,10 +1,16 @@
 package org.project.utils.test;
 
-import static org.project.utils.Helper.*;
-import static org.project.utils.config.Config.*;
+import static org.project.utils.Helper._equals;
+import static org.project.utils.Helper.debug;
+import static org.project.utils.config.Config.compare;
+import static org.project.utils.config.Config.config;
+import static org.project.utils.config.Config.configs;
+import static org.project.utils.config.Config.printEnvList;
 
 import org.project.utils.base.HashMap;
-import org.project.utils.config.*;
+import org.project.utils.config.BaseConfig;
+import org.project.utils.config.DriverBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 public class TestConfig extends App {
 

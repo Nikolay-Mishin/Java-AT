@@ -1,15 +1,29 @@
 package org.project.utils;
 
 import static java.lang.String.join;
-import static java.lang.System.*;
+import static java.lang.System.out;
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
 import static java.util.Map.Entry;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
-import java.util.*;
-import java.util.function.*;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,10 +32,13 @@ import static org.testng.collections.Lists.newArrayList;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static org.project.utils.config.Config.debugLvl;
-import static org.project.utils.reflection.Reflection.*;
+import static org.project.utils.reflection.Reflection.arrInstance;
+import static org.project.utils.reflection.Reflection.fields;
+import static org.project.utils.reflection.Reflection.getClazz;
 
 public class Helper {
 

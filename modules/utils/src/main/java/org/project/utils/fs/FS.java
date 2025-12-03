@@ -2,17 +2,24 @@ package org.project.utils.fs;
 
 import static java.nio.file.Files.createDirectories;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.IOException;
 import java.io.File;
-import java.nio.file.*;
+import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 
-import static org.apache.commons.io.IOUtils.*;
+import static org.apache.commons.io.IOUtils.copy;
+import static org.apache.commons.io.IOUtils.write;
 
-import static org.project.utils.Helper.*;
+import static org.project.utils.Helper.debug;
 import static org.project.utils.fs.Writer.bufWriter;
-import static org.project.utils.stream.InputStream.*;
+import static org.project.utils.stream.InputStream.bytes;
+import static org.project.utils.stream.InputStream.input;
 import static org.project.utils.stream.OutputStream.output;
 
 public class FS extends Reader {

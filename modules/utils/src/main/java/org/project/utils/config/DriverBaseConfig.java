@@ -1,8 +1,8 @@
 package org.project.utils.config;
 
-import org.aeonbits.owner.Config.*;
+import org.aeonbits.owner.Config.Sources;
 
-import static org.project.utils.config.DriverConfig.*;
+import static org.project.utils.config.DriverConfig.config;
 
 @Sources({"classpath:org.project.utils.win.properties"})
 public interface DriverBaseConfig extends BaseConfig {

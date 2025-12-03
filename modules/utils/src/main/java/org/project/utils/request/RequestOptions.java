@@ -1,16 +1,25 @@
 package org.project.utils.request;
 
 import java.lang.reflect.InvocationTargetException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import io.restassured.http.*;
-import io.restassured.specification.*;
+import io.restassured.http.ContentType;
+import io.restassured.http.Header;
+import io.restassured.http.Headers;
+import io.restassured.specification.AuthenticationSpecification;
+import io.restassured.specification.FilterableRequestSpecification;
+import io.restassured.specification.QueryableRequestSpecification;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.SpecificationQuerier;
 import jdk.jfr.Description;
 
-import static org.project.utils.Helper.*;
-import static org.project.utils.config.WebConfig.*;
+import static org.project.utils.Helper.toMap;
+import static org.project.utils.config.WebConfig.config;
 
 import org.project.utils.config.WebBaseConfig;
 import org.project.utils.fs.FS;

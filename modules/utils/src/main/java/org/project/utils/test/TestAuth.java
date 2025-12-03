@@ -3,7 +3,11 @@ package org.project.utils.test;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.auth.Auth.*;
+import static org.project.utils.auth.Auth.auth;
+import static org.project.utils.auth.Auth.init;
+import static org.project.utils.auth.Auth.instance;
+import static org.project.utils.auth.Auth.printTokens;
+import static org.project.utils.auth.Auth.req;
 
 import org.project.utils.reflection.SingleInstance;
 

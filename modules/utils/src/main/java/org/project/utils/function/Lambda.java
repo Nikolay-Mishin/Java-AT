@@ -5,7 +5,9 @@ import jdk.jfr.Description;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import static org.project.utils.reflection.Reflection.*;
+import static org.project.utils.reflection.Reflection.getClazz;
+import static org.project.utils.reflection.Reflection.lambdaMethod;
+import static org.project.utils.reflection.Reflection.lambdaMethodName;
 
 public interface Lambda extends Serializable {
     default Class<?> clazz() throws ReflectiveOperationException {
