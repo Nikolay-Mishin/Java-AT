@@ -18,6 +18,7 @@
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
         <github.global.url>https://${github.global.server}.com</github.global.url>
+        <github.global.raw>https://raw.${github.global.server}.com</github.global.raw>
         <github.id>Nikolay-Mishin</github.id>
         <github.url>${github.global.url}/${github.id}</github.url>
         <github.name>Nikolay Mishin</github.name>
