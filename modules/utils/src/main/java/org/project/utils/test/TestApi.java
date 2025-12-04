@@ -33,13 +33,9 @@ public class TestApi {
         testHeaders();
     }
 
-    public static void testApi() throws IOException, URISyntaxException, ReflectiveOperationException {
-        testApi(false);
-    }
-
-    public static void testApi(boolean setAssert)
+    public static void testApi()
         throws IOException, URISyntaxException, ReflectiveOperationException {
-        debug("testApi:" + setAssert);
+        debug("testApi");
         Request req = new Request(GET, endpointTest, 0);
         Response resp = req.response();
 
@@ -99,8 +95,6 @@ public class TestApi {
         req.printFullPath();
         req.printUri();
         req.printPath();
-
-        if (setAssert) assertEquals(resp.getStatusCode(), 200);
     }
 
     public static void testHeaders() throws IOException, URISyntaxException, ReflectiveOperationException {

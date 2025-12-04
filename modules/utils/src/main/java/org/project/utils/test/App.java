@@ -8,6 +8,7 @@ import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.project.utils.event.CucumberBaseEventListener;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.configs;
@@ -24,11 +25,12 @@ public class App extends TestException {
 
     public static void main(String[] args) throws Exception {
         debug("App:main");
+        new CucumberBaseEventListener(cPlugins);
         debug(configs());
-        testException();
-        //testMain();
+        //testException();
+        testMain();
         //testApi();
-        testHeaders();
+        //testHeaders();
         //testJson();
         //testZip();
         //testFS();
@@ -41,9 +43,8 @@ public class App extends TestException {
         //testWinDriverConfig();
         //testPrintException();
         //testInvoke();
-        //testReqGet();
         //testHeaders(true);
-        //testApi(true);
+        //testReqGet();
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
@@ -52,9 +53,17 @@ public class App extends TestException {
         remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
         webDriver = org.project.utils.windriver.WebDriver.start();
         winDriver = org.project.utils.windriver.WinDriver.start();
+
         org.project.utils.windriver.WinDriver.printCall();
-        //org.project.utils.windriver.WebDriver.stop();
-        //org.project.utils.windriver.WebDriver.quit();
+
+        driver.quit();
+        remoteDriver.quit();
+        webDriver.quit();
+        winDriver.quit();
+
+        org.project.utils.windriver.RemoteWebDriver.quit();
+        org.project.utils.windriver.WebDriver.quit();
+        org.project.utils.windriver.WinDriver.quit();
     }
 
     public static void testLong() {
