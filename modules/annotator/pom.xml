@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>annotator</artifactId>
-    <version>3.7.5-SNAPSHOT</version>
+    <version>3.7.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
