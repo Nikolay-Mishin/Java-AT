@@ -37,7 +37,7 @@ import static org.project.utils.reflection.Reflection.getField;
  * <li>{@code java.lang.Appendable}</li>
  * </ul>
  */
-public class CucumberBaseEventListener implements ConcurrentEventListener {
+public class CucumberEventListener implements ConcurrentEventListener {
     protected File reportDir;
     protected boolean eventHandler = false;
     //private final EventHandler<TestRunStarted> runStartedHandler = event -> startReport(event);
@@ -64,7 +64,7 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
      * <li>{@code java.lang.Appendable}</li>
      * </ul>
      */
-    public CucumberBaseEventListener() {}
+    public CucumberEventListener() {}
 
     /**
      * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
@@ -77,7 +77,7 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
      * <li>{@code java.lang.Appendable}</li>
      * </ul>
      */
-    public CucumberBaseEventListener(String arg) throws ReflectiveOperationException {
+    public CucumberEventListener(String arg) throws ReflectiveOperationException {
         init(arg);
     }
 
@@ -92,7 +92,7 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
      * <li>{@code java.lang.Appendable}</li>
      * </ul>
      */
-    public CucumberBaseEventListener(String arg, boolean eventHandler) throws ReflectiveOperationException {
+    public CucumberEventListener(String arg, boolean eventHandler) throws ReflectiveOperationException {
         init(arg, eventHandler);
     }
 
