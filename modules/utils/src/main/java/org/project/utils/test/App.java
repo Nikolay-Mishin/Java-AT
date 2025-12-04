@@ -10,8 +10,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.config.BaseConfig.BASE_CONFIG;
+import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
 
+import org.project.utils.config.WebConfig;
 import org.project.utils.event.CucumberEventListener;
 
 public class App extends TestException {
@@ -23,6 +26,7 @@ public class App extends TestException {
         debug("App:main");
         new CucumberEventListener(cPlugins);
         debug(configs());
+
         //testException();
         //testMain();
         testHeaders();
@@ -41,6 +45,9 @@ public class App extends TestException {
         //testInvoke();
         //testHeaders(true);
         //testReqGet();
+
+        debug(configs());
+        printConfig();
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
@@ -70,6 +77,12 @@ public class App extends TestException {
 
     public static void _long(Long id) {
         debug(id);
+    }
+
+    public static void printConfig() {
+        debug("DEBUG_LEVEL: " + DEBUG_LEVEL);
+        //debug("BASE_CONFIG: " + BASE_CONFIG);
+        debug("WebConfig: " + WebConfig.config());
     }
 
 }
