@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.16.0</version>
+    <version>7.16.1</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <annotator.ver>3.7.5-SNAPSHOT</annotator.ver>
         <pojo.ver>3.7.6-SNAPSHOT</pojo.ver>
-        <utils.ver>5.8.1-SNAPSHOT</utils.ver>
+        <utils.ver>5.8.3-SNAPSHOT</utils.ver>
         <src.dir>src/main</src.dir>
         <src.test>src/test</src.test>
         <res.dir>${src.dir}/resources</res.dir>
