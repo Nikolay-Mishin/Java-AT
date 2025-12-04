@@ -7,7 +7,7 @@ import static org.project.utils.config.TestConfig.config;
 public interface TestBaseConfig extends BaseConfig {
     TestBaseConfig BASE_CONFIG = config(TestBaseConfig.class);
 
-    //testApi
+    //TestApi
     @Key("api.ver")
     String getApiVer();
 
@@ -17,17 +17,41 @@ public interface TestBaseConfig extends BaseConfig {
     @Key("api.endpoint")
     String getEndpoint();
 
-    //testFS
-    @Key("chrome.driver.root")
-    String getChromeDriverRoot();
+    @Key("api.endpoint.test")
+    String getEndpointTest();
 
-    @Key("chrome.driver.file")
-    String getChromeDriverFile();
+    @Key("api.auth")
+    String getAuth();
 
-    @Key("fs.attrs")
-    String getFsAttrs();
+    @Key("api.auth.test")
+    String getAuthTest();
 
-    //testZip
+    //TestJson
+    @Key("json.ver")
+    String getJsonVer();
+
+    @Key("json.ver.type")
+    String getJsonVerType();
+
+    @Key("json.downloads")
+    String getJsonDownloads();
+
+    @Key("json.get")
+    String getJson();
+
+    @Key("json.get.type")
+    String getJsonType();
+
+    @Key("json.k")
+    String getJsonK();
+
+    @Key("json.v")
+    String getJsonV();
+
+    @Key("json.url")
+    String getJsonUrl();
+
+    //TestZip
     @Key("zip.root")
     String getZipRoot();
 
@@ -54,4 +78,43 @@ public interface TestBaseConfig extends BaseConfig {
 
     @Key("zip.read")
     String getZipReadDir();
+
+    //TestFS
+    @Key("chrome.driver.root")
+    String getChromeDriverRoot();
+
+    @Key("chrome.driver.file")
+    String getChromeDriverFile();
+
+    @Key("fs.delete")
+    String getFsDelete();
+
+    @Key("fs.file")
+    String getFsFile();
+
+    @Key("fs.attrs")
+    String getFsAttrs();
+
+    @Key("fs.attrs.name")
+    String getFsAttrsK();
+
+    @Key("fs.attrs.value")
+    String getFsAttrsV();
+
+    //TestReq
+    @Key("req.body")
+    String getReqBody();
+
+    //TestInvoke
+    @Key("i.class")
+    String getFs();
+
+    @Key("i.field")
+    String getFsField();
+
+    @Key("i.method.name")
+    String getFsMethodName();
+
+    @Key("i.method")
+    String getFsMethod();
 }
