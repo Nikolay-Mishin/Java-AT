@@ -21,12 +21,15 @@
         <github.name>Nikolay Mishin</github.name>
         <github.repo>Java-AT</github.repo>
         <github.branch>mvn-repo</github.branch>
+        <github.branch.test>mvn-repo-test</github.branch.test>
         <github.merge>true</github.merge>
         <github.msg>Maven artifacts for ${project.version}</github.msg>
         <repo.dir>repo</repo.dir>
         <repo.path>${basedir}/${repo.dir}</repo.path>
         <repo.id>internal.repo</repo.id>
         <repo.name>org/project</repo.name>
+        <repo.artifact.dir>${repo.name}/${project.artifactId}</repo.artifact.dir>
+        <repo.artifact>${repo.artifact.dir}/${project.version}</repo.artifact>
         <repo.url>file://${repo.path}</repo.url>
         <clean.exclude.defaults>true</clean.exclude.defaults>
         <docker.dir>${basedir}/docker</docker.dir>
@@ -108,7 +111,7 @@
                     <!-- <excludeDefaultDirectories>${clean.exclude.defaults}</excludeDefaultDirectories> -->
                     <filesets>
                         <fileset>
-                            <directory>${repo.dir}/${repo.name}/${project.artifactId}/${project.version}</directory>
+                            <directory>${repo.dir}/${repo.artifact}</directory>
                             <followSymlinks>false</followSymlinks>
                             <includes>
                                 <include>**</include> <!-- **/* - файлы | ** - каталог -->
@@ -137,7 +140,8 @@
                     <outputDirectory>${repo.path}</outputDirectory> <!-- distribution management repository url -->
                     <branch>refs/heads/${github.branch}</branch>    <!-- remote branch name -->
                     <includes>
-                        <include>**/*</include>
+                        <include>${repo.artifact.dir}/*</include>
+                        <include>${repo.artifact}/*</include>
                     </includes>
                     <repositoryName>${github.repo}</repositoryName>    <!-- github repo name -->
                     <repositoryOwner>${github.id}</repositoryOwner>    <!-- github username  -->
