@@ -6,20 +6,20 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.15.5</version>
+    <version>7.16.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <annotator.ver>3.7.4-SNAPSHOT</annotator.ver>
-        <pojo.ver>3.7.5-SNAPSHOT</pojo.ver>
-        <utils.ver>5.7.0-SNAPSHOT</utils.ver>
+        <annotator.ver>3.7.5-SNAPSHOT</annotator.ver>
+        <pojo.ver>3.7.6-SNAPSHOT</pojo.ver>
+        <utils.ver>5.8.1-SNAPSHOT</utils.ver>
         <src.dir>src/main</src.dir>
         <src.test>src/test</src.test>
         <res.dir>${src.dir}/resources</res.dir>
-        <conf.dir>${src.dir}/config</conf.dir>
         <res.test.dir>${src.test}/resources</res.test.dir>
+        <conf.dir>${src.dir}/config</conf.dir>
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
         <github.global.url>https://${github.global.server}.com</github.global.url>
@@ -30,15 +30,14 @@
         <github.repo>Java-AT</github.repo>
         <github.branch>mvn-repo</github.branch>
         <github.repo.url>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.url>
-        <github.repo.raw>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.raw>
+        <github.repo.raw>${github.global.raw}/${github.id}/${github.repo}/${github.branch}</github.repo.raw>
         <github.repo.snapshots>true</github.repo.snapshots>
         <github.repo.update>always</github.repo.update>
-        <repo.dir>repo</repo.dir>
-        <repo.path>${basedir}/${repo.dir}</repo.path>
         <pojo.src>${basedir}/${res.dir}/json</pojo.src>
         <pojo.out>${project.build.sourceDirectory}</pojo.out>
         <pojo.pkg>pojo.gen</pojo.pkg>
         <annotator>org.project.annotator.lombok.LombokAnnotator</annotator>
+        <allure.reports>${project.build.directory}/allure-reports</allure.reports>
     </properties>
 
     <developers>
@@ -139,7 +138,7 @@
                 <artifactId>allure-maven</artifactId>
                 <version>2.12.0</version>
                 <configuration>
-                    <reportDirectory>${basedir}/target/allure-reports</reportDirectory>
+                    <reportDirectory>${allure.reports}</reportDirectory>
                 </configuration>
             </plugin>
 

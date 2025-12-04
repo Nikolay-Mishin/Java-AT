@@ -9,6 +9,7 @@ import org.project.utils.config.WebBaseConfig;
 @LoadPolicy(LoadType.MERGE)
 @Sources({
     //"system:properties", // -DpropertyName=propertyValue
+    //"system:env", // environment variables
     "classpath:stand.properties",
     "classpath:dev.properties"
 })
