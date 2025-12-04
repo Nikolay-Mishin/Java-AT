@@ -11,21 +11,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
-import static org.project.utils.Helper.debug;
-import static org.project.utils.reflection.Reflection.getGenericClass;
-
-public class WebDriver<T> extends RemoteWebDriver {
+public class WebDriver extends RemoteWebDriver {
     protected static ChromeOptions options = new ChromeOptions();
     protected static final String chromeDriver = c.getChromeDriver();
     protected static final String chromeDriverName = c.getChromeDriverName();
     public static JavascriptExecutor js;
     public static LocalStorage ls;
     public static SessionStorage s;
-
-    public WebDriver() throws ClassNotFoundException {
-        //super();
-        debug(getGenericClass());
-    }
 
     //[ProcessInitialize]
     public static void init() throws IOException, IllegalAccessException {
@@ -85,7 +77,6 @@ public class WebDriver<T> extends RemoteWebDriver {
 
     //[DriverSessionQuit]
     public static void stop() {
-        debug("chromeDriverName: " + chromeDriverName);
         stop(chromeDriverName);
     }
 }

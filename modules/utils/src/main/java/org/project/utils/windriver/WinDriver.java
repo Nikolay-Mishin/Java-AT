@@ -20,19 +20,8 @@ import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
 
-import static org.project.utils.Helper.debug;
-import static org.project.utils.reflection.Reflection.getGenericClass;
-
-public class WinDriver<T> extends RemoteWebDriver {
+public class WinDriver extends RemoteWebDriver {
     protected static WindowsDriver<WebElement> d;
-
-    public WinDriver() throws ClassNotFoundException {
-        gen();
-    }
-
-    public void gen() throws ClassNotFoundException {
-        debug(getGenericClass());
-    }
 
     //[ClassInitialize]
     public static WindowsDriver<WebElement> start() throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
