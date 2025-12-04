@@ -3,6 +3,7 @@ package org.project.utils.event;
 import static java.lang.System.out;
 
 import java.io.File;
+import java.util.Arrays;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.Event;
@@ -20,7 +21,8 @@ import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.WriteEvent;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.exception.UtilException.tryConsumerWithPrint;
+import static org.project.utils.Helper.trim;
+import static org.project.utils.exception.UtilException.tryConsumerWithIgnore;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 
@@ -99,9 +101,13 @@ public class CucumberBaseEventListener implements ConcurrentEventListener {
     }
 
     public void init(String arg, boolean eventHandler) throws ReflectiveOperationException {
-        debug("CucumberEventListener: " + arg);
-        tryConsumerWithPrint(() -> out.println("getClass: " + getClazz(arg)));
-        tryConsumerWithPrint(() -> out.println("getField: " + getField(arg)));
+        //debug("CucumberEventListener: " + arg);
+        String[] args = trim(arg.split(","));
+        debug("CucumberEventListener: " + Arrays.toString(args));
+        for (String a : args) {
+            tryConsumerWithIgnore(() -> out.println("getClass: " + getClazz(a)));
+            tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));
+        }
         eventHandler(eventHandler);
     }
 
