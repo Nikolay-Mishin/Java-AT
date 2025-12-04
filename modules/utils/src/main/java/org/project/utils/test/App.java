@@ -8,10 +8,11 @@ import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.project.utils.event.CucumberEventListener;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.configs;
+
+import org.project.utils.event.CucumberEventListener;
 
 public class App extends TestException {
     protected static WindowsDriver<WebElement> winDriver;
@@ -23,8 +24,8 @@ public class App extends TestException {
         new CucumberEventListener(cPlugins);
         debug(configs());
         //testException();
-        testMain();
-        //testHeaders();
+        //testMain();
+        testHeaders();
         //testApi();
         //testJson();
         //testZip();
@@ -48,17 +49,8 @@ public class App extends TestException {
         remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
         webDriver = org.project.utils.windriver.WebDriver.start();
         winDriver = org.project.utils.windriver.WinDriver.start();
-
         org.project.utils.windriver.WinDriver.printCall();
-
-        driver.quit();
-        remoteDriver.quit();
-        webDriver.quit();
-        winDriver.quit();
-
-        org.project.utils.windriver.RemoteWebDriver.quit();
-        org.project.utils.windriver.WebDriver.quit();
-        org.project.utils.windriver.WinDriver.quit();
+        org.project.utils.windriver.WinDriver.quit(driver, remoteDriver, webDriver, winDriver);
     }
 
     public static void testLong() {
