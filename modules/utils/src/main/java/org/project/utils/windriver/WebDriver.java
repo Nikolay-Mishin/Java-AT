@@ -85,6 +85,7 @@ public class WebDriver<T> extends RemoteWebDriver {
 
     //[DriverSessionQuit]
     public static void stop() {
+        debug("chromeDriverName: " + chromeDriverName);
         stop(chromeDriverName);
     }
 }
