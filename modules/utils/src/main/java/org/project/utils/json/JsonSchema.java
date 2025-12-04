@@ -3,6 +3,7 @@ package org.project.utils.json;
 import static java.lang.String.valueOf;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -83,7 +84,7 @@ public class JsonSchema {
     }
 
     public static List<List<Object>> toTable(JSONObject o) {
-        return Helper.toTable(toMap(o));
+        return Helper.table(toMap(o));
     }
 
     public static Map<String, Object> toMap(JSONObject o) {
@@ -133,19 +134,19 @@ public class JsonSchema {
     }
 
     public List<List<Object>> toTable(String k) throws ReflectiveOperationException {
-        return Helper.toTable(toMap(k));
+        return Helper.table(toMap(k));
     }
 
     public List<List<Object>> arrayToTable(String k) throws ReflectiveOperationException {
-        return Helper.toTable(arrayToMap(k));
+        return Helper.table(arrayToMap(k));
     }
 
     public List<List<Object>> toTable(String key, String k, String v) throws ReflectiveOperationException {
-        return Helper.toTable(toMap(key, k, v));
+        return Helper.table(toMap(key, k, v));
     }
 
     public <T> List<List<Object>> toTable(String k, Predicate<T> filter) throws ReflectiveOperationException {
-        return Helper.toTable(toMap(k, filter));
+        return Helper.table(toMap(k, filter));
     }
 
     public Map<String, Object> toMap() {
@@ -239,12 +240,56 @@ public class JsonSchema {
         return _keys(path);
     }
 
-    public <T> T get(String path) throws ReflectiveOperationException {
+    public JSONObject get(String path) throws ReflectiveOperationException {
         return _get(path, "object");
+    }
+
+    public JSONArray getArray(String path) throws ReflectiveOperationException {
+        return _get(path, "array");
+    }
+
+    public String string(String path) throws ReflectiveOperationException {
+        return _get(path, "string");
+    }
+
+    public boolean getBoolean(String path) throws ReflectiveOperationException {
+        return _get(path, "boolean");
+    }
+
+    public int getInt(String path) throws ReflectiveOperationException {
+        return _get(path, "int");
+    }
+
+    public long getLong(String path) throws ReflectiveOperationException {
+        return _get(path, "long");
+    }
+
+    public float getFloat(String path) throws ReflectiveOperationException {
+        return _get(path, "float");
+    }
+
+    public Number number(String path) throws ReflectiveOperationException {
+        return _get(path, "number");
+    }
+
+    public double getDouble(String path) throws ReflectiveOperationException {
+        return _get(path, "double");
+    }
+
+    public BigInteger bigInt(String path) throws ReflectiveOperationException {
+        return _get(path, "bigInteger");
+    }
+
+    public <T> T bigDec(String path) throws ReflectiveOperationException {
+        return _get(path, "bigDecimal");
     }
 
     public <T> T get(String path, String type) throws ReflectiveOperationException {
         return _get(path, type);
+    }
+
+    public <E extends Enum<E>> E getEnum(Class<E> clazz, String path) {
+        return jsonData.getEnum(clazz, path);
     }
 
     private String[] _keys(String path) throws ReflectiveOperationException {
@@ -253,15 +298,15 @@ public class JsonSchema {
 
     @SuppressWarnings("unchecked")
     private <T> T _get(String path, String type) throws ReflectiveOperationException {
-        type = type.toLowerCase();
+        //type = type.toLowerCase();
         String[] pathList = parsePath(path);
         boolean isValue = pathList.length == 1;
-        Object value = pathList[pathList.length - 1];
+        T value = (T) pathList[pathList.length - 1];
         pathList = pop(pathList);
         for (String key : pathList) object(key);
         value = invoke(isValue ? jsonData : obj, "get" + (type.equals("object") || type.equals("array") ? "JSON" : "") + toUpperCaseFirst(type), value);
         obj = null;
-        return (T) value;
+        return value;
     }
 
     public static String[] parsePath(String path) {
