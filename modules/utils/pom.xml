@@ -27,13 +27,16 @@
         <github.branch.test>mvn-repo-test</github.branch.test>
         <github.merge>true</github.merge>
         <github.msg>Maven artifacts for ${project.version}</github.msg>
+        <repo.id>internal.repo</repo.id>
         <repo.dir>repo</repo.dir>
         <repo.path>${basedir}/${repo.dir}</repo.path>
-        <repo.id>internal.repo</repo.id>
-        <repo.name>org/project</repo.name>
         <repo.url>file://${repo.path}</repo.url>
+        <repo.name>org/project</repo.name>
         <repo.artifact.dir>${repo.name}/${project.artifactId}</repo.artifact.dir>
         <repo.artifact>${repo.artifact.dir}/${project.version}</repo.artifact>
+        <repo.artifact.path>${repo.dir}/${repo.artifact}</repo.artifact.path>
+        <repo.symlinks>false</repo.symlinks>
+        <repo.noJekyll>true</repo.noJekyll>
         <clean.exclude.defaults>true</clean.exclude.defaults>
         <docker.dir>${basedir}/docker</docker.dir>
         <docker.image>${project.artifactId}-${project.version}</docker.image>
@@ -110,12 +113,12 @@
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.4.0</version>
                 <configuration>
-                    <!-- не удалять каталога target -->
+                    <!-- не удалять каталог target -->
                     <!-- <excludeDefaultDirectories>${clean.exclude.defaults}</excludeDefaultDirectories> -->
                     <filesets>
                         <fileset>
-                            <directory>${repo.dir}/${repo.artifact}</directory>
-                            <followSymlinks>false</followSymlinks>
+                            <directory>${repo.artifact.path}</directory>
+                            <followSymlinks>${repo.symlinks}</followSymlinks>
                             <includes>
                                 <include>**</include> <!-- **/* - файлы | ** - каталог -->
                             </includes>
@@ -137,17 +140,17 @@
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.11</version>
                 <configuration>
-                    <message>${github.msg}</message>  <!-- git commit message -->
-                    <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
+                    <message>${github.msg}</message> <!-- git commit message -->
+                    <noJekyll>${repo.noJekyll}</noJekyll> <!-- disable webpage processing -->
                     <merge>${github.merge}</merge> <!-- не перезаписывать предыдущие артефакты при развертывании -->
                     <outputDirectory>${repo.path}</outputDirectory> <!-- distribution management repository url -->
-                    <branch>refs/heads/${github.branch}</branch>    <!-- remote branch name -->
+                    <branch>refs/heads/${github.branch}</branch> <!-- remote branch name -->
                     <includes>
                         <include>${repo.artifact.dir}/*</include>
                         <include>${repo.artifact}/*</include>
                     </includes>
-                    <repositoryName>${github.repo}</repositoryName>    <!-- github repo name -->
-                    <repositoryOwner>${github.id}</repositoryOwner>    <!-- github username  -->
+                    <repositoryName>${github.repo}</repositoryName> <!-- github repo name -->
+                    <repositoryOwner>${github.id}</repositoryOwner> <!-- github username  -->
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
