@@ -6,8 +6,10 @@
 /modules/**/tests/
 *.properties
 !dev.properties
+!test.properties
 !win.properties
 !*.dev.properties
+!*.test.properties
 !*.win.properties
 
 ### NPM ###
