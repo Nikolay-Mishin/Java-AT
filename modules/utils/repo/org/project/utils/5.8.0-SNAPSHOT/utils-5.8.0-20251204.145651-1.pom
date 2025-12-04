@@ -28,9 +28,9 @@
         <repo.path>${basedir}/${repo.dir}</repo.path>
         <repo.id>internal.repo</repo.id>
         <repo.name>org/project</repo.name>
+        <repo.url>file://${repo.path}</repo.url>
         <repo.artifact.dir>${repo.name}/${project.artifactId}</repo.artifact.dir>
         <repo.artifact>${repo.artifact.dir}/${project.version}</repo.artifact>
-        <repo.url>file://${repo.path}</repo.url>
         <clean.exclude.defaults>true</clean.exclude.defaults>
         <docker.dir>${basedir}/docker</docker.dir>
         <docker.image>${project.artifactId}-${project.version}</docker.image>

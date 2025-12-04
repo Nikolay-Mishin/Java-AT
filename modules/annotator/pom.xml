@@ -6,7 +6,7 @@
 
     <groupId>org.project</groupId>
     <artifactId>annotator</artifactId>
-    <version>3.7.4-SNAPSHOT</version>
+    <version>3.7.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -22,14 +22,16 @@
         <github.name>Nikolay Mishin</github.name>
         <github.repo>Java-AT</github.repo>
         <github.branch>mvn-repo</github.branch>
-        <github.repo.url>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.url>
         <github.merge>true</github.merge>
         <github.msg>Maven artifacts for ${project.version}</github.msg>
+        <github.repo.url>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.url>
         <repo.dir>repo</repo.dir>
         <repo.path>${basedir}/${repo.dir}</repo.path>
         <repo.id>internal.repo</repo.id>
         <repo.name>org/project</repo.name>
         <repo.url>file://${repo.path}</repo.url>
+        <repo.artifact.dir>${repo.name}/${project.artifactId}</repo.artifact.dir>
+        <repo.artifact>${repo.artifact.dir}/${project.version}</repo.artifact>
         <clean.exclude.defaults>true</clean.exclude.defaults>
     </properties>
 
@@ -112,7 +114,7 @@
                     <!-- <excludeDefaultDirectories>${clean.exclude.defaults}</excludeDefaultDirectories> -->
                     <filesets>
                         <fileset>
-                            <directory>${repo.dir}/${repo.name}/${project.artifactId}/${project.version}</directory>
+                            <directory>${repo.dir}/${repo.artifact}</directory>
                             <followSymlinks>false</followSymlinks>
                             <includes>
                                 <include>**</include> <!-- **/* - файлы | ** - каталог -->
@@ -140,17 +142,20 @@
                     <merge>${github.merge}</merge> <!-- не перезаписывать предыдущие артефакты при развертывании -->
                     <outputDirectory>${repo.path}</outputDirectory> <!-- distribution management repository url -->
                     <branch>refs/heads/${github.branch}</branch>    <!-- remote branch name -->
-                    <includes><include>**/*</include></includes>
+                    <includes>
+                        <include>${repo.artifact.dir}/*</include>
+                        <include>${repo.artifact}/*</include>
+                    </includes>
                     <repositoryName>${github.repo}</repositoryName>    <!-- github repo name -->
                     <repositoryOwner>${github.id}</repositoryOwner>    <!-- github username  -->
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
                     <execution>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>site</goal>
                         </goals>
-                        <phase>deploy</phase>
                     </execution>
                 </executions>
             </plugin>
