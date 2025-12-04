@@ -19,23 +19,23 @@ import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.SessionId;
-import org.project.utils.config.DriverBaseConfig;
 import org.testng.Assert;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.entries;
 import static org.project.utils.Process.run;
 import static org.project.utils.reflection.Reflection.getCallingChildClassSimpleName;
-import static org.project.utils.config.DriverBaseConfig.BASE_CONFIG;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
 
+import org.project.utils.config.DriverBaseConfig;
+import org.project.utils.config.DriverConfig;
 import org.project.utils.constant.Capabilities;
 import org.project.utils.Process;
 
 public class RemoteWebDriver extends WebElement {
-    protected static DriverBaseConfig c = BASE_CONFIG;
+    protected static DriverBaseConfig c = DriverConfig.config();
     protected static DesiredCapabilities cap = new DesiredCapabilities();
     protected static String winDriver = WINDRIVER;
     protected static String winDriverName = WINDRIVER_NAME;
@@ -180,6 +180,7 @@ public class RemoteWebDriver extends WebElement {
     protected static void quit(WebDriver driver, String driverName) {
         // The instance of WinAppDriver will be freed once last test is complete
         // WinDriver.stop();
+        debug("driver: " + d);
         if (driver != null) driver.quit();
         stop(driverName);
     }
@@ -189,6 +190,7 @@ public class RemoteWebDriver extends WebElement {
     }
 
     protected static void stop(String driverName) {
+        debug("driverName: " + driverName);
         try {
             new Process("taskkill ", "/f", "/IM", driverName);
             d = null;

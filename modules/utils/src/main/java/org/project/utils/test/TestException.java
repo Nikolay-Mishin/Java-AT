@@ -21,6 +21,9 @@ import static org.project.utils.reflection.Reflection.invoke;
 import org.project.utils.Helper;
 
 public class TestException extends TestInvoke {
+    protected static String cPlugin = c.getCPlugin();
+    protected static String cPluginField = c.getCPluginField();
+    protected static String cPlugins = c.getCPlugins();
 
     public static void main(String[] args) throws Exception {
         //testConsumerWithCheckedExceptions();
@@ -34,17 +37,17 @@ public class TestException extends TestInvoke {
 
     public static void testPrintException() throws ReflectiveOperationException {
         debug("testPrintException");
-        tryConsumerWithPrint((t) -> debug(getField("org.project.utils.test.TestInvoke::invokeName")));
-        tryConsumerWithPrint(t -> debug(invoke("org.project.utils.test.TestInvoke::invokeName1")));
-        tryConsumerWithPrint(() -> debug(invoke("org.project.utils.test.App1::invokeName")));
+        tryConsumerWithPrint((t) -> debug(getField(fsMethod)));
+        tryConsumerWithPrint(t -> debug(invoke(fsMethod + "1")));
+        tryConsumerWithPrint(() -> debug(invoke(fsClass + "1::" + fsMethodName)));
     }
 
     public static void testException() throws ReflectiveOperationException {
         debug("testException");
-        tryConsumer(t -> debug("getClass: " + getClazz("org.project.utils.config.WebBaseConfig")));
-        tryConsumer(() -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
-        //trySupplier(() -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
-        //trySupplier(t -> debug("getField: " + getField("org.project.utils.config.WebBaseConfig::BASE_CONFIG")));
+        tryConsumer(t -> debug("getClass: " + getClazz(cPlugin)));
+        tryConsumer(() -> debug("getField: " + getField(cPluginField)));
+        //trySupplier(() -> debug("getField: " + getField(cPluginField)));
+        //trySupplier(t -> debug("getField: " + getField(cPluginField)));
     }
 
     public static void testConsumerWithCheckedExceptions() throws ClassNotFoundException {

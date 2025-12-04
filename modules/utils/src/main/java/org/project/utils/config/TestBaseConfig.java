@@ -7,6 +7,19 @@ import static org.project.utils.config.TestConfig.config;
 public interface TestBaseConfig extends BaseConfig {
     TestBaseConfig BASE_CONFIG = config(TestBaseConfig.class);
 
+    //Cucumber
+    @Key("c.plugin.pkg")
+    String getCPluginPkg();
+
+    @Key("c.plugin")
+    String getCPlugin();
+
+    @Key("c.plugin.field")
+    String getCPluginField();
+
+    @Key("c.plugins")
+    String getCPlugins();
+
     //TestApi
     @Key("api.ver")
     String getApiVer();
