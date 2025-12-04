@@ -173,15 +173,20 @@ public class RemoteWebDriver extends WebElement {
 
     protected static void quit(String driverName) {
         quit(d, driverName);
-        d = null;
     }
 
-    //protected static void quit(WebDriver driver, String driverName) {
     protected static void quit(WebDriver driver, String driverName) {
         // The instance of WinAppDriver will be freed once last test is complete
-        // WinDriver.stop();
-        debug("driver: " + d);
-        if (driver != null) driver.quit();
+        debug("d: " + d);
+        debug("driver: " + driver);
+        //if (driver != null) driver.quit();
+        try {
+            driver.quit();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            //throw new RuntimeException(e);
+        }
         stop(driverName);
     }
 
@@ -191,14 +196,23 @@ public class RemoteWebDriver extends WebElement {
 
     protected static void stop(String driverName) {
         debug("driverName: " + driverName);
+        d = null;
         try {
             new Process("taskkill ", "/f", "/IM", driverName);
-            d = null;
         }
         catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
+    }
+
+    public static void quit(WebDriver... driver) {
+        quit(winDriverName, driver);
+    }
+
+    protected static void quit(String driverName, WebDriver... driver) {
+        for (WebDriver d : driver) d.quit();
+        stop(driverName);
     }
 
     public static void timeout(long t) {
