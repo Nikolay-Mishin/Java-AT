@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
@@ -58,13 +59,17 @@ public class Helper {
         if (debugLvl() >= debugLvl) debug(msg, args);
     }
 
+    public static List<List<String>> table(String table) {
+        return toList(trim(table.split(";")), List[]::new, row -> arrayList(trim(row.split(","))));
+    }
+
     @SafeVarargs
-    public static <T> List<List<T>> table(T[]... row) {
-        return toList(row, List[]::new, Helper::arrayList);
+    public static <T> List<List<T>> table(T[]... table) {
+        return toList(table, List[]::new, Helper::arrayList);
     }
 
     @SuppressWarnings("unchecked")
-    public static <K, V> List<List<V>> toTable(Map<K, V> map) {
+    public static <K, V> List<List<V>> table(Map<K, V> map) {
         return toList(map.keySet(), List[]::new, (K k) -> (List<V>) newArrayList(k, map.get(k)));
     }
 
@@ -87,6 +92,10 @@ public class Helper {
 
     public static <A, T> T[] toArray(A[] array, IntFunction<T[]> generator) {
         return stream(array).toArray(generator);
+    }
+
+    public static <A> A[] toArray(Set<A> set) {
+        return (A[]) set.toArray();
     }
 
     public static <A> List<A> toList(A[] array) {
@@ -130,8 +139,24 @@ public class Helper {
         return filter(toList(iterator), filter);
     }
 
+    public static <A> void forEach(Set<A> set, Consumer<A> action) {
+        forEach(toArray(set), action);
+    }
+
+    public static <A> void forEach(A[] array, Consumer<A> action) {
+        forEach(stream(array), action);
+    }
+
+    public static <A> void forEach(List<A> list, Consumer<A> action) {
+        forEach(list.stream(), action);
+    }
+
+    public static <A> void forEach(Stream<A> stream, Consumer<A> action) {
+        stream.forEach(action);
+    }
+
     public static <A, T> T[] map(Set<A> set, IntFunction<T[]> generator, Function<A, T> mapper) {
-        return map((A[]) set.toArray(), generator, mapper);
+        return map(toArray(set), generator, mapper);
     }
 
     public static <A, T> T[] map(A[] array, IntFunction<T[]> generator, Function<A, T> mapper) {
@@ -304,9 +329,17 @@ public class Helper {
         return arr[arr.length - 1];
     }
 
+    public static String last(String s) {
+        return last(s, "/");
+    }
+
     public static String last(String s, String split) {
         //return s.substring(s.lastIndexOf(split) + 1);
         return last(s.split(split));
+    }
+
+    public static String[] trim(String[] arr) {
+        return map(arr, String[]::new, String::trim);
     }
 
     public static <T> T[] push(T[] arr, T item) {
