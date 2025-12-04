@@ -8,15 +8,10 @@ import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.project.utils.event.CucumberBaseEventListener;
+import org.project.utils.event.CucumberEventListener;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.configs;
-import static org.project.utils.test.TestAuth.*;
-import static org.project.utils.test.TestConfig.*;
-import static org.project.utils.test.TestEntries.*;
-import static org.project.utils.test.TestFS.*;
-import static org.project.utils.test.TestReq.*;
 
 public class App extends TestException {
     protected static WindowsDriver<WebElement> winDriver;
@@ -25,12 +20,12 @@ public class App extends TestException {
 
     public static void main(String[] args) throws Exception {
         debug("App:main");
-        new CucumberBaseEventListener(cPlugins);
+        new CucumberEventListener(cPlugins);
         debug(configs());
         //testException();
         testMain();
-        //testApi();
         //testHeaders();
+        //testApi();
         //testJson();
         //testZip();
         //testFS();
