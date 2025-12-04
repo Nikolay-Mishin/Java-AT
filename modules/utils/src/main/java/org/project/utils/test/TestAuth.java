@@ -11,16 +11,18 @@ import static org.project.utils.auth.Auth.req;
 
 import org.project.utils.reflection.SingleInstance;
 
-public class TestAuth {
+public class TestAuth extends TestApi {
+    protected static String auth = c.getAuth();
+    protected static String authTest = c.getEndpointTest();
 
     public static void main(String[] args) throws Exception {
         testAuth();
     }
 
     public static void testAuth() throws Exception {
-        testAuth("auth/token");
-        req().uri("https://googlechromelabs.github.io/");
-        testAuth("auth/tokens");
+        testAuth(auth);
+        req().uri(uri);
+        testAuth(authTest);
     }
 
     public static void testAuth(Object... pathList) throws Exception {

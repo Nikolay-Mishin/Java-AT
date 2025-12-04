@@ -26,6 +26,7 @@ public class TestApi {
     protected static TestBaseConfig c = BASE_CONFIG;
     protected static String uri = c.getApiUri();
     protected static String endpoint = c.getEndpoint();
+    protected static String endpointTest = c.getEndpointTest();
 
     public static void main(String[] args) throws Exception {
         //testApi();
@@ -39,7 +40,7 @@ public class TestApi {
     public static void testApi(boolean setAssert)
         throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testApi:" + setAssert);
-        Request req = new Request(GET, "store/order", 0);
+        Request req = new Request(GET, endpointTest, 0);
         Response resp = req.response();
 
         debug(req);
@@ -54,7 +55,7 @@ public class TestApi {
         debug(resp.cookies());
         debug(resp.detailedCookies());
 
-        req.url("store/order", 1);
+        req.url(endpointTest, 1);
         String resp1 = req.string();
         debug(resp1);
 
@@ -108,7 +109,7 @@ public class TestApi {
 
     public static void testHeaders(boolean setHeaders) throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testHeaders");
-        Request req = new Request(GET, "store/order", 0);
+        Request req = new Request(GET, endpointTest, 0);
 
         debug(req.statusCode());
         debug(req.contentType());
@@ -134,8 +135,8 @@ public class TestApi {
         debug(getHeaders(spec));
 
         AuthenticationSpecification authSpec = req.auth();
-        RequestSpecification authBasic = req.auth().basic("login", "password");
-        RequestSpecification oauth2 = req.auth().oauth2("token");
+        RequestSpecification authBasic = req.basic("login", "password");
+        RequestSpecification oauth2 = req.oauth2("token");
 
         debug(authSpec);
         debug(authBasic);

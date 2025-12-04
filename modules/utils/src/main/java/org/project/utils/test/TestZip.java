@@ -43,28 +43,23 @@ public class TestZip extends TestJson {
 
     public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testZip");
-        JsonSchema json = jsonSchema(endpoint, uri);
-        Request req = json.req();
+        url(endpoint, uri, jsonGet, jsonK, jsonV, jsonUrl);
 
-        Map<String, Object> map0 = json.toMap("downloads.chromedriver", "platform", "win64");
-        String url = (String) map0.get("url");
-        debug(url);
+        req = new Request(GET).uri(url);
 
-        Request req1 = new Request(GET).uri(url);
-
-        InputStream inputStream = req1.stream();
-        byte[] bytes = req1.bytes();
-        String str = req1.string();
+        InputStream inputStream = req.stream();
+        byte[] bytes = req.bytes();
+        String str = req.string();
 
         //debug(str);
-        //debug(req1.pretty());
+        //debug(req.pretty());
 
-        debug(req1.statusCode());
-        debug(req1.statusCode());
+        debug(req.statusCode());
+        debug(req.statusCode());
 
         debug(inputStream.toString());
 
-        String last = last(url, "/");
+        String last = last(url);
         debug(last);
 
         debug(mkdirs(outZip));
@@ -74,7 +69,7 @@ public class TestZip extends TestJson {
         writeFile(outZip + last, inputStream);
         writeFile(filenameZip, bytes);
         writeFile(filenameTxt, str);
-        writeFile(filenameTxt, req.string() + "\n" + "\n" + req.pretty());
+        writeFile(filenameTxt, TestJson.req.string() + "\n" + "\n" + TestJson.req.pretty());
 
         Path resolve = resolve(outZip);
         Path resolve1 = resolve(outZip, outZip);

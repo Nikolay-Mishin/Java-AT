@@ -14,8 +14,13 @@ import static org.project.utils.fs.File.pathStr;
 public class TestFS extends TestZip {
     protected static String chromedriverRoot = c.getChromeDriverRoot();
     protected static String chromedriverFile = c.getChromeDriverFile();
+    protected static String chromedriverPathStr = chromedriverRoot + chromedriverFile;
     protected static Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
+    protected static String fsDelete = c.getFsDelete();
+    protected static String fsFile = c.getFsFile();
     protected static String attrsTest = c.getFsAttrs();
+    protected static String attrK = c.getFsAttrsK();
+    protected static String attrV = c.getFsAttrsV();
 
     public static void main(String[] args) throws IOException {
         //testFS();
@@ -34,22 +39,22 @@ public class TestFS extends TestZip {
         debug(FileSystems.getDefault().getRootDirectories());
         debug(FileSystems.getDefault().getRootDirectories());
         debug(FileSystems.getDefault().getRootDirectories());
-        debug(FileSystems.getDefault().getPath("lib/chromedriver"));
-        debug(FileSystems.getDefault().getPath("lib/chromedriver").getFileSystem());
-        debug(FileSystems.getDefault().getPath("lib/chromedriver").getFileSystem().getRootDirectories());
-        debug(FileSystems.getDefault().getPath("lib/chromedriver").getFileSystem().getFileStores());
-        debug(FileSystems.getDefault().getPath("lib/chromedriver").getFileSystem().supportedFileAttributeViews());
+        debug(FileSystems.getDefault().getPath(chromedriverRoot));
+        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem());
+        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem().getRootDirectories());
+        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem().getFileStores());
+        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem().supportedFileAttributeViews());
 
-        debug(FileSystems.getDefault().getPath("lib/chromedriver/chromedriver.exe"));
-        debug(FileSystems.getDefault().getPath("lib/chromedriver/chromedriver.exe").toFile());
-        debug(FileSystems.getDefault().getPath("lib/chromedriver/chromedriver.exe").toFile().canExecute());
+        debug(FileSystems.getDefault().getPath(chromedriverPathStr));
+        debug(FileSystems.getDefault().getPath(chromedriverPathStr).toFile());
+        debug(FileSystems.getDefault().getPath(chromedriverPathStr).toFile().canExecute());
 
-        debug(Path.of("lib/chromedriver/chromedriver.exe"));
-        debug(Path.of("lib/chromedriver/chromedriver.exe").toFile());
-        debug(Path.of("lib/chromedriver/chromedriver.exe").toFile().canExecute());
+        debug(Path.of(chromedriverPathStr));
+        debug(Path.of(chromedriverPathStr).toFile());
+        debug(Path.of(chromedriverPathStr).toFile().canExecute());
 
-        debug(delete("filename1.zip"));
-        debug(delete(FileSystems.getDefault().getPath("filename.txt").toFile()));
+        debug(delete(fsDelete));
+        debug(delete(FileSystems.getDefault().getPath(fsFile).toFile()));
 
         debug(FileSystems.getDefault().supportedFileAttributeViews());
     }
@@ -62,9 +67,9 @@ public class TestFS extends TestZip {
         printAttrs("/" + attrsTest);
         printAttrs(filenameZip);
         printAttrs(chromedriverPath);
-        printCustomAttrs(filenameZip, "customAttr");
-        printCustomAttrs(filenameZip, "customAttr", "value");
-        printCustomAttrs(filenameZip, "customAttr");
+        printCustomAttrs(filenameZip, attrK);
+        printCustomAttrs(filenameZip, attrK, attrV);
+        printCustomAttrs(filenameZip, attrK);
     }
 
 }
