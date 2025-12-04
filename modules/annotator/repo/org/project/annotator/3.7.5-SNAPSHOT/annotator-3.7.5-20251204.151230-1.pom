@@ -26,7 +26,7 @@
         <github.merge>true</github.merge>
         <github.msg>Maven artifacts for ${project.version}</github.msg>
         <github.repo.url>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.url>
-        <github.repo.raw>${github.global.url}/${github.id}/${github.repo}/raw/${github.branch}</github.repo.raw>
+        <github.repo.raw>${github.global.raw}/${github.id}/${github.repo}/${github.branch}</github.repo.raw>
         <github.repo.snapshots>true</github.repo.snapshots>
         <github.repo.update>always</github.repo.update>
         <repo.dir>repo</repo.dir>
