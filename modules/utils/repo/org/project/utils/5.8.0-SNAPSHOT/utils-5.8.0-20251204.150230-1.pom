@@ -13,6 +13,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <src.dir>src/main</src.dir>
+        <res.dir>${src.dir}/resources</res.dir>
         <!-- github server corresponds to entry in ~/.m2/settings.xml -->
         <github.global.server>github</github.global.server>
         <github.global.url>https://${github.global.server}.com</github.global.url>
@@ -64,7 +66,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>${res.dir}</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
