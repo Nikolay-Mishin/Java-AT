@@ -130,7 +130,8 @@
       <version>5.8.8-SNAPSHOT</version>
       <version>5.8.9-SNAPSHOT</version>
       <version>5.8.10-SNAPSHOT</version>
+      <version>5.8.11-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20251205172909</lastUpdated>
+    <lastUpdated>20251205174929</lastUpdated>
   </versioning>
 </metadata>
