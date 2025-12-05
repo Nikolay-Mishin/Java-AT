@@ -1,5 +1,6 @@
 package org.project.utils.base;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -7,6 +8,8 @@ import java.util.function.IntFunction;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isNull;
+import static org.project.utils.Helper.newMap;
+import static org.project.utils.Helper.streamMap;
 import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.exception.AssertException;
@@ -31,24 +34,20 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
     }
 
     @SafeVarargs
-    public final HashMap<K, V> values(V... values)
-        throws NullPointerException, ReflectiveOperationException {
+    public final HashMap<K, V> values(V... values) throws NullPointerException, ReflectiveOperationException {
         return _values(null, null, values);
     }
 
-    public HashMap<K, V> values(JsonSchema jsonSchema)
-        throws NullPointerException, ReflectiveOperationException {
+    public HashMap<K, V> values(JsonSchema jsonSchema) throws NullPointerException, ReflectiveOperationException {
         return _values(jsonSchema, "object");
     }
 
-    public HashMap<K, V> values(JsonSchema jsonSchema, String type)
-        throws NullPointerException, ReflectiveOperationException {
+    public HashMap<K, V> values(JsonSchema jsonSchema, String type) throws NullPointerException, ReflectiveOperationException {
         return _values(jsonSchema, type);
     }
 
     @SafeVarargs
-    private HashMap<K, V> _values(JsonSchema jsonSchema, String type, V... values)
-        throws NullPointerException, ReflectiveOperationException {
+    private HashMap<K, V> _values(JsonSchema jsonSchema, String type, V... values) throws NullPointerException, ReflectiveOperationException {
         HashMap<K, V> hashMap = new HashMap<>();
         boolean valuesNotJson = isNull(jsonSchema);
         int valuesLength = valuesNotJson ? values.length : keys.length;
@@ -67,8 +66,7 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
         return (K[]) keys(this, String[]::new);
     }
 
-    public K[] keys(IntFunction<K[]> generator)
-        throws ReflectiveOperationException {
+    public K[] keys(IntFunction<K[]> generator) throws ReflectiveOperationException {
         return keys(this, generator);
     }
 
@@ -78,8 +76,19 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
     }
 
     @SuppressWarnings("unchecked")
-    public static <K> K[] keys(Object obj, IntFunction<K[]> generator)
-        throws ReflectiveOperationException {
+    public static <K> K[] keys(Object obj, IntFunction<K[]> generator) throws ReflectiveOperationException {
         return ((Set<K>) invoke(obj, "keySet")).toArray(generator);
+    }
+
+    public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sort(Map<K, V> map) throws ReflectiveOperationException {
+        return sort(map, Entry.comparingByKey());
+    }
+
+    public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sortV(Map<K, V> map) throws ReflectiveOperationException {
+        return sort(map, Entry.comparingByValue());
+    }
+
+    public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sort(Map<K, V> map, Comparator<Entry<K, V>> comparator) throws ReflectiveOperationException {
+        return newMap(streamMap(map).sorted(comparator));
     }
 }
