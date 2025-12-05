@@ -2,7 +2,7 @@ package requests;
 
 import org.project.utils.request.BaseRequests;
 
-import static constant.UrlConstants.PET_URL;
+import static constant.Endpoints.PET_URL;
 
 import models.pet.Pet;
 

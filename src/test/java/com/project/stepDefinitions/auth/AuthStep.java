@@ -11,6 +11,8 @@ import static org.project.utils.base.Register.printRegisterMap;
 import org.project.utils.auth.Auth;
 import org.project.utils.base.BaseStep;
 
+import static org.project.utils.config.TestConfig.config;
+
 import pojo.json.auth.Token;
 import requests.auth.AuthRequests;
 
@@ -22,7 +24,7 @@ public class AuthStep extends BaseStep<AuthRequests, Token> {
 
     @When("авторизоваться")
     public void auth() throws Exception {
-        Auth.init("auth/token");
+        Auth.init(config().getAuth());
         printTokens();
         printRegisterMap();
     }

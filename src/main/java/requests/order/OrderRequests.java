@@ -2,7 +2,7 @@ package requests.order;
 
 import org.project.utils.request.BaseRequests;
 
-import static constant.UrlConstants.ORDER_URL;
+import static constant.Endpoints.ORDER_URL;
 
 import models.order.Order;
 

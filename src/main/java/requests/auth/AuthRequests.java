@@ -2,7 +2,7 @@ package requests.auth;
 
 import org.project.utils.request.AuthBaseRequests;
 
-import static constant.UrlConstants.AUTH_URL;
+import static constant.Endpoints.AUTH_URL;
 
 import pojo.json.auth.Token;
 

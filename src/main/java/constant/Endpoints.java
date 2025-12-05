@@ -1,9 +1,8 @@
 package constant;
 
-public interface UrlConstants {
-    // список endpoits's
-    // константы пишутся camelCase + postfix = "URL"
-
+// список endpoits's
+// константы пишутся camelCase + postfix = "URL"
+public interface Endpoints {
     // auth
     String AUTH_URL = "login";
 
@@ -13,5 +12,4 @@ public interface UrlConstants {
     // store
     String STORE_BASE_URL = "store/";
     String ORDER_URL = STORE_BASE_URL + "order";
-
 }
