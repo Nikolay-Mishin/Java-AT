@@ -15,7 +15,6 @@ import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.CucumberRunTest.setOptions;
 
 import org.project.utils.config.WebConfig;
-import org.project.utils.event.CucumberEventListener;
 
 public class App extends TestException {
     protected static WindowsDriver<WebElement> winDriver;
@@ -24,11 +23,10 @@ public class App extends TestException {
 
     public static void main(String[] args) throws Exception {
         debug("App:main");
-        new CucumberEventListener();
-        new App();
-        //debug(configs());
-        debug(uri);
         setOptions();
+        new App();
+        printConfig();
+        debug(uri);
 
         //testException();
         //testMain();
@@ -48,8 +46,6 @@ public class App extends TestException {
         //testInvoke();
         //testHeaders(true);
         //testReqGet();
-
-        //printConfig();
     }
 
     public App() {
