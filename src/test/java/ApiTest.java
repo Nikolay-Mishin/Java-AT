@@ -1,17 +1,4 @@
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
+import org.project.utils.test.CucumberRunTest;
 
-// аннотация: класс для запуска тестов Cucumber
-@RunWith(Cucumber.class)
-// настройки Cucumber
-@CucumberOptions(
-    features = "src/test/resources/features", // директория тестов
-    glue = "com.project", // название проекта
-    plugin = {"pretty", "html:results.html", // формат вывода результата
-        "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
-        "org.project.utils.event.CucumberEventListener:config.WebConfig, config.TestConfig"
-    }
-)
-public class ApiTest {
+public class ApiTest extends CucumberRunTest {
 }
