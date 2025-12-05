@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,6 +26,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -203,24 +205,52 @@ public class Helper {
         return org.apache.commons.lang3.ArrayUtils.addAll(a, array);
     }
 
+    public static <K, V> Stream<Entry<K, V>> streamMap(Map<K, V> map) {
+        return map.entrySet().stream();
+    }
+
     public static <K, V> Stream<Entry<K, V>> concat(Map<K, V> map1, Map<K, V> map2) {
-        return Stream.concat(map1.entrySet().stream(), map2.entrySet().stream());
+        return Stream.concat(streamMap(map1), streamMap(map2));
     }
 
     public static <K, V> Map<K, V> toMap(Map<K, V> map1, Map<K, V> map2) {
         return toMap(map1, map2, (v1, v2) -> v2);
     }
 
-    public static <K, V> Map<K, V> toMap(Map<K, V> map1, Map<K, V> map2, BinaryOperator<V> mergeFn) {
-        return toMap(concat(map1, map2), mergeFn);
+    public static <K, V> Map<K, V> toMap(Map<K, V> map1, Map<K, V> map2, BinaryOperator<V> merge) {
+        return toMap(concat(map1, map2), merge);
     }
 
     public static <K, V> Map<K, V> toMap(Stream<Entry<K, V>> map) {
-        return map.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+        return toMap(map, Entry::getKey, Entry::getValue);
     }
 
-    public static <K, V> Map<K, V> toMap(Stream<Entry<K, V>> map, BinaryOperator<V> mergeFn) {
-        return map.collect(Collectors.toMap(Entry::getKey, Entry::getValue, mergeFn));
+    public static <K, V> LinkedHashMap<K, V> newMap(Stream<Entry<K, V>> map) {
+        return newMap(map, LinkedHashMap::new);
+    }
+
+    public static <K, V, M extends Map<K, V>> M newMap(Stream<Entry<K, V>> map, Supplier<M> factory) {
+        return toMap(map, Entry::getKey, Entry::getValue, (v1, v2) -> v1, factory);
+    }
+
+    public static <K, V> Map<K, V> toMap(Stream<Entry<K, V>> map, BinaryOperator<V> merge) {
+        return toMap(map, Entry::getKey, Entry::getValue, merge);
+    }
+
+    public static <K, V, M extends Map<K, V>> Map<K, V> toMap(Stream<Entry<K, V>> map, BinaryOperator<V> merge, Supplier<M> factory) {
+        return toMap(map, Entry::getKey, Entry::getValue, merge, factory);
+    }
+
+    public static <T extends Entry<K, V>, K, V> Map<K, V> toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values) {
+        return map.collect(Collectors.toMap(keys, values));
+    }
+
+    public static <T extends Entry<K, V>, K, V> Map<K, V> toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values, BinaryOperator<V> merge) {
+        return map.collect(Collectors.toMap(keys, values, merge));
+    }
+
+    public static <T extends Entry<K, V>, K, V, M extends Map<K, V>> M toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values, BinaryOperator<V> merge, Supplier<M> factory) {
+        return map.collect(Collectors.toMap(keys, values, merge, factory));
     }
 
     @SafeVarargs
@@ -340,6 +370,10 @@ public class Helper {
 
     public static String[] trim(String[] arr) {
         return map(arr, String[]::new, String::trim);
+    }
+
+    public static String[] split(String s, String sep) {
+        return trim(s.split(sep));
     }
 
     public static <T> T[] push(T[] arr, T item) {
