@@ -3,7 +3,6 @@ package org.project.utils.test;
 import static java.lang.Long.valueOf;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
@@ -11,11 +10,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.BaseConfig.BASE_CONFIG;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
-import static org.project.utils.config.TestConfig.config;
-import static org.project.utils.event.CucumberEventListener.getPlugins;
+import static org.project.utils.test.CucumberRunTest.setOptions;
 
 import org.project.utils.config.WebConfig;
 import org.project.utils.event.CucumberEventListener;
@@ -31,7 +28,7 @@ public class App extends TestException {
         new App();
         //debug(configs());
         debug(uri);
-        debug(Arrays.toString(getPlugins()));
+        setOptions();
 
         //testException();
         //testMain();
@@ -93,7 +90,6 @@ public class App extends TestException {
     public static void printConfig() {
         debug(configs());
         debug("DEBUG_LEVEL: " + DEBUG_LEVEL);
-        //debug("BASE_CONFIG: " + BASE_CONFIG);
         debug("WebConfig: " + WebConfig.config());
     }
 
