@@ -35,9 +35,9 @@ import static org.project.utils.event.CucumberEventListener.getPlugins;
     }
 )
 //@Config.Sources({"classpath:cucumber.properties"})
-public class CucumberRun {
+public class CucumberRunTest {
 
-    public CucumberRun() {
+    public CucumberRunTest() {
         //setOptions();
     }
 
