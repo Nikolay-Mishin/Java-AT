@@ -82,7 +82,7 @@ public class CucumberRunTest {
     }
 
     public static <R> String[] setOptions(String[] options, Function<String[], R> cb) {
-        out.println(Arrays.toString(options));
+        out.println("options: " + Arrays.toString(options));
         cb.apply(options);
         return options;
     }
