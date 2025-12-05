@@ -48,9 +48,9 @@ public class CucumberRunTest {
     }
 
     @BeforeClass
-    public static void setUp() throws ReflectiveOperationException {
+    public static void setUp() {
         out.println("setUp");
-        setOptions();
+        //setOptions();
     }
 
     public static String[] setOptions() throws ReflectiveOperationException {
