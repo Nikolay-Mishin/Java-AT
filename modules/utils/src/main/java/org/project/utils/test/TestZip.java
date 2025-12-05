@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.util.Map;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.last;
@@ -23,22 +22,30 @@ import static org.project.utils.fs.Zip.unzip;
 import static org.project.utils.fs.Zip.unzipFile;
 import static org.project.utils.fs.Zip.unzipPass;
 import static org.project.utils.fs.Zip.unzipSelenium;
-import static org.project.utils.json.JsonSchema.jsonSchema;
 
-import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
 public class TestZip extends TestJson {
-    protected static String outZip = c.getZipOut();
-    protected static String filename = c.getZipFilename();
-    protected static String filenameZip = c.getZipFilenameFull();
-    protected static String filenameTxt = c.getZipFilenameTxt();
-    protected static String mkdirRoot = c.getZipMkdirRoot();
-    protected static String mkdir = c.getZipMkdir();
-    protected static String readDir = c.getZipReadDir();
+    protected static String outZip;
+    protected static String filename;
+    protected static String filenameZip;
+    protected static String filenameTxt;
+    protected static String mkdirRoot;
+    protected static String mkdir;
+    protected static String readDir;
 
     public static void main(String[] args) throws Exception {
         testZip();
+    }
+
+    public TestZip() {
+        outZip = c.getZipOut();
+        filename = c.getZipFilename();
+        filenameZip = c.getZipFilenameFull();
+        filenameTxt = c.getZipFilenameTxt();
+        mkdirRoot = c.getZipMkdirRoot();
+        mkdir = c.getZipMkdir();
+        readDir = c.getZipReadDir();
     }
 
     public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {

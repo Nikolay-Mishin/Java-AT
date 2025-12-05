@@ -3,8 +3,6 @@ package org.project.utils.test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static org.testng.Assert.assertEquals;
-
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import io.restassured.specification.AuthenticationSpecification;
@@ -12,7 +10,7 @@ import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
+import static org.project.utils.config.TestConfig.config;
 import static org.project.utils.constant.ContentType.getContentType;
 import static org.project.utils.constant.ContentType.getAccept;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
@@ -23,14 +21,21 @@ import org.project.utils.config.TestBaseConfig;
 import org.project.utils.request.Request;
 
 public class TestApi {
-    protected static TestBaseConfig c = BASE_CONFIG;
-    protected static String uri = c.getApiUri();
-    protected static String endpoint = c.getEndpoint();
-    protected static String endpointTest = c.getEndpointTest();
+    protected static TestBaseConfig c;
+    protected static String uri;
+    protected static String endpoint;
+    protected static String endpointTest;
 
     public static void main(String[] args) throws Exception {
         //testApi();
         testHeaders();
+    }
+
+    public TestApi() {
+        c = config();
+        uri = c.getApiUri();
+        endpoint = c.getEndpoint();
+        endpointTest = c.getEndpointTest();
     }
 
     public static void testApi()

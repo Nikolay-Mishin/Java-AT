@@ -8,10 +8,14 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.table;
 
 public class TestReq extends TestApi {
-    protected static String body = c.getReqBody();
+    protected static String body;
 
     public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
         testReq();
+    }
+
+    public TestReq() {
+        body = c.getReqBody();
     }
 
     public static void testReq()

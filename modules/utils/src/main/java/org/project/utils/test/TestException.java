@@ -21,9 +21,9 @@ import static org.project.utils.reflection.Reflection.invoke;
 import org.project.utils.Helper;
 
 public class TestException extends TestInvoke {
-    protected static String cPlugin = c.getCPlugin();
-    protected static String cPluginField = c.getCPluginField();
-    protected static String cPlugins = c.getCPlugins();
+    protected static String cPlugin;
+    protected static String cPluginField;
+    protected static String cPlugins;
 
     public static void main(String[] args) throws Exception {
         //testConsumerWithCheckedExceptions();
@@ -33,6 +33,12 @@ public class TestException extends TestInvoke {
         //testIfCorrectExceptionIsStillThrownByMethod();
         testPrintException();
         testException();
+    }
+
+    public TestException() {
+        cPlugin = c.getCPlugin();
+        cPluginField = c.getCPluginField();
+        cPlugins = c.getCPlugins();
     }
 
     public static void testPrintException() throws ReflectiveOperationException {

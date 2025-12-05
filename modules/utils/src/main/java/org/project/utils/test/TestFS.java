@@ -12,19 +12,31 @@ import static org.project.utils.fs.File.delete;
 import static org.project.utils.fs.File.pathStr;
 
 public class TestFS extends TestZip {
-    protected static String chromedriverRoot = c.getChromeDriverRoot();
-    protected static String chromedriverFile = c.getChromeDriverFile();
-    protected static String chromedriverPathStr = chromedriverRoot + chromedriverFile;
-    protected static Path chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
-    protected static String fsDelete = c.getFsDelete();
-    protected static String fsFile = c.getFsFile();
-    protected static String attrsTest = c.getFsAttrs();
-    protected static String attrK = c.getFsAttrsK();
-    protected static String attrV = c.getFsAttrsV();
+    protected static String chromedriverRoot;
+    protected static String chromedriverFile;
+    protected static String chromedriverPathStr;
+    protected static Path chromedriverPath;
+    protected static String fsDelete;
+    protected static String fsFile;
+    protected static String attrsTest;
+    protected static String attrK;
+    protected static String attrV;
 
     public static void main(String[] args) throws IOException {
         //testFS();
         testAttrs();
+    }
+
+    public TestFS() {
+        chromedriverRoot = c.getChromeDriverRoot();
+        chromedriverFile = c.getChromeDriverFile();
+        chromedriverPathStr = chromedriverRoot + chromedriverFile;
+        chromedriverPath = pathStr(chromedriverRoot, chromedriverFile);
+        fsDelete = c.getFsDelete();
+        fsFile = c.getFsFile();
+        attrsTest = c.getFsAttrs();
+        attrK = c.getFsAttrsK();
+        attrV = c.getFsAttrsV();
     }
 
     public static void testFS() throws IOException {

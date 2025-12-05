@@ -17,6 +17,9 @@ public interface TestBaseConfig extends BaseConfig {
     @Key("c.plugin.field")
     String getCPluginField();
 
+    @Key("c.plugins.arg")
+    String getCPluginsArg();
+
     @Key("c.plugins")
     String getCPlugins();
 

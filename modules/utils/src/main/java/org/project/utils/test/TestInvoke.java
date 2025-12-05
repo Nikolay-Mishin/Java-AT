@@ -11,13 +11,20 @@ import static org.project.utils.reflection.Reflection.invoke;
 
 public class TestInvoke extends TestZip {
     protected static WebDriver driver;
-    protected static String fsClass = c.getFs();
-    protected static String fsField = c.getFsField();
-    protected static String fsMethod = c.getFsMethod();
-    protected static String fsMethodName = c.getFsMethodName();
+    protected static String fsClass;
+    protected static String fsField;
+    protected static String fsMethod;
+    protected static String fsMethodName;
 
     public static void main(String[] args) throws Exception {
         testInvoke();
+    }
+
+    public TestInvoke() {
+        fsClass = c.getFs();
+        fsField = c.getFsField();
+        fsMethod = c.getFsMethod();
+        fsMethodName = c.getFsMethodName();
     }
 
     public static void testInvoke() throws Exception {

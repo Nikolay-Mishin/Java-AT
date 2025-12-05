@@ -24,15 +24,24 @@ public class TestJson extends TestApi {
     protected static Request req;
     protected static Map<String, Object> map;
     protected static String url;
-    protected static String jsonVer = c.getJsonVer();
-    protected static String jsonDownloads = c.getJsonDownloads();
-    protected static String jsonGet = c.getJson();
-    protected static String jsonK = c.getJsonK();
-    protected static String jsonV = c.getJsonV();
-    protected static String jsonUrl = c.getJsonUrl();
+    protected static String jsonVer;
+    protected static String jsonDownloads;
+    protected static String jsonGet;
+    protected static String jsonK;
+    protected static String jsonV;
+    protected static String jsonUrl;
 
     public static void main(String[] args) throws Exception {
         testJson();
+    }
+
+    public TestJson() {
+        jsonVer = c.getJsonVer();
+        jsonDownloads = c.getJsonDownloads();
+        jsonGet = c.getJson();
+        jsonK = c.getJsonK();
+        jsonV = c.getJsonV();
+        jsonUrl = c.getJsonUrl();
     }
 
     public static JsonSchema json(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
