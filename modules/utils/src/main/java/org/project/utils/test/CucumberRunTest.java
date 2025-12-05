@@ -20,10 +20,13 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
+import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
+import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.event.CucumberEventListener.getPlugins;
 
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.event.CucumberEventListener;
 
 // аннотация: класс для запуска тестов Cucumber
 @RunWith(Cucumber.class)
@@ -45,11 +48,11 @@ public class CucumberRunTest {
     }
 
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws ReflectiveOperationException {
         setOptions();
     }
 
-    public static String[] setOptions() {
+    public static String[] setOptions() throws ReflectiveOperationException {
         return setOptions(getOptions());
     }
 
@@ -65,8 +68,8 @@ public class CucumberRunTest {
         return setOptions(options, o -> o);
     }
 
-    public static String[] setCliOptions() {
-        return setCliOptions(getOptions());
+    public static String[] setCliOptions() throws ReflectiveOperationException {
+        return setCliOptions(BASE_CONFIG);
     }
 
     public static String[] setCliOptions(TestBaseConfig config) throws ReflectiveOperationException {
@@ -87,8 +90,8 @@ public class CucumberRunTest {
         return options;
     }
 
-    public static String[] getOptions() {
-        return getOptions(getPlugins());
+    public static String[] getOptions() throws ReflectiveOperationException {
+        return getOptions(BASE_CONFIG);
     }
 
     public static String[] getOptions(TestBaseConfig config) throws ReflectiveOperationException {
@@ -104,6 +107,16 @@ public class CucumberRunTest {
         forEach(plugins, p -> {
             options.add("--plugin");
             options.add(p);
+            if (p.contains("CucumberEventListener")) {
+                String[] args = p.split(":");
+                try {
+                    if (args.length == 1) new CucumberEventListener();
+                    else new CucumberEventListener(args[1]);
+                } catch (ReflectiveOperationException e) {
+                    e.printStackTrace();
+                    //throw new RuntimeException(e);
+                }
+            }
         });
         return options.toArray(String[]::new);
     }
@@ -111,7 +124,7 @@ public class CucumberRunTest {
     public static void setTagsProps() {
         String tags = getProperty("cucumber.tags", "@smoke");
         setProperty("cucumber.tags", tags);
-        out.println(tags);
+        debug(tags);
     }
 
     public static void setTags() {
@@ -127,7 +140,7 @@ public class CucumberRunTest {
             Properties props = new Properties();
             props.load(new FileInputStream(cucumberPropsPath));
             String tags = props.getProperty("cucumber.tags", "@smoke");
-            System.setProperty("cucumber.tags", tags);
+            setProperty("cucumber.tags", tags);
         } catch (IOException e) {
             e.printStackTrace();
         }
