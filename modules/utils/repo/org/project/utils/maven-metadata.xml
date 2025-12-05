@@ -125,7 +125,8 @@
       <version>5.8.3-SNAPSHOT</version>
       <version>5.8.4-SNAPSHOT</version>
       <version>5.8.5-SNAPSHOT</version>
+      <version>5.8.6-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20251205131313</lastUpdated>
+    <lastUpdated>20251205150838</lastUpdated>
   </versioning>
 </metadata>
