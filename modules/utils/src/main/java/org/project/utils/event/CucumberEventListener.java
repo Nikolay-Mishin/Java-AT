@@ -50,6 +50,9 @@ import org.project.utils.config.TestBaseConfig;
  * </ul>
  */
 public class CucumberEventListener implements ConcurrentEventListener {
+    protected static String pluginSep = ",";
+    protected static String argSep = ":";
+    protected static String argsSep = ";";
     protected static Map<String, String> pluginMap = new HashMap<>();
     protected File reportDir;
     protected boolean eventHandler = false;
@@ -117,7 +120,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
 
     public void init(String arg, boolean eventHandler) throws ReflectiveOperationException {
         //debug("CucumberEventListener: " + arg);
-        String[] args = trim(arg.split(","));
+        String[] args = trim(arg.split(argsSep));
         debug("CucumberEventListener: " + Arrays.toString(args));
         for (String a : args) {
             tryConsumerWithIgnore(() -> out.println("getClass: " + getClazz(a)));
@@ -155,14 +158,14 @@ public class CucumberEventListener implements ConcurrentEventListener {
     }
 
     public static Map<String, String> getPluginMap(String plugins) throws ReflectiveOperationException {
-        String[] keys = split(plugins, ";");
+        String[] keys = split(plugins, pluginSep);
         forEach(keys, p -> {
-            String[] _p = split(p, ":");
+            String[] _p = split(p, argSep);
             try {
                 String plugin = _p[0];
                 String pluginClassName = getClassName(plugin);
                 String pluginName = getClassSimpleName(plugin);
-                pluginMap.put(pluginMap.containsKey(pluginName) ? pluginClassName : pluginName, pluginClassName + (_p.length == 1 ? "" : ":" + _p[1]));
+                pluginMap.put(pluginMap.containsKey(pluginName) ? pluginClassName : pluginName, pluginClassName + (_p.length == 1 ? "" : argSep + _p[1]));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
                 //throw new RuntimeException(e);
