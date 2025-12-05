@@ -161,11 +161,11 @@ public class Reflection {
      * @param lambda
      * @return String
      */
-    public static Class<?> getClazz(Serializable lambda) throws ClassNotFoundException {
-        return getClazz(getClassName(lambda));
+    public static Class<?> getLambdaClazz(Serializable lambda) throws ClassNotFoundException {
+        return getClazz(getLambdaClassName(lambda));
     }
 
-    public static String getClassName(Serializable lambda) {
+    public static String getLambdaClassName(Serializable lambda) {
         return lambda(lambda, SerializedLambda::getImplClass).replace("/", ".");
     }
 
@@ -203,10 +203,18 @@ public class Reflection {
         return name;
     }
 
+    public static String getClassName(String className) throws ClassNotFoundException {
+        return getClassName(getClazz(className));
+    }
+
     public static String getClassSimpleName(Object obj) {
         String name = getClazz(obj).getSimpleName();
         debug(name);
         return name;
+    }
+
+    public static String getClassSimpleName(String className) throws ClassNotFoundException {
+        return getClassSimpleName(getClazz(className));
     }
 
     public static String getClassName(int index) {
@@ -549,7 +557,7 @@ public class Reflection {
      * @return String
      */
     public static Method lambdaMethod(Serializable lambda) throws ReflectiveOperationException {
-        return lambda(lambda, sl -> getMethod(getClazz(lambda), sl));
+        return lambda(lambda, sl -> getMethod(getLambdaClazz(lambda), sl));
     }
 
     public static Method lambdaMethod(Object obj, Serializable lambda) throws ReflectiveOperationException {
