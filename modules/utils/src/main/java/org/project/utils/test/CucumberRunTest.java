@@ -49,20 +49,6 @@ public class CucumberRunTest {
         setOptions();
     }
 
-    public static String[] setOptions(String[] options) {
-        return setOptions(options, o -> o);
-    }
-
-    public static String[] setCliOptions(String[] options) {
-        return setOptions(options, o -> run(options, currentThread().getContextClassLoader()));
-    }
-
-    public static <R> String[] setOptions(String[] options, Function<String[], R> cb) {
-        out.println(Arrays.toString(options));
-        cb.apply(options);
-        return options;
-    }
-
     public static String[] setOptions() {
         return setOptions(getOptions());
     }
@@ -73,6 +59,32 @@ public class CucumberRunTest {
 
     public static String[] setOptions(String plugins) throws ReflectiveOperationException {
         return setOptions(getOptions(plugins));
+    }
+
+    public static String[] setOptions(String[] options) {
+        return setOptions(options, o -> o);
+    }
+
+    public static String[] setCliOptions() {
+        return setCliOptions(getOptions());
+    }
+
+    public static String[] setCliOptions(TestBaseConfig config) throws ReflectiveOperationException {
+        return setCliOptions(getOptions(config));
+    }
+
+    public static String[] setCliOptions(String plugins) throws ReflectiveOperationException {
+        return setCliOptions(getOptions(plugins));
+    }
+
+    public static String[] setCliOptions(String[] options) {
+        return setOptions(options, o -> run(options, currentThread().getContextClassLoader()));
+    }
+
+    public static <R> String[] setOptions(String[] options, Function<String[], R> cb) {
+        out.println(Arrays.toString(options));
+        cb.apply(options);
+        return options;
     }
 
     public static String[] getOptions() {
