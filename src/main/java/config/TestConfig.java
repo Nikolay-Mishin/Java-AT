@@ -2,7 +2,7 @@ package config;
 
 import org.aeonbits.owner.Config.Sources;
 
-import static org.project.utils.config.WebConfig.config;
+import static org.project.utils.config.TestConfig.config;
 
 import org.project.utils.config.TestBaseConfig;
 
