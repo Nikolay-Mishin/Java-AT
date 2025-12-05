@@ -4,6 +4,9 @@ import static java.lang.System.out;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.Event;
@@ -21,10 +24,19 @@ import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.WriteEvent;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.forEach;
+import static org.project.utils.Helper.notNull;
+import static org.project.utils.Helper.split;
 import static org.project.utils.Helper.trim;
+import static org.project.utils.base.HashMap.sort;
+import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.exception.UtilException.tryConsumerWithIgnore;
+import static org.project.utils.reflection.Reflection.getClassName;
+import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
+
+import org.project.utils.config.TestBaseConfig;
 
 /**
  * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
@@ -38,6 +50,7 @@ import static org.project.utils.reflection.Reflection.getField;
  * </ul>
  */
 public class CucumberEventListener implements ConcurrentEventListener {
+    protected static Map<String, String> pluginMap = new HashMap<>();
     protected File reportDir;
     protected boolean eventHandler = false;
     //private final EventHandler<TestRunStarted> runStartedHandler = event -> startReport(event);
@@ -64,7 +77,9 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * <li>{@code java.lang.Appendable}</li>
      * </ul>
      */
-    public CucumberEventListener() {}
+    public CucumberEventListener() throws ReflectiveOperationException {
+        getPluginMap();
+    }
 
     /**
      * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
@@ -109,6 +124,89 @@ public class CucumberEventListener implements ConcurrentEventListener {
             tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));
         }
         eventHandler(eventHandler);
+    }
+
+    public static String getPlugin(String className) {
+        try {
+            return getPlugin(getClazz(className));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            //throw new RuntimeException(e);
+            return "";
+        }
+    }
+
+    public static String getPlugin(Class<?> clazz) {
+        debug("pluginClass: " + clazz);
+        debug("pluginClassName: " + getClassName(clazz));
+        debug("pluginName: " + getClassSimpleName(clazz));
+        String plugin = pluginMap.get(getClassName(clazz));
+        debug("plugin: " + plugin);
+        debug("plugin: " + (notNull(plugin) ? plugin : pluginMap.get(getClassSimpleName(clazz))));
+        return notNull(plugin) ? plugin : pluginMap.get(getClassSimpleName(clazz));
+    }
+
+    public static Map<String, String> getPluginMap() throws ReflectiveOperationException {
+        return getPluginMap(BASE_CONFIG);
+    }
+
+    public static Map<String, String> getPluginMap(TestBaseConfig config) throws ReflectiveOperationException {
+        return getPluginMap(config.getCPlugins());
+    }
+
+    public static Map<String, String> getPluginMap(String plugins) throws ReflectiveOperationException {
+        String[] keys = split(plugins, ";");
+        forEach(keys, p -> {
+            String[] _p = split(p, ":");
+            try {
+                String plugin = _p[0];
+                String pluginClassName = getClassName(plugin);
+                String pluginName = getClassSimpleName(plugin);
+                pluginMap.put(pluginMap.containsKey(pluginName) ? pluginClassName : pluginName, pluginClassName + (_p.length == 1 ? "" : ":" + _p[1]));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                //throw new RuntimeException(e);
+            }
+        });
+        pluginMap = sort(pluginMap);
+        debug("plugins: " + pluginMap);
+        return pluginMap;
+    }
+
+    public static Collection<String> getPluginsCol() {
+        return getPluginsCol(pluginMap);
+    }
+
+    public static Collection<String> getPluginsCol(TestBaseConfig config) throws ReflectiveOperationException {
+        return getPluginsCol(getPluginMap(config));
+    }
+
+    public static Collection<String> getPluginsCol(String plugins) throws ReflectiveOperationException {
+        return getPluginsCol(getPluginMap(plugins));
+    }
+
+    public static Collection<String> getPluginsCol(Map<String, String> plugins) {
+        return plugins.values();
+    }
+
+    public static String[] getPlugins() {
+        return getPlugins(pluginMap);
+    }
+
+    public static String[] getPlugins(TestBaseConfig config) throws ReflectiveOperationException {
+        return getPlugins(getPluginMap(config));
+    }
+
+    public static String[] getPlugins(String plugins) throws ReflectiveOperationException {
+        return getPlugins(getPluginMap(plugins));
+    }
+
+    public static String[] getPlugins(Map<String, String> plugins) {
+        return getPlugins(getPluginsCol(plugins));
+    }
+
+    public static String[] getPlugins(Collection<String> plugins) {
+        return plugins.toArray(String[]::new);
     }
 
     protected boolean eventHandler() {
