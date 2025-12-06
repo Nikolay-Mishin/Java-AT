@@ -10,12 +10,12 @@ import static org.project.utils.Helper.table;
 public class TestReq extends TestApi {
     protected static String body;
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
-        testReq();
-    }
-
     public TestReq() {
         body = c.getReqBody();
+    }
+
+    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+        testReq();
     }
 
     public static void testReq()

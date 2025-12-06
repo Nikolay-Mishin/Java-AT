@@ -15,13 +15,13 @@ public class TestAuth extends TestApi {
     protected static String auth;
     protected static String authTest;
 
-    public static void main(String[] args) throws Exception {
-        testAuth();
-    }
-
     public TestAuth() {
         auth = c.getAuth();
         authTest = c.getEndpointTest();
+    }
+
+    public static void main(String[] args) throws Exception {
+        testAuth();
     }
 
     public static void testAuth() throws Exception {

@@ -12,7 +12,7 @@ import org.project.utils.config.BaseConfig;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.WebBaseConfig;
 
-public class TestConfig extends App {
+public class TestConfig {
 
     public static void main(String[] args) throws ReflectiveOperationException {
         testConfig();

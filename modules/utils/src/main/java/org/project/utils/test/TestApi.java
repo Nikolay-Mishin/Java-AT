@@ -26,16 +26,16 @@ public class TestApi {
     protected static String endpoint;
     protected static String endpointTest;
 
-    public static void main(String[] args) throws Exception {
-        //testApi();
-        testHeaders();
-    }
-
     public TestApi() {
         c = config();
         uri = c.getApiUri();
         endpoint = c.getEndpoint();
         endpointTest = c.getEndpointTest();
+    }
+
+    public static void main(String[] args) throws Exception {
+        //testApi();
+        testHeaders();
     }
 
     public static void testApi()

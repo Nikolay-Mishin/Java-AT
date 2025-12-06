@@ -16,15 +16,15 @@ public class TestInvoke extends TestZip {
     protected static String fsMethod;
     protected static String fsMethodName;
 
-    public static void main(String[] args) throws Exception {
-        testInvoke();
-    }
-
     public TestInvoke() {
         fsClass = c.getFs();
         fsField = c.getFsField();
         fsMethod = c.getFsMethod();
         fsMethodName = c.getFsMethodName();
+    }
+
+    public static void main(String[] args) throws Exception {
+        testInvoke();
     }
 
     public static void testInvoke() throws Exception {

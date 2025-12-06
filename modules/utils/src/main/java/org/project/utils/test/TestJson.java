@@ -31,10 +31,6 @@ public class TestJson extends TestApi {
     protected static String jsonV;
     protected static String jsonUrl;
 
-    public static void main(String[] args) throws Exception {
-        testJson();
-    }
-
     public TestJson() {
         jsonVer = c.getJsonVer();
         jsonDownloads = c.getJsonDownloads();
@@ -42,6 +38,10 @@ public class TestJson extends TestApi {
         jsonK = c.getJsonK();
         jsonV = c.getJsonV();
         jsonUrl = c.getJsonUrl();
+    }
+
+    public static void main(String[] args) throws Exception {
+        testJson();
     }
 
     public static JsonSchema json(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {

@@ -25,6 +25,12 @@ public class TestException extends TestInvoke {
     protected static String cPluginField;
     protected static String cPlugins;
 
+    public TestException() {
+        cPlugin = c.getCPlugin();
+        cPluginField = c.getCPluginField();
+        cPlugins = c.getCPlugins();
+    }
+
     public static void main(String[] args) throws Exception {
         //testConsumerWithCheckedExceptions();
         //testFunctionWithCheckedExceptions();
@@ -33,12 +39,6 @@ public class TestException extends TestInvoke {
         //testIfCorrectExceptionIsStillThrownByMethod();
         testPrintException();
         testException();
-    }
-
-    public TestException() {
-        cPlugin = c.getCPlugin();
-        cPluginField = c.getCPluginField();
-        cPlugins = c.getCPlugins();
     }
 
     public static void testPrintException() throws ReflectiveOperationException {

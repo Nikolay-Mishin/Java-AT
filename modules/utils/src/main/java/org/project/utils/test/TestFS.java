@@ -22,11 +22,6 @@ public class TestFS extends TestZip {
     protected static String attrK;
     protected static String attrV;
 
-    public static void main(String[] args) throws IOException {
-        //testFS();
-        testAttrs();
-    }
-
     public TestFS() {
         chromedriverRoot = c.getChromeDriverRoot();
         chromedriverFile = c.getChromeDriverFile();
@@ -37,6 +32,11 @@ public class TestFS extends TestZip {
         attrsTest = c.getFsAttrs();
         attrK = c.getFsAttrsK();
         attrV = c.getFsAttrsV();
+    }
+
+    public static void main(String[] args) throws IOException {
+        //testFS();
+        testAttrs();
     }
 
     public static void testFS() throws IOException {

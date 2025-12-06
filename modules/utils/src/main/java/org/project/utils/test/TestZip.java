@@ -34,10 +34,6 @@ public class TestZip extends TestJson {
     protected static String mkdir;
     protected static String readDir;
 
-    public static void main(String[] args) throws Exception {
-        testZip();
-    }
-
     public TestZip() {
         outZip = c.getZipOut();
         filename = c.getZipFilename();
@@ -46,6 +42,10 @@ public class TestZip extends TestJson {
         mkdirRoot = c.getZipMkdirRoot();
         mkdir = c.getZipMkdir();
         readDir = c.getZipReadDir();
+    }
+
+    public static void main(String[] args) throws Exception {
+        testZip();
     }
 
     public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
