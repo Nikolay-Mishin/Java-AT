@@ -1,10 +1,15 @@
 package org.project.utils.base;
 
+import static java.util.Comparator.comparing;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isNull;
@@ -80,15 +85,40 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
         return ((Set<K>) invoke(obj, "keySet")).toArray(generator);
     }
 
-    public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sort(Map<K, V> map) throws ReflectiveOperationException {
+    public static <T extends Map<K, V>, K, V> T sortByK(T map) throws ReflectiveOperationException {
+        return sort(map, o -> o.getKey().toString());
+    }
+
+    public static <T extends Map<K, V>, K, V> T sortByV(T map) throws ReflectiveOperationException {
+        return sort(map, o -> o.getValue().toString());
+    }
+
+    public static <T extends Map<K, V>, K extends Comparable<K>, V> T sort(T map) throws ReflectiveOperationException {
         return sort(map, Entry.comparingByKey());
     }
 
-    public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sortV(Map<K, V> map) throws ReflectiveOperationException {
+    public static <T extends Map<K, V>, K, V extends Comparable<V>> T sortV(T map) throws ReflectiveOperationException {
         return sort(map, Entry.comparingByValue());
     }
 
-    public static <K extends Comparable<K>, V extends Comparable<V>> Map<K, V> sort(Map<K, V> map, Comparator<Entry<K, V>> comparator) throws ReflectiveOperationException {
-        return newMap(streamMap(map).sorted(comparator));
+    public static <T extends Map<K, V>, K, V, R extends Comparable<R>> T sort(T map, Function<Entry<K, V>, R> keyExtractor) throws ReflectiveOperationException {
+        return sort(map, comparing(keyExtractor));
     }
+
+    public static <T extends Map<K, V>, K, V, R extends Comparable<R>> T sort(T map, Function<Entry<K, V>, R> keyExtractor, Supplier<T> factory) throws ReflectiveOperationException {
+        return sort(map, comparing(keyExtractor), factory);
+    }
+
+    public static <T extends Map<K, V>, K, V> T sort(T map, Comparator<Entry<K, V>> comparator) throws ReflectiveOperationException {
+        return (T) newMap(sorted(map, comparator));
+    }
+
+    public static <T extends Map<K, V>, K, V> T sort(T map, Comparator<Entry<K, V>> comparator, Supplier<T> factory) {
+        return newMap(sorted(map, comparator), factory);
+    }
+
+    public static <T extends Map<K, V>, K, V> Stream<Entry<K, V>> sorted(T map, Comparator<Entry<K, V>> comparator) {
+        return streamMap(map).sorted(comparator);
+    }
+
 }
