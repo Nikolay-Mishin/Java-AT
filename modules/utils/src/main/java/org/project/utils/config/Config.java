@@ -16,6 +16,7 @@ import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
+import static org.project.utils.base.Register.setProps;
 import static org.project.utils.config.WebBaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.WebBaseConfig.ENV;
 import static org.project.utils.exception.UtilException.tryCatchNoArgs;
@@ -79,8 +80,9 @@ public class Config {
     }
 
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
+        setProps();
         debug("createConfig: " + clazz);
-        //return init(getOrCreate(clazz, getenv(), getProperties()));
+        //return init(getOrCreate(clazz, getenv(), setProperties()));
         return init(getOrCreate(clazz));
     }
 
