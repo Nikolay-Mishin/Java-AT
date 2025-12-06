@@ -6,7 +6,7 @@ import static org.aeonbits.owner.Config.Sources;
 
 import static org.project.utils.config.WebConfig.config;
 
-@Sources({"classpath:org.project.utils.dev.properties"})
+@Sources({"${props.web}"})
 public interface WebBaseConfig extends BaseConfig {
     WebBaseConfig BASE_CONFIG = config(WebBaseConfig.class);
 
