@@ -205,20 +205,28 @@ public class Helper {
         return org.apache.commons.lang3.ArrayUtils.addAll(a, array);
     }
 
-    public static <K, V> Stream<Entry<K, V>> streamMap(Map<K, V> map) {
+    public static <K, V, M extends Map<K, V>> void merge(M map1, M map2) {
+        merge(map1, map2, (v1, v2) -> v2);
+    }
+
+    public static <K, V, M extends Map<K, V>> void merge(M map1, M map2, BiFunction<V, V, V> merge) {
+        map2.forEach((k, v) -> map1.merge(k, v, merge));
+    }
+
+    public static <K, V, M extends Map<K, V>> Stream<Entry<K, V>> streamMap(M map) {
         return map.entrySet().stream();
     }
 
-    public static <K, V> Stream<Entry<K, V>> concat(Map<K, V> map1, Map<K, V> map2) {
+    public static <K, V, M extends Map<K, V>> Stream<Entry<K, V>> concat(M map1, M map2) {
         return Stream.concat(streamMap(map1), streamMap(map2));
     }
 
-    public static <K, V> Map<K, V> toMap(Map<K, V> map1, Map<K, V> map2) {
+    public static <K, V, M extends Map<K, V>> M toMap(M map1, M map2) {
         return toMap(map1, map2, (v1, v2) -> v2);
     }
 
-    public static <K, V> Map<K, V> toMap(Map<K, V> map1, Map<K, V> map2, BinaryOperator<V> merge) {
-        return toMap(concat(map1, map2), merge);
+    public static <K, V, M extends Map<K, V>> M toMap(M map1, M map2, BinaryOperator<V> merge) {
+        return (M) toMap(concat(map1, map2), merge);
     }
 
     public static <K, V> Map<K, V> toMap(Stream<Entry<K, V>> map) {
@@ -237,16 +245,16 @@ public class Helper {
         return toMap(map, Entry::getKey, Entry::getValue, merge);
     }
 
-    public static <K, V, M extends Map<K, V>> Map<K, V> toMap(Stream<Entry<K, V>> map, BinaryOperator<V> merge, Supplier<M> factory) {
+    public static <K, V, M extends Map<K, V>> M toMap(Stream<Entry<K, V>> map, BinaryOperator<V> merge, Supplier<M> factory) {
         return toMap(map, Entry::getKey, Entry::getValue, merge, factory);
     }
 
-    public static <T extends Entry<K, V>, K, V> Map<K, V> toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values) {
-        return map.collect(Collectors.toMap(keys, values));
+    public static <T extends Entry<K, V>, K, V, M extends Map<K, V>> M toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values) {
+        return (M) map.collect(Collectors.toMap(keys, values));
     }
 
-    public static <T extends Entry<K, V>, K, V> Map<K, V> toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values, BinaryOperator<V> merge) {
-        return map.collect(Collectors.toMap(keys, values, merge));
+    public static <T extends Entry<K, V>, K, V, M extends Map<K, V>> M toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values, BinaryOperator<V> merge) {
+        return (M) map.collect(Collectors.toMap(keys, values, merge));
     }
 
     public static <T extends Entry<K, V>, K, V, M extends Map<K, V>> M toMap(Stream<T> map, Function<T, K> keys, Function<T, V> values, BinaryOperator<V> merge, Supplier<M> factory) {
