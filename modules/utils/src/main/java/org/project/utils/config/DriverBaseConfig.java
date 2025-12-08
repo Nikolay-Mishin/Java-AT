@@ -1,9 +1,12 @@
 package org.project.utils.config;
 
-import org.aeonbits.owner.Config.Sources;
+import static org.aeonbits.owner.Config.LoadPolicy;
+import static org.aeonbits.owner.Config.LoadType.MERGE;
+import static org.aeonbits.owner.Config.Sources;
 
 import static org.project.utils.config.DriverConfig.config;
 
+@LoadPolicy(MERGE)
 @Sources({"classpath:org.project.utils.win.properties"})
 public interface DriverBaseConfig extends BaseConfig {
     DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);

@@ -1,5 +1,7 @@
 package org.project.utils.config;
 
+import static org.aeonbits.owner.Config.LoadPolicy;
+import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
 
 import org.aeonbits.owner.Config;
@@ -8,6 +10,7 @@ import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.debugLvl;
 import static org.project.utils.config.Config.env;
 
+@LoadPolicy(MERGE)
 @Sources({"classpath:org.project.utils.dev.properties"})
 public interface BaseConfig extends Config {
     BaseConfig BASE_CONFIG = config(BaseConfig.class);

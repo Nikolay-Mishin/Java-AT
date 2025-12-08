@@ -1,8 +1,12 @@
 package org.project.utils.config;
 
+import static org.aeonbits.owner.Config.LoadPolicy;
+import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
+
 import static org.project.utils.config.TestConfig.config;
 
+@LoadPolicy(MERGE)
 //@Sources({"${props.test}"})
 @Sources({"classpath:org.project.utils.test.properties"})
 public interface TestBaseConfig extends BaseConfig {

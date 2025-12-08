@@ -1,11 +1,14 @@
 package org.project.utils.config;
 
-import io.restassured.http.ContentType;
-
+import static org.aeonbits.owner.Config.LoadPolicy;
+import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
+
+import io.restassured.http.ContentType;
 
 import static org.project.utils.config.WebConfig.config;
 
+@LoadPolicy(MERGE)
 //@Sources({"${props.web}"})
 @Sources({"classpath:org.project.utils.web.properties"})
 public interface WebBaseConfig extends BaseConfig {
