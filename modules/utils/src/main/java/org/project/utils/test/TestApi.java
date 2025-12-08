@@ -9,7 +9,6 @@ import io.restassured.specification.AuthenticationSpecification;
 import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 
-import static java.lang.System.out;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.TestConfig.config;
 import static org.project.utils.constant.ContentType.getContentType;
@@ -29,7 +28,6 @@ public class TestApi {
 
     public TestApi() {
         c = config();
-        out.println("TestApi: " + c);
         uri = c.getApiUri();
         endpoint = c.getEndpoint();
         endpointTest = c.getEndpointTest();
