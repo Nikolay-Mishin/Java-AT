@@ -34,8 +34,8 @@ public class TestConfig {
         compare(BaseConfig.BASE_CONFIG);
         compare("web", WebBaseConfig.BASE_CONFIG);
         printConfigs();
-        debug(BaseConfig.BASE_CONFIG.getConfig());
-        debug(WebBaseConfig.BASE_CONFIG.getConfig());
+        debug(BaseConfig.BASE_CONFIG.getBaseConfig());
+        debug(WebBaseConfig.BASE_CONFIG.getBaseConfig());
     }
 
     public static void printConfigs() throws ReflectiveOperationException {

@@ -18,7 +18,7 @@ public interface BaseConfig extends Config {
     int DEBUG_LEVEL = debugLvl();
 
     @Key("BASE_CONFIG")
-    BaseConfig getConfig();
+    BaseConfig getBaseConfig();
 
     @Key("ENV")
     String getEnv();

@@ -3,6 +3,9 @@ package org.project.utils.config;
 public class WebConfig extends Config {
     protected static String key = "web";
 
+    public static <T extends WebBaseConfig> T getConfig() {
+        return (T) config();
+    }
     public static WebBaseConfig config() {
         return config(key);
     }

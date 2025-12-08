@@ -5,6 +5,7 @@ import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
 
 import static org.project.utils.config.DriverConfig.config;
+import static org.project.utils.config.DriverConfig.getConfig;
 
 @LoadPolicy(MERGE)
 @Sources({
@@ -13,7 +14,7 @@ import static org.project.utils.config.DriverConfig.config;
 })
 public interface DriverBaseConfig extends BaseConfig {
     DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);
-    boolean IS_WINIUM = config().getIsWinium();
+    boolean IS_WINIUM = getConfig().getIsWinium();
     int WINIUM_PORT = config().getWiniumPort();
     String WINIUM_HOST = config().getWiniumHost();
     String WINDRIVER_NAME = IS_WINIUM ? config().getWiniumName() : config().getWindriverName();
