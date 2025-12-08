@@ -139,7 +139,8 @@
       <version>6.0.0-SNAPSHOT</version>
       <version>6.0.1-SNAPSHOT</version>
       <version>6.0.2-SNAPSHOT</version>
+      <version>6.0.3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20251208074002</lastUpdated>
+    <lastUpdated>20251208080925</lastUpdated>
   </versioning>
 </metadata>
