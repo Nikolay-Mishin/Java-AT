@@ -21,9 +21,13 @@ import static org.project.utils.Helper.last;
 import static org.project.utils.base.HashMap.newTreeMap;
 import static org.project.utils.base.HashMap.newTreeSet;
 import static org.project.utils.base.HashMap.sortByK;
+import static org.project.utils.exception.UtilException.tryResWithPrint;
 import static org.project.utils.fs.File.path;
+import static org.project.utils.fs.Reader.getRes;
 import static org.project.utils.fs.Reader.rootPathList;
 import static org.project.utils.stream.InputStream.input;
+
+import org.project.utils.function.FunctionWithExceptions;
 
 public class Properties extends java.util.Properties {
     protected static final Map<String, Map<Object, Object>> propsMap = new HashMap<>();
@@ -33,7 +37,8 @@ public class Properties extends java.util.Properties {
     protected static List<String> baseProps = List.of("dev", "test", "web", "win");
     protected static String propsDir = "src/main/resources/";
     protected static String kPrefix = "props.";
-    protected static String kBasePrefix = kPrefix + "utils.";
+    protected static String kBasePrefixName = "utils.";
+    protected static String kBasePrefix = kPrefix + kBasePrefixName;
     protected static String propsExt = ".properties";
     protected final Map<Object, Object> map = newTreeMap();
 
@@ -87,6 +92,14 @@ public class Properties extends java.util.Properties {
 
     public static String kPrefix(String prefix) {
         return kPrefix = prefix;
+    }
+
+    public static String kBasePrefixName() {
+        return kBasePrefixName;
+    }
+
+    public static String kBasePrefixName(String prefix) {
+        return kBasePrefixName = prefix;
     }
 
     public static String kBasePrefix() {
@@ -152,6 +165,7 @@ public class Properties extends java.util.Properties {
     public static String setProp(Properties props, String key, String classpath) {
         String prop = System.setProperty(key, "classpath:" + classpath);
         propsMap.put(key, props);
+        //kBasePrefixName
         return prop;
     }
 
@@ -166,10 +180,14 @@ public class Properties extends java.util.Properties {
     }
 
     public static Properties loadPropsFile(String path) {
+        return loadPropsFile(props -> props.loadPath(path));
+    }
+
+    public static <R extends Properties, E extends IOException> R loadPropsFile(FunctionWithExceptions<Properties, R, E> load) {
         Properties props = new Properties();
-        try { props.loadPath(path); }
+        try { load.apply(props); }
         catch (IOException e) { e.printStackTrace(); }
-        return props;
+        return (R) props;
     }
 
     public static Properties mergeProps(Properties props1, Properties props2) {
@@ -197,11 +215,7 @@ public class Properties extends java.util.Properties {
      * @param classpath
      */
     public static Properties loadProps(Class<?> clazz, String classpath, boolean absolute) {
-        try (final InputStream stream = clazz.getResourceAsStream((absolute ? "/" : "") + classpath)) {
-            props.load(stream);
-        }
-        catch (IOException e) { e.printStackTrace(); }
-        return props;
+        return loadPropsFile(props -> tryResWithPrint(getRes(clazz, classpath, absolute), props::loadProps));
     }
 
     public Map<Object, Object> map() {
@@ -249,6 +263,11 @@ public class Properties extends java.util.Properties {
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Properties loadProps(InputStream in) throws IOException {
+        load(in);
+        return props;
     }
 
     public Properties putAll(Properties p) {
