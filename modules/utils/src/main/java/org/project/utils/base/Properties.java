@@ -17,10 +17,13 @@ import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.last;
+import static org.project.utils.Helper.notNull;
 import static org.project.utils.base.HashMap.newTreeMap;
 import static org.project.utils.base.HashMap.newTreeSet;
 import static org.project.utils.base.HashMap.sortByK;
+import static org.project.utils.config.WebBaseConfig.BASE_CONFIG;
 import static org.project.utils.exception.UtilException.tryResWithPrint;
 import static org.project.utils.fs.File.path;
 import static org.project.utils.fs.Reader.getRes;
@@ -168,7 +171,10 @@ public class Properties extends java.util.Properties {
 
     public static String setProp(Properties props, String key, String classpath) {
         String prop = System.setProperty(key, "classpath:" + classpath);
-        propsMap.put(propsKey(key), props);
+        key = propsKey(key);
+        Map<Object, Object> v = propsMap.get(key);
+        if (notNull(v)) props.putAll(v);
+        propsMap.put(key, props);
         return prop;
     }
 
@@ -178,7 +184,7 @@ public class Properties extends java.util.Properties {
 
     public static Properties loadProps(String loadDir, String classpath) {
         Properties _props = loadPropsFile(path(loadDir, classpath));
-        mergeProps(props, _props);
+        props.putAll(_props);
         return _props;
     }
 
@@ -191,11 +197,6 @@ public class Properties extends java.util.Properties {
         try { load.apply(props); }
         catch (IOException e) { e.printStackTrace(); }
         return (R) props;
-    }
-
-    public static Properties mergeProps(Properties props1, Properties props2) {
-        props1.putAll(props2);
-        return props1;
     }
 
     public static String propsName(String classpath) {
