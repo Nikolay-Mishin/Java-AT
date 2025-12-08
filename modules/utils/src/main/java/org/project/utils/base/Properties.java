@@ -50,6 +50,10 @@ public class Properties extends java.util.Properties {
         return props;
     }
 
+    public static Set<String> propsMapKeys() {
+        return propsMap.keySet();
+    }
+
     public static boolean isSetBaseProps() {
         return setBaseProps;
     }
