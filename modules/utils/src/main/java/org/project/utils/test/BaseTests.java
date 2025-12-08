@@ -118,6 +118,8 @@ public class BaseTests extends TestException {
 
         debug("propsMapKeys: " + propsMapKeys());
 
+        debug("props.dev: " + propsMap().get("props.dev"));
+
         debug("props.utils.dev:", getProperty("props.utils.dev"));
         debug("props.utils.web:", getProperty("props.utils.web"));
         debug("props.utils.test:", getProperty("props.utils.test"));
