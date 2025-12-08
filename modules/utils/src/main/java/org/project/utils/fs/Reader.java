@@ -147,4 +147,12 @@ public class Reader extends org.project.utils.fs.File {
         return readDir(path).sorted(comparator);
     }
 
+    public static InputStream getRes(Class<?> clazz, String classpath) {
+        return getRes(clazz, classpath, true);
+    }
+
+    public static InputStream getRes(Class<?> clazz, String classpath, boolean absolute) {
+        return clazz.getResourceAsStream((absolute ? "/" : "") + classpath);
+    }
+
 }
