@@ -7,6 +7,7 @@ import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -374,15 +375,20 @@ public class Reflection {
         return _getPropDescriptor(getPropDescriptors(obj), name);
     }
 
-    public static Constructor<?> getConstructor(Class<?> clazz, Object... args) throws NoSuchMethodException {
-        Constructor<?> сonstructor = clazz.getConstructor(getPrimitiveTypes(args));
-        debug(сonstructor);
-        return сonstructor;
+    public static <T> Constructor<T> getConstructor(Class<T> clazz, Object... args) throws NoSuchMethodException {
+        debug("getConstructor");
+        return getMethod(clazz, c -> clazz.getConstructor(getTypes(args)));
+    }
+
+    public static <T> Constructor<T> getPrimitiveConstructor(Class<T> clazz, Object... args) throws NoSuchMethodException {
+        debug("getPrimitiveConstructor");
+        return getMethod(clazz, c -> clazz.getConstructor(getPrimitiveTypes(args)));
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T instance(Class<?> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        T instance = (T) getConstructor(clazz, args).newInstance(args);
+    public static <T> T instance(Class<T> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        //T instance = getPrimitiveConstructor(clazz, args).newInstance(args);
+        T instance = tryCatchNoArgs(() -> getConstructor(clazz, args), e -> getPrimitiveConstructor(clazz, args)).newInstance(args);
         debug(instance);
         return instance;
     }
@@ -497,8 +503,8 @@ public class Reflection {
     }
 
     @Description("Get method of object")
-    public static <E extends Exception> Method getMethod(Object obj, FunctionWithExceptions<Class<?>, Method, E> cb) throws E {
-        Method _method = cb.apply(getClazz(obj));
+    public static <M extends Executable, E extends Exception> M getMethod(Object obj, FunctionWithExceptions<Class<?>, M, E> cb) throws E {
+        M _method = cb.apply(getClazz(obj));
         new AssertException(_method).notNull();
         debug(Arrays.toString(_method.getParameterTypes()));
         return _method;
