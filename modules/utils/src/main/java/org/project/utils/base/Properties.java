@@ -168,8 +168,7 @@ public class Properties extends java.util.Properties {
 
     public static String setProp(Properties props, String key, String classpath) {
         String prop = System.setProperty(key, "classpath:" + classpath);
-        propsMap.put(key, props);
-        //kBasePrefixName
+        propsMap.put(propsKey(key), props);
         return prop;
     }
 
@@ -201,6 +200,10 @@ public class Properties extends java.util.Properties {
 
     public static String propsName(String classpath) {
         return classpath.replace(propsExt, "");
+    }
+
+    public static String propsKey(String key) {
+        return key.replace(kBasePrefixName, "");
     }
 
     public static Properties loadPropsClasspath(String classpath) {
