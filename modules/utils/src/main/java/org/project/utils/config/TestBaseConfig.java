@@ -3,7 +3,8 @@ package org.project.utils.config;
 import static org.aeonbits.owner.Config.Sources;
 import static org.project.utils.config.TestConfig.config;
 
-@Sources({"${props.test}"})
+//@Sources({"${props.test}"})
+@Sources({"org.project.utils.test.properties"})
 public interface TestBaseConfig extends BaseConfig {
     TestBaseConfig BASE_CONFIG = config(TestBaseConfig.class);
 
