@@ -7,8 +7,7 @@ import static org.aeonbits.owner.Config.Sources;
 import static org.project.utils.config.TestConfig.config;
 
 @LoadPolicy(MERGE)
-//@Sources({"${props.test}"})
-@Sources({"classpath:org.project.utils.test.properties"})
+@Sources({"${props.utils.test}"})
 public interface TestBaseConfig extends BaseConfig {
     TestBaseConfig BASE_CONFIG = config(TestBaseConfig.class);
 
