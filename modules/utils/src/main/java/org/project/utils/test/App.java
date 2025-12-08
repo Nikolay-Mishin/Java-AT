@@ -13,14 +13,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.base.Register.getProps;
-import static org.project.utils.base.Register.getPropsMap;
-import static org.project.utils.base.Register.getSortedProps;
+import static org.project.utils.base.Properties.getProps;
+import static org.project.utils.base.Properties.getPropsMap;
+import static org.project.utils.base.Properties.getSortedProps;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.CucumberRunTest.setOptions;
 
-import org.project.utils.base.SortedProperties;
+import org.project.utils.base.Properties;
 import org.project.utils.config.WebConfig;
 
 public class App extends TestException {
@@ -98,7 +98,7 @@ public class App extends TestException {
     }
 
     public static void printProps() throws ReflectiveOperationException {
-        SortedProperties props = getProps();
+        Properties props = getProps();
         debug("empty: " + props.isEmpty());
 
         Set<Object> devKeys = props.keySet();
@@ -107,10 +107,15 @@ public class App extends TestException {
         debug("devKeys: " + devKeys);
         debug("devValues: " + devValues);
 
-        debug("propsMap: " + getPropsMap());
+        debug("getPropsMap: " + getPropsMap());
         debug("sortedProps: " + props.sortedProps());
         debug("props: " + props);
         debug("getSortedProps: " + getSortedProps());
+
+        debug("entrySet: " + props.entrySet());
+        debug("keySet: " + props.keySet());
+
+        debug("propsMap: " + props.map());
 
         debug("props.dev:", getProperty("props.dev"));
         debug("props.web:", getProperty("props.web"));
@@ -133,7 +138,8 @@ public class App extends TestException {
     }
 
     public static void printSortedProps() throws ReflectiveOperationException {
-        getProps().sortedProps().forEach((k, v) -> debug(k + "-> " + v));
+        getProps().forEach((k, v) -> debug(k + "-> " + v));
+        //getProps().sortedProps().forEach((k, v) -> debug(k + "-> " + v));
     }
 
 }
