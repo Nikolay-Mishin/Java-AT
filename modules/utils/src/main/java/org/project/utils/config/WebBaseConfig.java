@@ -9,7 +9,10 @@ import io.restassured.http.ContentType;
 import static org.project.utils.config.WebConfig.config;
 
 @LoadPolicy(MERGE)
-@Sources({"${props.utils.web}"})
+@Sources({
+    "${props.utils.web}",
+    "${props.utils.dev}"
+})
 public interface WebBaseConfig extends BaseConfig {
     WebBaseConfig BASE_CONFIG = config(WebBaseConfig.class);
 
