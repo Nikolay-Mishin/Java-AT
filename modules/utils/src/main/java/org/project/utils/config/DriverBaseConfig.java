@@ -7,7 +7,10 @@ import static org.aeonbits.owner.Config.Sources;
 import static org.project.utils.config.DriverConfig.config;
 
 @LoadPolicy(MERGE)
-@Sources({"${props.utils.win}"})
+@Sources({
+    "${props.utils.win}",
+    "${props.utils.dev}"
+})
 public interface DriverBaseConfig extends BaseConfig {
     DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);
     boolean IS_WINIUM = config().getIsWinium();
