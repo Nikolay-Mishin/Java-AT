@@ -16,7 +16,7 @@ import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
-import static org.project.utils.base.Register.setProps;
+import static org.project.utils.base.Properties.setProps;
 import static org.project.utils.config.WebBaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.WebBaseConfig.ENV;
 import static org.project.utils.exception.UtilException.tryCatchNoArgs;
