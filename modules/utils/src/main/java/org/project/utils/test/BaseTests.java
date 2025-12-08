@@ -13,9 +13,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.base.Properties.getProps;
-import static org.project.utils.base.Properties.getPropsMap;
-import static org.project.utils.base.Properties.getSortedProps;
+import static org.project.utils.base.Properties.props;
+import static org.project.utils.base.Properties.propsMap;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.CucumberRunTest.setOptions;
@@ -98,7 +97,7 @@ public class BaseTests extends TestException {
     }
 
     public static void printProps() throws ReflectiveOperationException {
-        Properties props = getProps();
+        Properties props = props();
         debug("empty: " + props.isEmpty());
 
         Set<Object> devKeys = props.keySet();
@@ -107,15 +106,19 @@ public class BaseTests extends TestException {
         debug("devKeys: " + devKeys);
         debug("devValues: " + devValues);
 
-        debug("getPropsMap: " + getPropsMap());
+        debug("propsMap: " + propsMap());
         debug("sortedProps: " + props.sortedProps());
         debug("props: " + props);
-        debug("getSortedProps: " + getSortedProps());
 
         debug("entrySet: " + props.entrySet());
         debug("keySet: " + props.keySet());
 
-        debug("propsMap: " + props.map());
+        debug("map: " + props.map());
+
+        debug("props.utils.dev:", getProperty("props.utils.dev"));
+        debug("props.utils.web:", getProperty("props.utils.web"));
+        debug("props.utils.test:", getProperty("props.utils.test"));
+        debug("props.utils.win:", getProperty("props.utils.win"));
 
         debug("props.dev:", getProperty("props.dev"));
         debug("props.web:", getProperty("props.web"));
@@ -125,21 +128,16 @@ public class BaseTests extends TestException {
         debug("dev.env:", devEnv);
 
         //printPropsMap();
-        //printSortedPropsMap();
         //printSortedProps();
     }
 
     public static void printPropsMap() {
-        getPropsMap().get("props.web").forEach((k, v) -> debug(k + "-> " + v));
-    }
-
-    public static void printSortedPropsMap() {
-        getSortedProps().forEach((k, v) -> debug(k + "-> " + v));
+        propsMap().get("props.web").forEach((k, v) -> debug(k + "-> " + v));
     }
 
     public static void printSortedProps() throws ReflectiveOperationException {
-        getProps().forEach((k, v) -> debug(k + "-> " + v));
-        //getProps().sortedProps().forEach((k, v) -> debug(k + "-> " + v));
+        props().forEach((k, v) -> debug(k + "-> " + v));
+        //props().sortedProps().forEach((k, v) -> debug(k + "-> " + v));
     }
 
 }
