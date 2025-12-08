@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="App" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="org.project.utils.test.App" />
-    <module name="utils" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
-</component>
