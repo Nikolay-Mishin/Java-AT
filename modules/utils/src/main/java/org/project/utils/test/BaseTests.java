@@ -39,7 +39,7 @@ public class BaseTests extends TestException {
         debug("BaseTests:main");
         new BaseTests();
         printProps();
-        //printConfig();
+        printConfig();
         debug(uri);
 
         //testException();
