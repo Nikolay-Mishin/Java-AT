@@ -11,7 +11,7 @@ import static org.project.utils.config.Config.debugLvl;
 import static org.project.utils.config.Config.env;
 
 @LoadPolicy(MERGE)
-@Sources({"classpath:org.project.utils.dev.properties"})
+@Sources({"${props.utils.dev}"})
 public interface BaseConfig extends Config {
     BaseConfig BASE_CONFIG = config(BaseConfig.class);
     String ENV = env();
