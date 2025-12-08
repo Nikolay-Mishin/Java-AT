@@ -1,12 +1,15 @@
 package org.project.utils.base;
 
+import static java.lang.System.out;
 import static java.util.Collections.enumeration;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -18,7 +21,7 @@ import static org.project.utils.base.HashMap.newTreeMap;
 import static org.project.utils.base.HashMap.newTreeSet;
 import static org.project.utils.base.HashMap.sortByK;
 import static org.project.utils.fs.File.path;
-import static org.project.utils.fs.Reader.pathList;
+import static org.project.utils.fs.Reader.rootPathList;
 import static org.project.utils.stream.InputStream.input;
 
 public class Properties extends java.util.Properties {
@@ -44,7 +47,9 @@ public class Properties extends java.util.Properties {
     public static Properties setProps() {
         if (props.isEmpty()) {
             try {
-                pathList(propsDir).forEach(r -> {
+                List<Path> files = rootPathList(propsDir).toList();
+                out.println("read: " + files);
+                files.forEach(r -> {
                     String file = r.getFileName().toString();
                     String name = propsName(file);
                     String last = last(name, "\\.");

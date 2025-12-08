@@ -1,5 +1,6 @@
 package org.project.utils.fs;
 
+import static java.nio.file.Files.list;
 import static java.nio.file.Files.walk;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.reverseOrder;
@@ -77,6 +78,30 @@ public class Reader extends org.project.utils.fs.File {
 
     public static Stream<Path> readDir(final String path) throws IOException {
         return walk(pathStr(path));
+    }
+
+    public static Stream<File> rootFolderList(final String path) throws IOException {
+        return rootFolderPathList(path).map(Path::toFile);
+    }
+
+    public static Stream<File> rootFileList(final String path) throws IOException {
+        return rootPathList(path).map(Path::toFile);
+    }
+
+    public static Stream<Path> rootFolderPathList(final String path) throws IOException {
+        return readRootDir(path, Files::isDirectory);
+    }
+
+    public static Stream<Path> rootPathList(final String path) throws IOException {
+        return readRootDir(path, Files::isRegularFile);
+    }
+
+    public static Stream<Path> readRootDir(final String path, final Predicate<Path> filter) throws IOException {
+        return readRootDir(path).filter(filter);
+    }
+
+    public static Stream<Path> readRootDir(final String dir) throws IOException {
+        return list(pathStr(dir));
     }
 
     public Stream<Path> pathsStream(Collection<File> files) {
