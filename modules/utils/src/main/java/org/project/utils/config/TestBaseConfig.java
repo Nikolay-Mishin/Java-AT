@@ -140,4 +140,9 @@ public interface TestBaseConfig extends BaseConfig {
 
     @Key("i.method")
     String getFsMethod();
+
+    //TestUTF8
+    @Key("test.utf8")
+    String getUtf8();
+
 }
