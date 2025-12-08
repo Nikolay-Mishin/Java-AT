@@ -15,6 +15,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.base.Properties.props;
 import static org.project.utils.base.Properties.propsMap;
+import static org.project.utils.base.Properties.propsMapKeys;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.CucumberRunTest.setOptions;
@@ -114,6 +115,8 @@ public class BaseTests extends TestException {
         debug("keySet: " + props.keySet());
 
         debug("map: " + props.map());
+
+        debug("propsMapKeys: " + propsMapKeys());
 
         debug("props.utils.dev:", getProperty("props.utils.dev"));
         debug("props.utils.web:", getProperty("props.utils.web"));
