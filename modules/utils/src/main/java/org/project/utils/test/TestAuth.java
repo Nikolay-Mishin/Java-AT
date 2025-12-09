@@ -17,7 +17,7 @@ public class TestAuth extends TestApi {
 
     public TestAuth() {
         auth = c.getAuth();
-        authTest = c.getEndpointTest();
+        authTest = c.getAuthTest();
     }
 
     public static void main(String[] args) throws Exception {

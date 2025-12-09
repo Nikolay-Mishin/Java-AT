@@ -19,6 +19,11 @@ import static org.project.utils.base.Properties.propsMapKeys;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.test.CucumberRunTest.setOptions;
+import static org.project.utils.test.TestAuth.*;
+import static org.project.utils.test.TestConfig.*;
+import static org.project.utils.test.TestEntries.*;
+import static org.project.utils.test.TestFS.*;
+import static org.project.utils.test.TestReq.*;
 
 import org.project.utils.base.Properties;
 import org.project.utils.config.WebConfig;
