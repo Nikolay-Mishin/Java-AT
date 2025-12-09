@@ -367,6 +367,14 @@ public class Helper {
         return arr[arr.length - 1];
     }
 
+    public static String lastTrim(String[] arr, String sep) {
+        return last(arr, trim(last(arr), sep));
+    }
+
+    public static <T> T last(T[] arr, T v) {
+        return arr[arr.length - 1] = v;
+    }
+
     public static String last(String s) {
         return last(s, "/");
     }
@@ -374,6 +382,10 @@ public class Helper {
     public static String last(String s, String split) {
         //return s.substring(s.lastIndexOf(split) + 1);
         return last(s.split(split));
+    }
+
+    public static String trim(String s, String sep) {
+        return s.replaceAll(sep, "");
     }
 
     public static String[] trim(String[] arr) {
