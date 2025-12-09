@@ -8,10 +8,7 @@ import static org.project.utils.config.DriverConfig.config;
 import static org.project.utils.config.DriverConfig.getConfig;
 
 @LoadPolicy(MERGE)
-@Sources({
-    "${props.utils.win}",
-    "${props.utils.dev}"
-})
+@Sources({"${props.utils.win}"})
 public interface DriverBaseConfig extends BaseConfig {
     DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);
     boolean IS_WINIUM = getConfig().getIsWinium();
