@@ -6,15 +6,15 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.17.0</version>
+    <version>7.18.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <annotator.ver>3.7.5-SNAPSHOT</annotator.ver>
-        <pojo.ver>3.7.6-SNAPSHOT</pojo.ver>
-        <utils.ver>5.9.0-SNAPSHOT</utils.ver>
+        <!--<annotator.ver>3.7.5-SNAPSHOT</annotator.ver>
+        <pojo.ver>3.7.6-SNAPSHOT</pojo.ver>-->
+        <utils.ver>6.2.0-SNAPSHOT</utils.ver>
         <src.dir>src/main</src.dir>
         <src.test>src/test</src.test>
         <res.dir>${src.dir}/resources</res.dir>
@@ -36,7 +36,7 @@
         <pojo.src>${basedir}/${res.dir}/json</pojo.src>
         <pojo.out>${project.build.sourceDirectory}</pojo.out>
         <pojo.pkg>pojo.gen</pojo.pkg>
-        <annotator>org.project.annotator.lombok.LombokAnnotator</annotator>
+        <annotator>org.project.utils.annotator.lombok.LombokAnnotator</annotator>
         <allure.reports>${project.build.directory}/allure-reports</allure.reports>
     </properties>
 
@@ -172,8 +172,8 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.project</groupId>
-                        <artifactId>annotator</artifactId>
-                        <version>${annotator.ver}</version>
+                        <artifactId>utils</artifactId>
+                        <version>${utils.ver}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -182,11 +182,11 @@
 
     <dependencies>
         <!-- custom dependencies -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.project</groupId>
             <artifactId>pojo</artifactId>
             <version>${pojo.ver}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.project</groupId>
@@ -195,11 +195,11 @@
         </dependency>
 
         <!-- dev dependencies -->
-        <dependency>
+        <!--<dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-cucumber7-jvm</artifactId>
             <version>2.24.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- test dependencies -->
     </dependencies>

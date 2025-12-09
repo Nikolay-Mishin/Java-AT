@@ -6,9 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import static config.WebConfig.BASE_CONFIG;
 
 public class PojoGenerator {
-
     public static void main(String[] args) throws IOException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, ClassNotFoundException {
-        new org.project.pojo.PojoGenerator(BASE_CONFIG);
+        new org.project.utils.pojo.PojoGenerator(BASE_CONFIG);
     }
-
 }
