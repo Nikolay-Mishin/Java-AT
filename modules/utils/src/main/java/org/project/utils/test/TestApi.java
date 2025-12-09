@@ -17,11 +17,9 @@ import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.request.RequestOptions.getHeaders;
 
 import org.project.utils.config.ApiConfig;
-import org.project.utils.config.TestBaseConfig;
 import org.project.utils.request.Request;
 
-public class TestApi {
-    protected static TestBaseConfig c;
+public class TestApi extends BaseTest {
     protected static String uri;
     protected static String endpoint;
     protected static String endpointTest;

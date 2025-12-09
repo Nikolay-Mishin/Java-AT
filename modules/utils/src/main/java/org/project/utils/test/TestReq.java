@@ -7,7 +7,7 @@ import java.util.List;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.table;
 
-public class TestReq extends TestApi {
+public class TestReq extends BaseTest {
     protected static String body;
 
     public TestReq() {
