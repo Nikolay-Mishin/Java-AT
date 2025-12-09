@@ -11,8 +11,8 @@ import org.project.utils.config.WebBaseConfig;
 
 @LoadPolicy(MERGE)
 @Sources({
-    "classpath:stand.properties",
-    "classpath:dev.properties"
+    "${props.stand}",
+    "${props.dev}"
     //"system:properties", // -DpropertyName=propertyValue
     //"system:env", // environment variables
 })
