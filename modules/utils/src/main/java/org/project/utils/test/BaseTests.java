@@ -18,6 +18,7 @@ import static org.project.utils.base.Properties.propsMap;
 import static org.project.utils.base.Properties.propsMapKeys;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
+import static org.project.utils.request.Request.getParamsUri;
 import static org.project.utils.test.CucumberRunTest.setOptions;
 import static org.project.utils.test.TestAuth.*;
 import static org.project.utils.test.TestConfig.*;
@@ -43,9 +44,7 @@ public class BaseTests extends TestException {
         setOptions();
         debug("BaseTests:main");
         new BaseTests();
-        printProps();
         printConfig();
-        debug(uri);
 
         //testException();
         //testMain();
@@ -96,10 +95,13 @@ public class BaseTests extends TestException {
         debug(id);
     }
 
-    public static void printConfig() {
+    public static void printConfig() throws ReflectiveOperationException {
+        printProps();
         debug(configs());
         debug("DEBUG_LEVEL: " + DEBUG_LEVEL);
         debug("WebConfig: " + WebConfig.config());
+        debug(uri);
+        debug(getParamsUri(uri, "id", 1, "token", "test"));
     }
 
     public static void printProps() throws ReflectiveOperationException {
