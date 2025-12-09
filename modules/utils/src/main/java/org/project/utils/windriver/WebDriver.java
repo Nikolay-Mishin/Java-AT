@@ -5,11 +5,12 @@ import static java.lang.System.setProperty;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.Assert;
 
 public class WebDriver extends RemoteWebDriver {
     protected static ChromeOptions options = new ChromeOptions();
@@ -29,7 +30,7 @@ public class WebDriver extends RemoteWebDriver {
         setProperty("webdriver.chrome.driver", chromeDriver);
         //start(setCap());
         start(options());
-        Assert.assertNotNull(d);
+        assertNotNull(d);
         s((ChromeDriver) d);
         return (ChromeDriver) d;
     }

@@ -8,6 +8,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
+import static org.junit.Assert.assertNotNull;
+
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
@@ -19,7 +21,6 @@ import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.SessionId;
-import org.testng.Assert;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.entries;
@@ -129,7 +130,7 @@ public class RemoteWebDriver extends WebElement {
     public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver)
         throws MalformedURLException, ClassNotFoundException
     {
-        Assert.assertNotNull(driver);
+        assertNotNull(driver);
         driver(driver);
         action(driver);
         printClass();
