@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.When;
 
 import org.project.utils.base.BaseStep;
 

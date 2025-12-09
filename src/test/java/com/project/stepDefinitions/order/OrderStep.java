@@ -9,7 +9,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
 
 import org.project.utils.base.BaseStep;
 

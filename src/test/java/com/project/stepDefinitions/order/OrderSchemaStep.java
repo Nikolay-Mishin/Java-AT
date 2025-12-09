@@ -6,9 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import io.cucumber.java.en.*;
-
 import static org.junit.Assert.assertEquals;
+
+import io.cucumber.java.en.When;
 
 import org.project.utils.base.BaseStep;
 

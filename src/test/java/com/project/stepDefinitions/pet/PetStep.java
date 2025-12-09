@@ -8,14 +8,18 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 
 import static org.project.utils.Helper.debug;
 
-import org.project.utils.base.*;
+import org.project.utils.base.BaseStep;
+import org.project.utils.base.HashMap;
 
-import models.pet.*;
+import models.pet.Category;
+import models.pet.Pet;
+import models.pet.TagsItem;
 import requests.PetRequests;
 
 public class PetStep extends BaseStep<PetRequests, Pet> {

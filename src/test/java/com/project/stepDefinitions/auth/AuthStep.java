@@ -3,15 +3,14 @@ package com.project.stepDefinitions.auth;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.When;
 
 import static org.project.utils.auth.Auth.printTokens;
 import static org.project.utils.base.Register.printRegisterMap;
+import static org.project.utils.config.TestConfig.config;
 
 import org.project.utils.auth.Auth;
 import org.project.utils.base.BaseStep;
-
-import static org.project.utils.config.TestConfig.config;
 
 import pojo.json.auth.Token;
 import requests.auth.AuthRequests;

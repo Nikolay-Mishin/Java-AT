@@ -1,12 +1,15 @@
 package config;
 
-import org.aeonbits.owner.Config.*;
+import static org.aeonbits.owner.Config.LoadPolicy;
+import static org.aeonbits.owner.Config.LoadType.MERGE;
+import static org.aeonbits.owner.Config.Sources;
 
-import static org.project.utils.config.WebConfig.*;
+import static org.project.utils.config.WebConfig.config;
+import static org.project.utils.config.WebConfig.debugLvl;
 
 import org.project.utils.config.WebBaseConfig;
 
-@LoadPolicy(LoadType.MERGE)
+@LoadPolicy(MERGE)
 @Sources({
     "classpath:stand.properties",
     "classpath:dev.properties"

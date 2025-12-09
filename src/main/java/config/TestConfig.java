@@ -1,6 +1,6 @@
 package config;
 
-import org.aeonbits.owner.Config.Sources;
+import static org.aeonbits.owner.Config.Sources;
 
 import static org.project.utils.config.TestConfig.config;
 
