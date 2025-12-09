@@ -7,9 +7,13 @@ import java.net.URISyntaxException;
 
 import jdk.jfr.Description;
 
+import static org.project.utils.Helper.concat;
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.lastTrim;
+import static org.project.utils.Helper.sb;
 import static org.project.utils.reflection.Reflection.getPropStr;
 
+import org.project.utils.Helper;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants.METHOD;
 
@@ -41,6 +45,36 @@ public class Request extends RequestAuth {
         debug(path);
         printFullPath();
         return this;
+    }
+
+    public static String getParamsUri(String uri, Object... args) {
+        return uri + getParams(args);
+    }
+
+    public static String getParamsUriSlash(String uri, Object... args) {
+        return uri + getParamsSlash(args);
+    }
+
+    public static String getParams(Object... args) {
+        return getParamsPrefix("", args);
+    }
+
+    public static String getParamsSlash(Object... args) {
+        return getParamsPrefix("/", args);
+    }
+
+    public static String getParamsPrefix(String prefix, Object... args) {
+        String[] k = {""};
+        String[] map = Helper.map(args, String[]::new, a -> {
+            if (k[0].isEmpty()) return k[0] = a.toString();
+            else {
+                String v = sb("=", a.toString(), "&");
+                k[0] = "";
+                return v;
+            }
+        });
+        lastTrim(map, "&$");
+        return sb(concat(new String[]{prefix + "?"}, map));
     }
 
     @Description("Print full path")
