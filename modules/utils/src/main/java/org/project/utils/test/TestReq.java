@@ -1,7 +1,5 @@
 package org.project.utils.test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import static org.project.utils.Helper.debug;
@@ -14,23 +12,21 @@ public class TestReq extends BaseTest {
         body = c.getReqBody();
     }
 
-    public static void main(String[] args) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void main(String[] args) throws Exception {
         testReq();
     }
 
-    public static void testReq()
-        throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void testReq() throws Exception {
         //testReqGet();
         testReqPost();
     }
 
-    public static void testReqGet()
-        throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void testReqGet() throws Exception {
         debug("testReqGet");
         new Step().getOrder(200, 0);
     }
 
-    public static void testReqPost() throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void testReqPost() throws Exception {
         debug("testReqPost");
         //[[id, 0], [petId, 0], [quantity, 0], [shipDate, 2023-09-11T09:37:57.828Z], [status, placed], [complete, true]]
         List<List<String>> table = table(body);

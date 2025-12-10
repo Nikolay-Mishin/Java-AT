@@ -23,8 +23,8 @@ import org.project.utils.function.FunctionWithExceptions;
 
 public class BaseRequests<T> {
     protected String baseUrl;
-    protected Request post;
     protected Request get;
+    protected Request post;
     protected Request put;
     protected Request patch;
     protected Request delete;
@@ -101,16 +101,6 @@ public class BaseRequests<T> {
         return new Request(method, baseUrl);
     }
 
-    @Description("Get POST request")
-    public Request post() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return req(post, POST);
-    }
-
-    @Description("Set POST request")
-    public Request post(Request req) {
-        return post = req;
-    }
-
     @Description("Get GET request")
     public Request get() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return req(get, GET);
@@ -119,6 +109,16 @@ public class BaseRequests<T> {
     @Description("Set GET request")
     public Request get(Request req) {
         return get = req;
+    }
+
+    @Description("Get POST request")
+    public Request post() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        return req(post, POST);
+    }
+
+    @Description("Set POST request")
+    public Request post(Request req) {
+        return post = req;
     }
 
     @Description("Get PUT request")
@@ -151,29 +151,29 @@ public class BaseRequests<T> {
         return delete = req;
     }
 
-    @Description("Add a new object")
-    public Response post(T model) throws ReflectiveOperationException {
-        return post.response(model);
-    }
-
     @Description("Find object by ID")
     public Response get(Long id) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return get.endpoint(id).response();
+        return get().endpoint(id).response();
+    }
+
+    @Description("Add a new object")
+    public Response post(T model) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return post().response(model);
     }
 
     @Description("Update object")
-    public Response put(T model) throws ReflectiveOperationException {
-        return put.response(model);
+    public Response put(T model) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return put().response(model);
     }
 
     @Description("Patch object")
-    public Response patch(T model) throws ReflectiveOperationException {
-        return patch.response(model);
+    public Response patch(T model) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return patch().response(model);
     }
 
     @Description("Delete object")
     public Response delete(Long id) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return delete.endpoint(id).response();
+        return delete().endpoint(id).response();
     }
 
 }
