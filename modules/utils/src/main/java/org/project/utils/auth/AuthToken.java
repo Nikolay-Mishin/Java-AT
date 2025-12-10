@@ -21,6 +21,18 @@ public class AuthToken extends Token {
         super(pathList);
     }
 
+    public String getAccessToken() throws ClassNotFoundException {
+        return accessToken().value;
+    }
+
+    public String getRefreshToken() throws ClassNotFoundException {
+        return refreshToken().value;
+    }
+
+    public String getFileToken() throws ClassNotFoundException {
+        return fileToken().value;
+    }
+
     public Token accessToken() throws ClassNotFoundException {
         return token("access");
     }
