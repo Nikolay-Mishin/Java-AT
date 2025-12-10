@@ -54,13 +54,11 @@ public class Model<T> {
         _model(clazz, dataTable, hashMap, null, jsonSchemaPathList);
     }
 
-    public Model(Class<T> clazz, List<List<String>> dataTable, Object... jsonSchemaPathList)
-        throws ReflectiveOperationException, IOException {
+    public Model(Class<T> clazz, List<List<String>> dataTable, Object... jsonSchemaPathList) throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, null, null, jsonSchemaPathList);
     }
 
-    public Model(Class<T> clazz, List<List<String>> dataTable)
-        throws ReflectiveOperationException, IOException {
+    public Model(Class<T> clazz, List<List<String>> dataTable) throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, null, null);
     }
 
@@ -105,8 +103,7 @@ public class Model<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private T model(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap)
-        throws ReflectiveOperationException {
+    private T model(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap) throws ReflectiveOperationException {
         debug("model");
 
         Object _builder = builder(clazz);

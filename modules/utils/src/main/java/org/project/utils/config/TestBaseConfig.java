@@ -125,6 +125,9 @@ public interface TestBaseConfig extends BaseConfig {
     @Key("req.body")
     String getReqBody();
 
+    @Key("req.test")
+    String getReqTest();
+
     //TestInvoke
     @Key("i.class")
     String getFs();
