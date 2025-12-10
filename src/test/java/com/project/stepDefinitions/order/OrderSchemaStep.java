@@ -1,9 +1,7 @@
 package com.project.stepDefinitions.order;
 
 import java.beans.ConstructorProperties;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +20,7 @@ public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> 
     }
 
     @When("создать заказ schema статус {int}")
-    public void postOrder(int statusCode, List<List<String>> dataTable) throws ReflectiveOperationException, URISyntaxException, IOException {
+    public void postOrder(int statusCode, List<List<String>> dataTable) throws Exception {
         assertEquals(statusCode, post(dataTable).getStatusCode());
     }
 

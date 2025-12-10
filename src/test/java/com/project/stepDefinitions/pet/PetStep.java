@@ -1,9 +1,6 @@
 package com.project.stepDefinitions.pet;
 
 import java.beans.ConstructorProperties;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +28,7 @@ public class PetStep extends BaseStep<PetRequests, Pet> {
     }
 
     @Override
-    protected Response post(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
+    protected Response post(List<List<String>> dataTable) throws Exception {
         Response resp = super.post(dataTable);
         int categoryId = resp.path("category.id");
         debug(categoryId);
@@ -39,17 +36,17 @@ public class PetStep extends BaseStep<PetRequests, Pet> {
     }
 
     @When("создать животное статус {int}")
-    public void postPet(int statusCode, List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
+    public void postPet(int statusCode, List<List<String>> dataTable) throws Exception {
         assertEquals(statusCode, post(dataTable).getStatusCode());
     }
 
     @And("получить животное статус {int}")
-    public void getPet(int statusCode) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
+    public void getPet(int statusCode) throws Exception {
         assertEquals(statusCode, get().getStatusCode());
     }
 
     @And("удалить животное статус {int}")
-    public void deletePet(int statusCode) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
+    public void deletePet(int statusCode) throws Exception {
         assertEquals(statusCode, delete().getStatusCode());
     }
 
