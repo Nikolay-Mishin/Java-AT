@@ -3,6 +3,8 @@ package org.project.utils.auth;
 import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import io.restassured.response.Response;
 
@@ -64,7 +66,7 @@ public class Auth extends SingleInstance<Auth> {
         return auth(req(baseUrl));
     }
 
-    public static <T> Request auth(AuthBaseRequests<T> req) {
+    public static <T> Request auth(AuthBaseRequests<T> req) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return auth(req.post());
     }
 
@@ -77,8 +79,7 @@ public class Auth extends SingleInstance<Auth> {
     }
 
     public static <T> Auth init(AuthBaseRequests<T> req, AuthToken token)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException
-    {
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException, MalformedURLException, URISyntaxException {
         debug("Auth: req, AuthToken");
         init(token);
         auth(req);
@@ -86,7 +87,7 @@ public class Auth extends SingleInstance<Auth> {
     }
 
     public static <T> Auth init(AuthBaseRequests<T> req, Response tokens)
-        throws IOException, ReflectiveOperationException {
+        throws IOException, ReflectiveOperationException, URISyntaxException {
         debug("Auth: req, Response");
         init(tokens);
         auth(req);
@@ -94,7 +95,7 @@ public class Auth extends SingleInstance<Auth> {
     }
 
     public static <T> Auth init(AuthBaseRequests<T> req, JsonSchema tokens)
-        throws IOException, ReflectiveOperationException {
+        throws IOException, ReflectiveOperationException, URISyntaxException {
         debug("Auth: req, JsonSchema");
         init(tokens);
         auth(req);
