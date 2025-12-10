@@ -8,6 +8,7 @@ import io.restassured.response.Response;
 import jdk.jfr.Description;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.notNull;
 import static org.project.utils.constant.RequestConstants.METHOD.DELETE;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.constant.RequestConstants.METHOD.PATCH;
@@ -16,19 +17,21 @@ import static org.project.utils.constant.RequestConstants.METHOD.PUT;
 import static org.project.utils.fs.File.path;
 import static org.project.utils.reflection.Reflection.getField;
 
+import org.project.utils.constant.RequestConstants.METHOD;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.function.FunctionWithExceptions;
 
 public class BaseRequests<T> {
     protected String baseUrl;
-    protected Request post = new Request(POST);
-    protected Request get = new Request(GET);
-    protected Request put = new Request(PUT);
-    protected Request patch = new Request(PATCH);
-    protected Request delete = new Request(DELETE);
+    protected Request post;
+    protected Request get;
+    protected Request put;
+    protected Request patch;
+    protected Request delete;
 
     public BaseRequests(Object... pathList) throws Exception {
-        init(pathList);
+        baseUrl(pathList);
+        //init(pathList);
     }
 
     @Description("Init baseUrl")
@@ -52,9 +55,9 @@ public class BaseRequests<T> {
 
     @Description("Init with cb")
     public <R extends BaseRequests<T>, V extends RequestOptions, E extends Exception> R init(FunctionWithExceptions<Request, V, E> cb)
-        throws URISyntaxException, NoSuchFieldException, IllegalAccessException, E {
-        for (METHOD_LOWER_CASE method : METHOD_LOWER_CASE.values())
-            cb.apply((Request) getField(this, method.toString()));
+        throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, E {
+        for (METHOD method : METHOD.values())
+            cb.apply(getOrCreate(method));
         return (R) this;
     }
 
@@ -73,9 +76,34 @@ public class BaseRequests<T> {
         return this.baseUrl = baseUrl;
     }
 
+    @Description("Get or set request")
+    public Request getOrCreate(METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
+        return req(req(method.toString().toLowerCase()), method);
+    }
+
+    @Description("Get request")
+    public Request req(Request req, METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
+        return notNull(req) ? req : req(method);
+    }
+
+    @Description("Get request")
+    public Request req(METHOD_LOWER_CASE method) throws NoSuchFieldException, IllegalAccessException {
+        return req(method.toString());
+    }
+
+    @Description("Get request")
+    public Request req(String method) throws NoSuchFieldException, IllegalAccessException {
+        return (Request) getField(this, method);
+    }
+
+    @Description("Set request")
+    public Request req(METHOD method) throws MalformedURLException, URISyntaxException {
+        return new Request(method, baseUrl);
+    }
+
     @Description("Get POST request")
-    public Request post() {
-        return post;
+    public Request post() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        return req(post, POST);
     }
 
     @Description("Set POST request")
@@ -84,8 +112,8 @@ public class BaseRequests<T> {
     }
 
     @Description("Get GET request")
-    public Request get() {
-        return get;
+    public Request get() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        return req(get, GET);
     }
 
     @Description("Set GET request")
@@ -94,8 +122,8 @@ public class BaseRequests<T> {
     }
 
     @Description("Get PUT request")
-    public Request patch() {
-        return patch;
+    public Request patch() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        return req(patch, PATCH);
     }
 
     @Description("Set PATCH request")
@@ -104,8 +132,8 @@ public class BaseRequests<T> {
     }
 
     @Description("Get PUT request")
-    public Request put() {
-        return put;
+    public Request put() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        return req(put, PUT);
     }
 
     @Description("Set PUT request")
@@ -114,8 +142,8 @@ public class BaseRequests<T> {
     }
 
     @Description("Get DELETE request")
-    public Request delete() {
-        return delete;
+    public Request delete() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        return req(delete, DELETE);
     }
 
     @Description("Set DELETE request")
