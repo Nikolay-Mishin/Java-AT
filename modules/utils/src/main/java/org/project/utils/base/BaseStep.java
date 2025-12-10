@@ -136,7 +136,7 @@ public class BaseStep<R extends BaseRequests<M>, M> {
 
     protected <E extends Exception> Response req(List<List<String>> dataTable, FunctionWithExceptions<M, Response, E> cb) throws Exception {
         return req(() -> {
-            M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
+            M model = new Model<>(modelClass, dataTable, hashMap, req.baseUrl()).get();
             Response resp = cb.apply(model);
             //id = resp.jsonPath().get("id");
             //id = parseLong(resp.path("id").toString());
