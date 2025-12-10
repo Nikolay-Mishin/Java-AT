@@ -5,6 +5,8 @@ import io.restassured.authentication.FormAuthConfig;
 import io.restassured.authentication.OAuthSignature;
 import io.restassured.specification.RequestSpecification;
 
+import org.project.utils.auth.AuthToken;
+
 /**
  * <b>Authentication Specification:</b>
  * <ul>
@@ -172,6 +174,22 @@ public class RequestAuth extends RequestOptions {
 
     public RequestSpecification bearer(String accessToken, OAuthSignature sign) {
         return oauth2(bearerToken(accessToken), sign);
+    }
+
+    public RequestSpecification oauth2(AuthToken token) throws ClassNotFoundException {
+        return oauth2(token.getAccessToken());
+    }
+
+    public RequestSpecification oauth2(AuthToken token, OAuthSignature sign) throws ClassNotFoundException {
+        return oauth2(token.getAccessToken(), sign);
+    }
+
+    public RequestSpecification bearer(AuthToken token) throws ClassNotFoundException {
+        return bearer(token.getAccessToken());
+    }
+
+    public RequestSpecification bearer(AuthToken token, OAuthSignature sign) throws ClassNotFoundException {
+        return bearer(token.getAccessToken(), sign);
     }
 
 }
