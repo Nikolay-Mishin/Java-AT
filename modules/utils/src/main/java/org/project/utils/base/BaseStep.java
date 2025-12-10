@@ -1,11 +1,9 @@
 package org.project.utils.base;
 
-import static java.lang.Long.parseLong;
 import static java.lang.Long.valueOf;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +17,7 @@ import static org.project.utils.reflection.Reflection.getGenericClass;
 
 import org.project.utils.config.WebBaseConfig;
 import org.project.utils.function.FunctionWithExceptions;
+import org.project.utils.function.SupplierWithExceptions;
 import org.project.utils.request.BaseRequests;
 
 public class BaseStep<R extends BaseRequests<M>, M> {
@@ -97,61 +96,58 @@ public class BaseStep<R extends BaseRequests<M>, M> {
         debug("modelClass: " + modelClass);
     }
 
-    protected Response get() throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
+    protected Response get() throws Exception {
         return get(id);
     }
 
-    protected Response get(int id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
+    protected Response get(int id) throws Exception {
         //return get((long) id);
         return get(valueOf(id));
     }
 
-    protected Response get(Long id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
-        Response resp = req.get(id);
-        debug(resp.getStatusCode());
-        return resp;
+    protected Response get(Long id) throws Exception {
+        return req(() -> req.get(id));
     }
 
-    protected Response post(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
-        M model = new Model<>(modelClass, dataTable, hashMap, req.baseUrl()).get();
-        Response resp = req.post(model);
-        //id = resp.jsonPath().get("id");
-        id = parseLong(resp.path("id").toString());
-        debug(id);
-        debug(resp.getStatusCode());
-        return resp;
+    protected Response post(List<List<String>> dataTable) throws Exception {
+        return req(dataTable, m -> req.post(m));
     }
 
-    protected Response put(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
-        return put(dataTable, m -> req.patch(m));
+    protected Response put(List<List<String>> dataTable) throws Exception {
+        return req(dataTable, m -> req.put(m));
     }
 
-    protected Response patch(List<List<String>> dataTable) throws ReflectiveOperationException, IOException, URISyntaxException {
-        return put(dataTable, m -> req.patch(m));
+    protected Response patch(List<List<String>> dataTable) throws Exception {
+        return req(dataTable, m -> req.patch(m));
     }
 
-    protected <E extends ReflectiveOperationException> Response put(List<List<String>> dataTable, FunctionWithExceptions<M, Response, E> cb)
-        throws IOException, URISyntaxException, ReflectiveOperationException
-    {
-        M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
-        Response resp = cb.apply(model);
-        id = resp.path("id");
-        debug(id);
-        debug(resp.getStatusCode());
-        return resp;
-    }
-
-    protected Response delete() throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
+    protected Response delete() throws Exception {
         return delete(id);
     }
 
-    protected Response delete(int id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
+    protected Response delete(int id) throws Exception {
         //return delete((long) id);
         return delete(valueOf(id));
     }
 
-    protected Response delete(Long id) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
-        Response resp = req.delete(id);
+    protected Response delete(Long id) throws Exception {
+        return req(() -> req.delete(id));
+    }
+
+    protected <E extends Exception> Response req(List<List<String>> dataTable, FunctionWithExceptions<M, Response, E> cb) throws Exception {
+        return req(() -> {
+            M model = new Model<>(modelClass, dataTable, req.baseUrl()).get();
+            Response resp = cb.apply(model);
+            //id = resp.jsonPath().get("id");
+            //id = parseLong(resp.path("id").toString());
+            id = resp.path("id");
+            debug(id);
+            return resp;
+        });
+    }
+
+    protected <E extends Exception> Response req(SupplierWithExceptions<Response, E> cb) throws IOException, URISyntaxException, ReflectiveOperationException, E {
+        Response resp = cb.get();
         debug(resp.getStatusCode());
         return resp;
     }
