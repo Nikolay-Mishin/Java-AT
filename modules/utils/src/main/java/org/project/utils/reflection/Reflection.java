@@ -208,6 +208,14 @@ public class Reflection {
         return getClassName(getClazz(className));
     }
 
+    public static String getClassName(int index) {
+        return getClassName(getStackTraceEl(index + 1));
+    }
+
+    public static String getClassName(StackTraceElement stackTraceEl) {
+        return stackTraceEl.getClassName();
+    }
+
     public static String getClassSimpleName(Object obj) {
         String name = getClazz(obj).getSimpleName();
         debug(name);
@@ -218,12 +226,12 @@ public class Reflection {
         return getClassSimpleName(getClazz(className));
     }
 
-    public static String getClassName(int index) {
-        return getClassName(getStackTraceEl(index + 1));
+    public static String getClassSimpleName(int index) throws ClassNotFoundException {
+        return getClassSimpleName(getStackTraceEl(index + 1));
     }
 
-    public static String getClassName(StackTraceElement stackTraceEl) {
-        return stackTraceEl.getClassName();
+    public static String getClassSimpleName(StackTraceElement stackTraceEl) throws ClassNotFoundException {
+        return getClassSimpleName(getClazz(stackTraceEl));
     }
 
     public static StackTraceElement[] getStackTrace() {
@@ -266,12 +274,16 @@ public class Reflection {
         return getCallingClassName(2);
     }
 
+    public static String getCallingClassSimpleName(int index) throws ClassNotFoundException {
+        return getClassSimpleName(++index);
+    }
+
     public static String getCallingClassSimpleName() throws ClassNotFoundException {
-        return getClassSimpleName(getCallingClass(1));
+        return getClassSimpleName(1);
     }
 
     public static String getCallingChildClassSimpleName() throws ClassNotFoundException {
-        return getClassSimpleName(getCallingClass(2));
+        return getCallingClassSimpleName(2);
     }
 
     public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
