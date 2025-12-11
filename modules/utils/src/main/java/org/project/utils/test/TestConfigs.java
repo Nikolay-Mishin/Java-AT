@@ -10,9 +10,11 @@ import static org.project.utils.config.Config.printEnvList;
 import org.project.utils.base.HashMap;
 import org.project.utils.config.BaseConfig;
 import org.project.utils.config.DriverBaseConfig;
-import org.project.utils.config.WebBaseConfig;
+import org.project.utils.config.DriverConfig;
+import org.project.utils.config.TestConfig;
+import org.project.utils.config.WebConfig;
 
-public class TestConfig {
+public class TestConfigs {
 
     public static void main(String[] args) throws ReflectiveOperationException {
         testConfig();
@@ -24,18 +26,19 @@ public class TestConfig {
         debug(config().getClass());
         printConfigs();
         debug(config("config").getClass());
-        debug(DriverBaseConfig.BASE_CONFIG);
+        debug(DriverConfig.config());
         debug(config("win"));
         debug(config("win").getClass());
         debug(config("win", DriverBaseConfig.class).getClass());
         printConfigs();
-        debug(BaseConfig.BASE_CONFIG);
-        debug(WebBaseConfig.BASE_CONFIG);
-        compare(BaseConfig.BASE_CONFIG);
-        compare("web", WebBaseConfig.BASE_CONFIG);
+        //debug(BaseConfig.BASE_CONFIG);
+        debug(WebConfig.config());
+        //compare(BaseConfig.BASE_CONFIG);
+        compare("web", WebConfig.config());
+        //debug(BaseConfig.BASE_CONFIG.getBaseConfig());
+        debug(WebConfig.config().getBaseConfig());
+        debug(TestConfig.config());
         printConfigs();
-        debug(BaseConfig.BASE_CONFIG.getBaseConfig());
-        debug(WebBaseConfig.BASE_CONFIG.getBaseConfig());
     }
 
     public static void printConfigs() throws ReflectiveOperationException {
@@ -50,25 +53,25 @@ public class TestConfig {
 
     public static void testWinDriverConfig() {
         debug("testWinDriverConfig");
-        debug(WebBaseConfig.BASE_CONFIG.getBaseUrl());
-        debug(BaseConfig.BASE_CONFIG.getDebugLevel());
-        debug(DriverBaseConfig.BASE_CONFIG.getIsWinium());
-        debug(DriverBaseConfig.BASE_CONFIG.getWinium());
-        debug(DriverBaseConfig.BASE_CONFIG.getWiniumHost());
-        debug(DriverBaseConfig.BASE_CONFIG.getWindriverPath());
-        debug(DriverBaseConfig.BASE_CONFIG.getWindriverName());
-        debug(DriverBaseConfig.BASE_CONFIG.getWindriver());
-        debug(DriverBaseConfig.BASE_CONFIG.getWindriverPort());
-        debug(DriverBaseConfig.BASE_CONFIG.getWindriverHost());
-        debug(DriverBaseConfig.BASE_CONFIG.getWebdriverParam());
-        debug(DriverBaseConfig.BASE_CONFIG.getChromeDriver());
-        debug(DriverBaseConfig.BASE_CONFIG.getExperimental());
+        debug(WebConfig.config().getBaseUrl());
+        debug(WebConfig.config().getDebugLevel());
+        debug(DriverConfig.config().getIsWinium());
+        debug(DriverConfig.config().getWinium());
+        debug(DriverConfig.config().getWiniumHost());
+        debug(DriverConfig.config().getWindriverPath());
+        debug(DriverConfig.config().getWindriverName());
+        debug(DriverConfig.config().getWindriver());
+        debug(DriverConfig.config().getWindriverPort());
+        debug(DriverConfig.config().getWindriverHost());
+        debug(DriverConfig.config().getWebdriverParam());
+        debug(DriverConfig.config().getChromeDriver());
+        debug(DriverConfig.config().getExperimental());
         debug(DriverBaseConfig.IS_WINIUM);
         debug(DriverBaseConfig.WINDRIVER_NAME);
         debug(DriverBaseConfig.WINDRIVER);
         debug(DriverBaseConfig.WINDRIVER_PORT);
         debug(DriverBaseConfig.WINDRIVER_HOST);
-        debug(_equals(DriverBaseConfig.BASE_CONFIG.getWebdriverParam(), ""));
+        debug(_equals(DriverConfig.config().getWebdriverParam(), ""));
         printEnvList();
     }
 

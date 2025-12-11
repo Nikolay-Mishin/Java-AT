@@ -22,7 +22,6 @@ import org.junit.runner.RunWith;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
-import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.event.CucumberEventListener.getPlugins;
 
 import org.project.utils.config.TestBaseConfig;
@@ -44,17 +43,13 @@ import org.project.utils.event.CucumberEventListener;
 public class CucumberRunTest {
 
     public CucumberRunTest() {
-        //setOptions();
+        //setOptions(BASE_CONFIG);
     }
 
     @BeforeClass
     public static void setUp() {
         out.println("setUp");
-        //setOptions();
-    }
-
-    public static String[] setOptions() throws ReflectiveOperationException {
-        return setOptions(getOptions());
+        //setOptions(BASE_CONFIG);
     }
 
     public static String[] setOptions(TestBaseConfig config) throws ReflectiveOperationException {
@@ -67,10 +62,6 @@ public class CucumberRunTest {
 
     public static String[] setOptions(String[] options) {
         return setOptions(options, o -> o);
-    }
-
-    public static String[] setCliOptions() throws ReflectiveOperationException {
-        return setCliOptions(BASE_CONFIG);
     }
 
     public static String[] setCliOptions(TestBaseConfig config) throws ReflectiveOperationException {
@@ -89,10 +80,6 @@ public class CucumberRunTest {
         out.println("options: " + Arrays.toString(options));
         cb.apply(options);
         return options;
-    }
-
-    public static String[] getOptions() throws ReflectiveOperationException {
-        return getOptions(BASE_CONFIG);
     }
 
     public static String[] getOptions(TestBaseConfig config) throws ReflectiveOperationException {

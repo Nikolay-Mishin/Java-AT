@@ -30,7 +30,6 @@ import static org.project.utils.Helper.notNull;
 import static org.project.utils.Helper.split;
 import static org.project.utils.Helper.trim;
 import static org.project.utils.base.HashMap.sort;
-import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.exception.UtilException.tryConsumerWithIgnore;
 import static org.project.utils.exception.UtilException.tryNoArgsWithIgnore;
 import static org.project.utils.reflection.Reflection.getClassName;
@@ -83,7 +82,6 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * </ul>
      */
     public CucumberEventListener() throws ReflectiveOperationException {
-        getPluginMap();
     }
 
     /**
@@ -150,10 +148,6 @@ public class CucumberEventListener implements ConcurrentEventListener {
         debug("plugin: " + plugin);
         debug("plugin: " + (notNull(plugin) ? plugin : pluginMap.get(getClassSimpleName(clazz))));
         return notNull(plugin) ? plugin : pluginMap.get(getClassSimpleName(clazz));
-    }
-
-    public static Map<String, String> getPluginMap() throws ReflectiveOperationException {
-        return getPluginMap(BASE_CONFIG);
     }
 
     public static Map<String, String> getPluginMap(TestBaseConfig config) throws ReflectiveOperationException {

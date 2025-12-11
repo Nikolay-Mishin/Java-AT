@@ -18,13 +18,19 @@ import static org.project.utils.base.Properties.propsMap;
 import static org.project.utils.base.Properties.propsMapKeys;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.configs;
+import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.request.Request.getParamsUri;
 import static org.project.utils.test.CucumberRunTest.setOptions;
-import static org.project.utils.test.TestAuth.*;
-import static org.project.utils.test.TestConfig.*;
-import static org.project.utils.test.TestEntries.*;
-import static org.project.utils.test.TestFS.*;
-import static org.project.utils.test.TestReq.*;
+import static org.project.utils.test.TestAuth.testAuth;
+import static org.project.utils.test.TestConfigs.testConfig;
+import static org.project.utils.test.TestConfigs.testWinDriverConfig;
+import static org.project.utils.test.TestEntries.testEntries;
+import static org.project.utils.test.TestFS.testAttrs;
+import static org.project.utils.test.TestFS.testFS;
+import static org.project.utils.test.TestReq.testReqGet;
+import static org.project.utils.test.TestReq.testReqPost;
+import static org.project.utils.test.TestReq.testReqTest;
+import static org.project.utils.test.TestUTF8.testUTF8;
 
 import org.project.utils.base.Properties;
 import org.project.utils.config.WebConfig;
@@ -34,36 +40,70 @@ public class BaseTests extends TestException {
     protected static ChromeDriver webDriver;
     protected static RemoteWebDriver remoteDriver;
 
-    public BaseTests() {
+    public BaseTests() throws ReflectiveOperationException {
+        debug("BaseTests:main");
         new TestAuth();
         new TestReq();
         new TestFS();
+        new BaseTests();
+        printConfig();
+    }
+
+    public BaseTests(int n) throws Exception {
+        testBase(n);
     }
 
     public static void main(String[] args) throws Exception {
-        setOptions();
-        debug("BaseTests:main");
-        new BaseTests();
-        printConfig();
+        setOptions(BASE_CONFIG);
+        new BaseTests(3);
+        //testBase(3);
+    }
 
-        //testException();
-        //testMain();
-        //testHeaders();
-        //testApi();
-        //testJson();
-        //testZip();
-        //testFS();
-        //testAttrs();
-        //testLong();
-        //testEntries();
-        //testReq();
-        //testAuth();
-        //testConfig();
-        //testWinDriverConfig();
-        //testPrintException();
-        //testInvoke();
-        //testHeaders(true);
-        //testReqGet();
+    public static void testBase(int n) throws Exception {
+        switch (n) {
+            case 1: testException();
+                break;
+            case 2: testMain();
+                break;
+            case 3: testHeaders();
+                break;
+            case 4: testApi();
+                break;
+            case 5: testJson();
+                break;
+            case 6: testZip();
+                break;
+            case 7: testFS();
+                break;
+            case 8: testAttrs();
+                break;
+            case 9: testLong();
+                break;
+            case 10: testEntries();
+                break;
+            case 11: testReqTest();
+                break;
+            case 12: testAuth();
+                break;
+            case 13: testConfig();
+                break;
+            case 14: testWinDriverConfig();
+                break;
+            case 15: testInvoke();
+                break;
+            case 16: testHeaders(true);
+                break;
+            case 17: testPrintException();
+                break;
+            case 18: testFnExceptions();
+                break;
+            case 19: testUTF8();
+                break;
+            case 20: testReqPost();
+                break;
+            case 21: testReqGet();
+                break;
+        }
     }
 
     public static void testMain() throws IOException, IllegalAccessException, ClassNotFoundException {
