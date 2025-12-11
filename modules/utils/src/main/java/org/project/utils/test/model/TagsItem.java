@@ -1,5 +1,5 @@
 
-package org.project.utils.test;
+package org.project.utils.test.model;
 
 import lombok.Builder;
 import lombok.Data;

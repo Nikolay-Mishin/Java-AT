@@ -13,6 +13,9 @@ import static org.project.utils.Helper.debug;
 
 import org.project.utils.base.BaseStep;
 import org.project.utils.base.HashMap;
+import org.project.utils.test.model.Category;
+import org.project.utils.test.model.Model;
+import org.project.utils.test.model.TagsItem;
 
 public class Step extends BaseStep<Requests, Model> {
 
