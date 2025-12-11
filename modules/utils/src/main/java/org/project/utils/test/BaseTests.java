@@ -25,10 +25,56 @@ public class BaseTests extends TestDriver {
         new TestFS();
     }
 
+    /**
+     * 0: printConfig();
+     * <p>1: printProps();
+     * <p>2: testTimeout();
+     * <p>3: testDriver();
+     * <p>4: testLong();
+     * <p>5: printPropsMap();
+     * <p>6: printSortedProps();
+     * <p>7: printGetSortedProps();
+     * @param m
+     * @throws Exception
+     */
     public BaseTests(int m) throws Exception {
         testMain(m);
     }
 
+    /**
+     * <b>m:</b>
+     * <p>0: printConfig();
+     * <p>1: printProps();
+     * <p>2: testTimeout();
+     * <p>3: testDriver();
+     * <p>4: testLong();
+     * <p>5: printPropsMap();
+     * <p>6: printSortedProps();
+     * <p>7: printGetSortedProps();
+     * <p><b>n:</b>
+     * <p>0: testException();
+     * <p>1: testHeaders();
+     * <p>2: testApi();
+     * <p>3: testJson();
+     * <p>4: testZip();
+     * <p>5: testFS();
+     * <p>6: testAttrs();
+     * <p>7: testEntries();
+     * <p>8: testReqTest();
+     * <p>9: testAuth();
+     * <p>10: testConfig();
+     * <p>11: testWinDriverConfig();
+     * <p>12: testInvoke();
+     * <p>13: testHeaders(true);
+     * <p>14: testPrintException();
+     * <p>15: testFnExceptions();
+     * <p>16: testUTF8();
+     * <p>17: testReqPost();
+     * <p>18: testReqGet();
+     * @param m
+     * @param n
+     * @throws Exception
+     */
     public BaseTests(int m, int n) throws Exception {
         testMain(m);
         testBase(n);
@@ -39,6 +85,18 @@ public class BaseTests extends TestDriver {
         new BaseTests(3);
     }
 
+    /**
+     * 0: printConfig();
+     * <p>1: printProps();
+     * <p>2: testTimeout();
+     * <p>3: testDriver();
+     * <p>4: testLong();
+     * <p>5: printPropsMap();
+     * <p>6: printSortedProps();
+     * <p>7: printGetSortedProps();
+     * @param n
+     * @throws Exception
+     */
     public static void testMain(int n) throws Exception {
         switch (n) {
             case 0: printConfig();
@@ -60,6 +118,29 @@ public class BaseTests extends TestDriver {
         }
     }
 
+    /**
+     * 0: testException();
+     * <p>1: testHeaders();
+     * <p>2: testApi();
+     * <p>3: testJson();
+     * <p>4: testZip();
+     * <p>5: testFS();
+     * <p>6: testAttrs();
+     * <p>7: testEntries();
+     * <p>8: testReqTest();
+     * <p>9: testAuth();
+     * <p>10: testConfig();
+     * <p>11: testWinDriverConfig();
+     * <p>12: testInvoke();
+     * <p>13: testHeaders(true);
+     * <p>14: testPrintException();
+     * <p>15: testFnExceptions();
+     * <p>16: testUTF8();
+     * <p>17: testReqPost();
+     * <p>18: testReqGet();
+     * @param n
+     * @throws Exception
+     */
     public static void testBase(int n) throws Exception {
         switch (n) {
             case 0: testException();
