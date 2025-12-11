@@ -2,6 +2,7 @@ package org.project.utils;
 
 import static java.awt.Desktop.getDesktop;
 import static java.awt.Desktop.isDesktopSupported;
+import static java.lang.Thread.sleep;
 
 import java.awt.Desktop;
 import java.beans.ConstructorProperties;
@@ -45,6 +46,16 @@ public class Process {
         p = pb.start();
     }
 
+    public static void open(String app, boolean sleep) throws InterruptedException {
+        if (sleep) open(app, 1000);
+        else open(app);
+    }
+
+    public static void open(String app, long sleep) throws InterruptedException {
+        sleep(sleep);
+        open(app);
+    }
+
     public static void open(String app) {
         try {
             File file = new File(app);
@@ -56,7 +67,7 @@ public class Process {
             }
 
             if (file.exists()) {
-                debug("Open " + app + "\n");
+                debug("open: " + app);
                 desktop.open(file);
             }
         }
