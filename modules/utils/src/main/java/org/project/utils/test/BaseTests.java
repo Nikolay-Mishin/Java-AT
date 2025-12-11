@@ -45,7 +45,6 @@ public class BaseTests extends TestException {
         new TestAuth();
         new TestReq();
         new TestFS();
-        new BaseTests();
         printConfig();
     }
 
