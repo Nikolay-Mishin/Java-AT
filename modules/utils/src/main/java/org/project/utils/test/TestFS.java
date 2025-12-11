@@ -35,7 +35,7 @@ public class TestFS extends TestZip {
     }
 
     public static void main(String[] args) throws IOException {
-        //testFS();
+        testFS();
         testAttrs();
     }
 

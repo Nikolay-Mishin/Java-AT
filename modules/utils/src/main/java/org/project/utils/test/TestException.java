@@ -32,13 +32,9 @@ public class TestException extends TestInvoke {
     }
 
     public static void main(String[] args) throws Exception {
-        //testConsumerWithCheckedExceptions();
-        //testFunctionWithCheckedExceptions();
-        //testSupplierWithCheckedExceptions();
-        //testUncheckExceptionThrownByMethod();
-        //testIfCorrectExceptionIsStillThrownByMethod();
         testPrintException();
         testException();
+        testFnExceptions();
     }
 
     public static void testPrintException() throws ReflectiveOperationException {
@@ -54,6 +50,14 @@ public class TestException extends TestInvoke {
         tryConsumer(() -> debug("getField: " + getField(cPluginField)));
         //trySupplier(() -> debug("getField: " + getField(cPluginField)));
         //trySupplier(t -> debug("getField: " + getField(cPluginField)));
+    }
+
+    public static void testFnExceptions() throws ReflectiveOperationException, UnsupportedEncodingException {
+        testConsumerWithCheckedExceptions();
+        testFunctionWithCheckedExceptions();
+        testSupplierWithCheckedExceptions();
+        testUncheckExceptionThrownByMethod();
+        testIfCorrectExceptionIsStillThrownByMethod();
     }
 
     public static void testConsumerWithCheckedExceptions() throws ClassNotFoundException {

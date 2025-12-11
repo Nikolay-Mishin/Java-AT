@@ -21,9 +21,9 @@ public class TestReq extends BaseTest {
     }
 
     public static void testReq() throws Exception {
-        //testReqGet();
-        //testReqPost();
+        testReqPost();
         testReqTest();
+        testReqGet();
     }
 
     public static void testReqGet() throws Exception {

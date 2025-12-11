@@ -32,7 +32,7 @@ public class TestApi extends BaseTest {
     }
 
     public static void main(String[] args) throws Exception {
-        //testApi();
+        testApi();
         testHeaders();
     }
 
