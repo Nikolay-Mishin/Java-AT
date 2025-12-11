@@ -1,6 +1,5 @@
 package org.project.utils.windriver;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.EnumMap;
 import java.util.List;
@@ -24,8 +23,8 @@ public class WinDriver extends RemoteWebDriver {
     protected static WindowsDriver<WebElement> d;
 
     //[ClassInitialize]
-    public static WindowsDriver<WebElement> start() throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
-        return start(setCap());
+    public static WindowsDriver<WebElement> start() throws Exception {
+        return start(cap(c));
     }
 
     public static void setLocation(Location loc) {

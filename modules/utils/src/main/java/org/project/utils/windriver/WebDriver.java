@@ -10,7 +10,6 @@ import static org.junit.Assert.assertNotNull;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class WebDriver extends RemoteWebDriver {
     protected static ChromeOptions options = new ChromeOptions();
@@ -28,7 +27,6 @@ public class WebDriver extends RemoteWebDriver {
     //[ClassInitialize]
     public static ChromeDriver start() throws MalformedURLException, ClassNotFoundException {
         setProperty("webdriver.chrome.driver", chromeDriver);
-        //start(setCap());
         start(options());
         assertNotNull(d);
         s((ChromeDriver) d);
@@ -47,17 +45,8 @@ public class WebDriver extends RemoteWebDriver {
 
     //[Options]
     public static ChromeOptions options() {
-        // Additional options using ChromeOptions
-        options.addArguments("--start-maximized"); // Maximize the browser window
-        options.addArguments("--disable-infobars"); // Disable the info bars
-        cap.setCapability(ChromeOptions.CAPABILITY, options);
-        return options;
-    }
-
-    //[Capabilities]
-    public static DesiredCapabilities setCap() {
-        cap.setCapability(ChromeOptions.CAPABILITY, options());
-        return cap;
+        // Additional options using ChromeOptions: Maximize the browser window, Disable the info bars
+        return options.addArguments("--start-maximized", "--disable-infobars");
     }
 
     public static void s(ChromeDriver driver) {
@@ -80,4 +69,5 @@ public class WebDriver extends RemoteWebDriver {
     public static void stop() {
         stop(chromeDriverName);
     }
+
 }

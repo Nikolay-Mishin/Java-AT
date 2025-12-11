@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -23,25 +22,24 @@ import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.SessionId;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.entries;
 import static org.project.utils.Process.run;
-import static org.project.utils.reflection.Reflection.getCallingChildClassSimpleName;
+import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
+import static org.project.utils.reflection.Reflection.getCallingClassSimpleName;
 
+import org.project.utils.Process;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
-import org.project.utils.constant.Capabilities;
-import org.project.utils.Process;
 
 public class RemoteWebDriver extends WebElement {
     protected static DriverBaseConfig c = DriverConfig.config();
-    protected static DesiredCapabilities cap = new DesiredCapabilities();
+    protected static Capabilities cap;
+    protected static long sleep = c.getSleep();
     protected static String winDriver = WINDRIVER;
     protected static String winDriverName = WINDRIVER_NAME;
     protected static String winDriverHost = WINDRIVER_HOST;
-    protected static boolean experimental = c.getExperimental();
     protected static Process p;
     protected static ProcessBuilder pb;
 
@@ -51,32 +49,41 @@ public class RemoteWebDriver extends WebElement {
 
     //[ConfigInitialize]
     public static DriverBaseConfig config(DriverBaseConfig config)  {
-        return c = init(config);
-    }
-
-    public static DesiredCapabilities cap() {
-        return cap;
+        return init(config);
     }
 
     public static org.openqa.selenium.Capabilities getCapabilities() {
         return d.getCapabilities();
     }
 
-    public static DesiredCapabilities cap(DesiredCapabilities capabilities) {
+    public static Capabilities cap() {
+        return cap;
+    }
+
+    public static Capabilities cap(Capabilities capabilities) {
         return cap = capabilities;
+    }
+
+    public static <T extends DesiredCapabilities> Capabilities cap(DriverBaseConfig config) {
+        return cap(new Capabilities(config));
+    }
+
+    public static <T extends DesiredCapabilities> Capabilities cap(T capabilities) {
+        return cap(new Capabilities(capabilities));
     }
 
     //[ConfigInitialize]
     public static DriverBaseConfig init(DriverBaseConfig config) {
-        debug(config);
+        c = config;
+        cap(config);
         winDriver = config.getWindriver();
         winDriverName = config.getWindriverName();
         winDriverHost = config.getWindriverHost();
-        experimental = config.getExperimental();
+        debug(c);
+        debug(cap);
         debug(winDriver);
         debug(winDriverName);
         debug(winDriverHost);
-        debug(experimental);
         return config;
     }
 
@@ -98,33 +105,34 @@ public class RemoteWebDriver extends WebElement {
     }
 
     //[ClassInitialize]
-    public static <T extends WebDriver> T start() throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
-        return start(setCap());
+    public static <T extends WebDriver> T start() throws Exception {
+        return start(cap(c));
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T start(String app, String... params) throws IOException, IllegalAccessException, ClassNotFoundException {
+    public static <T extends WebDriver> T start(String app, String... params) throws Exception {
         start();
-        run(app, params);
+        if (params.length > 0) init(app, params);
         return (T) d;
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T start(DriverBaseConfig config) throws MalformedURLException, IllegalAccessException, ClassNotFoundException {
+    public static <T extends WebDriver> T start(DriverBaseConfig config) throws Exception {
         config(config);
-        start();
+        start(cap);
         return (T) d;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T start(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
-        open();
-        // Прикрепить переменную драйвера к собственно Winium драйверу
-        return (switch (getCallingChildClassSimpleName()) {
-            case "WinDriver": yield (T) start(new WindowsDriver<>(new URL(winDriverHost), cap));
-            case "WebDriver": yield (T) start(new ChromeDriver(cap));
-            default: yield (T) start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
-        });
+    public static <T extends WebDriver> T start(DesiredCapabilities cap) throws Exception {
+        return start(cap, sleep);
+    }
+
+    public static <T extends WebDriver> T start(DesiredCapabilities cap, long sleep) throws Exception {
+        return start(cap, sleep, 2);
+    }
+
+    public static <T extends WebDriver> T start(DesiredCapabilities cap, long sleep, int index) throws Exception {
+        return setTimeout(sleep, () -> { open(); return null; }, o -> getDriver(cap, index + 3));
     }
 
     public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver)
@@ -152,19 +160,18 @@ public class RemoteWebDriver extends WebElement {
         return (T) d;
     }
 
-    //[Capabilities]
-    public static DesiredCapabilities setCap() throws IllegalAccessException {
-        if (experimental) cap.setCapability("ms:experimental-webdriver", experimental);
-        Map<String, Object> map = entries(new Capabilities());
-        debug(map);
-        for (Entry<String, Object> entry : map.entrySet()) {
-            String k = entry.getKey();
-            Object v = entry.getValue();
-            debug(k + ": " + v);
-            if (v != "") cap.setCapability(k, v);
-        }
-        debug("experimental: " + experimental);
-        return cap;
+    public static <T extends WebDriver> T getDriver(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
+        return getDriver(cap, 0);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends WebDriver> T getDriver(DesiredCapabilities cap, int index) throws MalformedURLException, ClassNotFoundException {
+        // Прикрепить переменную драйвера к собственно Winium драйверу
+        return (T) (switch (getCallingClassSimpleName(index + 3)) {
+            case "WinDriver": yield start(new WindowsDriver<>(new URL(winDriverHost), cap));
+            case "WebDriver": yield start(new ChromeDriver(cap));
+            default: yield start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
+        });
     }
 
     //[AppSessionQuit]
@@ -276,4 +283,5 @@ public class RemoteWebDriver extends WebElement {
     public static <X> X getScreenshotAs(OutputType<X> outputType) {
         return d.getScreenshotAs(outputType);
     }
+
 }
