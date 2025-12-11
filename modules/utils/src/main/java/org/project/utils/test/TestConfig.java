@@ -2,23 +2,31 @@ package org.project.utils.test;
 
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
+import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.compare;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.config.Config.printEnvList;
 
+import org.project.utils.Helper;
 import org.project.utils.base.HashMap;
 import org.project.utils.config.BaseConfig;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
-import org.project.utils.config.TestConfig;
 import org.project.utils.config.WebConfig;
 
-public class TestConfigs {
+public class TestConfig {
 
     public static void main(String[] args) throws ReflectiveOperationException {
+        printConfig();
         testConfig();
         testWinDriverConfig();
+    }
+
+    public static void printConfig() {
+        debug(configs());
+        debug("DEBUG_LEVEL: " + DEBUG_LEVEL);
+        debug("WebConfig: " + WebConfig.config());
     }
 
     public static void testConfig() throws ReflectiveOperationException {
@@ -37,7 +45,7 @@ public class TestConfigs {
         compare("web", WebConfig.config());
         //debug(BaseConfig.BASE_CONFIG.getBaseConfig());
         debug(WebConfig.config().getBaseConfig());
-        debug(TestConfig.config());
+        Helper.debug(org.project.utils.config.TestConfig.config());
         printConfigs();
     }
 
