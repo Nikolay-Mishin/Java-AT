@@ -47,8 +47,16 @@ public class Properties extends java.util.Properties {
         return propsMap;
     }
 
+    public static Map<Object, Object> propsMap(String key) {
+        return propsMap.get(key);
+    }
+
     public static Properties props() {
         return props;
+    }
+
+    public static Map<Object, Object> getSortedProps() throws ReflectiveOperationException {
+        return props.sortedProps();
     }
 
     public static Set<String> propsMapKeys() {
