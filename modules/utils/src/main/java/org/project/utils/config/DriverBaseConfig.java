@@ -20,6 +20,9 @@ public interface DriverBaseConfig extends BaseConfig {
     String WINDRIVER_HOST = IS_WINIUM ? WINIUM_HOST : WINIUM_HOST.replaceAll(String.valueOf(WINIUM_PORT), String.valueOf(WINDRIVER_PORT));
 
     // app
+    @Key("SLEEP")
+    long getSleep();
+
     @Key("WIN_HOST")
     boolean getWinHost();
 
