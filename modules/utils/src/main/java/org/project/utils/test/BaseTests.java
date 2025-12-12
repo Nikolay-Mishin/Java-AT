@@ -82,7 +82,7 @@ public class BaseTests extends TestDriver {
 
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests(3);
+        new BaseTests(1);
     }
 
     /**
