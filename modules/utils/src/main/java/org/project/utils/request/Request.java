@@ -74,7 +74,7 @@ public class Request extends RequestAuth {
             }
         });
         lastTrim(map, "&$");
-        return sb(concat(new String[]{prefix + "?"}, map));
+        return sb((Object[]) concat(new String[]{prefix + "?"}, map));
     }
 
     @Description("Print full path")

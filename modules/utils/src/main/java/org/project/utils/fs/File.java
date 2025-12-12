@@ -37,7 +37,7 @@ public class File {
 
     @Description("Get Path from string")
     public static Path pathStr(String... pathList) {
-        return Paths.get(path(pathList));
+        return Paths.get(path((Object[]) pathList));
     }
 
     @Description("Get Path from string")
@@ -47,7 +47,7 @@ public class File {
 
     @Description("Get Path from string")
     public static Path pathOf(String... pathList) {
-        return Path.of(path(pathList));
+        return Path.of(path((Object[]) pathList));
     }
 
     public static Path absolute(String path) {
