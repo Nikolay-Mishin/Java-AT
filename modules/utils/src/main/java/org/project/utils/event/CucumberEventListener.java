@@ -236,9 +236,9 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * <li>{@code cucumber.api.event.WriteEvent} - вызов scenario.write в хуке запускает это событие.</li>
      * <li>{@code cucumber.api.event.TestStepFinished} - отправляется после выполнения тестового шага, содержит тестовый шаг и его результат.</li>
      * <li>{@code cucumber.api.event.TestCaseFinished} - отправляется после выполнения тестового сценария (/Pickle/Scenario), содержит тестовый сценарий и его результат.</li>
-     * <li>{@code cucumber.api.event.TestRunFinished - последнее отправленное событие.</li>
+     * <li>{@code cucumber.api.event.TestRunFinished} - последнее отправленное событие.</li>
      * </ul>
-     * @param publisher
+     * @param publisher EventPublisher
      */
     @Override
     public void setEventPublisher(EventPublisher publisher) {
