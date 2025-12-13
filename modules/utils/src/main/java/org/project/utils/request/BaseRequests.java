@@ -1,11 +1,11 @@
 package org.project.utils.request;
 
+import java.beans.ConstructorProperties;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import io.restassured.response.Response;
-import jdk.jfr.Description;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
@@ -21,39 +21,98 @@ import org.project.utils.constant.RequestConstants.METHOD;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.function.FunctionWithExceptions;
 
+/**
+ *
+ * @param <T>
+ */
 public class BaseRequests<T> {
+    /**
+     *
+     */
     protected String baseUrl;
+    /**
+     *
+     */
     protected Request get;
+    /**
+     *
+     */
     protected Request post;
+    /**
+     *
+     */
     protected Request put;
+    /**
+     *
+     */
     protected Request patch;
+    /**
+     *
+     */
     protected Request delete;
 
+    /**
+     *
+     * @param pathList Object[]
+     * @throws Exception throws
+     */
+    @ConstructorProperties({"pathList"})
     public BaseRequests(Object... pathList) throws Exception {
         baseUrl(pathList);
         //init(pathList);
     }
 
-    @Description("Init baseUrl")
+    /**
+     * Init baseUrl
+     * @param pathList Object[]
+     * @return R
+     * @param <R> R
+     * @throws Exception throws
+     */
     public <R extends BaseRequests<T>> R init(Object... pathList) throws Exception {
         debug("setBaseUrl: " + Arrays.toString(pathList));
         baseUrl(pathList);
         return init(req -> req.baseUrl(pathList));
     }
 
-    @Description("Set uri")
+    /**
+     * Set uri
+     * @param uri String
+     * @return R
+     * @param <R> R
+     * @throws Exception throws
+     */
     public <R extends BaseRequests<T>> R uri(String uri) throws Exception {
         debug("setUri: " + uri);
         return init(req -> req.uri(uri));
     }
 
-    @Description("Set endpoint")
+    /**
+     * Set endpoint
+     * @param pathList Object[]
+     * @return R
+     * @param <R> R
+     * @throws Exception throws
+     */
     public <R extends BaseRequests<T>> R endpoint(Object... pathList) throws Exception {
         debug("setEndpoint: " + Arrays.toString(pathList));
         return init(req -> req.endpoint(pathList));
     }
 
-    @Description("Init with cb")
+    /**
+     * Init with cb
+     * @param cb FunctionWithExceptions
+     * @return R
+     * @param <R> R
+     * @param <V> V
+     * @param <E> E
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     * @throws E throws
+     */
+    @SuppressWarnings("unchecked")
     public <R extends BaseRequests<T>, V extends RequestOptions, E extends Exception> R init(FunctionWithExceptions<Request, V, E> cb)
         throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, E {
         for (METHOD method : METHOD.values())
@@ -61,117 +120,253 @@ public class BaseRequests<T> {
         return (R) this;
     }
 
-    @Description("Get baseUrl")
+    /**
+     * Get baseUrl
+     * @return String
+     */
     public String baseUrl() {
         return baseUrl;
     }
 
-    @Description("Set baseUrl")
+    /**
+     * Set baseUrl
+     * @param pathList Object[]
+     * @return String
+     */
     public String baseUrl(Object... pathList) {
         return baseUrl(path(pathList));
     }
 
-    @Description("Set baseUrl")
+    /**
+     * Set baseUrl
+     * @param baseUrl String
+     * @return String
+     */
     public String baseUrl(String baseUrl) {
         return this.baseUrl = baseUrl;
     }
 
-    @Description("Get or set request")
+    /**
+     * Get or set request
+     * @param method METHOD
+     * @return Request
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
     public Request getOrCreate(METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
         return req(req(method.toString().toLowerCase()), method);
     }
 
-    @Description("Get request")
+    /**
+     * Get request
+     * @param req Request
+     * @param method METHOD
+     * @return Request
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
     public Request req(Request req, METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
         return notNull(req) ? req : req(method);
     }
 
-    @Description("Get request")
+    /**
+     * Get request
+     * @param method METHOD_LOWER_CASE
+     * @return Request
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public Request req(METHOD_LOWER_CASE method) throws NoSuchFieldException, IllegalAccessException {
         return req(method.toString());
     }
 
-    @Description("Get request")
+    /**
+     * Get request
+     * @param method String
+     * @return Request
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public Request req(String method) throws NoSuchFieldException, IllegalAccessException {
         return (Request) getField(this, method);
     }
 
-    @Description("Set request")
+    /**
+     * Set request
+     * @param method METHOD
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
     public Request req(METHOD method) throws MalformedURLException, URISyntaxException {
         return new Request(method, baseUrl);
     }
 
-    @Description("Get GET request")
+    /**
+     * Get GET request
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public Request get() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return req(get, GET);
     }
 
-    @Description("Set GET request")
+    /**
+     * Set GET request
+     * @param req Request
+     * @return Request
+     */
     public Request get(Request req) {
         return get = req;
     }
 
-    @Description("Get POST request")
+    /**
+     * Get POST request
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public Request post() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return req(post, POST);
     }
 
-    @Description("Set POST request")
+    /**
+     * Set POST request
+     * @param req Request
+     * @return Request
+     */
     public Request post(Request req) {
         return post = req;
     }
 
-    @Description("Get PUT request")
+    /**
+     * Get PUT request
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public Request patch() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return req(patch, PATCH);
     }
 
-    @Description("Set PATCH request")
+    /**
+     * Set PATCH request
+     * @param req Request
+     * @return Request
+     */
     public Request patch(Request req) {
         return patch = req;
     }
 
-    @Description("Get PUT request")
+    /**
+     * Get PUT request
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public Request put() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return req(put, PUT);
     }
 
-    @Description("Set PUT request")
+    /**
+     * Set PUT request
+     * @param req Request
+     * @return Request
+     */
     public Request put(Request req) {
         return put = req;
     }
 
-    @Description("Get DELETE request")
+    /**
+     * Get DELETE request
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public Request delete() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return req(delete, DELETE);
     }
 
-    @Description("Set DELETE request")
+    /**
+     * Set DELETE request
+     * @param req Request
+     * @return Request
+     */
     public Request delete(Request req) {
         return delete = req;
     }
 
-    @Description("Find object by ID")
+    /**
+     * Find object by ID
+     * @param id Long
+     * @return Response
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public Response get(Long id) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return get().endpoint(id).response();
     }
 
-    @Description("Add a new object")
+    /**
+     * Add a new object
+     * @param model T
+     * @return Response
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public Response post(T model) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return post().response(model);
     }
 
-    @Description("Update object")
+    /**
+     * Update object
+     * @param model T
+     * @return Response
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public Response put(T model) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return put().response(model);
     }
 
-    @Description("Patch object")
+    /**
+     * Patch object
+     * @param model T
+     * @return Response
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public Response patch(T model) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return patch().response(model);
     }
 
-    @Description("Delete object")
+    /**
+     * Delete object
+     * @param id Long
+     * @return Response
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public Response delete(Long id) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return delete().endpoint(id).response();
     }

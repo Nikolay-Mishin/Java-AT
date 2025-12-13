@@ -1,5 +1,6 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.FileStore;
@@ -11,17 +12,51 @@ import static org.project.utils.fs.Attributes.printCustomAttrs;
 import static org.project.utils.fs.File.delete;
 import static org.project.utils.fs.File.pathStr;
 
+/**
+ *
+ */
 public class TestFS extends TestZip {
+    /**
+     *
+     */
     protected static String chromedriverRoot;
+    /**
+     *
+     */
     protected static String chromedriverFile;
+    /**
+     *
+     */
     protected static String chromedriverPathStr;
+    /**
+     *
+     */
     protected static Path chromedriverPath;
+    /**
+     *
+     */
     protected static String fsDelete;
+    /**
+     *
+     */
     protected static String fsFile;
+    /**
+     *
+     */
     protected static String attrsTest;
+    /**
+     *
+     */
     protected static String attrK;
+    /**
+     *
+     */
     protected static String attrV;
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public TestFS() {
         chromedriverRoot = c.getChromeDriverRoot();
         chromedriverFile = c.getChromeDriverFile();
@@ -34,11 +69,20 @@ public class TestFS extends TestZip {
         attrV = c.getFsAttrsV();
     }
 
+    /**
+     *
+     * @param args String[]
+     * @throws IOException throws
+     */
     public static void main(String[] args) throws IOException {
         testFS();
         testAttrs();
     }
 
+    /**
+     *
+     * @throws IOException throws
+     */
     public static void testFS() throws IOException {
         debug("testFS");
         for (FileStore store: FileSystems.getDefault().getFileStores()) {
@@ -71,6 +115,9 @@ public class TestFS extends TestZip {
         debug(FileSystems.getDefault().supportedFileAttributeViews());
     }
 
+    /**
+     *
+     */
     public static void testAttrs() {
         debug("testAttrs");
         debug(FileSystems.getDefault().supportedFileAttributeViews());

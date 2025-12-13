@@ -1,5 +1,6 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
@@ -13,19 +14,41 @@ import static org.project.utils.base.Register.printRegisterMap;
 
 import org.project.utils.reflection.SingleInstance;
 
+/**
+ *
+ */
 public class TestAuth extends TestApi {
+    /**
+     *
+     */
     protected static String auth;
+    /**
+     *
+     */
     protected static String authTest;
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public TestAuth() {
         auth = c.getAuth();
         authTest = c.getAuthTest();
     }
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         testAuth();
     }
 
+    /**
+     *
+     * @throws Exception throws
+     */
     public static void testAuth() throws Exception {
         testAuth(auth);
         req().uri(uri);
@@ -39,6 +62,11 @@ public class TestAuth extends TestApi {
         debug("value: " + token().getAccessToken());
     }
 
+    /**
+     *
+     * @param pathList Object[]
+     * @throws Exception throws
+     */
     public static void testAuth(Object... pathList) throws Exception {
         debug("testAuth: " + Arrays.toString(pathList));
         init(pathList);

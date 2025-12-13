@@ -4,10 +4,28 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.BiPredicate;
 
+/**
+ *
+ * @param <T>
+ * @param <U>
+ * @param <E>
+ */
 @FunctionalInterface
 public interface BiPredicateWithExceptions<T, U, E extends Exception> {
+    /**
+     *
+     * @param t T
+     * @param u U
+     * @return boolean
+     * @throws E throws
+     */
     boolean test(T t, U u) throws E;
 
+    /**
+     *
+     * @param other BiPredicate
+     * @return BiPredicate
+     */
     default BiPredicate<T, U> and(BiPredicate<? super T, ? super U> other) {
         requireNonNull(other);
         return (T t, U u) -> {
@@ -19,6 +37,10 @@ public interface BiPredicateWithExceptions<T, U, E extends Exception> {
         };
     }
 
+    /**
+     *
+     * @return BiPredicate
+     */
     default BiPredicate<T, U> negate() {
         return (T t, U u) -> {
             try {
@@ -29,6 +51,11 @@ public interface BiPredicateWithExceptions<T, U, E extends Exception> {
         };
     }
 
+    /**
+     *
+     * @param other BiPredicate
+     * @return BiPredicate
+     */
     default BiPredicate<T, U> or(BiPredicate<? super T, ? super U> other) {
         requireNonNull(other);
         return (T t, U u) -> {

@@ -2,9 +2,17 @@ package org.project.utils.config;
 
 import java.util.List;
 
+/**
+ *
+ */
 public class AnnotatorBaseConfig extends GenerationBaseConfig implements AnnotatorConfig {
-
+    /**
+     *
+     */
     protected boolean isSetDefaultAnnotations = false;
+    /**
+     *
+     */
     protected List<String> defaultAnnotations = List.of();
 
     @Override

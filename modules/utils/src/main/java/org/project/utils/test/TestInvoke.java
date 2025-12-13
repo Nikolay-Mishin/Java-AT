@@ -1,5 +1,7 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+
 import org.openqa.selenium.WebDriver;
 
 import static org.project.utils.Helper.debug;
@@ -9,13 +11,35 @@ import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
 
+/**
+ *
+ */
 public class TestInvoke extends TestZip {
+    /**
+     *
+     */
     protected static WebDriver driver;
+    /**
+     *
+     */
     protected static String fsClass;
+    /**
+     *
+     */
     protected static String fsField;
+    /**
+     *
+     */
     protected static String fsMethod;
+    /**
+     *
+     */
     protected static String fsMethodName;
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public TestInvoke() {
         fsClass = c.getFs();
         fsField = c.getFsField();
@@ -23,6 +47,11 @@ public class TestInvoke extends TestZip {
         fsMethodName = c.getFsMethodName();
     }
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         testInvoke();
     }
@@ -49,6 +78,10 @@ public class TestInvoke extends TestZip {
         debug(invoke(fsMethod));
     }
 
+    /**
+     *
+     * @return String
+     */
     public static String invokeName() {
         debug("invokeName");
         debug(table(configs()));

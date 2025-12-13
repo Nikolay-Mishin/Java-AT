@@ -15,8 +15,16 @@ import static org.project.utils.test.TestConfig.printConfig;
 
 import org.project.utils.base.Properties;
 
+/**
+ *
+ */
 public class TestProps extends TestException {
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         printPropsMap();
         printSortedProps();
@@ -24,6 +32,10 @@ public class TestProps extends TestException {
         printProps();
     }
 
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
     public static void printProps() throws ReflectiveOperationException {
         Properties props = props();
         debug("empty: " + props.isEmpty());
@@ -65,14 +77,24 @@ public class TestProps extends TestException {
         debug(getParamsUri(uri, "id", 1, "token", "test"));
     }
 
+    /**
+     *
+     */
     public static void printPropsMap() {
         propsMap().get("props.web").forEach((k, v) -> debug(k + "-> " + v));
     }
 
+    /**
+     *
+     */
     public static void printSortedProps() {
         props().forEach((k, v) -> debug(k + "-> " + v));
     }
 
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
     public static void printGetSortedProps() throws ReflectiveOperationException {
         getSortedProps().forEach((k, v) -> debug(k + "-> " + v));
     }

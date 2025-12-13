@@ -19,172 +19,350 @@ import org.openqa.selenium.remote.ExecuteMethod;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.http.HttpMethod;
 
+/**
+ *
+ */
 public class WinDriver extends RemoteWebDriver {
+    /**
+     *
+     */
     protected static WindowsDriver<WebElement> d;
 
-    //[ClassInitialize]
+    /**
+     * ClassInitialize
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
     public static WindowsDriver<WebElement> start() throws Exception {
         return start(cap(c));
     }
 
+    /**
+     *
+     * @param loc Location
+     */
     public static void setLocation(Location loc) {
         d.setLocation(loc);
     }
 
+    /**
+     *
+     * @return URL
+     */
     public static URL getRemoteAddress() {
         return d.getRemoteAddress();
     }
 
+    /**
+     *
+     * @return String
+     */
     public static String getContext() {
         return d.getContext();
     }
 
+    /**
+     *
+     */
     public static void resetApp() {
         d.resetApp();
     }
 
+    /**
+     *
+     * @return ScreenOrientation
+     */
     public static ScreenOrientation getOrientation() {
         return d.getOrientation();
     }
 
+    /**
+     *
+     * @return String
+     */
     public static String getAutomationName() {
         return d.getAutomationName();
     }
 
+    /**
+     *
+     * @return Map {String, Object}
+     */
     public static Map<String, Object> getStatus() {
         return d.getStatus();
     }
 
+    /**
+     *
+     * @return Strin
+     */
     public static String getDeviceTime() {
         return d.getDeviceTime();
     }
 
+    /**
+     *
+     * @param format String
+     * @return Strin
+     */
     public static String getDeviceTime(String format) {
         return d.getDeviceTime(format);
     }
 
+    /**
+     *
+     * @return Map {String, Object}
+     */
     public static Map<String, String> getAppStringMap() {
         return d.getAppStringMap();
     }
 
+    /**
+     *
+     * @return List {Map {String, Object}}
+     */
     public static List<Map<String, Object>> getAllSessionDetails() {
         return d.getAllSessionDetails();
     }
 
+    /**
+     *
+     * @return Map {String, Object}
+     */
     public static Map<String, Object> getSessionDetails() {
         return d.getSessionDetails();
     }
 
+    /**
+     *
+     * @param detail String
+     * @return Object
+     */
     public static Object getSessionDetail(String detail) {
         return d.getSessionDetail(detail);
     }
 
+    /**
+     *
+     * @return Map {String, Object}
+     */
     public static Map<String, Object> getSettings() {
         return d.getSettings();
     }
 
+    /**
+     *
+     * @param setting Setting
+     * @param value Object
+     * @return HasSettings
+     */
     public static HasSettings setSetting(Setting setting, Object value) {
         return d.setSetting(setting, value);
     }
 
+    /**
+     *
+     * @param settingName String
+     * @param value Object
+     * @return HasSettings
+     */
     public static HasSettings setSetting(String settingName, Object value) {
         return d.setSetting(settingName, value);
     }
 
+    /**
+     *
+     * @param settings Map {String, Object}
+     * @return HasSettings
+     */
     public static HasSettings setSettings(Map<String, Object> settings) {
         return d.setSettings(settings);
     }
 
+    /**
+     *
+     * @param settings EnumMap {String, Object}
+     * @return HasSettings
+     */
     public static HasSettings setSettings(EnumMap<Setting, Object> settings) {
         return d.setSettings(settings);
     }
 
+    /**
+     *
+     * @param httpMethod HttpMethod
+     * @param url String
+     * @param methodName String
+     */
     public static void addCommand(HttpMethod httpMethod, String url, String methodName) {
         d.addCommand(httpMethod, url, methodName);
     }
 
+    /**
+     *
+     * @param command String
+     * @return Response
+     */
     public static Response execute(String command) {
         return d.execute(command);
     }
 
+    /**
+     *
+     * @param driverCommand String
+     * @param parameters Map {String, ?}
+     * @return Response
+     */
     public static Response execute(String driverCommand, Map<String, ?> parameters) {
         return d.execute(driverCommand, parameters);
     }
 
+    /**
+     *
+     * @return ExecuteMethod
+     */
     public static ExecuteMethod execMethod() {
         return d.getExecuteMethod();
     }
 
+    /**
+     *
+     * @param s String
+     * @param map Map {String, ?}
+     * @return Object
+     */
     public static Object execMethod(String s, Map<String, ?> map) {
         return execMethod().execute(s, map);
     }
 
+    /**
+     *
+     * @param script String
+     * @return ScriptValue
+     */
     public static ScriptValue executeScript(String script) {
         return d.executeDriverScript(script);
     }
 
+    /**
+     *
+     * @param driverCommand String
+     * @param options ScriptOptions
+     * @return ScriptValue
+     */
     public static ScriptValue executeScript(String driverCommand, ScriptOptions options) {
         return d.executeDriverScript(driverCommand, options);
     }
 
+    /**
+     *
+     * @return String
+     */
     public static String startRecordingScreen() {
         return d.startRecordingScreen();
     }
 
-    public static <T extends BaseStartScreenRecordingOptions> String startRecordingScreen(T options) {
+    /**
+     *
+     * @param options T extends BaseStartScreenRecordingOptions
+     * @return String
+     * @param <T> T
+     */
+    public static <T extends BaseStartScreenRecordingOptions<T>> String startRecordingScreen(T options) {
         return d.startRecordingScreen(options);
     }
 
+    /**
+     *
+     * @return String
+     */
     public static String stopRecordingScreen() {
         return d.stopRecordingScreen();
     }
 
-    public static <T extends BaseStopScreenRecordingOptions> String stopRecordingScreen(T options) {
+    /**
+     *
+     * @param options T extends BaseStopScreenRecordingOptions
+     * @return String
+     * @param <T> T
+     */
+    public static <T extends BaseStopScreenRecordingOptions<T>> String stopRecordingScreen(T options) {
         return d.stopRecordingScreen(options);
     }
 
     /**
-     * Основным элементом взаимодействия с внешним миром являются «рычаги».
-     * Их можно удобно описать классом с полями name, className и automationId и хранить в отдельных классах по блокам.
-     * By.name – по полю Name, By.className — по полю ClassName и By.xpath для более изощрённых условий поиска
-     * Так же мы можем прикрепляться к элементам другого элемента
+     * Один элемент, поиск по полю AccessibilityId.
+     * <p>Основным элементом взаимодействия с внешним миром являются «рычаги».
+     * <p>Их можно удобно описать классом с полями name, className и automationId и хранить в отдельных классах по блокам.
+     * <p>By.name – по полю Name, By.className — по полю ClassName и By.xpath для более изощрённых условий поиска
+     * <p>Так же мы можем прикрепляться к элементам другого элемента
+     * @param id String
+     * @return WebElement
      */
     //один элемент, поиск по полю AccessibilityId
     public static WebElement findByAccessId(String id) {
         return d.findElementByAccessibilityId(id);
     }
 
-    //один элемент, поиск по полю AutomationID
+    /**
+     * Один элемент, поиск по полю AutomationID
+     * @param id String
+     * @return WebElement
+     */
     public static WebElement findByAid(String id) {
         return d.findElementByWindowsUIAutomation(id);
     }
 
-    //один элемент, поиск по полю Image
+    /**
+     * Один элемент, поиск по полю Image
+     * @param b64 String
+     * @return WebElement
+     */
     public static WebElement findByImage(String b64) {
         return d.findElementByImage(b64);
     }
 
-    //один элемент, поиск по полю Custom Selector
+    /**
+     * Один элемент, поиск по полю Custom Selector
+     * @param selector String
+     * @return WebElement
+     */
     public static WebElement findBySelector(String selector) {
         return d.findElementByCustom(selector);
     }
 
-    //один элемент, поиск по полю AccessibilityId
+    /**
+     * Список элементов, поиск по полю AccessibilityId
+     * @param id String
+     * @return List {WebElement}
+     */
     public static List<WebElement> listByAccessId(String id) {
         return d.findElementsByAccessibilityId(id);
     }
 
-    //один элемент, поиск по полю AutomationID
+    /**
+     * Список элементов, поиск по полю AutomationID
+     * @param id String
+     * @return List {WebElement}
+     */
     public static List<WebElement> listByAid(String id) {
         return d.findElementsByWindowsUIAutomation(id);
     }
 
-    //один элемент, поиск по полю Image
+    /**
+     * Список элементов, поиск по полю Image
+     * @param b64 String
+     * @return List {WebElement}
+     */
     public static List<WebElement> listByImage(String b64) {
         return d.findElementsByImage(b64);
     }
 
-    //один элемент, поиск по полю Custom Selector
+    /**
+     * Список элементов, поиск по полю Image
+     * @param selector String
+     * @return List {WebElement}
+     */
     public static List<WebElement> listBySelector(String selector) {
         return d.findElementsByCustom(selector);
     }

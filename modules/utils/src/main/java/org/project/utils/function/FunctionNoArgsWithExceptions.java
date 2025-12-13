@@ -4,10 +4,28 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ *
+ * @param <T>
+ * @param <R>
+ * @param <E>
+ */
 @FunctionalInterface
 public interface FunctionNoArgsWithExceptions<T, R, E extends Exception> {
+    /**
+     *
+     * @return R
+     * @throws E throws
+     */
     R apply() throws E;
 
+    /**
+     *
+     * @param before Function
+     * @return Function
+     * @param <V> V
+     */
+    @SuppressWarnings("unchecked")
     default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
         requireNonNull(before);
         return (V v) -> {
@@ -20,6 +38,12 @@ public interface FunctionNoArgsWithExceptions<T, R, E extends Exception> {
         };
     }
 
+    /**
+     *
+     * @param after Function
+     * @return Function
+     * @param <V> V
+     */
     default <V> Function<T, V> andThen(Function<? super R, ? extends V> after) {
         requireNonNull(after);
         return (T t) -> {
@@ -31,6 +55,11 @@ public interface FunctionNoArgsWithExceptions<T, R, E extends Exception> {
         };
     }
 
+    /**
+     *
+     * @return Function
+     * @param <T> T
+     */
     static <T> Function<T, T> identity() {
         return t -> t;
     }

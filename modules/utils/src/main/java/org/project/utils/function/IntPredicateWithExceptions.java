@@ -4,10 +4,25 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.IntPredicate;
 
+/**
+ *
+ * @param <E>
+ */
 @FunctionalInterface
 public interface IntPredicateWithExceptions<E extends Exception> {
+    /**
+     *
+     * @param value int
+     * @return boolean
+     * @throws E throws
+     */
     boolean test(int value) throws E;
 
+    /**
+     *
+     * @param other IntPredicate
+     * @return IntPredicate
+     */
     default IntPredicate and(IntPredicate other) {
         requireNonNull(other);
         return (value) -> {
@@ -19,6 +34,10 @@ public interface IntPredicateWithExceptions<E extends Exception> {
         };
     }
 
+    /**
+     *
+     * @return IntPredicate
+     */
     default IntPredicate negate() {
         return (value) -> {
             try {
@@ -29,6 +48,11 @@ public interface IntPredicateWithExceptions<E extends Exception> {
         };
     }
 
+    /**
+     *
+     * @param other IntPredicate
+     * @return IntPredicate
+     */
     default IntPredicate or(IntPredicate other) {
         requireNonNull(other);
         return (value) -> {

@@ -1,5 +1,6 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.StringJoiner;
@@ -20,23 +21,48 @@ import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.Helper;
 
+/**
+ *
+ */
 public class TestException extends TestInvoke {
+    /**
+     *
+     */
     protected static String cPlugin;
+    /**
+     *
+     */
     protected static String cPluginField;
+    /**
+     *
+     */
     protected static String cPlugins;
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public TestException() {
         cPlugin = c.getCPlugin();
         cPluginField = c.getCPluginField();
         cPlugins = c.getCPlugins();
     }
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         testPrintException();
         testException();
         testFnExceptions();
     }
 
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
     public static void testPrintException() throws ReflectiveOperationException {
         debug("testPrintException");
         tryConsumerWithPrint((t) -> debug(getField(fsMethod)));
@@ -44,6 +70,10 @@ public class TestException extends TestInvoke {
         tryConsumerWithPrint(() -> debug(invoke(fsClass + "1::" + fsMethodName)));
     }
 
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
     public static void testException() throws ReflectiveOperationException {
         debug("testException");
         tryConsumer(t -> debug("getClass: " + getClazz(cPlugin)));
@@ -52,6 +82,11 @@ public class TestException extends TestInvoke {
         //trySupplier(t -> debug("getField: " + getField(cPluginField)));
     }
 
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     * @throws UnsupportedEncodingException throws
+     */
     public static void testFnExceptions() throws ReflectiveOperationException, UnsupportedEncodingException {
         testConsumerWithCheckedExceptions();
         testFunctionWithCheckedExceptions();
@@ -60,6 +95,10 @@ public class TestException extends TestInvoke {
         testIfCorrectExceptionIsStillThrownByMethod();
     }
 
+    /**
+     *
+     * @throws ClassNotFoundException throws
+     */
     public static void testConsumerWithCheckedExceptions() throws ClassNotFoundException {
         debug("testConsumerWithCheckedExceptions");
         Stream.of("java.lang.Object", "java.lang.Integer", "java.lang.String")
@@ -69,19 +108,27 @@ public class TestException extends TestInvoke {
             .forEach(rethrowConsumer(Helper::debug));
     }
 
+    /**
+     *
+     * @throws ClassNotFoundException throws
+     */
     public static void testFunctionWithCheckedExceptions() throws ClassNotFoundException {
         debug("testFunctionWithCheckedExceptions");
-        List<Class> classes1
+        List<Class<?>> classes1
             = Stream.of("Object", "Integer", "String")
             .map(rethrowFunction(className -> Class.forName("java.lang." + className)))
             .collect(Collectors.toList());
 
-        List<Class> classes2
+        List<Class<?>> classes2
             = Stream.of("java.lang.Object", "java.lang.Integer", "java.lang.String")
             .map(rethrowFunction(Class::forName))
             .collect(Collectors.toList());
     }
 
+    /**
+     *
+     * @throws UnsupportedEncodingException throws
+     */
     public static void testSupplierWithCheckedExceptions() throws UnsupportedEncodingException {
         debug("testSupplierWithCheckedExceptions");
         Collector.of(
@@ -89,15 +136,21 @@ public class TestException extends TestInvoke {
             StringJoiner::add, StringJoiner::merge, StringJoiner::toString);
     }
 
+    /**
+     *
+     */
     public static void testUncheckExceptionThrownByMethod() {
         debug("testUncheckExceptionThrownByMethod");
-        Class clazz1 = uncheck(() -> Class.forName("java.lang.String"));
-        Class clazz2 = uncheck(Class::forName, "java.lang.String");
+        Class<?> clazz1 = uncheck(() -> Class.forName("java.lang.String"));
+        Class<?> clazz2 = uncheck(Class::forName, "java.lang.String");
     }
 
+    /**
+     *
+     */
     public static void testIfCorrectExceptionIsStillThrownByMethod() {
         debug("testIfCorrectExceptionIsStillThrownByMethod");
-        Class clazz3 = uncheck(Class::forName, "INVALID");
+        Class<?> clazz3 = uncheck(Class::forName, "INVALID");
     }
 
 }

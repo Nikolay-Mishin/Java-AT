@@ -15,20 +15,35 @@ import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
 import org.project.utils.config.WebConfig;
 
+/**
+ *
+ */
 public class TestConfig {
 
+    /**
+     *
+     * @param args String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static void main(String[] args) throws ReflectiveOperationException {
         printConfig();
         testConfig();
         testWinDriverConfig();
     }
 
+    /**
+     *
+     */
     public static void printConfig() {
         debug(configs());
         debug("DEBUG_LEVEL: " + DEBUG_LEVEL);
         debug("WebConfig: " + WebConfig.config());
     }
 
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
     public static void testConfig() throws ReflectiveOperationException {
         debug("testConfig");
         debug(config().getClass());
@@ -49,6 +64,10 @@ public class TestConfig {
         printConfigs();
     }
 
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
     public static void printConfigs() throws ReflectiveOperationException {
         debug("printConfigs");
         HashMap<String, BaseConfig> map = configs();
@@ -59,6 +78,9 @@ public class TestConfig {
         }
     }
 
+    /**
+     *
+     */
     public static void testWinDriverConfig() {
         debug("testWinDriverConfig");
         debug(WebConfig.config().getBaseUrl());

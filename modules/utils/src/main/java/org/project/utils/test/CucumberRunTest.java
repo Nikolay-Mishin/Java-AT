@@ -5,6 +5,7 @@ import static java.lang.System.setProperty;
 import static java.lang.System.out;
 import static java.lang.Thread.currentThread;
 
+import java.beans.ConstructorProperties;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ import static org.project.utils.event.CucumberEventListener.getPlugins;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
 
+/**
+ * класс для запуска тестов Cucumber
+ */
 // аннотация: класс для запуска тестов Cucumber
 @RunWith(Cucumber.class)
 // настройки Cucumber
@@ -42,54 +46,119 @@ import org.project.utils.event.CucumberEventListener;
 )
 public class CucumberRunTest {
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public CucumberRunTest() {
         //setOptions(BASE_CONFIG);
     }
 
+    /**
+     *
+     */
     @BeforeClass
     public static void setUp() {
         out.println("setUp");
         //setOptions(BASE_CONFIG);
     }
 
+    /**
+     *
+     * @param config TestBaseConfig
+     * @return String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static String[] setOptions(TestBaseConfig config) throws ReflectiveOperationException {
         return setOptions(getOptions(config));
     }
 
+    /**
+     *
+     * @param plugins String
+     * @return String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static String[] setOptions(String plugins) throws ReflectiveOperationException {
         return setOptions(getOptions(plugins));
     }
 
+    /**
+     *
+     * @param options String[]
+     * @return String[]
+     */
     public static String[] setOptions(String[] options) {
         return setOptions(options, o -> o);
     }
 
+    /**
+     *
+     * @param config TestBaseConfig
+     * @return String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static String[] setCliOptions(TestBaseConfig config) throws ReflectiveOperationException {
         return setCliOptions(getOptions(config));
     }
 
+    /**
+     *
+     * @param plugins String
+     * @return String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static String[] setCliOptions(String plugins) throws ReflectiveOperationException {
         return setCliOptions(getOptions(plugins));
     }
 
+    /**
+     *
+     * @param options String[]
+     * @return String[]
+     */
     public static String[] setCliOptions(String[] options) {
         return setOptions(options, o -> run(options, currentThread().getContextClassLoader()));
     }
 
+    /**
+     *
+     * @param options String[]
+     * @param cb Function
+     * @return String[]
+     * @param <R> R
+     */
     public static <R> String[] setOptions(String[] options, Function<String[], R> cb) {
         out.println("options: " + Arrays.toString(options));
         cb.apply(options);
         return options;
     }
 
+    /**
+     *
+     * @param config TestBaseConfig
+     * @return String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static String[] getOptions(TestBaseConfig config) throws ReflectiveOperationException {
         return getOptions(getPlugins(config));
     }
 
+    /**
+     *
+     * @param plugins String
+     * @return String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static String[] getOptions(String plugins) throws ReflectiveOperationException {
         return getOptions(getPlugins(plugins));
     }
 
+    /**
+     *
+     * @param plugins String[]
+     * @return String[]
+     */
     public static String[] getOptions(String[] plugins) {
         List<String> options = new ArrayList<>();
         forEach(plugins, p -> {
@@ -109,20 +178,34 @@ public class CucumberRunTest {
         return options.toArray(String[]::new);
     }
 
+    /**
+     *
+     */
     public static void setTagsProps() {
         String tags = getProperty("cucumber.tags", "@smoke");
         setProperty("cucumber.tags", tags);
         debug(tags);
     }
 
+    /**
+     *
+     */
     public static void setTags() {
         setTagsDir("src/test/resources/");
     }
 
+    /**
+     *
+     * @param cucumberPropsDir String
+     */
     public static void setTagsDir(String cucumberPropsDir) {
         setTags(cucumberPropsDir + "cucumber.properties");
     }
 
+    /**
+     *
+     * @param cucumberPropsPath String
+     */
     protected static void setTags(String cucumberPropsPath) {
         try {
             Properties props = new Properties();
@@ -134,6 +217,9 @@ public class CucumberRunTest {
         }
     }
 
+    /**
+     *
+     */
     public void setTagsOptions() {
         List<String> tagsList = Arrays.asList("@smoke", "@regression");
         String[] tagsArray = tagsList.toArray(new String[0]);

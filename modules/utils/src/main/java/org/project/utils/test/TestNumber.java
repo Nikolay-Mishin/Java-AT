@@ -4,12 +4,23 @@ import static java.lang.Long.valueOf;
 
 import static org.project.utils.Helper.debug;
 
+/**
+ *
+ */
 public class TestNumber extends TestDriver {
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         testLong();
     }
 
+    /**
+     *
+     */
     public static void testLong() {
         debug("testLong");
         int _int = 0;
@@ -25,6 +36,10 @@ public class TestNumber extends TestDriver {
         _long(valueOf(_long));
     }
 
+    /**
+     *
+     * @param id Long
+     */
     public static void _long(Long id) {
         debug(id);
     }

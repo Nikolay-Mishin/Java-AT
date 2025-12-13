@@ -9,16 +9,31 @@ import static org.project.utils.Helper.debug;
 
 import org.project.utils.base.UTF8Control;
 
+/**
+ *
+ */
 public class TestUTF8 {
 
+    /**
+     *
+     * @param args String[]
+     */
     public static void main(String[] args) {
         testUTF8();
     }
 
+    /**
+     *
+     */
     public static void testUTF8() {
         testUTF8("org.project.utils.test", "test.utf8");
     }
 
+    /**
+     *
+     * @param baseName String
+     * @param key String
+     */
     public static void testUTF8(String baseName, String key) {
         // Load the properties file with UTF-8 encoding
         Control control = new UTF8Control();

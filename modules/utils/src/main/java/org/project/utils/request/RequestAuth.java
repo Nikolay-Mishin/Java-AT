@@ -33,18 +33,27 @@ import org.project.utils.auth.AuthToken;
  */
 public class RequestAuth extends RequestOptions {
 
+    /**
+     *
+     * @param accessToken String
+     * @return RequestSpecification
+     */
     public String bearerToken(String accessToken) {
         return "Bearer " + accessToken;
     }
 
+    /**
+     *
+     * @return RequestSpecification
+     */
     public RequestSpecification none() {
         return auth().none();
     }
 
     /**
      * При упреждающей аутентификации данные для аутентификации отправляются в заголовке запроса независимо от того, запрашивает ли их сервер.
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RequestSpecification
      */
     public RequestSpecification basic(String username, String password) {
@@ -53,8 +62,8 @@ public class RequestAuth extends RequestOptions {
 
     /**
      * При упреждающей аутентификации данные для аутентификации отправляются в заголовке запроса независимо от того, запрашивает ли их сервер.
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RequestSpecification
      */
     public RequestSpecification preemptive(String username, String password) {
@@ -64,8 +73,8 @@ public class RequestAuth extends RequestOptions {
     /**
      * Этот метод похож на аутентификацию на основе запроса, но он более безопасен, так как в последующих запросах используется дайджест-ключ.
      * <p>Обратите внимание, что мы не можем использовать {@code preemptive()} метод, аналогичный базовой аутентификации, поскольку в этой схеме используется только аутентификация по запросу.
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RequestSpecification
      */
     public RequestSpecification digest(String username, String password) {
@@ -75,8 +84,8 @@ public class RequestAuth extends RequestOptions {
     /**
      * Сначала проанализирует HTML-ответ, чтобы найти поля для ввода, а затем отправит параметры формы.
      * <p>Процесс может завершиться неудачей, например, если веб-страница сложная или если сервис настроен с использованием контекстного пути, который не указан в атрибуте {@code action}.
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RequestSpecification
      */
     public RequestSpecification form(String username, String password) {
@@ -92,11 +101,11 @@ public class RequestAuth extends RequestOptions {
      * <li>использование дополнительных полей формы в запросе.
      * <li>запись информации о процессе аутентификации в журнал.
      * </ul>
-     * @param username
-     * @param password
-     * @param action
-     * @param userNameTag
-     * @param passwordTag
+     * @param username String
+     * @param password String
+     * @param action String
+     * @param userNameTag String
+     * @param passwordTag String
      * @return RequestSpecification
      */
     public RequestSpecification form(String username, String password, String action, String userNameTag, String passwordTag) {
@@ -106,8 +115,8 @@ public class RequestAuth extends RequestOptions {
     /**
      * Сначала проанализирует HTML-ответ, чтобы найти поля для ввода, а затем отправит параметры формы.
      * <p>{@code new FormAuthConfig("/perform_signIn", "user", "password");}
-     * @param username
-     * @param password
+     * @param username String
+     * @param password String
      * @return RequestSpecification
      */
     public RequestSpecification form(String username, String password, FormAuthConfig config) {
@@ -116,10 +125,10 @@ public class RequestAuth extends RequestOptions {
 
     /**
      * Параметры <b>OAuth</b> динамически считывают необходимые данные от пользователя.
-     * @param consumerKey
-     * @param consumerSecret
-     * @param accessToken
-     * @param tokenSecret
+     * @param consumerKey String
+     * @param consumerSecret String
+     * @param accessToken String
+     * @param tokenSecret String
      * @return RequestSpecification
      */
     public RequestSpecification oauth(String consumerKey, String consumerSecret, String accessToken, String tokenSecret) {
@@ -128,11 +137,11 @@ public class RequestAuth extends RequestOptions {
 
     /**
      * Параметры <b>OAuth</b> динамически считывают необходимые данные от пользователя.
-     * @param consumerKey
-     * @param consumerSecret
-     * @param accessToken
-     * @param tokenSecret
-     * @param sign
+     * @param consumerKey String
+     * @param consumerSecret String
+     * @param accessToken String
+     * @param tokenSecret String
+     * @param sign OAuthSignature
      * @return RequestSpecification
      */
     public RequestSpecification oauth(String consumerKey, String consumerSecret, String accessToken, String tokenSecret, OAuthSignature sign) {
@@ -142,7 +151,7 @@ public class RequestAuth extends RequestOptions {
     /**
      * При использовании <b>OAuth 2.0</b> необходимо напрямую передавать токен доступа.
      * <p>Нужно будет добавить зависимость {@code scribejava-apis}, если мы используем функции OAuth 2.0 в версии ниже 2.5.0 или если мы используем функции OAuth 1.0a.
-     * @param accessToken
+     * @param accessToken String
      * @return RequestSpecification
      */
     public RequestSpecification oauth2(String accessToken) {
@@ -152,42 +161,92 @@ public class RequestAuth extends RequestOptions {
     /**
      * При использовании <b>OAuth 2.0</b> необходимо напрямую передавать токен доступа.
      * <p>Нужно будет добавить зависимость {@code scribejava-apis}, если мы используем функции OAuth 2.0 в версии ниже 2.5.0 или если мы используем функции OAuth 1.0a.
-     * @param accessToken
-     * @param sign
+     * @param accessToken String
+     * @param sign OAuthSignature
      * @return RequestSpecification
      */
     public RequestSpecification oauth2(String accessToken, OAuthSignature sign) {
         return auth().oauth2(accessToken, sign);
     }
 
+    /**
+     *
+     * @param username String
+     * @param password String
+     * @return RequestSpecification
+     */
     public RequestSpecification certificate(String username, String password) {
         return auth().certificate(username, password);
     }
 
+    /**
+     *
+     * @param username String
+     * @param password String
+     * @param config CertificateAuthSettings
+     * @return RequestSpecification
+     */
     public RequestSpecification certificate(String username, String password, CertificateAuthSettings config) {
         return auth().certificate(username, password, config);
     }
 
+    /**
+     *
+     * @param accessToken String
+     * @return RequestSpecification
+     */
     public RequestSpecification bearer(String accessToken) {
         return oauth2(bearerToken(accessToken));
     }
 
+    /**
+     *
+     * @param accessToken String
+     * @param sign OAuthSignature
+     * @return RequestSpecification
+     */
     public RequestSpecification bearer(String accessToken, OAuthSignature sign) {
         return oauth2(bearerToken(accessToken), sign);
     }
 
+    /**
+     *
+     * @param token AuthToken
+     * @return RequestSpecification
+     * @throws ClassNotFoundException throws
+     */
     public RequestSpecification oauth2(AuthToken token) throws ClassNotFoundException {
         return oauth2(token.getAccessToken());
     }
 
+    /**
+     *
+     * @param token AuthToken
+     * @param sign OAuthSignature
+     * @return RequestSpecification
+     * @throws ClassNotFoundException throws
+     */
     public RequestSpecification oauth2(AuthToken token, OAuthSignature sign) throws ClassNotFoundException {
         return oauth2(token.getAccessToken(), sign);
     }
 
+    /**
+     *
+     * @param token AuthToken
+     * @return RequestSpecification
+     * @throws ClassNotFoundException throws
+     */
     public RequestSpecification bearer(AuthToken token) throws ClassNotFoundException {
         return bearer(token.getAccessToken());
     }
 
+    /**
+     *
+     * @param token AuthToken
+     * @param sign OAuthSignature
+     * @return RequestSpecification
+     * @throws ClassNotFoundException throws
+     */
     public RequestSpecification bearer(AuthToken token, OAuthSignature sign) throws ClassNotFoundException {
         return bearer(token.getAccessToken(), sign);
     }

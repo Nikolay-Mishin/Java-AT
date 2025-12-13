@@ -1,5 +1,6 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
@@ -25,15 +26,43 @@ import static org.project.utils.fs.Zip.unzipSelenium;
 
 import org.project.utils.request.Request;
 
+/**
+ *
+ */
 public class TestZip extends TestJson {
+    /**
+     *
+     */
     protected static String outZip;
+    /**
+     *
+     */
     protected static String filename;
+    /**
+     *
+     */
     protected static String filenameZip;
+    /**
+     *
+     */
     protected static String filenameTxt;
+    /**
+     *
+     */
     protected static String mkdirRoot;
+    /**
+     *
+     */
     protected static String mkdir;
+    /**
+     *
+     */
     protected static String readDir;
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public TestZip() {
         outZip = c.getZipOut();
         filename = c.getZipFilename();
@@ -44,10 +73,21 @@ public class TestZip extends TestJson {
         readDir = c.getZipReadDir();
     }
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         testZip();
     }
 
+    /**
+     *
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testZip");
         url(endpoint, uri, jsonGet, jsonK, jsonV, jsonUrl);
@@ -68,10 +108,6 @@ public class TestZip extends TestJson {
 
         String last = last(url);
         debug(last);
-
-        debug(mkdirs(outZip));
-        debug(mkdirs(filenameZip));
-        debug(mkdirs(mkdir));
 
         writeFile(outZip + last, inputStream);
         writeFile(filenameZip, bytes);
@@ -104,6 +140,8 @@ public class TestZip extends TestJson {
 
         debug(readDir(readDir).toList());
         debug(readDir(outZip).toList());
+
+        debug(mkdirs(mkdir));
 
         debug(delete(filenameTxt));
         debug(delete(mkdirRoot));

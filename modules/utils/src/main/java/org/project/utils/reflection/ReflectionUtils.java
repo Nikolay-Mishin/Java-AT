@@ -17,7 +17,7 @@ public class ReflectionUtils {
      * @param actualClass   анализируемый класс
      * @param genericClass  класс, для которого определяется значение параметра
      * @param parameterIndex номер параметра
-     * @return        класс, являющийся параметром с индексом parameterIndex в genericClass
+     * @return класс, являющийся параметром с индексом parameterIndex в genericClass
      */
     public static Class<?> getGenericParameterClass(final Class<?> actualClass, final Class<?> genericClass, final int parameterIndex) {
         // Прекращаем работу если genericClass не является предком actualClass.
@@ -96,6 +96,11 @@ public class ReflectionUtils {
         return (Class<?>) result;
     }
 
+    /**
+     *
+     * @param typeVariable TypeVariable
+     * @return int
+     */
     public static int getParameterTypeDeclarationIndex(final TypeVariable<?> typeVariable) {
         GenericDeclaration genericDeclaration = typeVariable.getGenericDeclaration();
 

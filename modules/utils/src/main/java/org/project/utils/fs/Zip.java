@@ -25,28 +25,67 @@ import static org.project.utils.stream.InputStream.input;
 import static org.project.utils.stream.InputStream.zipIn;
 import static org.project.utils.stream.OutputStream.bufOut;
 
+/**
+ *
+ */
 public class Zip {
 
+    /**
+     *
+     * @param src String
+     * @param out String
+     * @throws IOException throws
+     */
     public static void unzip(String src, String out) throws IOException {
         unzip(input(src), out);
     }
 
+    /**
+     *
+     * @param src Path
+     * @param out Path
+     * @throws IOException throws
+     */
     public static void unzip(Path src, Path out) throws IOException {
         unzip(path(src), path(out));
     }
 
+    /**
+     *
+     * @param src InputStream
+     * @param out String
+     * @throws IOException throws
+     */
     public static void unzip(InputStream src, String out) throws IOException {
         unzip(src, pathStr(out));
     }
 
+    /**
+     *
+     * @param src byte[]
+     * @param out String
+     * @throws IOException throws
+     */
     public static void unzip(byte[] src, String out) throws IOException {
         unzip(arrayIn(src), out);
     }
 
+    /**
+     *
+     * @param src byte[]
+     * @param out Path
+     * @throws IOException throws
+     */
     public static void unzip(byte[] src, Path out) throws IOException {
         unzip(arrayIn(src), out);
     }
 
+    /**
+     *
+     * @param src InputStream
+     * @param out Path
+     * @throws IOException throws
+     */
     public static void unzip(InputStream src, Path out) throws IOException {
         debug("Clear: " + out);
         debug(delete(out));
@@ -64,18 +103,42 @@ public class Zip {
         }
     }
 
+    /**
+     *
+     * @param src String
+     * @param out String
+     * @throws IOException throws
+     */
     public static void unzipFile(String src, String out) throws IOException {
         unzip(new File(src), out);
     }
 
+    /**
+     *
+     * @param src Path
+     * @param out Path
+     * @throws IOException throws
+     */
     public static void unzipFile(Path src, Path out) throws IOException {
         unzipFile(path(src), path(out));
     }
 
+    /**
+     *
+     * @param src File
+     * @param out Path
+     * @throws IOException throws
+     */
     public static void unzip(File src, Path out) throws IOException {
         unzip(src, path(out));
     }
 
+    /**
+     *
+     * @param src File
+     * @param out String
+     * @throws IOException throws
+     */
     public static void unzip(File src, String out) throws IOException {
         try (ZipInputStream zipIn = zipIn(src)) {
             ZipEntry ze = zipIn.getNextEntry();
@@ -90,6 +153,13 @@ public class Zip {
         }
     }
 
+    /**
+     *
+     * @param zipIn ZipInputStream
+     * @param ze ZipEntry
+     * @param file File
+     * @throws IOException throws
+     */
     public static void writeFile(ZipInputStream zipIn, ZipEntry ze, File file) throws IOException {
         try (BufferedOutputStream bos = bufOut(file)) {
             int bufferSize = toIntExact(ze.getSize());
@@ -102,10 +172,21 @@ public class Zip {
         }
     }
 
+    /**
+     *
+     * @param src String
+     * @param out String
+     */
     public static void unzipPass(String src, String out) {
         unzip(src, out, "");
     }
 
+    /**
+     *
+     * @param src String
+     * @param out String
+     * @param password String
+     */
     public static void unzip(String src, String out, String password) {
         try {
             ZipFile zipFile = new ZipFile(src);
@@ -113,23 +194,46 @@ public class Zip {
                 zipFile.setPassword(password);
             }
             zipFile.extractAll(out);
-        } catch (ZipException e) {
-            e.printStackTrace();
         }
+        catch (ZipException e) { e.printStackTrace(); }
     }
 
+    /**
+     *
+     * @param src String
+     * @param out String
+     * @throws IOException throws
+     */
     public static void unzipSelenium(String src, String out) throws IOException {
         unzipSelenium(input(src), new File(out));
     }
 
+    /**
+     *
+     * @param src Path
+     * @param out Path
+     * @throws IOException throws
+     */
     public static void unzipSelenium(Path src, Path out) throws IOException {
         unzipSelenium(src.toString(), out.toString());
     }
 
+    /**
+     *
+     * @param src File
+     * @param out File
+     * @throws IOException throws
+     */
     public static void unzipSelenium(File src, File out) throws IOException {
         unzipSelenium(input(src), out);
     }
 
+    /**
+     *
+     * @param src InputStream
+     * @param out File
+     * @throws IOException throws
+     */
     public static void unzipSelenium(InputStream src, File out) throws IOException {
         org.openqa.selenium.io.Zip.unzip(src, out);
     }

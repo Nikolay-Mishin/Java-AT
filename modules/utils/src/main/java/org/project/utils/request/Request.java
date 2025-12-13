@@ -5,8 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import jdk.jfr.Description;
-
 import static org.project.utils.Helper.concat;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.lastTrim;
@@ -17,20 +15,50 @@ import org.project.utils.Helper;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants.METHOD;
 
+/**
+ *
+ */
 public class Request extends RequestAuth {
 
+    /**
+     *
+     */
     @ConstructorProperties({})
     public Request() {}
 
+    /**
+     *
+     * @param method METHOD
+     * @param pathList Object[]
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
     @ConstructorProperties({"method", "pathList"})
     public Request(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         init(method, pathList);
     }
 
+    /**
+     *
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
     public Request init(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         return init(new ApiConfig(), method, pathList);
     }
 
+    /**
+     *
+     * @param apiConfig ApiConfig
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
     public Request init(ApiConfig apiConfig, METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         request = apiConfig.get();
         //debug("getHeaders: " + getHeaders());
@@ -47,22 +75,50 @@ public class Request extends RequestAuth {
         return this;
     }
 
+    /**
+     *
+     * @param uri String
+     * @param args Object[]
+     * @return String
+     */
     public static String getParamsUri(String uri, Object... args) {
         return uri + getParams(args);
     }
 
+    /**
+     *
+     * @param uri String
+     * @param args Object[]
+     * @return String
+     */
     public static String getParamsUriSlash(String uri, Object... args) {
         return uri + getParamsSlash(args);
     }
 
+    /**
+     *
+     * @param args Object[]
+     * @return String
+     */
     public static String getParams(Object... args) {
         return getParamsPrefix("", args);
     }
 
+    /**
+     *
+     * @param args Object[]
+     * @return String
+     */
     public static String getParamsSlash(Object... args) {
         return getParamsPrefix("/", args);
     }
 
+    /**
+     *
+     * @param prefix String
+     * @param args Object[]
+     * @return String
+     */
     public static String getParamsPrefix(String prefix, Object... args) {
         String[] k = {""};
         String[] map = Helper.map(args, String[]::new, a -> {
@@ -77,42 +133,65 @@ public class Request extends RequestAuth {
         return sb((Object[]) concat(new String[]{prefix + "?"}, map));
     }
 
-    @Description("Print full path")
+    /**
+     * Print full path
+     */
     public void printFullPath() {
         debug("Full PATH is: " + url);
     }
 
-    @Description("Print endpoint")
+    /**
+     * Print endpoint
+     */
     public void printEndpoint() {
         debug(endpoint);
     }
 
-    @Description("Print method")
+    /**
+     * Print method
+     */
     public void printMethod() {
         debug(method);
     }
 
-    @Description("Print url")
+    /**
+     * Print url
+     */
     public void printUrl() {
         debug(url);
     }
 
-    @Description("Print uri")
+    /**
+     * Print uri
+     */
     public void printUri() {
         debug(URI);
     }
 
-    @Description("Print path")
+    /**
+     * Print path
+     */
     public void printPath() {
         debug(path);
     }
 
-    @Description("Print method string")
+    /**
+     * Print method string
+     * @return METHOD
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public METHOD printMethodStr() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return (METHOD) getPropStr(this, "method", true);
     }
 
-    @Description("Print request")
+    /**
+     * Print request
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public void print() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         printEndpoint();
         printMethod();

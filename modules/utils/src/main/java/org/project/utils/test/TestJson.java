@@ -1,5 +1,6 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -19,18 +20,55 @@ import static org.project.utils.json.JsonSchema.toList;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
+/**
+ *
+ */
 public class TestJson extends TestApi {
+    /**
+     *
+     */
     protected static JsonSchema json;
+    /**
+     *
+     */
     protected static Request req;
+    /**
+     *
+     */
     protected static Map<String, Object> map;
+    /**
+     *
+     */
     protected static String url;
+    /**
+     *
+     */
     protected static String jsonVer;
+    /**
+     *
+     */
     protected static String jsonDownloads;
+    /**
+     *
+     */
     protected static String jsonGet;
+    /**
+     *
+     */
     protected static String jsonK;
+    /**
+     *
+     */
     protected static String jsonV;
+    /**
+     *
+     */
     protected static String jsonUrl;
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public TestJson() {
         jsonVer = c.getJsonVer();
         jsonDownloads = c.getJsonDownloads();
@@ -40,24 +78,68 @@ public class TestJson extends TestApi {
         jsonUrl = c.getJsonUrl();
     }
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         testJson();
     }
 
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static JsonSchema json(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return json = jsonSchema(endpoint, uri);
     }
 
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static Request req(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         json(endpoint, uri);
         return req = json.req();
     }
 
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @return Map {String, Object}
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static Map<String, Object> map(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         req(endpoint, uri);
         return map = json.toMap();
     }
 
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @return Map {String, Object}
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static Map<String, Object> map(String endpoint, String uri, String key, String k, String v)
         throws MalformedURLException, URISyntaxException, ReflectiveOperationException
     {
@@ -65,6 +147,19 @@ public class TestJson extends TestApi {
         return map = json.toMap(key, k, v);
     }
 
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @param urlPath String
+     * @return String
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static String url(String endpoint, String uri, String key, String k, String v, String urlPath)
         throws MalformedURLException, URISyntaxException, ReflectiveOperationException
     {
@@ -74,6 +169,12 @@ public class TestJson extends TestApi {
         return url;
     }
 
+    /**
+     *
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static void testJson() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testJson");
         map(endpoint, uri);

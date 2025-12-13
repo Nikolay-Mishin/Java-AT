@@ -1,5 +1,6 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -19,11 +20,27 @@ import static org.project.utils.request.RequestOptions.getHeaders;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.request.Request;
 
+/**
+ *
+ */
 public class TestApi extends BaseTest {
+    /**
+     *
+     */
     protected static String uri;
+    /**
+     *
+     */
     protected static String endpoint;
+    /**
+     *
+     */
     protected static String endpointTest;
 
+    /**
+     *
+     */
+    @ConstructorProperties({})
     public TestApi() {
         c = config();
         uri = c.getApiUri();
@@ -31,11 +48,22 @@ public class TestApi extends BaseTest {
         endpointTest = c.getEndpointTest();
     }
 
+    /**
+     *
+     * @param args String[]
+     * @throws Exception throws
+     */
     public static void main(String[] args) throws Exception {
         testApi();
         testHeaders();
     }
 
+    /**
+     *
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static void testApi()
         throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testApi");
@@ -100,10 +128,23 @@ public class TestApi extends BaseTest {
         req.printPath();
     }
 
+    /**
+     *
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static void testHeaders() throws IOException, URISyntaxException, ReflectiveOperationException {
         testHeaders(false);
     }
 
+    /**
+     *
+     * @param setHeaders boolean
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static void testHeaders(boolean setHeaders) throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testHeaders");
         Request req = new Request(GET, endpointTest, 0);

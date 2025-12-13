@@ -15,12 +15,25 @@ import static org.project.utils.Helper.shiftList;
 import static org.project.utils.Helper.shiftSkip;
 import static org.project.utils.reflection.Reflection.getField;
 
+/**
+ *
+ */
 public class TestEntries {
 
+    /**
+     *
+     * @param args String[]
+     * @throws ReflectiveOperationException throws
+     */
     public static void main(String[] args) throws ReflectiveOperationException {
         testEntries();
     }
 
+    /**
+     *
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public static void testEntries() throws NoSuchFieldException, IllegalAccessException {
         debug("testEntries");
         Object obj = new Object(){ public int k = 1; protected static int p = 11; private int pp = 111; };

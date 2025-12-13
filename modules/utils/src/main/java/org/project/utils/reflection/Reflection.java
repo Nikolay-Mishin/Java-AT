@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -22,8 +23,6 @@ import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.apache.commons.beanutils.PropertyUtils.setProperty;
 
 import org.apache.commons.beanutils.BeanUtils;
-
-import jdk.jfr.Description;
 
 import static org.project.utils.Helper.arrayList;
 import static org.project.utils.Helper.concatTo;
@@ -42,23 +41,54 @@ import org.project.utils.function.BiFunctionWithExceptions;
 import org.project.utils.function.FunctionWithExceptions;
 import org.project.utils.function.TriFunctionWithExceptions;
 
+/**
+ *
+ */
 public class Reflection {
 
-    @Description("Get object property")
+    /**
+     * Get object property
+     * @param obj Object
+     * @param prop String
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     private static Object _getProp(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Object _prop = getProperty(obj, prop);
         if (print) debug(_prop);
         return _prop;
     }
 
-    @Description("Get object property value of String")
+    /**
+     * Get object property value of String
+     * @param obj Object
+     * @param prop String
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     private static Object _getPropStr(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         Object _prop = BeanUtils.getProperty(obj, prop);
         if (print) debug(_prop);
         return _prop;
     }
 
-    @Description("Set object property")
+    /**
+     * Set object property
+     * @param obj Object
+     * @param prop String
+     * @param value Object
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     private static Object _setProp(Object obj, String prop, Object value, boolean print)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
@@ -66,7 +96,17 @@ public class Reflection {
         return _getProp(obj, prop, print);
     }
 
-    @Description("Set object property value of String")
+    /**
+     * Set object property value of String
+     * @param obj Object
+     * @param prop String
+     * @param value Object
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     private static Object _setPropStr(Object obj, String prop, Object value, boolean print)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
@@ -74,7 +114,12 @@ public class Reflection {
         return _getPropStr(obj, prop, print);
     }
 
-    @Description("Get property descriptor by name")
+    /**
+     * Get property descriptor by name
+     * @param descList List {PropertyDescriptor}
+     * @param name String
+     * @return PropertyDescriptor
+     */
     private static PropertyDescriptor _getPropDescriptor(List<PropertyDescriptor> descList, String name) {
         PropertyDescriptor[] _descList = descList.stream().filter(s -> s.getName().equals(name)).toArray(PropertyDescriptor[]::new);
         PropertyDescriptor desc = _descList.length > 0 ? _descList[0] : null;
@@ -82,6 +127,12 @@ public class Reflection {
         return desc;
     }
 
+    /**
+     *
+     * @param getPrimitive Boolean
+     * @param args Object[]
+     * @return Class[]
+     */
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
         debug(Arrays.toString(args));
         Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass());
@@ -89,6 +140,14 @@ public class Reflection {
         return argTypes;
     }
 
+    /**
+     *
+     * @param genericClass Class T
+     * @param index int
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     @SuppressWarnings("unchecked")
     private static <T> Class<T> _getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
         int traceDepth = 0;
@@ -100,6 +159,11 @@ public class Reflection {
         return (Class<T>) ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
     }
 
+    /**
+     *
+     * @param type Class
+     * @return Class
+     */
     public static Class<?> getParseType(Class<?> type) {
         String name = getClassSimpleName(type);
         return switch (name) {
@@ -114,6 +178,11 @@ public class Reflection {
         };
     }
 
+    /**
+     *
+     * @param obj Object[]
+     * @return Class
+     */
     public static Class<?> getPrimitiveType(Object obj) {
         Class<?> clazz = isList(obj) ? List.class : getClazz(obj);
         String name = getClassSimpleName(clazz);
@@ -129,123 +198,259 @@ public class Reflection {
         };
     }
 
-    @Description("Get ClassName of parse")
+    /**
+     * Get ClassName of parse
+     * @param className String
+     * @return String
+     */
     public static String parseClassName(String className) {
         return parseClassName(className, "::", "$1,$2");
     }
 
-    @Description("Get ClassName of parse")
+    /**
+     * Get ClassName of parse
+     * @param className String
+     * @param sep String
+     * @return String
+     */
     public static String parseClassName(String className, String sep) {
         return parseClassName(className, sep, "$1,$2");
     }
 
-    @Description("Get ClassName of parse")
+    /**
+     * Get ClassName of parse
+     * @param className String
+     * @param sep String
+     * @param replace String
+     * @return String
+     */
     public static String parseClassName(String className, String sep, String replace) {
         String parsedClassName = className.replaceAll("(.+)" + sep + "(.+)", replace);
         debug("parseClassName: " + className.replaceAll("(.+)" + sep + "(.+)", "$1,$2"));
         return parsedClassName;
     }
 
+    /**
+     *
+     * @param obj Object
+     * @return Class
+     */
     public static Class<?> getClazz(Object obj) {
         Class<?> clazz = isClass(obj) ? (Class<?>) obj : obj.getClass();
         debug(clazz);
         return clazz;
     }
 
+    /**
+     *
+     * @param method Method
+     * @return Class
+     */
     public static Class<?> getClazz(Method method) {
         return method.getDeclaringClass();
     }
 
     /**
      * get class from lambda expression
-     *
-     * @param lambda
+     * @param lambda Serializable
      * @return String
      */
     public static Class<?> getLambdaClazz(Serializable lambda) throws ClassNotFoundException {
         return getClazz(getLambdaClassName(lambda));
     }
 
+    /**
+     *
+     * @param lambda Serializable
+     * @return String
+     */
     public static String getLambdaClassName(Serializable lambda) {
         return lambda(lambda, SerializedLambda::getImplClass).replace("/", ".");
     }
 
+    /**
+     *
+     * @param name String
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getClazz(String name) throws ClassNotFoundException {
         return (Class<T>) Class.forName(name);
     }
 
+    /**
+     *
+     * @param name String
+     * @param subClass Class S
+     * @return Class T
+     * @param <T> T
+     * @param <S> S
+     * @throws ClassNotFoundException throws
+     */
     @SuppressWarnings("unchecked")
     public static <T extends S, S> Class<T> asSubClass(String name, Class<S> subClass) throws ClassNotFoundException {
         return (Class<T>) getClazz(name).asSubclass(subClass);
     }
 
-    @Description("Get Class by className with parse")
+    /**
+     * Get Class by className with parse
+     * @param className String
+     * @param sep String
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getClazz(String className, String sep) throws ClassNotFoundException {
         return getClazz(parseClassName(className, sep, "$1"));
     }
 
-    @Description("Get Class by className with parse")
+    /**
+     * Get Class by className with parse
+     * @param className String
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getClassParse(String className) throws ClassNotFoundException {
         return getClazz(className, "::");
     }
 
+    /**
+     *
+     * @param index int
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getClazz(int index) throws ClassNotFoundException {
         return getClazz(getClassName(index + 1));
     }
 
+    /**
+     *
+     * @param stackTraceEl StackTraceElement
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getClazz(StackTraceElement stackTraceEl) throws ClassNotFoundException {
         return getClazz(getClassName(stackTraceEl));
     }
 
+    /**
+     *
+     * @param obj Object
+     * @return String
+     */
     public static String getClassName(Object obj) {
         String name = getClazz(obj).getName();
         debug(name);
         return name;
     }
 
+    /**
+     *
+     * @param className String
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getClassName(String className) throws ClassNotFoundException {
         return getClassName(getClazz(className));
     }
 
+    /**
+     *
+     * @param index int
+     * @return String
+     */
     public static String getClassName(int index) {
         return getClassName(getStackTraceEl(index + 1));
     }
 
+    /**
+     *
+     * @param stackTraceEl StackTraceElement
+     * @return String
+     */
     public static String getClassName(StackTraceElement stackTraceEl) {
         return stackTraceEl.getClassName();
     }
 
+    /**
+     *
+     * @param obj Object
+     * @return String
+     */
     public static String getClassSimpleName(Object obj) {
         String name = getClazz(obj).getSimpleName();
         debug(name);
         return name;
     }
 
+    /**
+     *
+     * @param className String
+     * @return String String
+     * @throws ClassNotFoundException throws
+     */
     public static String getClassSimpleName(String className) throws ClassNotFoundException {
         return getClassSimpleName(getClazz(className));
     }
 
+    /**
+     *
+     * @param index int
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getClassSimpleName(int index) throws ClassNotFoundException {
         return getClassSimpleName(getStackTraceEl(index + 1));
     }
 
+    /**
+     *
+     * @param stackTraceEl StackTraceElement
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getClassSimpleName(StackTraceElement stackTraceEl) throws ClassNotFoundException {
         return getClassSimpleName(getClazz(stackTraceEl));
     }
 
+    /**
+     *
+     * @return StackTraceElement[]
+     */
     public static StackTraceElement[] getStackTrace() {
         return new RuntimeException().getStackTrace();
     }
 
+    /**
+     *
+     * @param index int
+     * @return StackTraceElement
+     */
     public static StackTraceElement getStackTraceEl(int index) {
         return getStackTrace()[index + 2];
     }
 
+    /**
+     *
+     * @return StackTraceElement
+     */
     public static StackTraceElement getStackTraceEl() {
         return getStackTraceEl(1);
     }
 
+    /**
+     *
+     * @param index int
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     //@SuppressWarnings("unchecked")
     public static <T> Class<T> getCallingClass(int index) throws ClassNotFoundException {
         //debug("getClassName: " + getClassName(index + 1));
@@ -254,150 +459,367 @@ public class Reflection {
         return getClazz(++index);
     }
 
+    /**
+     *
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getCallingClass() throws ClassNotFoundException {
         return getCallingClass(1);
     }
 
+    /**
+     *
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getCallingChildClass() throws ClassNotFoundException {
         return getCallingClass(2);
     }
 
+    /**
+     *
+     * @param index int
+     * @return String
+     */
     public static String getCallingClassName(int index) {
         return getStackTraceEl(++index).getClassName();
     }
 
+    /**
+     *
+     * @return String
+     */
     public static String getCallingClassName() {
         return getCallingClassName(1);
     }
 
+    /**
+     *
+     * @return String
+     */
     public static String getCallingChildClassName() {
         return getCallingClassName(2);
     }
 
+    /**
+     *
+     * @param index int
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getCallingClassSimpleName(int index) throws ClassNotFoundException {
         return getClassSimpleName(++index);
     }
 
+    /**
+     *
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getCallingClassSimpleName() throws ClassNotFoundException {
         return getClassSimpleName(1);
     }
 
+    /**
+     *
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getCallingChildClassSimpleName() throws ClassNotFoundException {
         return getCallingClassSimpleName(2);
     }
 
+    /**
+     *
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
         return _getGenericClass(getCallingClass(1), 0);
     }
 
+    /**
+     *
+     * @param index int
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getGenericClass(int index) throws ClassNotFoundException {
         return _getGenericClass(getCallingClass(1), index);
     }
 
+    /**
+     *
+     * @param genericClass Class T
+     * @param index int
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
         return _getGenericClass(genericClass, index);
     }
 
+    /**
+     *
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getGenericChildClass() throws ClassNotFoundException {
         return _getGenericClass(getCallingChildClass(), 0);
     }
 
+    /**
+     *
+     * @param index int
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> Class<T> getGenericChildClass(int index) throws ClassNotFoundException {
         return _getGenericClass(getCallingChildClass(), index);
     }
 
+    /**
+     *
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getGenericClassName() throws ClassNotFoundException {
         return getClassName(getGenericClass());
     }
 
+    /**
+     *
+     * @param index int
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getGenericClassName(int index) throws ClassNotFoundException {
         return getClassName(getGenericClass(index));
     }
 
+    /**
+     *
+     * @param genericClass Class T
+     * @param index int
+     * @return String
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
     public static <T> String getGenericClassName(Class<T> genericClass, int index) throws ClassNotFoundException {
         return getClassName(getGenericClass(genericClass, index));
     }
 
+    /**
+     *
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getGenericChildClassName() throws ClassNotFoundException {
         return getClassName(getGenericChildClass());
     }
 
+    /**
+     *
+     * @param index int
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
     public static String getGenericChildClassName(int index) throws ClassNotFoundException {
         return getClassName(getGenericChildClass(index));
     }
 
-    @Description("Get object property")
+    /**
+     * Get object property
+     * @param obj Object
+     * @param prop String
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object getProp(Object obj, String prop, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return _getProp(obj, prop, print);
     }
 
-    @Description("Get object property")
+    /**
+     * Get object property
+     * @param obj Object
+     * @param prop String
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object getProp(Object obj, String prop) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return _getProp(obj, prop, false);
     }
 
-    @Description("Get object property value of String")
+    /**
+     * Get object property value of String
+     * @param obj Object
+     * @param prop String
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object getPropStr(Object obj, String prop, boolean print)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
         return _getPropStr(obj, prop, print);
     }
 
-    @Description("Get object property value of String")
+    /**
+     * Get object property value of String
+     * @param obj Object
+     * @param prop String
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object getPropStr(Object obj, String prop) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return _getPropStr(obj, prop, false);
     }
 
-    @Description("Set object property")
+    /**
+     * Set object property
+     * @param obj Object
+     * @param prop String
+     * @param value Object
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object setProp(Object obj, String prop, Object value, boolean print) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return _setProp(obj, prop, value, print);
     }
 
-    @Description("Set object property")
+    /**
+     * Set object property
+     * @param obj Object
+     * @param prop String
+     * @param value Object
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object setProp(Object obj, String prop, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return _setProp(obj, prop, value, false);
     }
 
-    @Description("Set object property value of String")
+    /**
+     * Set object property value of String
+     * @param obj Object
+     * @param prop String
+     * @param value Object
+     * @param print boolean
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object setPropStr(Object obj, String prop, Object value, boolean print)
         throws InvocationTargetException, IllegalAccessException, NoSuchMethodException
     {
         return _setPropStr(obj, prop, value, print);
     }
 
-    @Description("Set object property value of String")
+    /**
+     * Set object property value of String
+     * @param obj Object
+     * @param prop String
+     * @param value Object
+     * @return Object
+     * @throws InvocationTargetException throws
+     * @throws IllegalAccessException throws
+     * @throws NoSuchMethodException throws
+     */
     public static Object setPropStr(Object obj, String prop, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return _setPropStr(obj, prop, value, false);
     }
 
-    @Description("Get property descriptors")
+    /**
+     * "Get property descriptors by name
+     * @param obj Object
+     * @return List {PropertyDescriptor}
+     */
     public static List<PropertyDescriptor> getPropDescriptors(Object obj) {
         PropertyDescriptor[] descList = getPropertyDescriptors(getClazz(obj));
         debug(Arrays.toString(descList));
         return List.of(descList);
     }
 
-    @Description("Get property descriptor by name")
+    /**
+     * "Get property descriptor by name
+     * @param descList List {PropertyDescriptor}
+     * @param name String
+     * @return PropertyDescriptor
+     */
     public static PropertyDescriptor getPropDescriptor(List<PropertyDescriptor> descList, String name) {
         return _getPropDescriptor(descList, name);
     }
 
-    @Description("Get property descriptor by name")
+    /**
+     * "Get property descriptor by name
+     * @param obj Object
+     * @param name String
+     * @return PropertyDescriptor
+     */
     public static PropertyDescriptor getPropDescriptor(Object obj, String name) {
         return _getPropDescriptor(getPropDescriptors(obj), name);
     }
 
+    /**
+     *
+     * @param clazz Class T
+     * @param args Object[]
+     * @return Constructor T
+     * @param <T> T
+     * @throws NoSuchMethodException throws
+     */
     public static <T> Constructor<T> getConstructor(Class<T> clazz, Object... args) throws NoSuchMethodException {
         debug("getConstructor");
         return getMethod(clazz, c -> clazz.getConstructor(getTypes(args)));
     }
 
+    /**
+     *
+     * @param clazz Class T
+     * @param args Object[]
+     * @return Constructor T
+     * @param <T> T
+     * @throws NoSuchMethodException throws
+     */
     public static <T> Constructor<T> getPrimitiveConstructor(Class<T> clazz, Object... args) throws NoSuchMethodException {
         debug("getPrimitiveConstructor");
         return getMethod(clazz, c -> clazz.getConstructor(getPrimitiveTypes(args)));
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     *
+     * @param clazz Class T
+     * @param args Object[]
+     * @return T
+     * @param <T> T
+     * @throws NoSuchMethodException throws
+     * @throws InvocationTargetException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
+     */
     public static <T> T instance(Class<T> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         //T instance = getPrimitiveConstructor(clazz, args).newInstance(args);
         T instance = tryCatchNoArgs(() -> getConstructor(clazz, args), e -> getPrimitiveConstructor(clazz, args)).newInstance(args);
@@ -405,6 +827,13 @@ public class Reflection {
         return instance;
     }
 
+    /**
+     *
+     * @param clazz Class
+     * @param size int
+     * @return T[]
+     * @param <T> T
+     */
     @SuppressWarnings("unchecked")
     public static <T> T[] arrInstance(Class<?> clazz, int size) {
         T[] instance = (T[]) newInstance(clazz, size);
@@ -412,11 +841,22 @@ public class Reflection {
         return instance;
     }
 
+    /**
+     *
+     * @param a T[]
+     * @param size int
+     * @return T[]
+     * @param <T> T
+     */
     public static <T> T[] arrInstance(T[] a, int size) {
         return arrInstance(getType(a), size);
     }
 
-    @Description("Get descriptor of class")
+    /**
+     * Get descriptor of class
+     * @param c {@code final} Class
+     * @return String
+     */
     public static String getDescriptorForClass(final Class<?> c) {
         if (c.isPrimitive()) {
             if (c == byte.class)
@@ -443,78 +883,160 @@ public class Reflection {
         return ('L' + c.getName() + ';').replace('.', '/');
     }
 
+    /**
+     *
+     * @param m Method
+     * @return String
+     */
     static String getMethodDescriptor(Method m) {
-        String s = "(";
+        StringBuilder s = new StringBuilder("(");
         for (final Class<?> c: m.getParameterTypes())
-            s += getDescriptorForClass(c);
-        s += ')';
+            s.append(getDescriptorForClass(c));
+        s.append(')');
         return s + getDescriptorForClass(m.getReturnType());
     }
 
-    @Description("Get classLoader of object")
+    /**
+     * Get classLoader of object
+     * @param obj Object
+     * @return ClassLoader
+     * @throws NullPointerException throws
+     */
     public static ClassLoader getClassLoader(Object obj) throws NullPointerException {
         return getClazz(obj).getClassLoader();
     }
 
-    @Description("Get descriptor of lambda object")
+    /**
+     * Get descriptor of lambda object
+     * @param obj Object
+     * @return String
+     * @throws NullPointerException throws
+     */
     public static String getDescriptor(Object obj) throws NullPointerException {
         return getClazz(obj).descriptorString();
     }
 
-    @Description("Get descriptor of lambda expression")
+    /**
+     * Get descriptor of lambda expression
+     * @param sl SerializedLambda
+     * @return String
+     * @throws NullPointerException throws
+     */
     public static String getDescriptor(SerializedLambda sl) throws NullPointerException {
         return sl.getImplMethodSignature();
     }
 
+    /**
+     *
+     * @param o Object
+     * @return Class
+     */
     public static Class<?> getType(Object o) {
         return getClazz(o).getComponentType();
     }
 
+    /**
+     *
+     * @param args Object[]
+     * @return Class[]
+     */
     public static Class<?>[] getTypes(Object... args) {
         return _getTypes(false, args);
     }
 
+    /**
+     *
+     * @param args Object[]
+     * @return Class[]
+     */
     public static Class<?>[] getPrimitiveTypes(Object... args) {
         return _getTypes(true, args);
     }
 
-    @Description("Get types of object")
+    /**
+     * Get types of object
+     * @param obj Object
+     * @param descriptor String
+     * @return Class[]
+     * @throws NullPointerException throws
+     */
     public static Class<?>[] getTypes(Object obj, String descriptor) throws NullPointerException {
         return fromMethodDescriptorString(descriptor, getClassLoader(obj)).parameterArray();
     }
 
-    @Description("Get method name of lambda expression")
+    /**
+     * Get method name of lambda expression
+     * @param sl SerializedLambda
+     * @return String
+     * @throws NullPointerException throws
+     */
     public static String getMethodName(SerializedLambda sl) throws NullPointerException {
         return sl.getImplMethodName();
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param args Object[]
+     * @return Method
+     * @throws NoSuchMethodException throws
+     */
     public static Method getDeclaredMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
         debug("getDeclaredMethod");
         //debug("declaredMethods: " + Arrays.toString(getClazz(obj).getDeclaredMethods()));
         return getMethod(obj, clazz -> clazz.getDeclaredMethod(method, getTypes(args)));
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param args Object[]
+     * @return Method
+     * @throws NoSuchMethodException throws
+     */
     public static Method getDeclaredPrimitiveMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
         debug("getDeclaredPrimitiveMethod");
         return getMethod(obj, clazz -> clazz.getDeclaredMethod(method, getPrimitiveTypes(args)));
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param args Object[]
+     * @return Method
+     * @throws NoSuchMethodException throws
+     */
     public static Method getSuperMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
         debug("getSuperMethod");
         //debug("methods: " + Arrays.toString(getClazz(obj).getMethods()));
         return getMethod(obj, clazz -> clazz.getMethod(method, getTypes(args)));
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param args Object[]
+     * @return Method
+     * @throws NoSuchMethodException throws
+     */
     public static Method getPrimitiveMethod(Object obj, String method, Object... args) throws NoSuchMethodException {
         debug("getPrimitiveMethod");
         return getMethod(obj, clazz -> clazz.getMethod(method, getPrimitiveTypes(args)));
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param cb FunctionWithExceptions {Class, M, E}
+     * @return Method
+     * @param <M> extends Executable
+     * @param <E> extends Exception
+     * @throws E throws
+     */
     public static <M extends Executable, E extends Exception> M getMethod(Object obj, FunctionWithExceptions<Class<?>, M, E> cb) throws E {
         M _method = cb.apply(getClazz(obj));
         new AssertException(_method).notNull();
@@ -522,7 +1044,15 @@ public class Reflection {
         return _method;
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param args Object[]
+     * @return Method
+     * @throws ReflectiveOperationException throws
+     * @throws NullPointerException throws
+     */
     public static Method getMethod(Object obj, String method, Object... args) throws ReflectiveOperationException, NullPointerException {
         Method _method = tryCatchNoArgs(() -> tryCatchNoArgs(() -> getDeclaredMethod(obj, method, args), e -> getDeclaredPrimitiveMethod(obj, method, args)),
             e -> tryCatchNoArgs(() -> getSuperMethod(obj, method, args), _e -> getPrimitiveMethod(obj, method, args)));
@@ -533,27 +1063,66 @@ public class Reflection {
         return _method;
     }
 
-    @Description("Get method of class")
+    /**
+     * Get method of class
+     * @param clazz Class
+     * @param method String
+     * @param args Object[]
+     * @return Method
+     * @throws NoSuchMethodException throws
+     * @throws NullPointerException throws
+     */
     public static Method getMethod(Class<?> clazz, String method, Class<?>... args) throws NoSuchMethodException, NullPointerException {
         return clazz.getDeclaredMethod(method, args);
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param args Object[]
+     * @return Method
+     * @throws NoSuchMethodException throws
+     * @throws NullPointerException throws
+     */
     public static Method getMethod(Object obj, String method, Class<?>... args) throws NoSuchMethodException, NullPointerException {
         return getMethod(getClazz(obj), method, args);
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param descriptor String
+     * @return Method
+     * @throws NoSuchMethodException throws
+     * @throws NullPointerException throws
+     */
     public static Method getMethod(Object obj, String method, String descriptor) throws NoSuchMethodException, NullPointerException {
         return getMethod(obj, method, getTypes(obj, descriptor));
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param method String
+     * @param sl SerializedLambda
+     * @return Method
+     * @throws NoSuchMethodException throws
+     * @throws NullPointerException throws
+     */
     public static Method getMethod(Object obj, String method, SerializedLambda sl) throws NoSuchMethodException, NullPointerException {
         return getMethod(obj, method, getDescriptor(sl));
     }
 
-    @Description("Get method of object")
+    /**
+     * Get method of object
+     * @param obj Object
+     * @param sl SerializedLambda
+     * @return Method
+     * @throws NoSuchMethodException throws
+     * @throws NullPointerException throws
+     */
     public static Method getMethod(Object obj, SerializedLambda sl) throws NoSuchMethodException, NullPointerException {
         return getMethod(obj, getMethodName(sl), getDescriptor(sl));
     }
@@ -561,7 +1130,7 @@ public class Reflection {
     /**
      * get method name from lambda expression
      *
-     * @param lambda
+     * @param lambda Serializable
      * @return String
      */
     public static String lambdaMethodName(Serializable lambda) {
@@ -571,13 +1140,20 @@ public class Reflection {
     /**
      * get method from lambda expression
      *
-     * @param lambda
+     * @param lambda Serializable
      * @return String
      */
     public static Method lambdaMethod(Serializable lambda) throws ReflectiveOperationException {
         return lambda(lambda, sl -> getMethod(getLambdaClazz(lambda), sl));
     }
 
+    /**
+     *
+     * @param obj Object
+     * @param lambda Serializable
+     * @return Method
+     * @throws ReflectiveOperationException throws
+     */
     public static Method lambdaMethod(Object obj, Serializable lambda) throws ReflectiveOperationException {
         return lambda(lambda, sl -> getMethod(obj, sl));
     }
@@ -585,8 +1161,8 @@ public class Reflection {
     /**
      * get method from lambda expression
      *
-     * @param lambda
-     * @param cb
+     * @param lambda Serializable
+     * @param cb FunctionWithExceptions
      * @return String
      */
     public static <R, E extends Exception> R lambda(Serializable lambda, FunctionWithExceptions<SerializedLambda, R, E> cb) throws E {
@@ -599,13 +1175,28 @@ public class Reflection {
         }
     }
 
-    @Description("Get method or field from class or superclass")
+    /**
+     * Get method or field from class or superclass
+     * @param obj Object
+     * @param cb FunctionWithExceptions {Class, R, E}
+     * @return R
+     * @param <R> R
+     * @param <E> E
+     * @throws E throws
+     */
     public static <R, E extends ReflectiveOperationException> R getInvoke(Object obj, FunctionWithExceptions<Class<?>, R, E> cb) throws E {
         return getInvoke(getClazz(obj), cb);
     }
 
-    //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
-    @Description("Get method or field from class or superclass")
+    /**
+     * Get method or field from class or superclass
+     * @param clazz Class
+     * @param cb FunctionWithExceptions {Class, R, E}
+     * @return R
+     * @param <R> R
+     * @param <E> E
+     * @throws E throws
+     */
     public static <R, E extends ReflectiveOperationException> R getInvoke(Class<?> clazz, FunctionWithExceptions<Class<?>, R, E> cb) throws E {
         return getInvoke(clazz, cb, (c, e) -> {
             Class<?> superClass = c.getSuperclass();
@@ -617,56 +1208,127 @@ public class Reflection {
         });
     }
 
-    //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
-    @Description("Get method or field from class or superclass")
+    /**
+     * Get method or field from class or superclass
+     * @param clazz Class
+     * @param cb FunctionWithExceptions {Class, R, E}
+     * @param catchCb BiFunctionWithExceptions {Class, E, R, E}
+     * @return R
+     * @param <R> R
+     * @param <E> E
+     * @throws E throws
+     */
+    @SuppressWarnings("unchecked")
     public static <R, E extends ReflectiveOperationException> R getInvoke
     (Class<?> clazz, FunctionWithExceptions<Class<?>, R, E> cb, BiFunctionWithExceptions<Class<?>, E, R, E> catchCb) throws E {
         try { return cb.apply(clazz); }
         catch (ReflectiveOperationException e) { return catchCb.apply(clazz, (E) e); }
     }
 
-    @Description("Get method or field by className")
+    /**
+     * Get method or field by className
+     * @param className String
+     * @return Object[]
+     * @throws ClassNotFoundException throws
+     */
     public static Object[] getInvoke(String className) throws ClassNotFoundException {
         List<Object> list = arrayList(parseClassName(className, "::").split(","));
         list.set(0, getClazz(list.get(0).toString()));
         return list.toArray();
     }
 
+    /**
+     * Get method or field by className
+     * @param className String
+     * @param cb TriFunctionWithExceptions {Class, String, T[], R, E}
+     * @param args T[]
+     * @return R
+     * @param <T> T
+     * @param <R> R
+     * @param <E> E
+     * @throws E throws
+     * @throws ReflectiveOperationException throws
+     */
     @SafeVarargs
-    @Description("Get method or field by className")
     public static <T, R, E extends Exception> R invoke(String className, TriFunctionWithExceptions<Class<?>, String, T[], R, E> cb, T... args)
         throws E, ReflectiveOperationException {
         return tryNoArgsWithPrintMsg("wrong number of arguments", () -> cb.invoke(concatTo(getInvoke(className), args)));
     }
 
-    @Description("Get method or field by className")
+    /**
+     * Get method or field by className
+     * @param className String
+     * @param cb BiFunctionWithExceptions {Class, String, R, E}
+     * @return R
+     * @param <R> R
+     * @param <E> extends Exception
+     * @throws ReflectiveOperationException throws
+     * @throws E throws
+     */
     public static <R, E extends Exception> R invoke(String className, BiFunctionWithExceptions<Class<?>, String, R, E> cb) throws ReflectiveOperationException, E {
         return tryNoArgsWithPrintMsg("wrong number of arguments", () -> cb.invoke(getInvoke(className)));
     }
 
-    @Description("Invoke method of className with parse")
+    /**
+     * Invoke method of className with parse
+     * @param className String
+     * @param args Object[]
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
     public static <T> T invoke(String className, Object... args) throws ReflectiveOperationException {
         return invoke(className, Reflection::invoke, args);
     }
 
-    @Description("Invoke method of className")
+    /**
+     * Invoke method of className
+     * @param className String
+     * @param method String
+     * @param args Object[]
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
     public static <T> T invoke(String className, String method, Object... args) throws ReflectiveOperationException {
         return invoke(getClazz(className), method, args); // вызов метода с аргументами
     }
 
-    @Description("Invoke method of lambda expression")
+    /**
+     * Invoke method of lambda expression
+     * @param lambda Serializable
+     * @param args Object[]
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
     @SuppressWarnings("unchecked")
     public static <T> T invokeLambda(Serializable lambda, Object... args) throws ReflectiveOperationException {
         return (T) lambdaMethod(lambda).invoke(lambda, args); // получение и вызов метода с аргументами
     }
 
-    @Description("Invoke method of object")
+    /**
+     * Invoke method of object
+     * @param obj Object
+     * @param method String
+     * @param args Object[]
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
     @SuppressWarnings("unchecked")
     public static <T> T invoke(Object obj, String method, Object... args) throws ReflectiveOperationException {
         return (T) getMethod(obj, method, args).invoke(obj, args); // получение и вызов метода с аргументами
     }
 
-    @Description("Invoke parse number method")
+    /**
+     * Invoke parse number method
+     * @param type Class
+     * @param value Object
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
     @SuppressWarnings("unchecked")
     public static <T> T invokeParse(Class<?> type, Object value) throws ReflectiveOperationException {
         if (!isParseType(type)) return (T) value;
@@ -680,14 +1342,27 @@ public class Reflection {
         return invoke(type, method, value); // вызов метода с аргументами
     }
 
+    /**
+     *
+     * @param obj Object
+     * @return Field[]
+     */
     public static Field[] fields(Object obj) {
         return getClazz(obj).getDeclaredFields();
     }
 
-    // See:
-    //  - https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value
-    //  - https://www.geeksforgeeks.org/reflection-in-java
-    //  - https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-
+    /**
+     * See:
+     * <p><a href="https://stackoverflow.com/questions/13400075/reflection-generic-get-field-value">Reflection generic get field value</a>.
+     * <p><a href="https://www.geeksforgeeks.org/reflection-in-java">Reflection in Java</a>.
+     * <p><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getDeclaredField-java.lang.String-">getDeclaredField</a>.
+     * @param obj Object
+     * @param func BiFunction {Field, T, R}
+     * @param arg T
+     * @return T
+     * @param <T> T
+     * @param <R> R
+     */
     public static <T, R> T fields(Object obj, BiFunction<Field, T, R> func, T arg) {
         for (Field field : fields(obj)) {
             boolean make = makeAccessible(field, obj);
@@ -697,28 +1372,57 @@ public class Reflection {
         return arg;
     }
 
-    @Description("Get field")
+    /**
+     * Get field
+     * @param className String
+     * @return Field
+     * @throws ReflectiveOperationException throws
+     */
     public static Field field(String className) throws ReflectiveOperationException {
         return invoke(className, Reflection::field);
     }
 
-    @Description("Get field")
+    /**
+     * Get field
+     * @param obj Object
+     * @param name String
+     * @return Field
+     * @throws NoSuchFieldException throws
+     */
     public static Field field(Object obj, String name) throws NoSuchFieldException {
         return field(getClazz(obj), name);
     }
 
-    //Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов setAccessible и getDeclaredField в PriviledgedAction и запустить его через java.security.AccessController.doPrivileged(...)
-    @Description("Get field")
+    /**
+     * Get field
+     * <p>Если есть менеджер безопасности, это не сработает. Вам нужно обернуть вызов {@link Field#setAccessible(boolean) setAccessible} и {@link Class#getDeclaredField} в {@link PrivilegedAction} и запустить его через {@code java.security.AccessController#doPrivileged(PrivilegedAction, AccessControlContext, Permission...) doPrivileged}
+     * @param clazz Class
+     * @param name, String
+     * @return Field
+     * @throws NoSuchFieldException throws
+     */
     public static Field field(Class<?> clazz, String name) throws NoSuchFieldException {
         return getInvoke(clazz, c -> c.getDeclaredField(name));
     }
 
-    @Description("Get field value")
+    /**
+     * Get field value
+     * @param className String
+     * @return Object
+     * @throws ReflectiveOperationException throws
+     */
     public static Object getField(String className) throws ReflectiveOperationException {
         return invoke(className, Reflection::getField);
     }
 
-    @Description("Get field value")
+    /**
+     * Get field value
+     * @param obj Object
+     * @param name String
+     * @return Object
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public static Object getField(Object obj, String name) throws NoSuchFieldException, IllegalAccessException {
         return field(obj, name, field -> {
             try {return field.get(obj);}
@@ -726,12 +1430,26 @@ public class Reflection {
         });
     }
 
-    @Description("Set field value")
+    /**
+     * Set field value
+     * @param className String
+     * @param value Object
+     * @return Object
+     * @throws ReflectiveOperationException throws
+     */
     public static Object setField(String className, Object value) throws ReflectiveOperationException {
         return invoke(className, Reflection::setField, value);
     }
 
-    @Description("Set field value")
+    /**
+     * Set field value
+     * @param obj Object
+     * @param name String
+     * @param value Object
+     * @return Object
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public static Object setField(Object obj, String name, Object value) throws NoSuchFieldException, IllegalAccessException {
         return field(obj, name, field -> {
             try {
@@ -741,7 +1459,15 @@ public class Reflection {
         });
     }
 
-    @Description("Set field value")
+    /**
+     * Set field value
+     * @param obj Object
+     * @param name String
+     * @param cb Function {Field, Object}
+     * @return Object
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     */
     public static Object field(Object obj, String name, Function<Field, Object> cb) throws NoSuchFieldException, IllegalAccessException {
         Field field = field(obj, name);
         boolean make = makeAccessible(field, obj);
@@ -751,51 +1477,88 @@ public class Reflection {
         return value;
     }
 
-    @Description("Field set accessible to true")
+    /**
+     * Field set accessible to true
+     * @param field Field
+     * @param obj Object
+     * @return boolean
+     */
     public static boolean makeAccessible(Field field, Object obj) {
         boolean make = !canAccess(field, obj);
         if (make) field.setAccessible(true);
         return make;
     }
 
-    @Description("Field set accessible to true")
+    /**
+     * Field set accessible to true
+     * @param field Field
+     * @return boolean
+     */
     public static boolean makeAccessible(Field field) {
         boolean make = !isPublic(field);
         if (!isPublic(field)) field.setAccessible(true);
         return make;
     }
 
-    @Description("Field set accessible to false")
+    /**
+     * Field set accessible to false
+     * @param field Field
+     * @param make boolean
+     */
     public static void makeUnAccessible(Field field, boolean make) {
         if (make) field.setAccessible(false);
     }
 
-    @Description("Field set accessible to false")
+    /**
+     * Field set accessible to false
+     * @param field Field
+     */
     public static void makeUnAccessible(Field field) {
         field.setAccessible(false);
     }
 
-    @Description("Field is static")
+    /**
+     * Field is static
+     * @param field Field
+     * @return boolean
+     */
     public static boolean isStatic(Field field) {
         return Modifier.isStatic(field.getModifiers()) || Modifier.isStatic(field.getDeclaringClass().getModifiers());
     }
 
-    @Description("Field is public")
+    /**
+     * Field is public
+     * @param field Field
+     * @return boolean
+     */
     public static boolean isPublic(Field field) {
         return Modifier.isPublic(field.getModifiers()) || Modifier.isPublic(field.getDeclaringClass().getModifiers());
     }
 
-    @Description("Field is protected")
+    /**
+     * Field is protected
+     * @param field Field
+     * @return boolean
+     */
     public static boolean isProtected(Field field) {
         return Modifier.isProtected(field.getModifiers()) || Modifier.isProtected(field.getDeclaringClass().getModifiers());
     }
 
-    @Description("Field is private")
+    /**
+     * Field is private
+     * @param field Field
+     * @return boolean
+     */
     public static boolean isPrivate(Field field) {
         return Modifier.isPrivate(field.getModifiers()) || Modifier.isPrivate(field.getDeclaringClass().getModifiers());
     }
 
-    @Description("Field is accessible by object")
+    /**
+     * Field is accessible by object
+     * @param field Field
+     * @param obj Object
+     * @return boolean
+     */
     public static boolean canAccess(Field field, Object obj) {
         return field.canAccess(isStatic(field) ? null : obj);
     }
