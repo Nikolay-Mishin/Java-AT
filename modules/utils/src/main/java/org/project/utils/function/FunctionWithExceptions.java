@@ -6,9 +6,9 @@ import java.util.function.Function;
 
 /**
  *
- * @param <T>
- * @param <R>
- * @param <E>
+ * @param <T> T
+ * @param <R> R
+ * @param <E> E
  */
 @FunctionalInterface
 public interface FunctionWithExceptions<T, R, E extends Exception> {

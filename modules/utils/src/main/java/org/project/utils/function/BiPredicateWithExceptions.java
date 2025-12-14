@@ -6,9 +6,9 @@ import java.util.function.BiPredicate;
 
 /**
  *
- * @param <T>
- * @param <U>
- * @param <E>
+ * @param <T> T
+ * @param <U> U
+ * @param <E> E
  */
 @FunctionalInterface
 public interface BiPredicateWithExceptions<T, U, E extends Exception> {

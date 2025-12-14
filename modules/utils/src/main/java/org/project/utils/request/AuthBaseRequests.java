@@ -2,7 +2,7 @@ package org.project.utils.request;
 
 /**
  *
- * @param <T>
+ * @param <T> T
  */
 public class AuthBaseRequests<T> extends BaseRequests<T> {
     /**

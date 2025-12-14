@@ -6,7 +6,7 @@ import java.util.function.IntPredicate;
 
 /**
  *
- * @param <E>
+ * @param <E> E
  */
 @FunctionalInterface
 public interface IntPredicateWithExceptions<E extends Exception> {

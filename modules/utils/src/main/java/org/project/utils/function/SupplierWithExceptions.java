@@ -2,8 +2,8 @@ package org.project.utils.function;
 
 /**
  *
- * @param <T>
- * @param <E>
+ * @param <T> T
+ * @param <E> E
  */
 @FunctionalInterface
 public interface SupplierWithExceptions<T, E extends Exception> {

@@ -7,7 +7,7 @@ import org.project.utils.reflection.Instance;
 
 /**
  *
- * @param <T>
+ * @param <T> T
  */
 public class ModelFactory<T> extends Instance<T> {
     /**

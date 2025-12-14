@@ -79,6 +79,7 @@ public class FS extends Reader {
      *
      * @param path String
      * @param data byte[]
+     * @throws IOException throws
      */
     public static void writeFile(String path, byte[] data) throws IOException {
         writeFile(path, () -> writeStream(output(path), data));
@@ -88,6 +89,7 @@ public class FS extends Reader {
      *
      * @param path String
      * @param data String
+     * @throws IOException throws
      */
     public static void writeFile(String path, String data) throws IOException {
         writeFile(path, () -> writeStream(output(path), data));
@@ -97,6 +99,9 @@ public class FS extends Reader {
      *
      * @param path String
      * @param cb ConsumerVoidWithExceptions {T, E}
+     * @param <T> T
+     * @param <E> E
+     * @throws IOException throws
      */
     public static <T, E extends IOException> void writeFile(String path, ConsumerVoidWithExceptions<T, E> cb) throws IOException {
         debug("writeFile: " + path);
@@ -133,6 +138,7 @@ public class FS extends Reader {
      *
      * @param output OutputStream
      * @param data byte[]
+     * @throws IOException throws
      */
     public static void writeStream(OutputStream output, byte[] data) throws IOException {
         //output.write(data);
@@ -143,6 +149,9 @@ public class FS extends Reader {
      *
      * @param output OutputStream
      * @param cb Supplier {T}
+     * @param <T> T
+     * @param <E> E
+     * @throws E throws
      */
     public static <T, E extends IOException> void writeStream(OutputStream output, ConsumerVoidWithExceptions<T, E> cb) throws E {
         writeStream(output, cb, () -> {});
@@ -153,8 +162,12 @@ public class FS extends Reader {
      * @param output OutputStream
      * @param cb Supplier {T}
      * @param close Supplier {T}
+     * @param <T> T
+     * @param <E> E
+     * @throws E throws
      */
-    public static <T, E extends IOException> void writeStream(OutputStream output, ConsumerVoidWithExceptions<T, E> cb, ConsumerVoidWithExceptions<T, E> close) throws E
+    public static <T, E extends IOException> void writeStream(OutputStream output, ConsumerVoidWithExceptions<T, E> cb, ConsumerVoidWithExceptions<T, E> close)
+        throws E
     {
         try (output) {
             cb.accept();

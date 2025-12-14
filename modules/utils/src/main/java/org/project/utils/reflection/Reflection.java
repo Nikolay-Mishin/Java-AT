@@ -254,6 +254,7 @@ public class Reflection {
      * get class from lambda expression
      * @param lambda Serializable
      * @return String
+     * @throws ClassNotFoundException throws
      */
     public static Class<?> getLambdaClazz(Serializable lambda) throws ClassNotFoundException {
         return getClazz(getLambdaClassName(lambda));
@@ -1142,6 +1143,7 @@ public class Reflection {
      *
      * @param lambda Serializable
      * @return String
+     * @throws ReflectiveOperationException throws
      */
     public static Method lambdaMethod(Serializable lambda) throws ReflectiveOperationException {
         return lambda(lambda, sl -> getMethod(getLambdaClazz(lambda), sl));
@@ -1159,11 +1161,13 @@ public class Reflection {
     }
 
     /**
-     * get method from lambda expression
      *
      * @param lambda Serializable
      * @param cb FunctionWithExceptions
      * @return String
+     * @param <R> R
+     * @param <E> E
+     * @throws E throws
      */
     public static <R, E extends Exception> R lambda(Serializable lambda, FunctionWithExceptions<SerializedLambda, R, E> cb) throws E {
         try {

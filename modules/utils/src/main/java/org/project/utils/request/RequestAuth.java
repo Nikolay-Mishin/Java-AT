@@ -117,6 +117,7 @@ public class RequestAuth extends RequestOptions {
      * <p>{@code new FormAuthConfig("/perform_signIn", "user", "password");}
      * @param username String
      * @param password String
+     * @param config FormAuthConfig
      * @return RequestSpecification
      */
     public RequestSpecification form(String username, String password, FormAuthConfig config) {

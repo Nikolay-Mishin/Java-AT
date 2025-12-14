@@ -28,8 +28,8 @@ import org.project.utils.json.JsonSchema;
 
 /**
  *
- * @param <K>
- * @param <V>
+ * @param <K> K
+ * @param <V> V
  */
 public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> {
     /**

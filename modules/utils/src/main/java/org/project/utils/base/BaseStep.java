@@ -23,8 +23,8 @@ import org.project.utils.request.BaseRequests;
 
 /**
  *
- * @param <R>
- * @param <M>
+ * @param <R> R
+ * @param <M> M
  */
 public class BaseStep<R extends BaseRequests<M>, M> {
     /**

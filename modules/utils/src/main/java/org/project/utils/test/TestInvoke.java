@@ -56,6 +56,10 @@ public class TestInvoke extends TestZip {
         testInvoke();
     }
 
+    /**
+     *
+     * @throws Exception throws
+     */
     public static void testInvoke() throws Exception {
         debug("testInvoke");
         getClazz(fsClass, "::");

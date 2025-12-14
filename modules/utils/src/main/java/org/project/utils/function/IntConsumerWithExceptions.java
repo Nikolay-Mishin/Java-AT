@@ -6,7 +6,7 @@ import java.util.function.IntConsumer;
 
 /**
  *
- * @param <E>
+ * @param <E> E
  */
 @FunctionalInterface
 public interface IntConsumerWithExceptions<E extends Exception> {

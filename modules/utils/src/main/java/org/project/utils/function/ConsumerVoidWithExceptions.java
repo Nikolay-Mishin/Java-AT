@@ -6,8 +6,8 @@ import java.util.function.Consumer;
 
 /**
  *
- * @param <T>
- * @param <E>
+ * @param <T> T
+ * @param <E> E
  */
 @FunctionalInterface
 public interface ConsumerVoidWithExceptions<T, E extends Exception> {

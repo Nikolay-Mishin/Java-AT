@@ -11,7 +11,7 @@ import org.project.utils.base.Register;
 
 /**
  *
- * @param <T>
+ * @param <T> T
  */
 public class Instance<T> extends Register<Class<T>, T> {
 

@@ -6,6 +6,9 @@ import org.jsonschema2pojo.SourceType;
 
 import org.project.utils.annotator.lombok.LombokAnnotator;
 
+/**
+ *
+ */
 public class GenerationBaseConfig extends org.jsonschema2pojo.DefaultGenerationConfig {
     @Override public boolean isGenerateBuilders() {
         return false;

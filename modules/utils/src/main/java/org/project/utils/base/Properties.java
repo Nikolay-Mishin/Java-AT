@@ -448,6 +448,8 @@ public class Properties extends java.util.Properties {
      * <p>Например, {@code InputStream input = ClassName.class.getResourceAsStream("/com/example/file.properties")}.
      * @param clazz Class
      * @param classpath String
+     * @param absolute boolean
+     * @return Properties
      */
     public static Properties loadProps(Class<?> clazz, String classpath, boolean absolute) {
         return loadPropsFile(props -> tryResWithPrint(getRes(clazz, classpath, absolute), props::loadProps));

@@ -11,7 +11,7 @@ import static org.project.utils.reflection.Reflection.setField;
 
 /**
  *
- * @param <T>
+ * @param <T> T
  */
 public class SingleInstance<T> extends Instance<T> {
     /**

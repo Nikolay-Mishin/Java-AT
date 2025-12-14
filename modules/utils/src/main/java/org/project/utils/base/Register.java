@@ -10,8 +10,8 @@ import static org.project.utils.reflection.Reflection.getGenericClass;
 
 /**
  *
- * @param <K>
- * @param <V>
+ * @param <K> K
+ * @param <V> V
  */
 public class Register<K, V> {
     /**

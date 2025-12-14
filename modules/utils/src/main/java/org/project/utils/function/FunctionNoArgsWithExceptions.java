@@ -6,9 +6,9 @@ import static java.util.Objects.requireNonNull;
 
 /**
  *
- * @param <T>
- * @param <R>
- * @param <E>
+ * @param <T> T
+ * @param <R> R
+ * @param <E> E
  */
 @FunctionalInterface
 public interface FunctionNoArgsWithExceptions<T, R, E extends Exception> {

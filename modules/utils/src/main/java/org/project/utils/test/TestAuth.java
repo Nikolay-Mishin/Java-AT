@@ -11,6 +11,7 @@ import static org.project.utils.auth.Auth.printTokens;
 import static org.project.utils.auth.Auth.req;
 import static org.project.utils.auth.Auth.token;
 import static org.project.utils.base.Register.printRegisterMap;
+import static org.project.utils.constant.RequestConstants.METHOD.POST;
 
 import org.project.utils.reflection.SingleInstance;
 
@@ -51,7 +52,7 @@ public class TestAuth extends TestApi {
      */
     public static void testAuth() throws Exception {
         testAuth(auth);
-        req().uri(uri);
+        req().uri(POST, uri);
         testAuth(authTest);
 
         printTokens();

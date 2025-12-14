@@ -29,7 +29,7 @@ import org.project.utils.json.JsonSchema;
 
 /**
  *
- * @param <T>
+ * @param <T> T
  */
 public class Model<T> {
     /**

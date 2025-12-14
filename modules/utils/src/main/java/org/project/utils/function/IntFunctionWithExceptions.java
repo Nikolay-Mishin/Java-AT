@@ -2,8 +2,8 @@ package org.project.utils.function;
 
 /**
  *
- * @param <R>
- * @param <E>
+ * @param <R> R
+ * @param <E> E
  */
 @FunctionalInterface
 public interface IntFunctionWithExceptions<R, E extends Exception> {

@@ -6,9 +6,9 @@ import java.util.function.BiConsumer;
 
 /**
  *
- * @param <T>
- * @param <U>
- * @param <E>
+ * @param <T> T
+ * @param <U> U
+ * @param <E> E
  */
 @FunctionalInterface
 public interface BiConsumerWithExceptions<T, U, E extends Exception> {

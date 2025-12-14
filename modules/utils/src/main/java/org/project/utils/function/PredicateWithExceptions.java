@@ -7,8 +7,8 @@ import java.util.function.Predicate;
 
 /**
  *
- * @param <T>
- * @param <E>
+ * @param <T> T
+ * @param <E> E
  */
 @FunctionalInterface
 public interface PredicateWithExceptions<T, E extends Exception> {

@@ -7,10 +7,10 @@ import java.util.function.Function;
 
 /**
  *
- * @param <T>
- * @param <U>
- * @param <R>
- * @param <E>
+ * @param <T> T
+ * @param <U> U
+ * @param <R> R
+ * @param <E> E
  */
 @FunctionalInterface
 public interface BiFunctionWithExceptions<T, U, R, E extends Exception> extends Lambda {

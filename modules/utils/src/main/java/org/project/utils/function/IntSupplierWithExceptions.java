@@ -2,7 +2,7 @@ package org.project.utils.function;
 
 /**
  *
- * @param <E>
+ * @param <E> E
  */
 @FunctionalInterface
 public interface IntSupplierWithExceptions<E extends Exception> {

@@ -79,7 +79,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      */
     protected boolean eventHandler = false;
     /**
-     * private final EventHandler<TestRunStarted> runStartedHandler = event -> startReport(event);
+     * private final EventHandler {TestRunStarted} runStartedHandler = event -> startReport(event);
      */
     protected final EventHandler<Event> runEventHandler = this::event;
     /**
@@ -133,6 +133,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * <li>{@link String}</li>
      * <li>{@link Appendable}</li>
      * </ul>
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({})
     public CucumberEventListener() throws ReflectiveOperationException {
@@ -149,6 +150,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * <li>{@link Appendable}</li>
      * </ul>
      * @param arg String
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"arg"})
     public CucumberEventListener(String arg) throws ReflectiveOperationException {
@@ -167,6 +169,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * </ul>
      * @param arg String
      * @param eventHandler boolean
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"arg", "eventHandler"})
     public CucumberEventListener(String arg, boolean eventHandler) throws ReflectiveOperationException {

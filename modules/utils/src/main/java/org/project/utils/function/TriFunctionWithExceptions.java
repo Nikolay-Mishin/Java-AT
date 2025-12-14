@@ -8,11 +8,11 @@ import org.apache.commons.lang3.function.TriFunction;
 
 /**
  *
- * @param <T>
- * @param <U>
- * @param <V>
- * @param <R>
- * @param <E>
+ * @param <T> T
+ * @param <U> U
+ * @param <V> V
+ * @param <R> R
+ * @param <E> E
  */
 @FunctionalInterface
 public interface TriFunctionWithExceptions<T, U, V, R, E extends Exception> extends Lambda {

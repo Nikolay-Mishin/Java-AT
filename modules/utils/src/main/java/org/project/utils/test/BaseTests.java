@@ -30,7 +30,7 @@ public class BaseTests extends TestDriver {
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests(1, 4);
+        new BaseTests(1, 9);
     }
 
     /**
@@ -38,10 +38,7 @@ public class BaseTests extends TestDriver {
      */
     @ConstructorProperties({})
     public BaseTests() {
-        debug("BaseTests:main");
-        new TestAuth();
-        new TestReq();
-        new TestFS();
+        init();
     }
 
     /**
@@ -51,6 +48,7 @@ public class BaseTests extends TestDriver {
      */
     @ConstructorProperties({"m"})
     public BaseTests(int m) throws Exception {
+        init();
         testMain(m);
     }
 
@@ -62,8 +60,19 @@ public class BaseTests extends TestDriver {
      */
     @ConstructorProperties({"m", "n"})
     public BaseTests(int m, int n) throws Exception {
+        init();
         testMain(m);
         testBase(n);
+    }
+
+    /**
+     *
+     */
+    public static void init() {
+        debug("BaseTests:main");
+        new TestAuth();
+        new TestReq();
+        new TestFS();
     }
 
     /**
