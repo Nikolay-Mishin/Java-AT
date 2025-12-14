@@ -10,8 +10,12 @@ import io.restassured.response.Response;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
+import static org.project.utils.constant.RequestConstants.getMethod;
+import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.fs.File.path;
+import static org.project.utils.reflection.Reflection.invoke;
 
+import org.project.utils.constant.RequestConstants.METHOD;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.reflection.SingleInstance;
 import org.project.utils.request.AuthBaseRequests;
@@ -25,6 +29,10 @@ public class Auth extends SingleInstance<Auth> {
      *
      */
     protected static Auth i;
+    /**
+     *
+     */
+    protected METHOD method = POST;
     /**
      *
      */
@@ -64,6 +72,23 @@ public class Auth extends SingleInstance<Auth> {
 
     /**
      *
+     * @return METHOD
+     */
+    public static METHOD method() {
+        return i.method;
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @return METHOD
+     */
+    public static METHOD method(METHOD method) {
+        return i.method = method;
+    }
+
+    /**
+     *
      * @return AuthBaseRequests of T
      * @param <T> T
      */
@@ -92,7 +117,7 @@ public class Auth extends SingleInstance<Auth> {
      */
     @SuppressWarnings("unchecked")
     public static <T> AuthBaseRequests<T> req(String baseUrl) throws Exception {
-        return req(notNull(i.req) ? (AuthBaseRequests<T>) req().init(baseUrl) : new AuthBaseRequests<>(baseUrl));
+        return req(notNull(i.req) ? (AuthBaseRequests<T>) req().init(method(), baseUrl) : new AuthBaseRequests<>(baseUrl));
     }
 
     /**
@@ -152,8 +177,8 @@ public class Auth extends SingleInstance<Auth> {
      * @throws NoSuchFieldException throws
      * @throws IllegalAccessException throws
      */
-    public static <T> Request auth(AuthBaseRequests<T> req) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return auth(req.post());
+    public static <T> Request auth(AuthBaseRequests<T> req) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return auth((Request) invoke(req, getMethod(method())));
     }
 
     /**
@@ -188,8 +213,7 @@ public class Auth extends SingleInstance<Auth> {
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      */
-    public static <T> Auth init(AuthBaseRequests<T> req, AuthToken token)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException, MalformedURLException, URISyntaxException {
+    public static <T> Auth init(AuthBaseRequests<T> req, AuthToken token) throws ReflectiveOperationException, MalformedURLException, URISyntaxException {
         debug("Auth: req, AuthToken");
         init(token);
         auth(req);

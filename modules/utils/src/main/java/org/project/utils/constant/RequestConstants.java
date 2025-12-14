@@ -55,4 +55,11 @@ public interface RequestConstants {
          */
         delete
     }
+
+    /**
+     * POST -> post
+     * @param method METHOD
+     * @return String
+     */
+    static String getMethod(METHOD method) { return method.toString().toLowerCase(); };
 }

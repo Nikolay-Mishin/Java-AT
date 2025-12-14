@@ -15,6 +15,7 @@ import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.constant.RequestConstants.METHOD.PATCH;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.constant.RequestConstants.METHOD.PUT;
+import static org.project.utils.constant.RequestConstants.getMethod;
 import static org.project.utils.fs.File.path;
 import static org.project.utils.reflection.Reflection.getField;
 
@@ -215,7 +216,7 @@ public class BaseRequests<T> {
      * @throws URISyntaxException throws
      */
     public Request getOrCreate(METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
-        return req(req(method.toString().toLowerCase()), method);
+        return req(req(getMethod(method)), method);
     }
 
     /**
