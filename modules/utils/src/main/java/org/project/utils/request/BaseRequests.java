@@ -8,6 +8,7 @@ import java.util.Arrays;
 import io.restassured.response.Response;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.constant.RequestConstants.METHOD.DELETE;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
@@ -23,7 +24,7 @@ import org.project.utils.function.FunctionWithExceptions;
 
 /**
  *
- * @param <T>
+ * @param <T> T
  */
 public class BaseRequests<T> {
     /**
@@ -70,9 +71,21 @@ public class BaseRequests<T> {
      * @throws Exception throws
      */
     public <R extends BaseRequests<T>> R init(Object... pathList) throws Exception {
+        return init(null, pathList);
+    }
+
+    /**
+     * Init baseUrl of request
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return R
+     * @param <R> R
+     * @throws Exception throws
+     */
+    public <R extends BaseRequests<T>> R init(METHOD method, Object... pathList) throws Exception {
         debug("setBaseUrl: " + Arrays.toString(pathList));
         baseUrl(pathList);
-        return init(req -> req.baseUrl(pathList));
+        return init(method, req -> req.baseUrl(pathList));
     }
 
     /**
@@ -83,8 +96,20 @@ public class BaseRequests<T> {
      * @throws Exception throws
      */
     public <R extends BaseRequests<T>> R uri(String uri) throws Exception {
+        return uri(null, uri);
+    }
+
+    /**
+     * Set uri of request
+     * @param method METHOD
+     * @param uri String
+     * @return R
+     * @param <R> R
+     * @throws Exception throws
+     */
+    public <R extends BaseRequests<T>> R uri(METHOD method, String uri) throws Exception {
         debug("setUri: " + uri);
-        return init(req -> req.uri(uri));
+        return init(method, req -> req.uri(uri));
     }
 
     /**
@@ -95,8 +120,42 @@ public class BaseRequests<T> {
      * @throws Exception throws
      */
     public <R extends BaseRequests<T>> R endpoint(Object... pathList) throws Exception {
+        return endpoint(null, pathList);
+    }
+
+    /**
+     * Set endpoint of request
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return R
+     * @param <R> R
+     * @throws Exception throws
+     */
+    public <R extends BaseRequests<T>> R endpoint(METHOD method, Object... pathList) throws Exception {
         debug("setEndpoint: " + Arrays.toString(pathList));
-        return init(req -> req.endpoint(pathList));
+        return init(method, req -> req.endpoint(pathList));
+    }
+
+    /**
+     * Init request with cb
+     * @param method METHOD
+     * @param cb FunctionWithExceptions
+     * @return R
+     * @param <R> R
+     * @param <V> V
+     * @param <E> E
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
+     * @throws E throws
+     */
+    @SuppressWarnings("unchecked")
+    public <R extends BaseRequests<T>, V extends RequestOptions, E extends Exception> R init(METHOD method, FunctionWithExceptions<Request, V, E> cb)
+        throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException, E {
+        if (isNull(method)) init(cb);
+        else cb.apply(getOrCreate(method));
+        return (R) this;
     }
 
     /**
