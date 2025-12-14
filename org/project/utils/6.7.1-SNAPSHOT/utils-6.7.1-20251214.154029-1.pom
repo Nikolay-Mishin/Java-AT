@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.project</groupId>
+    <artifactId>utils</artifactId>
+    <version>6.7.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <src.dir>src/main</src.dir>
+        <res.dir>${src.dir}/resources</res.dir>
+        <!-- GitHub server corresponds to entry in ~/.m2/settings.xml -->
+        <github.global.server>github</github.global.server>
+        <github.global.url>https://${github.global.server}.com</github.global.url>
+        <github.global.raw>https://raw.${github.global.server}.com</github.global.raw>
+        <github.id>Nikolay-Mishin</github.id>
+        <github.url>${github.global.url}/${github.id}</github.url>
+        <github.name>Nikolay Mishin</github.name>
+        <github.repo>Java-AT</github.repo>
+        <github.branch>mvn-repo</github.branch>
+        <github.branch.test>mvn-repo-test</github.branch.test>
+        <github.merge>true</github.merge>
+        <github.msg>Maven artifacts for ${project.version}</github.msg>
+        <repo.id>internal.repo</repo.id>
+        <repo.dir>repo</repo.dir>
+        <repo.path>${basedir}/${repo.dir}</repo.path>
+        <repo.url>file://${repo.path}</repo.url>
+        <repo.name>org/project</repo.name>
+        <repo.artifact.dir>${repo.name}/${project.artifactId}</repo.artifact.dir>
+        <repo.artifact>${repo.artifact.dir}/${project.version}</repo.artifact>
+        <repo.artifact.path>${repo.dir}/${repo.artifact}</repo.artifact.path>
+        <repo.artifact.file.path>${project.build.directory}/${project.artifactId}-${project.version}</repo.artifact.file.path>
+        <repo.artifact.pkg>${project.packaging}</repo.artifact.pkg>
+        <repo.artifact.file>${repo.artifact.file.path}.${repo.artifact.pkg}</repo.artifact.file>
+        <repo.artifact.sources>${repo.artifact.file.path}-sources.${repo.artifact.pkg}</repo.artifact.sources>
+        <repo.artifact.javadoc>${repo.artifact.file.path}-javadoc.${repo.artifact.pkg}</repo.artifact.javadoc>
+        <repo.artifact.classifiers>sources,javadoc</repo.artifact.classifiers>
+        <repo.symlinks>false</repo.symlinks>
+        <repo.noJekyll>true</repo.noJekyll>
+        <clean.exclude.defaults>true</clean.exclude.defaults>
+        <docker.dir>${basedir}/docker</docker.dir>
+        <docker.image>${project.artifactId}-${project.version}</docker.image>
+    </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>${repo.id}</id>
+            <name>${repo.name}</name>
+            <url>${repo.url}</url>
+        </repository>
+    </distributionManagement>
+
+    <developers>
+        <developer>
+            <id>${github.id}</id>
+            <name>${github.name}</name>
+            <email></email>
+            <url>${github.url}</url>
+            <organization></organization>
+            <organizationUrl></organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone></timezone>
+            <properties></properties>
+        </developer>
+    </developers>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.12.0</version>
+                        <executions>
+                            <execution>
+                                <id>release</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>2.8.1</version>
+                        <configuration>
+                            <altDeploymentRepository>${repo.id}::default::${repo.url}</altDeploymentRepository>
+                            <file>${repo.artifact.file}</file>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>${repo.artifact.pkg}</packaging>
+                            <sources>${repo.artifact.sources}</sources>
+                            <javadoc>${repo.artifact.javadoc}</javadoc>
+                            <classifiers>${repo.artifact.classifiers}</classifiers>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                                <configuration>
+                                    <skip>true</skip>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>release</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>src</id>
+            <activation>
+                <property>
+                    <name>src</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.1.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>doc</id>
+            <activation>
+                <property>
+                    <name>doc</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.12.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>site</id>
+            <activation>
+                <property>
+                    <name>site</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <version>0.11</version>
+                        <configuration>
+                            <message>${github.msg}</message> <!-- git commit message -->
+                            <noJekyll>${repo.noJekyll}</noJekyll> <!-- disable webpage processing -->
+                            <merge>${github.merge}</merge> <!-- не перезаписывать предыдущие артефакты при развертывании -->
+                            <outputDirectory>${repo.path}</outputDirectory> <!-- distribution management repository url -->
+                            <branch>refs/heads/${github.branch}</branch> <!-- remote branch name -->
+                            <includes>
+                                <include>${repo.artifact.dir}/*</include>
+                                <include>${repo.artifact}/*</include>
+                            </includes>
+                            <repositoryName>${github.repo}</repositoryName> <!-- github repo name -->
+                            <repositoryOwner>${github.id}</repositoryOwner> <!-- github username  -->
+                        </configuration>
+                        <executions>
+                            <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+                            <execution>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>docker</id>
+            <activation>
+                <property>
+                    <name>docker</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.4.10</version>
+                        <configuration>
+                            <dockerDirectory>${docker.dir}</dockerDirectory>
+                            <imageName>${docker.image}</imageName>
+                            <!--<dockerHost>https://192.168.65.0:2376</dockerHost>-->
+                            <dockerHost>tcp://127.0.0.0:2376</dockerHost>
+                            <dockerCertPath>C:\Users\Владелец Super PC\.docker\machine\machines\default</dockerCertPath>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <include>${project.build.finalName}.jar</include>
+                                </resource>
+                            </resources>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>dockerfile</id>
+            <activation>
+                <property>
+                    <name>dockerfile</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>1.4.10</version>
+                        <configuration>
+                            <!--<buildDirectory>${docker.dir}</buildDirectory>-->
+                            <repository>${docker.dir}</repository>
+                            <tag>${docker.image}</tag>
+                            <skipDockerInfo>true</skipDockerInfo>
+                            <pullNewerImage>false</pullNewerImage>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${res.dir}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <fork>true</fork>
+                    <executable><!-- path-to-javac --></executable>
+                    <!-- <compilerVersion>1.3</compilerVersion> -->
+                    <source>17</source>
+                    <target>17</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                        <!-- This is needed when using Lombok 1.18.16 and above -->
+                        <!--<path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>-->
+                        <!-- other annotation processors -->
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <!-- не удалять каталог target -->
+                    <!-- <excludeDefaultDirectories>${clean.exclude.defaults}</excludeDefaultDirectories> -->
+                    <filesets>
+                        <fileset>
+                            <directory>${repo.artifact.path}</directory>
+                            <followSymlinks>${repo.symlinks}</followSymlinks>
+                            <includes>
+                                <include>**</include> <!-- **/* - файлы | ** - каталог -->
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.1</version>
+                <configuration>
+                    <altDeploymentRepository>${repo.id}::default::${repo.url}</altDeploymentRepository>
+                    <!--<repositoryId>${repo.id}</repositoryId>
+                    <url>${repo.url}</url>-->
+                    <file>${repo.artifact.file}</file>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>${project.artifactId}</artifactId>
+                    <version>${project.version}</version>
+                    <!--<packaging>${repo.artifact.pkg}</packaging>-->
+                    <!--<pomFile>pom.xml</pomFile>-->
+                    <sources>${repo.artifact.sources}</sources>
+                    <javadoc>${repo.artifact.javadoc}</javadoc>
+                    <classifiers>${repo.artifact.classifiers}</classifiers>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- custom dependencies -->
+
+        <!-- local dependencies -->
+        <!-- <dependency>
+            <groupId>org.local</groupId>
+            <artifactId>selenium-server</artifactId>
+            <version>4.29.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/jar/selenium-server-4.29.0.jar</systemPath>
+        </dependency> -->
+
+        <!-- dev dependencies -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.1.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+            <!--<scope>compile</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.16.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aeonbits.owner</groupId>
+            <artifactId>owner</artifactId>
+            <version>1.0.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-rest-assured</artifactId>
+            <version>2.17.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>7.6.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.26.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+
+        <!-- This is needed when using Lombok 1.18.16 and above -->
+        <!--<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.5.Final</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.11.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsonschema2pojo</groupId>
+            <artifactId>jsonschema2pojo-core</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.11.0</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>2.24.0</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+    </dependencies>
+</project>
