@@ -77,6 +77,15 @@ public class TestWinDriver extends TestProc {
 
     /**
      *
+     * @throws Exception throws
+     */
+    public static void testWinDriver() throws Exception {
+        WinDriver.start();
+        start(url);
+    }
+
+    /**
+     *
      * @throws ReflectiveOperationException throws
      * @throws MalformedURLException throws
      */
@@ -89,15 +98,6 @@ public class TestWinDriver extends TestProc {
         debug("localStorage data: " + ls.items());
         debug("localStorage item: " + ls.get("accessToken"));
         quit();
-    }
-
-    /**
-     *
-     * @throws Exception throws
-     */
-    public static void testWinDriver() throws Exception {
-        WinDriver.start();
-        start(url);
     }
 
 }

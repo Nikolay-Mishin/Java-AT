@@ -114,14 +114,14 @@ public class BaseTests extends TestWeb {
      * <p>17: testReqPost();
      * <p>18: testReqTest();
      * <p>19: testReqGet();
-     * <p>20: makeOperation();
-     * <p>21: testFind(0);
-     * <p>22: testBaseProc();
-     * <p>23: testProc();
-     * <p>24: testProcWeb();
-     * <p>25: testWebDriver();
-     * <p>26: testWinDriver();
-     * <p>27: testWeb();
+     * <p>20: testWeb();
+     * <p>21: testWinDriver();
+     * <p>22: testWebDriver();
+     * <p>23: testBaseProc();
+     * <p>24: testProc();
+     * <p>25: testProcWeb();
+     * <p>26: makeOperation();
+     * <p>27: testFind(0);
      * @param n int
      * @throws Exception throws
      */
@@ -165,21 +165,21 @@ public class BaseTests extends TestWeb {
                 break;
             case 19: testReqGet();
                 break;
-            case 20: makeOperation();
+            case 20: testWeb();
                 break;
-            case 21: testFind(0);
+            case 21: testWinDriver();
                 break;
-            case 22: testBaseProc();
+            case 22: testWebDriver();
                 break;
-            case 23: testProc();
+            case 23: testBaseProc();
                 break;
-            case 24: testProcWeb();
+            case 24: testProc();
                 break;
-            case 25: testWebDriver();
+            case 25: testProcWeb();
                 break;
-            case 26: testWinDriver();
+            case 26: makeOperation();
                 break;
-            case 27: testWeb();
+            case 27: testFind(0);
                 break;
         }
     }
