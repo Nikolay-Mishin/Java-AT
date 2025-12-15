@@ -6,13 +6,13 @@
 
     <groupId>org.project</groupId>
     <artifactId>Java-AT</artifactId>
-    <version>7.18.8</version>
+    <version>7.19.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <utils.ver>6.7.5-SNAPSHOT</utils.ver>
+        <utils.ver>7.0.1-SNAPSHOT</utils.ver>
         <src.dir>src/main</src.dir>
         <src.test>src/test</src.test>
         <res.dir>${src.dir}/resources</res.dir>
