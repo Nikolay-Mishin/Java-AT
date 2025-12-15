@@ -14,12 +14,14 @@ import static org.project.utils.request.Request.getParams;
 import static org.project.utils.request.Request.getParamsSlash;
 import static org.project.utils.windriver.WebDriver.ls;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestWeb<T extends TestBaseConfig> extends TestWinDriver<T> {
+public class TestWeb<T extends TestBaseConfig, D extends DriverBaseConfig, W extends WebBaseConfig> extends TestWinDriver<T, D, W> {
     /**
      *
      */

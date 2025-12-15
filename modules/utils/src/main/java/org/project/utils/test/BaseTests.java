@@ -7,12 +7,14 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.test.CucumberRunTest.setOptions;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  *
  */
-public class BaseTests extends TestWeb<TestBaseConfig> {
+public class BaseTests<T extends TestBaseConfig, D extends DriverBaseConfig, W extends WebBaseConfig> extends TestWeb<T, D, W> {
 
     /**
      *
@@ -21,7 +23,7 @@ public class BaseTests extends TestWeb<TestBaseConfig> {
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests(1);
+        new BaseTests<>(1);
         debug("instance: " + instance());
     }
 

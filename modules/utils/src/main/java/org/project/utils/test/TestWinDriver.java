@@ -16,6 +16,7 @@ import static org.project.utils.windriver.RemoteWebDriver.open;
 import static org.project.utils.windriver.WebDriver.ls;
 import static org.project.utils.windriver.WebDriver.start;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
 import org.project.utils.windriver.WinDriver;
@@ -23,11 +24,11 @@ import org.project.utils.windriver.WinDriver;
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestWinDriver<T extends TestBaseConfig> extends TestProc<T> {
+public class TestWinDriver<T extends TestBaseConfig, D extends DriverBaseConfig, W extends WebBaseConfig> extends TestProc<T, D> {
     /**
      *
      */
-    protected static WebBaseConfig w;
+    protected W w;
     /**
      *
      */

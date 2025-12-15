@@ -11,23 +11,23 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.config.DriverConfig.getConfig;
 import static org.project.utils.windriver.WinDriver.findByName;
 import static org.project.utils.windriver.WinDriver.quit;
 import static org.project.utils.windriver.WinDriver.start;
 import static org.project.utils.windriver.WinDriver.timeout;
 
 import org.project.utils.config.DriverBaseConfig;
-import org.project.utils.config.DriverConfig;
 import org.project.utils.config.TestBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestFind<T extends TestBaseConfig> extends TestAuth<T> {
+public class TestFind<T extends TestBaseConfig, D extends DriverBaseConfig> extends TestAuth<T> {
     /**
      *
      */
-    protected static DriverBaseConfig win;
+    protected D win;
     /**
      *
      */
@@ -43,7 +43,7 @@ public class TestFind<T extends TestBaseConfig> extends TestAuth<T> {
     @ConstructorProperties({})
     public TestFind() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestFind:init");
-        win = DriverConfig.getConfig();
+        win = getConfig();
         notepadPath = win.getNotepad();
         calcPath = win.getCalc();
     }

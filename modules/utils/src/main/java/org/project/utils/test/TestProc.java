@@ -28,6 +28,7 @@ import static org.project.utils.stream.GobblerStream.stream;
 import static org.project.utils.windriver.WinDriver.findByClass;
 import static org.project.utils.windriver.WinDriver.start;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.windriver.Capabilities;
 import org.project.utils.windriver.WebDriver;
@@ -35,7 +36,7 @@ import org.project.utils.windriver.WebDriver;
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestProc<T extends TestBaseConfig> extends TestFind<T> {
+public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> extends TestFind<T, D> {
     /**
      *
      */
