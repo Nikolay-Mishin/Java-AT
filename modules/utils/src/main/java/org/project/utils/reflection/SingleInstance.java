@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.reflection.Reflection.getCallingChildClass;
+import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 import static org.project.utils.reflection.Reflection.setField;
@@ -32,7 +33,7 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws IllegalAccessException throws
      */
     @SuppressWarnings("unchecked")
-    public static <T extends SingleInstance<?>> T instance() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+    public static <T extends SingleInstance<?>> T getInstance() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
         //debug("instanceCall: " + getCallingClass());
         debug("instanceChildCall: " + getCallingChildClass());
         try {
@@ -79,6 +80,26 @@ public class SingleInstance<T> extends Instance<T> {
 
     /**
      *
+     * @param obj T
+     * @return T
+     * @param <T> T
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
+     * @throws ClassNotFoundException throws
+     * @throws NoSuchFieldException throws
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends SingleInstance<?>> T setInstance(T obj)
+        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchFieldException
+    {
+        debug("setInstance: " + obj);
+        return _instance((Class<T>) getClazz(obj), obj);
+    }
+
+    /**
+     *
      * @param clazz Class T
      * @param args Object[]
      * @return T
@@ -90,13 +111,27 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws ClassNotFoundException throws
      * @throws NoSuchFieldException throws
      */
-    @SuppressWarnings("unchecked")
     protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, Object... args)
-        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchFieldException {
+        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchFieldException
+    {
+        return _instance(clazz, create(clazz, args));
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param value T
+     * @return T
+     * @param <T> T
+     * @throws IllegalAccessException throws
+     * @throws NoSuchFieldException throws
+     */
+    @SuppressWarnings("unchecked")
+    protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, T value) throws IllegalAccessException, NoSuchFieldException {
         debug("instance: " + clazz);
         T i = (T) getField(clazz, iField);
         debug("field.get: " + i);
-        return notNull(i) ? i : (T) setField(clazz, iField, create(clazz, args));
+        return notNull(i) ? i : (T) setField(clazz, iField, value);
     }
 
 }

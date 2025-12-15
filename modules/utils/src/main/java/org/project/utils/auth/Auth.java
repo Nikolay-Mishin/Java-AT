@@ -67,7 +67,7 @@ public class Auth extends SingleInstance<Auth> {
      * @throws IllegalAccessException throws
      */
     public static Auth instance() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-        return SingleInstance.instance();
+        return SingleInstance.getInstance();
     }
 
     /**
