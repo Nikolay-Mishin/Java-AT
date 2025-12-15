@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
 import static org.project.utils.config.Config.compare;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.configs;
@@ -36,9 +35,11 @@ public class TestConfig<T extends TestBaseConfig> extends TestUTF8<T> {
      *
      */
     public static void printConfig() {
-        debug(configs());
-        debug("DEBUG_LEVEL: " + DEBUG_LEVEL);
+        debug("TestConfig: " + org.project.utils.config.TestConfig.config());
         debug("WebConfig: " + WebConfig.config());
+        debug("WinConfig: " + DriverConfig.config());
+        debug("BaseConfig: " + config());
+        debug("debugLevel: " + WebConfig.config().getDebugLevel());
     }
 
     /**
