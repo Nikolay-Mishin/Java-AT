@@ -39,9 +39,9 @@ public class TestWeb extends TestWinDriver {
     public static void init() {
         debug("TestWeb:init");
         TestWinDriver.init();
-        token = w.getToken();
         endpoint = w.getEndpoint();
         tokenK = w.getTokenKey();
+        token = w.getToken();
         project = url(w.getProjectId(), token);
         debug("getParams: " + getParamsSlash(tokenK, token));
     }
