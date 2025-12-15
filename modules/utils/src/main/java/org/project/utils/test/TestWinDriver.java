@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.setTimeout;
@@ -19,6 +18,7 @@ import static org.project.utils.windriver.WebDriver.start;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
+import org.project.utils.windriver.RemoteWebDriver;
 import org.project.utils.windriver.WinDriver;
 
 /**
@@ -40,7 +40,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     /**
      *
      */
-    protected static RemoteWebDriver remoteDriver;
+    protected static org.openqa.selenium.remote.RemoteWebDriver remoteDriver;
 
     /**
      *
@@ -60,7 +60,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     public static void testTimeout() throws IOException, InterruptedException {
         debug("testTimeout");
         open();
-        org.project.utils.windriver.WinDriver.quit();
+        WinDriver.quit();
         setTimeout(() -> { open(); return null; });
     }
 
@@ -70,13 +70,13 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void testDriver() throws Exception {
         debug("testDriver");
-        driver = org.project.utils.windriver.RemoteWebDriver.start();
-        remoteDriver = org.project.utils.windriver.RemoteWebDriver.start();
-        webDriver = org.project.utils.windriver.WebDriver.start();
-        winDriver = org.project.utils.windriver.WinDriver.start();
-        org.project.utils.windriver.WinDriver.printCall();
-        org.project.utils.windriver.WinDriver.quit(driver, remoteDriver, webDriver, winDriver);
-        org.project.utils.windriver.WinDriver.start("");
+        driver = RemoteWebDriver.start();
+        remoteDriver = RemoteWebDriver.start();
+        webDriver = start();
+        winDriver = WinDriver.start();
+        WinDriver.printCall();
+        WinDriver.quit(driver, remoteDriver, webDriver, winDriver);
+        WinDriver.start("");
     }
 
     /**
