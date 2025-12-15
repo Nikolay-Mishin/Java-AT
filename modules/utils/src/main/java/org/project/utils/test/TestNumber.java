@@ -1,20 +1,25 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
+
 import static java.lang.Long.valueOf;
 
 import static org.project.utils.Helper.debug;
 
+import org.project.utils.config.TestBaseConfig;
+
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestNumber extends BaseTest {
+public class TestNumber<T extends TestBaseConfig> extends BaseTest<T> {
 
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestNumber() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestNumber:init");
-        BaseTest.init();
     }
 
     /**

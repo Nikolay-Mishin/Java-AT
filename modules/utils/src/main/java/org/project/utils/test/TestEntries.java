@@ -1,5 +1,7 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
@@ -15,17 +17,19 @@ import static org.project.utils.Helper.shiftList;
 import static org.project.utils.Helper.shiftSkip;
 import static org.project.utils.reflection.Reflection.getField;
 
+import org.project.utils.config.TestBaseConfig;
+
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestEntries extends TestNumber {
+public class TestEntries<T extends TestBaseConfig> extends TestNumber<T> {
 
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestEntries() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestEntries:init");
-        TestNumber.init();
     }
 
     /**

@@ -1,8 +1,10 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 
@@ -23,12 +25,13 @@ import static org.project.utils.fs.Zip.unzipFile;
 import static org.project.utils.fs.Zip.unzipPass;
 import static org.project.utils.fs.Zip.unzipSelenium;
 
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.request.Request;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestZip extends TestJson {
+public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
     /**
      *
      */
@@ -61,9 +64,9 @@ public class TestZip extends TestJson {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestZip() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestZip:init");
-        TestJson.init();
         outZip = c.getZipOut();
         filename = c.getZipFilename();
         filenameZip = c.getZipFilenameFull();

@@ -1,16 +1,19 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.table;
 
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.function.ConsumerWithExceptions;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestReq extends TestProps {
+public class TestReq<T extends TestBaseConfig> extends TestProps<T> {
     /**
      *
      */
@@ -23,9 +26,9 @@ public class TestReq extends TestProps {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestReq() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestReq:init");
-        TestProps.init();
         body = c.getReqBody();
         bodyTest = c.getReqTest();
     }

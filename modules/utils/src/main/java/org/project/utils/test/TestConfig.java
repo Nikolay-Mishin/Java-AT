@@ -1,5 +1,8 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
+
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.BaseConfig.DEBUG_LEVEL;
@@ -7,26 +10,26 @@ import static org.project.utils.config.Config.compare;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.config.Config.printEnvList;
-import static org.project.utils.config.TestConfig.getConfig;
 
 import org.project.utils.Helper;
 import org.project.utils.base.HashMap;
 import org.project.utils.config.BaseConfig;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebConfig;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestConfig extends TestUTF8 {
+public class TestConfig<T extends TestBaseConfig> extends TestUTF8<T> {
 
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestConfig() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestConfig:init");
-        TestUTF8.init();
     }
 
     /**

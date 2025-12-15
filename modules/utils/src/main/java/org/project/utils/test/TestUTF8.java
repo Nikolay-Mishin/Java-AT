@@ -3,23 +3,26 @@ package org.project.utils.test;
 import static java.util.ResourceBundle.Control;
 import static java.util.ResourceBundle.getBundle;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 
 import static org.project.utils.Helper.debug;
 
 import org.project.utils.base.UTF8Control;
+import org.project.utils.config.TestBaseConfig;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestUTF8 extends TestEntries {
+public class TestUTF8<T extends TestBaseConfig> extends TestEntries<T> {
 
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestUTF8() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestUTF8:init");
-        TestEntries.init();
     }
 
     /**

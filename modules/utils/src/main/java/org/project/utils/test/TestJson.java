@@ -1,6 +1,8 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -16,13 +18,14 @@ import static org.project.utils.fs.FS.path;
 import static org.project.utils.json.JsonSchema.jsonSchema;
 import static org.project.utils.json.JsonSchema.toList;
 
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestJson extends TestApi {
+public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
     /**
      *
      */
@@ -67,9 +70,9 @@ public class TestJson extends TestApi {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestJson() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestJson:init");
-        TestApi.init();
         jsonVer = c.getJsonVer();
         jsonDownloads = c.getJsonDownloads();
         jsonGet = c.getJson();

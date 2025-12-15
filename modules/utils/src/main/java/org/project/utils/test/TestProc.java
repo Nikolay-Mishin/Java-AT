@@ -2,7 +2,9 @@ package org.project.utils.test;
 
 import static java.lang.System.setProperty;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Map;
@@ -26,13 +28,14 @@ import static org.project.utils.stream.GobblerStream.stream;
 import static org.project.utils.windriver.WinDriver.findByClass;
 import static org.project.utils.windriver.WinDriver.start;
 
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.windriver.Capabilities;
 import org.project.utils.windriver.WebDriver;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestProc extends TestFind {
+public class TestProc<T extends TestBaseConfig> extends TestFind<T> {
     /**
      *
      */
@@ -49,9 +52,9 @@ public class TestProc extends TestFind {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestProc() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestProc:init");
-        TestFind.init();
     }
 
     /**

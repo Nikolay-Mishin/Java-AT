@@ -1,6 +1,8 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 import io.restassured.http.Headers;
@@ -16,12 +18,13 @@ import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.request.RequestOptions.getHeaders;
 
 import org.project.utils.config.ApiConfig;
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.request.Request;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestApi extends TestConfig {
+public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
     /**
      *
      */
@@ -38,9 +41,9 @@ public class TestApi extends TestConfig {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestApi() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestApi:init");
-        TestConfig.init();
         uri = c.getApiUri();
         endpoint = c.getEndpoint();
         endpointTest = c.getEndpointTest();

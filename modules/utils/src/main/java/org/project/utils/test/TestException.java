@@ -1,6 +1,8 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collector;
@@ -14,17 +16,17 @@ import static org.project.utils.exception.UtilException.rethrowSupplier;
 import static org.project.utils.exception.UtilException.uncheck;
 import static org.project.utils.exception.UtilException.tryConsumer;
 import static org.project.utils.exception.UtilException.tryConsumerWithPrint;
-import static org.project.utils.fs.File.pathStr;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.Helper;
+import org.project.utils.config.TestBaseConfig;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestException extends TestInvoke {
+public class TestException<T extends TestBaseConfig> extends TestInvoke<T> {
     /**
      *
      */
@@ -41,9 +43,9 @@ public class TestException extends TestInvoke {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestException() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestException:init");
-        TestInvoke.init();
         cPlugin = c.getCPlugin();
         cPluginField = c.getCPluginField();
         cPlugins = c.getCPlugins();

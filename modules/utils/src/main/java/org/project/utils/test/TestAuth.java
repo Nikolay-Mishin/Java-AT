@@ -1,22 +1,23 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.auth.Auth.auth;
-import static org.project.utils.auth.Auth.instance;
 import static org.project.utils.auth.Auth.printTokens;
 import static org.project.utils.auth.Auth.token;
-import static org.project.utils.base.Register.printRegisterMap;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 
 import org.project.utils.auth.Auth;
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.reflection.SingleInstance;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestAuth extends TestReq {
+public class TestAuth<T extends TestBaseConfig> extends TestReq<T> {
     /**
      *
      */
@@ -29,9 +30,9 @@ public class TestAuth extends TestReq {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestAuth() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestAuth:init");
-        TestReq.init();
         auth = c.getAuth();
         authTest = c.getAuthTest();
     }
@@ -61,7 +62,7 @@ public class TestAuth extends TestReq {
     public static void testAuth(Object... pathList) throws Exception {
         debug("testAuth: " + Arrays.toString(pathList));
         Auth.init(pathList);
-        debug("instance: " + instance());
+        debug("instance: " + Auth.instance());
         debug("SingleInstance: " + SingleInstance.instance());
         debug("req: " + Auth.req());
         debug("auth: " + auth());

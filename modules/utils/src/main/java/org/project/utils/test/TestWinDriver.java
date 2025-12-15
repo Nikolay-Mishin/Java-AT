@@ -1,6 +1,8 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 
 import io.appium.java_client.windows.WindowsDriver;
@@ -14,13 +16,14 @@ import static org.project.utils.windriver.RemoteWebDriver.open;
 import static org.project.utils.windriver.WebDriver.ls;
 import static org.project.utils.windriver.WebDriver.start;
 
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
 import org.project.utils.windriver.WinDriver;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestWinDriver extends TestProc {
+public class TestWinDriver<T extends TestBaseConfig> extends TestProc<T> {
     /**
      *
      */
@@ -41,9 +44,9 @@ public class TestWinDriver extends TestProc {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestWinDriver() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestWinDriver:init");
-        TestProc.init();
         w = getConfig();
         url = w.getBaseUrl();
     }

@@ -1,5 +1,8 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
+
 import org.openqa.selenium.WebDriver;
 
 import static org.project.utils.Helper.debug;
@@ -9,10 +12,12 @@ import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
 
+import org.project.utils.config.TestBaseConfig;
+
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestInvoke extends TestFS {
+public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
     /**
      *
      */
@@ -37,9 +42,9 @@ public class TestInvoke extends TestFS {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestInvoke() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestInvoke:init");
-        TestFS.init();
         fsClass = c.getFs();
         fsField = c.getFsField();
         fsMethod = c.getFsMethod();

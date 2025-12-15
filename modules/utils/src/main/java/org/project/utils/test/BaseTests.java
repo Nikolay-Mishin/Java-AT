@@ -1,15 +1,18 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.test.CucumberRunTest.setOptions;
 
+import org.project.utils.config.TestBaseConfig;
+
 /**
  *
  */
-public class BaseTests extends TestWeb {
+public class BaseTests extends TestWeb<TestBaseConfig> {
 
     /**
      *
@@ -18,15 +21,16 @@ public class BaseTests extends TestWeb {
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests(1, 8);
+        new BaseTests(1);
+        debug("instance: " + instance());
     }
 
     /**
      *
      */
     @ConstructorProperties({})
-    public BaseTests() {
-        init();
+    public BaseTests() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        debug("BaseTests:init");
     }
 
     /**
@@ -36,7 +40,6 @@ public class BaseTests extends TestWeb {
      */
     @ConstructorProperties({"m"})
     public BaseTests(int m) throws Exception {
-        init();
         testMain(m);
     }
 
@@ -48,17 +51,8 @@ public class BaseTests extends TestWeb {
      */
     @ConstructorProperties({"m", "n"})
     public BaseTests(int m, int n) throws Exception {
-        init();
         testMain(m);
         testBase(n);
-    }
-
-    /**
-     *
-     */
-    public static void init() {
-        debug("BaseTests:init");
-        TestWeb.init();
     }
 
     /**
@@ -74,6 +68,7 @@ public class BaseTests extends TestWeb {
      * @throws Exception throws
      */
     public static void testMain(int n) throws Exception {
+        debug("BaseTests:main");
         switch (n) {
             case 0: printConfig();
                 break;
@@ -126,6 +121,7 @@ public class BaseTests extends TestWeb {
      * @throws Exception throws
      */
     public static void testBase(int n) throws Exception {
+        debug("BaseTests:base");
         switch (n) {
             case 1: testApi();
                 break;

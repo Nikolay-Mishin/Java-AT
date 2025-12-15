@@ -1,5 +1,7 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 
 import static org.junit.Assert.assertNotNull;
@@ -12,10 +14,12 @@ import static org.project.utils.request.Request.getParams;
 import static org.project.utils.request.Request.getParamsSlash;
 import static org.project.utils.windriver.WebDriver.ls;
 
+import org.project.utils.config.TestBaseConfig;
+
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestWeb extends TestWinDriver {
+public class TestWeb<T extends TestBaseConfig> extends TestWinDriver<T> {
     /**
      *
      */
@@ -36,9 +40,9 @@ public class TestWeb extends TestWinDriver {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestWeb() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestWeb:init");
-        TestWinDriver.init();
         endpoint = w.getEndpoint();
         tokenK = w.getTokenKey();
         token = w.getToken();

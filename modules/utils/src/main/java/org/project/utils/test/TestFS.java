@@ -1,6 +1,8 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.FileStore;
 import java.nio.file.FileSystems;
@@ -11,10 +13,12 @@ import static org.project.utils.fs.Attributes.printCustomAttrs;
 import static org.project.utils.fs.File.delete;
 import static org.project.utils.fs.File.pathStr;
 
+import org.project.utils.config.TestBaseConfig;
+
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestFS extends TestZip {
+public class TestFS<T extends TestBaseConfig> extends TestZip<T> {
     /**
      *
      */
@@ -55,9 +59,9 @@ public class TestFS extends TestZip {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestFS() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestFS:init");
-        TestZip.init();
         chromedriverRoot = c.getChromeDriverRoot();
         chromedriverFile = c.getChromeDriverFile();
         chromedriverPathStr = chromedriverRoot + chromedriverFile;

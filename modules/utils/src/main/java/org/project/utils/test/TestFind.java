@@ -1,5 +1,7 @@
 package org.project.utils.test;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,11 +18,12 @@ import static org.project.utils.windriver.WinDriver.timeout;
 
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
+import org.project.utils.config.TestBaseConfig;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestFind extends TestAuth {
+public class TestFind<T extends TestBaseConfig> extends TestAuth<T> {
     /**
      *
      */
@@ -37,9 +40,9 @@ public class TestFind extends TestAuth {
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestFind() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestFind:init");
-        TestAuth.init();
         win = DriverConfig.getConfig();
         notepadPath = win.getNotepad();
         calcPath = win.getCalc();

@@ -2,6 +2,8 @@ package org.project.utils.test;
 
 import static java.lang.System.getProperty;
 
+import java.beans.ConstructorProperties;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Set;
 
@@ -11,21 +13,21 @@ import static org.project.utils.base.Properties.props;
 import static org.project.utils.base.Properties.propsMap;
 import static org.project.utils.base.Properties.propsMapKeys;
 import static org.project.utils.request.Request.getParamsUri;
-import static org.project.utils.test.TestConfig.printConfig;
 
 import org.project.utils.base.Properties;
+import org.project.utils.config.TestBaseConfig;
 
 /**
- *
+ * @param <T> extends TestBaseConfig
  */
-public class TestProps extends TestException {
+public class TestProps<T extends TestBaseConfig> extends TestException<T> {
 
     /**
      *
      */
-    public static void init() {
+    @ConstructorProperties({})
+    public TestProps() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestProps:init");
-        TestException.init();
     }
 
     /**
