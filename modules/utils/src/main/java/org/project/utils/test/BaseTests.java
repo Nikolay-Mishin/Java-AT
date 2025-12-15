@@ -14,7 +14,7 @@ import org.project.utils.config.WebBaseConfig;
 /**
  *
  */
-public class BaseTests<T extends TestBaseConfig, D extends DriverBaseConfig, W extends WebBaseConfig> extends TestWeb<T, D, W> {
+public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestWeb<T, W, D> {
 
     /**
      *

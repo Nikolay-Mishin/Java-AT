@@ -24,7 +24,7 @@ import org.project.utils.windriver.WinDriver;
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestWinDriver<T extends TestBaseConfig, D extends DriverBaseConfig, W extends WebBaseConfig> extends TestProc<T, D> {
+public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestProc<T, D> {
     /**
      *
      */
