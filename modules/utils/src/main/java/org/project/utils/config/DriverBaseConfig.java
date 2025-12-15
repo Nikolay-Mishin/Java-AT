@@ -204,4 +204,19 @@ public interface DriverBaseConfig extends BaseConfig {
      */
     @Key("DEVICE_NAME")
     String getDeviceName();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("notepad")
+    String getNotepad();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("calc")
+    String getCalc();
+
 }

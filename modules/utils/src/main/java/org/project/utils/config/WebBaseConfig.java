@@ -34,15 +34,22 @@ public interface WebBaseConfig extends BaseConfig {
      *
      * @return String
      */
-    @Key("ORIGIN")
-    String getOrigin();
+    @Key("BASE_URL")
+    String getBaseUrl();
 
     /**
      *
      * @return String
      */
-    @Key("BASE_URL")
-    String getBaseUrl();
+    @Key("ROOT_API")
+    String getRootApi();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("BASE_API")
+    String getBaseApi();
 
     /**
      *
@@ -166,4 +173,18 @@ public interface WebBaseConfig extends BaseConfig {
      */
     @Key("HEADERS")
     String getHeaders();
+
+    //TestWeb
+    @Key("endpoint")
+    String getEndpoint();
+
+    @Key("token.key")
+    String getTokenKey();
+
+    @Key("token")
+    String getToken();
+
+    @Key("project.id")
+    int getProjectId();
+
 }
