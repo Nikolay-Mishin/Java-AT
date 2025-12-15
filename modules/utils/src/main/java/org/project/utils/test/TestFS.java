@@ -1,6 +1,5 @@
 package org.project.utils.test;
 
-import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.FileStore;
@@ -56,8 +55,9 @@ public class TestFS extends TestZip {
     /**
      *
      */
-    @ConstructorProperties({})
-    public TestFS() {
+    public static void init() {
+        debug("TestFS:init");
+        TestZip.init();
         chromedriverRoot = c.getChromeDriverRoot();
         chromedriverFile = c.getChromeDriverFile();
         chromedriverPathStr = chromedriverRoot + chromedriverFile;
@@ -67,16 +67,6 @@ public class TestFS extends TestZip {
         attrsTest = c.getFsAttrs();
         attrK = c.getFsAttrsK();
         attrV = c.getFsAttrsV();
-    }
-
-    /**
-     *
-     * @param args String[]
-     * @throws IOException throws
-     */
-    public static void main(String[] args) throws IOException {
-        testFS();
-        testAttrs();
     }
 
     /**

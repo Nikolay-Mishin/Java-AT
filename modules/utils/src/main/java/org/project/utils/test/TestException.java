@@ -1,6 +1,5 @@
 package org.project.utils.test;
 
-import java.beans.ConstructorProperties;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.StringJoiner;
@@ -15,6 +14,7 @@ import static org.project.utils.exception.UtilException.rethrowSupplier;
 import static org.project.utils.exception.UtilException.uncheck;
 import static org.project.utils.exception.UtilException.tryConsumer;
 import static org.project.utils.exception.UtilException.tryConsumerWithPrint;
+import static org.project.utils.fs.File.pathStr;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
@@ -41,22 +41,12 @@ public class TestException extends TestInvoke {
     /**
      *
      */
-    @ConstructorProperties({})
-    public TestException() {
+    public static void init() {
+        debug("TestException:init");
+        TestInvoke.init();
         cPlugin = c.getCPlugin();
         cPluginField = c.getCPluginField();
         cPlugins = c.getCPlugins();
-    }
-
-    /**
-     *
-     * @param args String[]
-     * @throws Exception throws
-     */
-    public static void main(String[] args) throws Exception {
-        testPrintException();
-        testException();
-        testFnExceptions();
     }
 
     /**

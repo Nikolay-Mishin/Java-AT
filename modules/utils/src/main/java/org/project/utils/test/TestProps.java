@@ -22,14 +22,10 @@ public class TestProps extends TestException {
 
     /**
      *
-     * @param args String[]
-     * @throws Exception throws
      */
-    public static void main(String[] args) throws Exception {
-        printPropsMap();
-        printSortedProps();
-        printGetSortedProps();
-        printProps();
+    public static void init() {
+        debug("TestProps:init");
+        TestException.init();
     }
 
     /**

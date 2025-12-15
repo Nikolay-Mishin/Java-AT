@@ -40,7 +40,7 @@ public class ApiConfig extends RequestSpecBuilder {
      */
     public static RequestSpecification requestSpec(RequestSpecBuilder builder, WebBaseConfig config) {
         return given(builder
-            .setBaseUri(config.getBaseUrl())
+            .setBaseUri(config.getBaseApi())
             .setAccept(getAccept())
             .setContentType(getContentType())
             .addFilter(new AllureRestAssured())

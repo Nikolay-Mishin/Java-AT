@@ -18,15 +18,14 @@ import static org.project.utils.reflection.Reflection.getField;
 /**
  *
  */
-public class TestEntries {
+public class TestEntries extends TestNumber {
 
     /**
      *
-     * @param args String[]
-     * @throws ReflectiveOperationException throws
      */
-    public static void main(String[] args) throws ReflectiveOperationException {
-        testEntries();
+    public static void init() {
+        debug("TestEntries:init");
+        TestNumber.init();
     }
 
     /**

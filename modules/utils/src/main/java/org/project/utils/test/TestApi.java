@@ -1,6 +1,5 @@
 package org.project.utils.test;
 
-import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -11,7 +10,6 @@ import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.TestConfig.config;
 import static org.project.utils.constant.ContentType.getContentType;
 import static org.project.utils.constant.ContentType.getAccept;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
@@ -23,7 +21,7 @@ import org.project.utils.request.Request;
 /**
  *
  */
-public class TestApi extends BaseTest {
+public class TestApi extends TestConfig {
     /**
      *
      */
@@ -40,22 +38,12 @@ public class TestApi extends BaseTest {
     /**
      *
      */
-    @ConstructorProperties({})
-    public TestApi() {
-        c = config();
+    public static void init() {
+        debug("TestApi:init");
+        TestConfig.init();
         uri = c.getApiUri();
         endpoint = c.getEndpoint();
         endpointTest = c.getEndpointTest();
-    }
-
-    /**
-     *
-     * @param args String[]
-     * @throws Exception throws
-     */
-    public static void main(String[] args) throws Exception {
-        testApi();
-        testHeaders();
     }
 
     /**
@@ -64,8 +52,7 @@ public class TestApi extends BaseTest {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static void testApi()
-        throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void testApi() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testApi");
         Request req = new Request(GET, endpointTest, 0);
         Response resp = req.response();

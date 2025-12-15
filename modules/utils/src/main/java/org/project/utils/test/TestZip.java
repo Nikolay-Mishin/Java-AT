@@ -1,6 +1,5 @@
 package org.project.utils.test;
 
-import java.beans.ConstructorProperties;
 import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
@@ -62,8 +61,9 @@ public class TestZip extends TestJson {
     /**
      *
      */
-    @ConstructorProperties({})
-    public TestZip() {
+    public static void init() {
+        debug("TestZip:init");
+        TestJson.init();
         outZip = c.getZipOut();
         filename = c.getZipFilename();
         filenameZip = c.getZipFilenameFull();
@@ -71,15 +71,6 @@ public class TestZip extends TestJson {
         mkdirRoot = c.getZipMkdirRoot();
         mkdir = c.getZipMkdir();
         readDir = c.getZipReadDir();
-    }
-
-    /**
-     *
-     * @param args String[]
-     * @throws Exception throws
-     */
-    public static void main(String[] args) throws Exception {
-        testZip();
     }
 
     /**

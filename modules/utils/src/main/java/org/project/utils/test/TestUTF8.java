@@ -12,14 +12,14 @@ import org.project.utils.base.UTF8Control;
 /**
  *
  */
-public class TestUTF8 {
+public class TestUTF8 extends TestEntries {
 
     /**
      *
-     * @param args String[]
      */
-    public static void main(String[] args) {
-        testUTF8();
+    public static void init() {
+        debug("TestUTF8:init");
+        TestEntries.init();
     }
 
     /**

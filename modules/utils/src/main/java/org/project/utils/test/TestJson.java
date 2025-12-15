@@ -1,6 +1,5 @@
 package org.project.utils.test;
 
-import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -68,23 +67,15 @@ public class TestJson extends TestApi {
     /**
      *
      */
-    @ConstructorProperties({})
-    public TestJson() {
+    public static void init() {
+        debug("TestJson:init");
+        TestApi.init();
         jsonVer = c.getJsonVer();
         jsonDownloads = c.getJsonDownloads();
         jsonGet = c.getJson();
         jsonK = c.getJsonK();
         jsonV = c.getJsonV();
         jsonUrl = c.getJsonUrl();
-    }
-
-    /**
-     *
-     * @param args String[]
-     * @throws Exception throws
-     */
-    public static void main(String[] args) throws Exception {
-        testJson();
     }
 
     /**

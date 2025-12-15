@@ -5,23 +5,11 @@ import java.beans.ConstructorProperties;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.test.CucumberRunTest.setOptions;
-import static org.project.utils.test.TestAuth.testAuth;
-import static org.project.utils.test.TestConfig.printConfig;
-import static org.project.utils.test.TestConfig.testConfig;
-import static org.project.utils.test.TestConfig.testWinDriverConfig;
-import static org.project.utils.test.TestEntries.testEntries;
-import static org.project.utils.test.TestFS.testAttrs;
-import static org.project.utils.test.TestFS.testFS;
-import static org.project.utils.test.TestNumber.testLong;
-import static org.project.utils.test.TestReq.testReqGet;
-import static org.project.utils.test.TestReq.testReqPost;
-import static org.project.utils.test.TestReq.testReqTest;
-import static org.project.utils.test.TestUTF8.testUTF8;
 
 /**
  *
  */
-public class BaseTests extends TestDriver {
+public class BaseTests extends TestWeb {
 
     /**
      *
@@ -30,7 +18,7 @@ public class BaseTests extends TestDriver {
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests(1, 9);
+        new BaseTests(1, 8);
     }
 
     /**
@@ -69,14 +57,12 @@ public class BaseTests extends TestDriver {
      *
      */
     public static void init() {
-        debug("BaseTests:main");
-        new TestAuth();
-        new TestReq();
-        new TestFS();
+        debug("BaseTests:init");
+        TestWeb.init();
     }
 
     /**
-     * 0: printConfig();
+     * <p>0: printConfig();
      * <p>1: printProps();
      * <p>2: testTimeout();
      * <p>3: testDriver();
@@ -109,35 +95,41 @@ public class BaseTests extends TestDriver {
     }
 
     /**
-     * 0: testException();
-     * <p>1: testHeaders();
-     * <p>2: testApi();
+     * <p>1: testApi();
+     * <p>2: testHeaders();
      * <p>3: testJson();
      * <p>4: testZip();
      * <p>5: testFS();
      * <p>6: testAttrs();
      * <p>7: testEntries();
-     * <p>8: testReqTest();
-     * <p>9: testAuth();
-     * <p>10: testConfig();
-     * <p>11: testWinDriverConfig();
-     * <p>12: testInvoke();
-     * <p>13: testHeaders(true);
+     * <p>8: testAuth();
+     * <p>9: testConfig();
+     * <p>10: testWinDriverConfig();
+     * <p>11: testInvoke();
+     * <p>12: testHeaders(true);
+     * <p>13: testException();
      * <p>14: testPrintException();
      * <p>15: testFnExceptions();
      * <p>16: testUTF8();
      * <p>17: testReqPost();
-     * <p>18: testReqGet();
+     * <p>18: testReqTest();
+     * <p>19: testReqGet();
+     * <p>20: makeOperation();
+     * <p>21: testFind(0);
+     * <p>22: testBaseProc();
+     * <p>23: testProc();
+     * <p>24: testProcWeb();
+     * <p>25: testWebDriver();
+     * <p>26: testWinDriver();
+     * <p>27: testWeb();
      * @param n int
      * @throws Exception throws
      */
     public static void testBase(int n) throws Exception {
         switch (n) {
-            case 0: testException();
+            case 1: testApi();
                 break;
-            case 1: testHeaders();
-                break;
-            case 2: testApi();
+            case 2: testHeaders();
                 break;
             case 3: testJson();
                 break;
@@ -149,17 +141,17 @@ public class BaseTests extends TestDriver {
                 break;
             case 7: testEntries();
                 break;
-            case 8: testReqTest();
+            case 8: testAuth();
                 break;
-            case 9: testAuth();
+            case 9: testConfig();
                 break;
-            case 10: testConfig();
+            case 10: testWinDriverConfig();
                 break;
-            case 11: testWinDriverConfig();
+            case 11: testInvoke();
                 break;
-            case 12: testInvoke();
+            case 12: testHeaders(true);
                 break;
-            case 13: testHeaders(true);
+            case 13: testException();
                 break;
             case 14: testPrintException();
                 break;
@@ -169,7 +161,25 @@ public class BaseTests extends TestDriver {
                 break;
             case 17: testReqPost();
                 break;
-            case 18: testReqGet();
+            case 18: testReqTest();
+                break;
+            case 19: testReqGet();
+                break;
+            case 20: makeOperation();
+                break;
+            case 21: testFind(0);
+                break;
+            case 22: testBaseProc();
+                break;
+            case 23: testProc();
+                break;
+            case 24: testProcWeb();
+                break;
+            case 25: testWebDriver();
+                break;
+            case 26: testWinDriver();
+                break;
+            case 27: testWeb();
                 break;
         }
     }

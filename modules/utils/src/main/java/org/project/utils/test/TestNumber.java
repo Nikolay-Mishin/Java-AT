@@ -7,15 +7,14 @@ import static org.project.utils.Helper.debug;
 /**
  *
  */
-public class TestNumber extends TestDriver {
+public class TestNumber extends BaseTest {
 
     /**
      *
-     * @param args String[]
-     * @throws Exception throws
      */
-    public static void main(String[] args) throws Exception {
-        testLong();
+    public static void init() {
+        debug("TestNumber:init");
+        BaseTest.init();
     }
 
     /**

@@ -1,7 +1,5 @@
 package org.project.utils.test;
 
-import java.beans.ConstructorProperties;
-
 import org.openqa.selenium.WebDriver;
 
 import static org.project.utils.Helper.debug;
@@ -14,7 +12,7 @@ import static org.project.utils.reflection.Reflection.invoke;
 /**
  *
  */
-public class TestInvoke extends TestZip {
+public class TestInvoke extends TestFS {
     /**
      *
      */
@@ -39,21 +37,13 @@ public class TestInvoke extends TestZip {
     /**
      *
      */
-    @ConstructorProperties({})
-    public TestInvoke() {
+    public static void init() {
+        debug("TestInvoke:init");
+        TestFS.init();
         fsClass = c.getFs();
         fsField = c.getFsField();
         fsMethod = c.getFsMethod();
         fsMethodName = c.getFsMethodName();
-    }
-
-    /**
-     *
-     * @param args String[]
-     * @throws Exception throws
-     */
-    public static void main(String[] args) throws Exception {
-        testInvoke();
     }
 
     /**

@@ -7,6 +7,7 @@ import static org.project.utils.config.Config.compare;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.config.Config.printEnvList;
+import static org.project.utils.config.TestConfig.getConfig;
 
 import org.project.utils.Helper;
 import org.project.utils.base.HashMap;
@@ -18,17 +19,14 @@ import org.project.utils.config.WebConfig;
 /**
  *
  */
-public class TestConfig {
+public class TestConfig extends TestUTF8 {
 
     /**
      *
-     * @param args String[]
-     * @throws ReflectiveOperationException throws
      */
-    public static void main(String[] args) throws ReflectiveOperationException {
-        printConfig();
-        testConfig();
-        testWinDriverConfig();
+    public static void init() {
+        debug("TestConfig:init");
+        TestUTF8.init();
     }
 
     /**

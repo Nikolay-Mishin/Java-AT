@@ -1,6 +1,5 @@
 package org.project.utils.test;
 
-import java.beans.ConstructorProperties;
 import java.util.List;
 
 import static org.project.utils.Helper.debug;
@@ -11,7 +10,7 @@ import org.project.utils.function.ConsumerWithExceptions;
 /**
  *
  */
-public class TestReq extends BaseTest {
+public class TestReq extends TestProps {
     /**
      *
      */
@@ -24,29 +23,11 @@ public class TestReq extends BaseTest {
     /**
      *
      */
-    @ConstructorProperties({})
-    public TestReq() {
+    public static void init() {
+        debug("TestReq:init");
+        TestProps.init();
         body = c.getReqBody();
         bodyTest = c.getReqTest();
-    }
-
-    /**
-     *
-     * @param args String[]
-     * @throws Exception throws
-     */
-    public static void main(String[] args) throws Exception {
-        testReq();
-    }
-
-    /**
-     *
-     * @throws Exception throws
-     */
-    public static void testReq() throws Exception {
-        testReqPost();
-        testReqTest();
-        testReqGet();
     }
 
     /**
