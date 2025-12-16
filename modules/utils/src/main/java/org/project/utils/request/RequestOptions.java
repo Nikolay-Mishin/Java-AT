@@ -179,7 +179,7 @@ public class RequestOptions extends org.project.utils.request.Response {
      * @param <R> extends RequestOptions
      */
     @SuppressWarnings("unchecked")
-    public <R extends RequestOptions> R query(String s, Object... objects) {
+    public <R extends RequestOptions> R queryParam(String s, Object... objects) {
         request.queryParam(s, objects);
         return (R) this;
     }
@@ -192,7 +192,7 @@ public class RequestOptions extends org.project.utils.request.Response {
      * @param <R> extends RequestOptions
      */
     @SuppressWarnings("unchecked")
-    public <R extends RequestOptions> R query(String s, Collection<?> c) {
+    public <R extends RequestOptions> R queryParam(String s, Collection<?> c) {
         request.queryParam(s, c);
         return (R) this;
     }
@@ -206,7 +206,7 @@ public class RequestOptions extends org.project.utils.request.Response {
      * @param <R> extends RequestOptions
      */
     @SuppressWarnings("unchecked")
-    public <R extends RequestOptions> R query(String s, Object o, Object... objects) {
+    public <R extends RequestOptions> R queryParams(String s, Object o, Object... objects) {
         request.queryParams(s, o, objects);
         return (R) this;
     }
