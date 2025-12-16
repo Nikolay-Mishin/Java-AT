@@ -122,7 +122,20 @@ public class Request extends RequestAuth {
      * @return String
      */
     public static String getParamsPrefix(String prefix, Object... args) {
-        return sb(params(prefix, "", "&", a -> a, (a, sep) -> sb("=", a, sep), args));
+        return paramsStr(prefix, "", "&", a -> a, (a, sep) -> sb("=", a, sep), args);
+    }
+
+    /**
+     *
+     * @param sep String
+     * @param k Function {Object, R}
+     * @param v Function {Object, R}
+     * @param args Object[]
+     * @return String
+     * @param <R> R
+     */
+    public static <R> String paramsStr(String before, String after, String sep, Function<Object, R> k, BiFunction<Object, String, R> v, Object... args) {
+        return sb(params(before, after, sep, k, v, args));
     }
 
     /**
