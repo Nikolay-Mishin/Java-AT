@@ -912,8 +912,9 @@ public class Helper {
      * @param sep String
      * @return String[]
      */
-    public static String lastTrim(String[] arr, String sep) {
-        return last(arr, trim(last(arr), sep));
+    @SuppressWarnings("unchecked")
+    public static <T> T lastTrim(T[] arr, String sep) {
+        return (T) last(arr, trim(last(arr).toString(), sep));
     }
 
     /**
