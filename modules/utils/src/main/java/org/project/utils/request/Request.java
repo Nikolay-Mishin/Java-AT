@@ -4,14 +4,16 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static org.project.utils.Helper.concat;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.lastTrim;
+import static org.project.utils.Helper.map;
 import static org.project.utils.Helper.sb;
 import static org.project.utils.reflection.Reflection.getPropStr;
 
-import org.project.utils.Helper;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants.METHOD;
 
@@ -101,7 +103,7 @@ public class Request extends RequestAuth {
      * @return String
      */
     public static String getParams(Object... args) {
-        return getParamsPrefix("", args);
+        return getParamsPrefix("?", args);
     }
 
     /**
@@ -110,7 +112,7 @@ public class Request extends RequestAuth {
      * @return String
      */
     public static String getParamsSlash(Object... args) {
-        return getParamsPrefix("/", args);
+        return getParamsPrefix("/?", args);
     }
 
     /**
@@ -120,17 +122,29 @@ public class Request extends RequestAuth {
      * @return String
      */
     public static String getParamsPrefix(String prefix, Object... args) {
-        String[] k = {""};
-        String[] map = Helper.map(args, String[]::new, a -> {
-            if (k[0].isEmpty()) return k[0] = a.toString();
+        return sb(params(prefix, "", "&", a -> a, (a, sep) -> sb("=", a, sep), args));
+    }
+
+    /**
+     *
+     * @param sep String
+     * @param k Function {Object, R}
+     * @param v Function {Object, R}
+     * @param args Object[]
+     * @return Object[]
+     * @param <R> R
+     */
+    public static <R> Object[] params(String before, String after, String sep, Function<Object, R> k, BiFunction<Object, String, R> v, Object... args) {
+        Object[] _k = {""};
+        Object[] map = map(args, Object[]::new, a -> {
+            if (_k[0].toString().isEmpty()) return _k[0] = k.apply(a);
             else {
-                String v = sb("=", a.toString(), "&");
-                k[0] = "";
-                return v;
+                _k[0] = "";
+                return v.apply(a, sep);
             }
         });
-        lastTrim(map, "&$");
-        return sb((Object[]) concat(new String[]{prefix + "?"}, map));
+        lastTrim(map, sep + "$");
+        return concat(new Object[]{before}, concat(map, new Object[]{after}));
     }
 
     /**
