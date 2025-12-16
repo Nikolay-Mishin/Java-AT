@@ -18,6 +18,7 @@ import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
 
+import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.toMap;
 import static org.project.utils.config.WebConfig.config;
 
@@ -151,7 +152,9 @@ public class RequestOptions extends org.project.utils.request.Response {
      */
     @SuppressWarnings("unchecked")
     public <R extends RequestOptions> R query(Object... args) {
-        request.queryParams(JsonSchema.toMap(args));
+        Map<String, ?> map = JsonSchema.toMap(args);
+        debug("query: " + map);
+        request.queryParams(map);
         return (R) this;
     }
 
@@ -163,6 +166,7 @@ public class RequestOptions extends org.project.utils.request.Response {
      */
     @SuppressWarnings("unchecked")
     public <R extends RequestOptions> R query(Map<String, ?> map) {
+        debug("query: " + map);
         request.queryParams(map);
         return (R) this;
     }
