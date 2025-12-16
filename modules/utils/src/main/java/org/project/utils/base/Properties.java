@@ -336,6 +336,7 @@ public class Properties extends java.util.Properties {
     public static Properties loadEnvDir(String loadDir) {
         out.println("loadEnvDir: " + loadDir);
         out.println("setEnv: " + setProp(loadProps(loadDir, envFile), envKey(), envFile));
+        props.forEach((k, v) -> System.setProperty(k.toString(), v.toString()));
         return props;
     }
 
