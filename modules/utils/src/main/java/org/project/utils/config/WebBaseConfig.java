@@ -13,6 +13,7 @@ import static org.project.utils.config.WebConfig.config;
  */
 @LoadPolicy(MERGE)
 @Sources({
+    "${props.env}",
     "${props.utils.web}",
     "${props.utils.dev}"
 })

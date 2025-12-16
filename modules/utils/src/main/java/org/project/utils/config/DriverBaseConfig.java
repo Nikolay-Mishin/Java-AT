@@ -11,7 +11,10 @@ import static org.project.utils.config.DriverConfig.getConfig;
  *
  */
 @LoadPolicy(MERGE)
-@Sources({"${props.utils.win}"})
+@Sources({
+    "${props.env}",
+    "${props.utils.win}"
+})
 public interface DriverBaseConfig extends BaseConfig {
     /**
      *

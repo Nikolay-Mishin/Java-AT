@@ -10,7 +10,10 @@ import static org.project.utils.config.TestConfig.config;
  *
  */
 @LoadPolicy(MERGE)
-@Sources({"${props.utils.test}"})
+@Sources({
+    "${props.env}",
+    "${props.utils.test}"
+})
 public interface TestBaseConfig extends BaseConfig {
     /**
      *
