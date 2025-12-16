@@ -21,6 +21,7 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.map;
 import static org.project.utils.Helper.pop;
+import static org.project.utils.Helper.sb;
 import static org.project.utils.Helper.toLowerCaseFirst;
 import static org.project.utils.Helper.toUpperCaseFirst;
 import static org.project.utils.config.WebConfig.config;
@@ -29,6 +30,7 @@ import static org.project.utils.fs.FS.readFile;
 import static org.project.utils.fs.File.exist;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.invoke;
+import static org.project.utils.request.Request.paramsStr;
 
 import org.project.utils.base.HashMap;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
@@ -89,14 +91,22 @@ public class JsonSchema {
 
     /**
      *
+     * @param args Object[]
+     */
+    @ConstructorProperties({"args"})
+    public JsonSchema(Object... args) {
+        data(paramsStr("{\n", "\n}", ",\n", a -> sb("    \"", a, "\""), (a, sep) -> sb(": \"", a, "\"" + sep), args));
+    }
+
+    /**
+     *
      * @param endpoint String
      * @return JsonSchema
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema jsonSchema(String endpoint)
-        throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static JsonSchema jsonSchema(String endpoint) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return new JsonSchema(new Request(GET, endpoint));
     }
 
@@ -109,8 +119,7 @@ public class JsonSchema {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema jsonSchema(String endpoint, String uri)
-        throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static JsonSchema jsonSchema(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return new JsonSchema(new Request(GET, endpoint).uri(uri));
     }
 
@@ -149,6 +158,15 @@ public class JsonSchema {
 
     /**
      *
+     * @param args Object[]
+     * @return JsonSchema
+     */
+    public static JsonSchema jsonSchemaArgs(Object... args) {
+        return new JsonSchema(args);
+    }
+
+    /**
+     *
      * @return String
      */
     public static String delimiter() {
@@ -180,6 +198,15 @@ public class JsonSchema {
      */
     public static Map<String, Object> toMap(JSONObject o) {
         return o.toMap();
+    }
+
+    /**
+     *
+     * @param args Object[]
+     * @return Map {String, Object}
+     */
+    public static Map<String, Object> toMap(Object... args) {
+        return jsonSchemaArgs(args).toMap();
     }
 
     /**

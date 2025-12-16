@@ -15,17 +15,16 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isList;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
-import static org.project.utils.Helper.sb;
 import static org.project.utils.Helper.shift;
 import static org.project.utils.base.HashMap.keys;
 import static org.project.utils.json.JsonSchema.parsePath;
+import static org.project.utils.json.JsonSchema.toMap;
 import static org.project.utils.reflection.Reflection.fields;
 import static org.project.utils.reflection.Reflection.getPropDescriptor;
 import static org.project.utils.reflection.Reflection.getPropDescriptors;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.invoke;
 import static org.project.utils.reflection.Reflection.invokeParse;
-import static org.project.utils.request.Request.params;
 
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.exception.AssertException;
@@ -141,10 +140,7 @@ public class Model<T> {
      */
     @ConstructorProperties({"clazz", "args"})
     public Model(Class<T> clazz, Object... args) throws ReflectiveOperationException {
-        Object[] map = params("{\n", "\n}", ",\n", a -> sb("    \"", a, "\""), (a, sep) -> sb(": \"", a, "\"" + sep), args);
-        String jsonStr = sb(map);
-        Map<String, Object> json = new JsonSchema(jsonStr).toMap();
-        model(clazz, json);
+        model(clazz, toMap(args));
     }
 
     /**
