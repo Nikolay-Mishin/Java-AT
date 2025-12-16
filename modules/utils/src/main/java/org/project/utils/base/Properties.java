@@ -17,6 +17,7 @@ import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.last;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.base.HashMap.newTreeMap;
@@ -45,11 +46,15 @@ public class Properties extends java.util.Properties {
     /**
      *
      */
+    protected static boolean loadEnv = true;
+    /**
+     *
+     */
     protected static boolean setBaseProps = true;
     /**
      *
      */
-    protected static String basePropsPrefix = "org.project.utils.";
+    protected static String envFile = ".env";
     /**
      *
      */
@@ -66,6 +71,10 @@ public class Properties extends java.util.Properties {
      *
      */
     protected static String kBasePrefixName = "utils.";
+    /**
+     *
+     */
+    protected static String basePropsPrefix = "org.project." + kBasePrefixName;
     /**
      *
      */
@@ -125,34 +134,51 @@ public class Properties extends java.util.Properties {
      *
      * @return boolean
      */
+    public static boolean isLoadEnv() {
+        return loadEnv;
+    }
+
+    /**
+     *
+     * @param load boolean
+     * @return boolean
+     */
+    public static boolean loadEnv(boolean load) {
+        return loadEnv = load;
+    }
+
+    /**
+     *
+     * @return boolean
+     */
     public static boolean isSetBaseProps() {
         return setBaseProps;
     }
 
     /**
      *
-     * @param setBaseProps boolean
+     * @param setProps boolean
      * @return boolean
      */
-    public static boolean setBaseProps(boolean setBaseProps) {
-        return Properties.setBaseProps = setBaseProps;
+    public static boolean setBaseProps(boolean setProps) {
+        return setBaseProps = setProps;
     }
 
     /**
      *
      * @return String
      */
-    public static String basePropsPrefix() {
-        return basePropsPrefix;
+    public static String envFile() {
+        return envFile;
     }
 
     /**
      *
-     * @param prefix String
+     * @param fileName String
      * @return String
      */
-    public static String basePropsPrefix(String prefix) {
-        return basePropsPrefix = prefix;
+    public static String envFile(String fileName) {
+        return envFile = fileName;
     }
 
     /**
@@ -236,6 +262,23 @@ public class Properties extends java.util.Properties {
      *
      * @return String
      */
+    public static String basePropsPrefix() {
+        return basePropsPrefix;
+    }
+
+    /**
+     *
+     * @param prefix String
+     * @return String
+     */
+    public static String basePropsPrefix(String prefix) {
+        return basePropsPrefix = prefix;
+    }
+
+    /**
+     *
+     * @return String
+     */
     public static String kBasePrefix() {
         return kBasePrefix;
     }
@@ -270,16 +313,59 @@ public class Properties extends java.util.Properties {
      *
      * @return Properties
      */
+    public static Properties loadEnv() {
+        return loadEnv(envFile);
+    }
+
+    /**
+     *
+     * @param classpath String
+     * @return Properties
+     */
+    public static Properties loadEnv(String classpath) {
+        out.println("loadEnv: " + classpath);
+        out.println("setEnv: " + setProp(loadPropsClasspath(classpath), envKey(classpath), classpath));
+        return props;
+    }
+
+    /**
+     *
+     * @param loadDir String
+     * @return Properties
+     */
+    public static Properties loadEnvDir(String loadDir) {
+        out.println("loadEnvDir: " + loadDir);
+        out.println("setEnv: " + setProp(loadProps(loadDir, envFile), envKey(), envFile));
+        return props;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public static String envKey() {
+        return envKey(envFile);
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public static String envKey(String envFile) {
+        return envFile.replace(".", kPrefix);
+    }
+
+    /**
+     *
+     * @return Properties
+     */
     public static Properties setBaseProps() {
-        if (props.isEmpty()) {
-            out.println("baseProps: " + baseProps.stream().map(f -> basePropsPrefix + f + propsExt).toList());
-            String _kPrefix = kPrefix;
-            kPrefix(kBasePrefix);
-            setProps(baseProps, f -> basePropsPrefix + f + propsExt, Properties::loadPropsClasspath);
-            kPrefix(_kPrefix);
-            return props;
-        }
-        return null;
+        out.println("baseProps: " + baseProps.stream().map(f -> basePropsPrefix + f + propsExt).toList());
+        String _kPrefix = kPrefix;
+        kPrefix(kBasePrefix);
+        setProps(baseProps, f -> basePropsPrefix + f + propsExt, Properties::loadPropsClasspath);
+        kPrefix(_kPrefix);
+        return props;
     }
 
     /**
@@ -296,13 +382,16 @@ public class Properties extends java.util.Properties {
      * @return Properties
      */
     public static Properties setProps(String loadDir) {
-        if (setBaseProps) setBaseProps();
-        try {
-            List<Path> files = rootPathList(propsDir).toList();
-            out.println("read: " + files);
-            setProps(files, f -> f.getFileName().toString(), cp -> loadProps(loadDir, cp));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (props.isEmpty()) {
+            if (loadEnv) loadEnvDir(loadDir);
+            if (setBaseProps) setBaseProps();
+            try {
+                List<Path> files = rootPathList(loadDir).toList();
+                out.println("read: " + files);
+                setProps(files, f -> f.getFileName().toString(), cp -> loadProps(loadDir, cp));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return props;
     }
@@ -330,7 +419,7 @@ public class Properties extends java.util.Properties {
         String name = propsName(file);
         String last = last(name, "\\.");
         String key = kPrefix + last;
-        return setProp(props.apply(file), key, file);
+        return _equals(file, ".env") ? null : setProp(props.apply(file), key, file);
     }
 
     /**
@@ -352,12 +441,12 @@ public class Properties extends java.util.Properties {
      * @return String
      */
     public static String setProp(Properties props, String key, String classpath) {
-        String prop = System.setProperty(key, "classpath:" + classpath);
+        System.setProperty(key, "classpath:" + classpath);
         key = propsKey(key);
         Map<Object, Object> v = propsMap.get(key);
         if (notNull(v)) props.putAll(v);
         propsMap.put(key, props);
-        return prop;
+        return System.getProperty(key);
     }
 
     /**

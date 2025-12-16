@@ -6,6 +6,7 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Set;
+import java.util.function.Function;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.base.Properties.getSortedProps;
@@ -55,15 +56,8 @@ public class TestProps<T extends TestBaseConfig> extends TestException<T> {
 
         debug("propsMapKeys: " + propsMapKeys());
 
-        debug("props.utils.dev:", getProperty("props.utils.dev"));
-        debug("props.utils.web:", getProperty("props.utils.web"));
-        debug("props.utils.test:", getProperty("props.utils.test"));
-        debug("props.utils.win:", getProperty("props.utils.win"));
-
-        debug("props.dev:", getProperty("props.dev"));
-        debug("props.web:", getProperty("props.web"));
-        debug("props.test:", getProperty("props.test"));
-        debug("props.win:", getProperty("props.win"));
+        printPropsMapKeys(p -> p.replace("props", "props.utils"));
+        printPropsMapKeys();
 
         debug("props.dev: " + propsMap("props.dev"));
 
@@ -73,6 +67,20 @@ public class TestProps<T extends TestBaseConfig> extends TestException<T> {
 
         debug(uri);
         debug(getParamsUri(uri, "id", 1, "token", "test"));
+    }
+
+    /**
+     *
+     */
+    public static void printPropsMapKeys() {
+        printPropsMapKeys(p -> p);
+    }
+
+    /**
+     * @param cb Function {String, String}
+     */
+    public static void printPropsMapKeys(Function<String, String> cb) {
+        propsMapKeys().forEach(p -> debug((p = cb.apply(p)) + ":", getProperty(p)));
     }
 
     /**

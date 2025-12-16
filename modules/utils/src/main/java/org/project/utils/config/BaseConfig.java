@@ -14,7 +14,10 @@ import static org.project.utils.config.Config.env;
  *
  */
 @LoadPolicy(MERGE)
-@Sources({"${props.utils.dev}"})
+@Sources({
+    "${props.env}",
+    "${props.utils.dev}"
+})
 public interface BaseConfig extends Config {
     /**
      *
