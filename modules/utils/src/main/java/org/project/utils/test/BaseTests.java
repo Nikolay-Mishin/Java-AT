@@ -14,7 +14,7 @@ import org.project.utils.config.WebBaseConfig;
 /**
  *
  */
-public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestWeb<T, W, D> {
+public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestModel<T, W, D> {
 
     /**
      *
@@ -23,7 +23,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests<>(1);
+        new BaseTests<>(1, 28);
         debug("instance: " + instance());
     }
 
@@ -119,6 +119,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      * <p>25: testProcWeb();
      * <p>26: makeOperation();
      * <p>27: testFind(0);
+     * <p>28: testModel();
      * @param n int
      * @throws Exception throws
      */
@@ -178,6 +179,8 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
             case 26: makeOperation();
                 break;
             case 27: testFind(0);
+                break;
+            case 28: testModel();
                 break;
         }
     }
