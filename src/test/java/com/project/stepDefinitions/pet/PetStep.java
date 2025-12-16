@@ -17,7 +17,7 @@ import org.project.utils.base.HashMap;
 import models.pet.Category;
 import models.pet.Pet;
 import models.pet.TagsItem;
-import requests.PetRequests;
+import requests.pet.PetRequests;
 
 public class PetStep extends BaseStep<PetRequests, Pet> {
 

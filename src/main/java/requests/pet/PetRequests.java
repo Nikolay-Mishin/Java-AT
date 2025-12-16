@@ -1,4 +1,4 @@
-package requests;
+package requests.pet;
 
 import org.project.utils.request.BaseRequests;
 
