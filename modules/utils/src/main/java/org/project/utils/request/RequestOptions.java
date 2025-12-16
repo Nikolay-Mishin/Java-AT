@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -142,6 +143,69 @@ public class RequestOptions extends org.project.utils.request.Response {
         return SpecificationQuerier.query(request);
     }
 
+    /**
+     * Set query request
+     * @param args Object[]
+     * @return R
+     * @param <R> extends RequestOptions
+     */
+    @SuppressWarnings("unchecked")
+    public <R extends RequestOptions> R query(Object... args) {
+        request.queryParams(JsonSchema.toMap(args));
+        return (R) this;
+    }
+
+    /**
+     * Set query request
+     * @param map Map {String, ?}
+     * @return R
+     * @param <R> extends RequestOptions
+     */
+    @SuppressWarnings("unchecked")
+    public <R extends RequestOptions> R query(Map<String, ?> map) {
+        request.queryParams(map);
+        return (R) this;
+    }
+
+    /**
+     * Set query request
+     * @param s String
+     * @param objects Object[]
+     * @return R
+     * @param <R> extends RequestOptions
+     */
+    @SuppressWarnings("unchecked")
+    public <R extends RequestOptions> R query(String s, Object... objects) {
+        request.queryParam(s, objects);
+        return (R) this;
+    }
+
+    /**
+     * Set query request
+     * @param s String
+     * @param c Collection
+     * @return R
+     * @param <R> extends RequestOptions
+     */
+    @SuppressWarnings("unchecked")
+    public <R extends RequestOptions> R query(String s, Collection<?> c) {
+        request.queryParam(s, c);
+        return (R) this;
+    }
+
+    /**
+     * Set query request
+     * @param s String
+     * @param o Object
+     * @param objects Object[]
+     * @return R
+     * @param <R> extends RequestOptions
+     */
+    @SuppressWarnings("unchecked")
+    public <R extends RequestOptions> R query(String s, Object o, Object... objects) {
+        request.queryParams(s, o, objects);
+        return (R) this;
+    }
     /**
      * Get base path
      * @return String
