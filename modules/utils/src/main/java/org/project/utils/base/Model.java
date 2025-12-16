@@ -3,10 +3,11 @@ package org.project.utils.base;
 import java.beans.ConstructorProperties;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -14,14 +15,17 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isList;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
+import static org.project.utils.Helper.sb;
 import static org.project.utils.Helper.shift;
 import static org.project.utils.base.HashMap.keys;
 import static org.project.utils.json.JsonSchema.parsePath;
+import static org.project.utils.reflection.Reflection.fields;
 import static org.project.utils.reflection.Reflection.getPropDescriptor;
 import static org.project.utils.reflection.Reflection.getPropDescriptors;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.invoke;
 import static org.project.utils.reflection.Reflection.invokeParse;
+import static org.project.utils.request.Request.params;
 
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.exception.AssertException;
@@ -35,45 +39,42 @@ public class Model<T> {
     /**
      *
      */
-    private T model;
+    protected T model;
     /**
      *
      */
-    private Object builder;
+    protected Object builder;
     /**
      *
      */
-    private String[] pathList;
+    protected String[] pathList;
     /**
      *
      */
-    private JSONObject jsonData;
+    protected JSONObject jsonData;
     /**
      *
      */
-    private String[] keys;
+    protected String[] keys;
 
     /**
      *
      */
     @ConstructorProperties({})
-    public Model() {
-        builder = null;
-        jsonData = null;
-    }
+    public Model() {}
 
     /**
      *
      * @param clazz Class T
      * @param dataTable List {List {String}}
-     * @param hashMap HashMap
+     * @param hashMap Map {String, Class}
      * @param method METHOD_LOWER_CASE
      * @param jsonSchemaPathList Object[]
      * @throws ReflectiveOperationException throws
      * @throws IOException throws
      */
     @ConstructorProperties({"clazz", "dataTable", "hashMap", "method", "jsonSchemaPathList"})
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+    public Model(Class<T> clazz, List<List<String>> dataTable, Map<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws ReflectiveOperationException, IOException
     {
         _model(clazz, dataTable, hashMap, method, jsonSchemaPathList);
@@ -97,13 +98,13 @@ public class Model<T> {
      *
      * @param clazz Class T
      * @param dataTable List {List {String}}
-     * @param hashMap HashMap
+     * @param hashMap Map {String, Class}
      * @param jsonSchemaPathList Object[]
      * @throws ReflectiveOperationException throws
      * @throws IOException throws
      */
     @ConstructorProperties({"clazz", "dataTable", "hashMap", "jsonSchemaPathList"})
-    public Model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, Object... jsonSchemaPathList) throws ReflectiveOperationException, IOException {
+    public Model(Class<T> clazz, List<List<String>> dataTable, Map<String, Class<?>> hashMap, Object... jsonSchemaPathList) throws ReflectiveOperationException, IOException {
         _model(clazz, dataTable, hashMap, null, jsonSchemaPathList);
     }
 
@@ -134,6 +135,32 @@ public class Model<T> {
 
     /**
      *
+     * @param clazz Class T
+     * @param args Object[]
+     * @throws ReflectiveOperationException throws
+     */
+    @ConstructorProperties({"clazz", "args"})
+    public Model(Class<T> clazz, Object... args) throws ReflectiveOperationException {
+        Object[] map = params("{\n", "\n}", ",\n", a -> sb("    \"", a, "\""), (a, sep) -> sb(": \"", a, "\"" + sep), args);
+        String jsonStr = sb(map);
+        Map<String, Object> json = new JsonSchema(jsonStr).toMap();
+        model(clazz, json);
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param dataTable Map {K, Object}
+     * @throws ReflectiveOperationException throws
+     * @param <K> K
+     */
+    @ConstructorProperties({"clazz", "dataTable"})
+    public <K> Model(Class<T> clazz, Map<K, Object> dataTable) throws ReflectiveOperationException {
+        model(clazz, dataTable);
+    }
+
+    /**
+     *
      * @return T
      */
     public T get() {
@@ -144,16 +171,16 @@ public class Model<T> {
      *
      * @param clazz Class T
      * @param dataTable List {List {String}}
-     * @param hashMap HashMap
+     * @param hashMap Map {String, Class}
      * @param method METHOD_LOWER_CASE
      * @param jsonSchemaPathList Object[]
      * @throws ReflectiveOperationException throws
      * @throws IOException throws
      */
-    private void _model(Class<T> clazz, List<List<String>> dataTable, HashMap<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
+    protected void _model(Class<T> clazz, List<List<String>> dataTable, Map<String, Class<?>> hashMap, METHOD_LOWER_CASE method, Object... jsonSchemaPathList)
         throws ReflectiveOperationException, IOException {
-            jsonData = method != null ? getJsonData(method, clazz, jsonSchemaPathList) : getJsonData(clazz, jsonSchemaPathList);
             builder = builder(clazz);
+            jsonData = method != null ? getJsonData(method, clazz, jsonSchemaPathList) : getJsonData(clazz, jsonSchemaPathList);
             model(clazz, dataTable, hashMap);
     }
 
@@ -165,7 +192,7 @@ public class Model<T> {
      * @return JSONObject
      * @throws IOException throws
      */
-    private JSONObject getJsonData(METHOD_LOWER_CASE method, Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
+    protected JSONObject getJsonData(METHOD_LOWER_CASE method, Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
         return new JsonSchema().path(method, clazz, jsonSchemaPathList).data();
     }
 
@@ -176,7 +203,7 @@ public class Model<T> {
      * @return JSONObject
      * @throws IOException throws
      */
-    private JSONObject getJsonData(Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
+    protected JSONObject getJsonData(Class<T> clazz, Object... jsonSchemaPathList) throws IOException {
         return new JsonSchema().path(clazz, jsonSchemaPathList).data();
     }
 
@@ -187,8 +214,30 @@ public class Model<T> {
      * @return T
      * @throws ReflectiveOperationException throws
      */
-    private T model(Class<T> clazz, List<String> dataTable) throws ReflectiveOperationException {
+    protected T model(Class<T> clazz, List<String> dataTable) throws ReflectiveOperationException {
         return model(clazz, dataTable, null);
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param dataTable Map {K, Object}
+     * @return Object
+     * @throws ReflectiveOperationException throws
+     * @param <K> K
+     */
+    @SuppressWarnings("unchecked")
+    protected <K> Object model(Class<T> clazz, Map<K, Object> dataTable) throws ReflectiveOperationException {
+        debug("dataTable: " + dataTable);
+        builder = builder(clazz);
+        for (Field f : fields(clazz)) {
+            String k = f.getName();
+            Object v = dataTable.get((K) k);
+            if (notNull(v)) set(k, v);
+        }
+        build();
+        debug(model);
+        return model;
     }
 
     /**
@@ -197,8 +246,50 @@ public class Model<T> {
      * @return Object
      * @throws ReflectiveOperationException throws
      */
-    private Object builder(Class<T> clazz) throws ReflectiveOperationException {
+    protected Object builder(Class<T> clazz) throws ReflectiveOperationException {
         return invoke(clazz, "builder");
+    }
+
+    /**
+     *
+     * @param k String
+     * @param v String
+     * @return Object
+     * @throws ReflectiveOperationException throws
+     */
+    protected Object set(String k, Object v) throws ReflectiveOperationException {
+        return builder = set(builder, k, v);
+    }
+
+    /**
+     *
+     * @param builder Object
+     * @param k String
+     * @param v String
+     * @return Object
+     * @throws ReflectiveOperationException throws
+     */
+    protected Object set(Object builder, String k, Object v) throws ReflectiveOperationException {
+        return invoke(builder, k, v);
+    }
+
+    /**
+     *
+     * @return T
+     * @throws ReflectiveOperationException throws
+     */
+    protected T build() throws ReflectiveOperationException {
+        return model = build(builder);
+    }
+
+    /**
+     *
+     * @param builder Object
+     * @return T
+     * @throws ReflectiveOperationException throws
+     */
+    protected T build(Object builder) throws ReflectiveOperationException {
+        return invoke(builder, "build");
     }
 
     /**
@@ -207,7 +298,7 @@ public class Model<T> {
      * @param isList boolean
      * @throws ReflectiveOperationException throws
      */
-    private void setKeys(String key, boolean isList) throws ReflectiveOperationException {
+    protected void setKeys(String key, boolean isList) throws ReflectiveOperationException {
         debug("setData");
         debug(jsonData);
         if (isNull(jsonData)) {
@@ -224,12 +315,12 @@ public class Model<T> {
      *
      * @param clazz Class T
      * @param dataTable List
-     * @param hashMap HashMap
+     * @param hashMap Map {String, Class}
      * @return T
      * @throws ReflectiveOperationException throws
      */
     @SuppressWarnings("unchecked")
-    private T model(Class<T> clazz, List<?> dataTable, HashMap<String, Class<?>> hashMap) throws ReflectiveOperationException {
+    protected T model(Class<T> clazz, List<?> dataTable, Map<String, Class<?>> hashMap) throws ReflectiveOperationException {
         debug("model");
 
         Object _builder = builder(clazz);
@@ -282,11 +373,11 @@ public class Model<T> {
             debug(value);
             getClassSimpleName(value);
 
-            _builder = invoke(isTable ? builder : _builder, name, value);
+            _builder = set(isTable ? builder : _builder, name, value);
             debug(_builder);
         }
 
-        model = invoke(_builder, "build");
+        model = build(_builder);
         debug(model);
         return model;
     }
