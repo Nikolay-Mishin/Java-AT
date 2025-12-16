@@ -4,6 +4,7 @@
 **/allure-results/
 /tests/
 /modules/**/tests/
+.env
 stand.properties
 
 ### NPM ###
