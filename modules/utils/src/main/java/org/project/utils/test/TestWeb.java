@@ -102,6 +102,10 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static String tokenKeys;
+    /**
+     *
+     */
     protected static ContentType contentType;
     /**
      *
@@ -164,6 +168,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         fileTokenK = w.getFileTokenKey();
         tokenK = w.getTokenKey();
         token = w.getToken();
+        tokenKeys = w.getTokenKeys();
         //headers
         contentType = w.getContentType();
         accept = w.getAccept();
