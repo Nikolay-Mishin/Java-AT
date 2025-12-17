@@ -27,7 +27,10 @@ public interface WebBaseConfig extends BaseConfig {
      *
      * @return String
      */
-    //at
+    //web
+    @Key("BASE_HOST")
+    String getBaseHost();
+
     @Key("HOST")
     String getHost();
 
