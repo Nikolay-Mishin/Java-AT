@@ -1,6 +1,5 @@
 package org.project.utils;
 
-import static java.lang.String.join;
 import static java.lang.System.out;
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
@@ -1281,6 +1280,24 @@ public class Helper {
      */
     public static List<Object> valuesList(Map<String, Object> entriesMap) {
         return entriesMap.values().stream().toList();
+    }
+
+    /**
+     *
+     * @param args String[]
+     * @return String
+     */
+    public static String join(String... args) {
+        return join("", args);
+    }
+
+    /**
+     *
+     * @param args String[]
+     * @return String
+     */
+    public static String join(String sep, String... args) {
+        return String.join(sep, args);
     }
 
     /**
