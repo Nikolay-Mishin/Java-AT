@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import static org.junit.Assert.assertNotNull;
 
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.openqa.selenium.JavascriptExecutor;
 
 import static org.project.utils.Helper.debug;
@@ -15,9 +16,11 @@ import static org.project.utils.request.Request.getParams;
 import static org.project.utils.request.Request.getParamsSlash;
 import static org.project.utils.windriver.WebDriver.ls;
 
+import org.project.utils.base.Model;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
+import org.project.utils.test.model.Auth;
 
 /**
  * @param <T> extends TestBaseConfig
@@ -139,6 +142,22 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      */
     protected static String endpointUrl;
+    /**
+     *
+     */
+    protected static Auth model;
+    /**
+     *
+     */
+    protected static String accessToken;
+    /**
+     *
+     */
+    protected static String refreshToken;
+    /**
+     *
+     */
+    protected static String fileToken;
 
     /**
      *
@@ -191,6 +210,103 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      */
     public static String url(int project, String token) {
         return sb(endpoint, project, getParams(tokenK, token));
+    }
+
+    /**
+     *
+     * @return Auth
+     */
+    public static Auth model() throws ReflectiveOperationException {
+        return model(Auth.class, usernameK, username, passwordK, password);
+    }
+
+    /**
+     *
+     * @param authModel Class Auth
+     * @param args Object[]
+     * @return Auth
+     */
+    public static Auth model(Class<Auth> authModel, Object... args) throws ReflectiveOperationException {
+        return model = new Model<>(authModel, args).get();
+    }
+
+    /**
+     *
+     * @return Response
+     */
+    public static Response auth() throws ReflectiveOperationException {
+        return auth(model());
+    }
+
+    /**
+     *
+     * @param authModel Class Auth
+     * @param args Object[]
+     * @return Response
+     */
+    public static Response auth(Class<Auth> authModel, Object... args) throws ReflectiveOperationException {
+        return auth(model(authModel, args));
+    }
+
+    /**
+     *
+     * @param model Auth
+     * @return Response
+     */
+    public static Response auth(Auth model) throws ReflectiveOperationException {
+        resp(model);
+        debug(resp.asPrettyString());
+        setTokens(resp);
+        return resp;
+    }
+
+    /**
+     *
+     * @param resp Response
+     */
+    public static void setTokens(Response resp) {
+        accessToken(resp);
+        refreshToken(resp);
+        fileToken(resp);
+    }
+
+    /**
+     *
+     * @param resp Response
+     * @return String
+     */
+    public static String accessToken(Response resp) {
+        return accessToken = token(resp, accessTokenK);
+    }
+
+    /**
+     *
+     * @param resp Response
+     * @return String
+     */
+    public static String refreshToken(Response resp) {
+        return refreshToken = token(resp, refreshTokenK);
+    }
+
+    /**
+     *
+     * @param resp Response
+     * @return String
+     */
+    public static String fileToken(Response resp) {
+        return fileToken = token(resp, fileTokenK);
+    }
+
+    /**
+     *
+     * @param resp Response
+     * @param k String
+     * @return String
+     */
+    public static String token(Response resp, String k) {
+        String token = resp.path(k);
+        debug(k + ": " + token);
+        return token;
     }
 
     /**
