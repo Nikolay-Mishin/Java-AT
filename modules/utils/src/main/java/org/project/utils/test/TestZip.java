@@ -26,7 +26,6 @@ import static org.project.utils.fs.Zip.unzipPass;
 import static org.project.utils.fs.Zip.unzipSelenium;
 
 import org.project.utils.config.TestBaseConfig;
-import org.project.utils.request.Request;
 
 /**
  * @param <T> extends TestBaseConfig
@@ -84,9 +83,9 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
      */
     public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testZip");
-        url(endpoint, uri, jsonGet, jsonK, jsonV, jsonUrl);
+        url(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
 
-        req = new Request(GET).uri(url);
+        setReq(url, GET);
 
         InputStream inputStream = req.stream();
         byte[] bytes = req.bytes();

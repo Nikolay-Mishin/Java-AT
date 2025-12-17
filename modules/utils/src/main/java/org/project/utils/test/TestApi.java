@@ -3,6 +3,7 @@ package org.project.utils.test;
 import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 import io.restassured.http.Headers;
@@ -15,16 +16,31 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.constant.ContentType.getContentType;
 import static org.project.utils.constant.ContentType.getAccept;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
+import static org.project.utils.request.Request.query;
+import static org.project.utils.request.Request.req;
 import static org.project.utils.request.RequestOptions.getHeaders;
 
 import org.project.utils.config.ApiConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.constant.RequestConstants.METHOD;
 import org.project.utils.request.Request;
 
 /**
  * @param <T> extends TestBaseConfig
  */
 public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
+    /**
+     *
+     */
+    protected static Request req;
+    /**
+     *
+     */
+    protected static Response resp;
+    /**
+     *
+     */
+    protected static String url;
     /**
      *
      */
@@ -45,8 +61,71 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
     public TestApi() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestApi:init");
         uri = c.getApiUri();
-        endpoint = c.getEndpoint();
+        endpoint = c.getApiEndpoint();
         endpointTest = c.getEndpointTest();
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
+    public static Request setReq(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return req = req(method, pathList);
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static Request setReq(String uri, METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return req = req(uri, method, pathList);
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @param query String
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     */
+    public static Request reqQuery(METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return req = query(method, query, pathList);
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param method METHOD
+     * @param query String
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static Request reqQuery(String uri, METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return req = query(uri, method, query, pathList);
+    }
+
+    /**
+     *
+     * @return Response
+     * @throws ReflectiveOperationException throws
+     */
+    public static Response resp() throws ReflectiveOperationException {
+        return resp = req.response();
     }
 
     /**
@@ -57,8 +136,8 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      */
     public static void testApi() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testApi");
-        Request req = new Request(GET, endpointTest, 0);
-        Response resp = req.response();
+        setReq(GET, endpointTest, 0);
+        resp();
 
         debug(req);
         debug(resp);
@@ -73,12 +152,12 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
         debug(resp.detailedCookies());
 
         req.url(endpointTest, 1);
-        String resp1 = req.string();
-        debug(resp1);
+        String respStr = req.string();
+        debug(respStr);
 
         req.uri(uri);
-        Response resp2 = req.response();
-        debug(resp2);
+        resp();
+        debug(resp);
         req.printFullPath();
         req.printUri();
         req.printPath();
@@ -108,7 +187,7 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
         req.printUri();
         req.printPath();
 
-        req = new Request(GET);
+        setReq(GET);
         req.printUri();
         req.printPath();
 
@@ -137,7 +216,7 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      */
     public static void testHeaders(boolean setHeaders) throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testHeaders");
-        Request req = new Request(GET, endpointTest, 0);
+        setReq(GET, endpointTest, 0);
 
         debug(req.statusCode());
         debug(req.contentType());

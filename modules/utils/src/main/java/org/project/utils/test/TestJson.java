@@ -33,15 +33,7 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
     /**
      *
      */
-    protected static Request req;
-    /**
-     *
-     */
     protected static Map<String, Object> map;
-    /**
-     *
-     */
-    protected static String url;
     /**
      *
      */
@@ -83,29 +75,28 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
 
     /**
      *
-     * @param endpoint String
      * @param uri String
+     * @param pathList Object[]
      * @return JsonSchema
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema json(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return json = jsonSchema(endpoint, uri);
+    public static JsonSchema json(String uri, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return json = jsonSchema(uri, pathList);
     }
 
     /**
      *
-     * @param endpoint String
      * @param uri String
+     * @param pathList Object[]
      * @return Request
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Request req(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        json(endpoint, uri);
-        return req = json.req();
+    public static Request setReq(String uri, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return req = json(uri, pathList).getReq();
     }
 
     /**
@@ -117,8 +108,8 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Map<String, Object> map(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        req(endpoint, uri);
+    public static Map<String, Object> map(String uri, String endpoint) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        setReq(uri, endpoint);
         return map = json.toMap();
     }
 
@@ -134,10 +125,10 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Map<String, Object> map(String endpoint, String uri, String key, String k, String v)
+    public static Map<String, Object> map(String uri, String endpoint, String key, String k, String v)
         throws MalformedURLException, URISyntaxException, ReflectiveOperationException
     {
-        req(endpoint, uri);
+        setReq(uri, endpoint);
         return map = json.toMap(key, k, v);
     }
 
@@ -154,10 +145,10 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static String url(String endpoint, String uri, String key, String k, String v, String urlPath)
+    public static String url(String uri, String endpoint, String key, String k, String v, String urlPath)
         throws MalformedURLException, URISyntaxException, ReflectiveOperationException
     {
-        map(endpoint, uri, key, k, v);
+        map(uri, endpoint, key, k, v);
         url = (String) map.get(urlPath);
         debug(url);
         return url;
@@ -171,7 +162,7 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      */
     public static void testJson() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testJson");
-        map(endpoint, uri);
+        map(uri, endpoint);
 
         debug(req.string());
         debug(req.pretty());
@@ -197,8 +188,7 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
 
         debug(table(map));
 
-        map = json.toMap(jsonGet, jsonK, jsonV);
-        url = (String) map.get(jsonUrl);
+        url(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
 
         debug(json.arrayToMap(jsonGet));
         debug(json.toMap(jsonGet, o -> ((JSONObject) o).get(jsonK).equals(jsonV)));
@@ -209,7 +199,7 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
         debug(json.toTable(jsonGet, jsonK, jsonV));
         debug(json.toTable(jsonGet, o -> ((JSONObject) o).get(jsonK).equals(jsonV)));
 
-        new Request(GET, "path", 1).uri(uri);
+        setReq(uri, GET, "path", 1);
 
         debug(map);
         debug(path(url));
