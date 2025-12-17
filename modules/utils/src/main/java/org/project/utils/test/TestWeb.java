@@ -25,6 +25,38 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static String api;
+    /**
+     *
+     */
+    protected static String authEndpoint;
+    /**
+     *
+     */
+    protected static String usernameK;
+    /**
+     *
+     */
+    protected static String passwordK;
+    /**
+     *
+     */
+    protected static String tokenType;
+    /**
+     *
+     */
+    protected static String accessTokenK;
+    /**
+     *
+     */
+    protected static String refreshTokenK;
+    /**
+     *
+     */
+    protected static String fileTokenK;
+    /**
+     *
+     */
     protected static String tokenK;
     /**
      *
@@ -45,6 +77,14 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     @ConstructorProperties({})
     public TestWeb() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestWeb:init");
+        api = w.getBaseApi();
+        authEndpoint = w.getEndpointAuth();
+        usernameK = w.getUsernameKey();
+        passwordK = w.getPasswordKey();
+        tokenType = w.getTokenType();
+        accessTokenK = w.getAccessTokenKey();
+        refreshTokenK = w.getRefreshTokenKey();
+        fileTokenK = w.getFileTokenKey();
         tokenK = w.getTokenKey();
         token = w.getToken();
         endpoint = c.getEndpoint();

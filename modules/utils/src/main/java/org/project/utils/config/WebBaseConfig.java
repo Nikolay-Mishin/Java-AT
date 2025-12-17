@@ -124,11 +124,33 @@ public interface WebBaseConfig extends BaseConfig {
     @Key("TARGET_JSON_PACKAGE")
     String getTargetJsonPackage();
 
+    //auth
+    @Key("endpoint.auth")
+    String getEndpointAuth();
+
+    @Key("username.key")
+    String getUsernameKey();
+
+    @Key("password.key")
+    String getPasswordKey();
+
+    //tokens
+    @Key("token.type")
+    String getTokenType();
+
+    @Key("token.access.key")
+    String getAccessTokenKey();
+
+    @Key("token.refresh.key")
+    String getRefreshTokenKey();
+
+    @Key("token.file.key")
+    String getFileTokenKey();
+
     /**
      *
      * @return String
      */
-    //tokens
     @Key("token.key")
     String getTokenKey();
 
