@@ -34,6 +34,9 @@ public interface WebBaseConfig extends BaseConfig {
     @Key("HOST")
     String getHost();
 
+    @Key("HOST_URL")
+    String getHostUrl();
+
     /**
      *
      * @return String

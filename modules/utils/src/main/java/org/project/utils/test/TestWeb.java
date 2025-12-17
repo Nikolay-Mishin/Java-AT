@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 
 import static org.junit.Assert.assertNotNull;
 
+import io.restassured.http.ContentType;
 import org.openqa.selenium.JavascriptExecutor;
 
 import static org.project.utils.Helper.debug;
@@ -25,7 +26,43 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static String baseHost;
+    /**
+     *
+     */
+    protected static String host;
+    /**
+     *
+     */
+    protected static String hostUrl;
+    /**
+     *
+     */
+    protected static String rootApi;
+    /**
+     *
+     */
     protected static String api;
+    /**
+     *
+     */
+    protected static String username;
+    /**
+     *
+     */
+    protected static String password;
+    /**
+     *
+     */
+    protected static String dbUrl;
+    /**
+     *
+     */
+    protected static String dbLogin;
+    /**
+     *
+     */
+    protected static String dbPassword;
     /**
      *
      */
@@ -65,7 +102,35 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static ContentType contentType;
+    /**
+     *
+     */
+    protected static ContentType accept;
+    /**
+     *
+     */
+    protected static String userAgent;
+    /**
+     *
+     */
+    protected static String userAgentPostman;
+    /**
+     *
+     */
+    protected static String baseHeaders;
+    /**
+     *
+     */
+    protected static String headers;
+    /**
+     *
+     */
     protected static String endpoint;
+    /**
+     *
+     */
+    protected static int endpointId;
     /**
      *
      */
@@ -77,17 +142,38 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     @ConstructorProperties({})
     public TestWeb() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestWeb:init");
+        baseHost = w.getBaseHost();
+        host = w.getHost();
+        hostUrl = w.getHostUrl();
+        rootApi = w.getRootApi();
         api = w.getBaseApi();
+        username = w.getUserLogin();
+        password = w.getUserPassword();
+        //db
+        dbUrl = w.getDbUrl();
+        dbLogin = w.getDbLogin();
+        dbPassword = w.getDbPassword();
+        //auth
         authEndpoint = w.getEndpointAuth();
         usernameK = w.getUsernameKey();
         passwordK = w.getPasswordKey();
+        //tokens
         tokenType = w.getTokenType();
         accessTokenK = w.getAccessTokenKey();
         refreshTokenK = w.getRefreshTokenKey();
         fileTokenK = w.getFileTokenKey();
         tokenK = w.getTokenKey();
         token = w.getToken();
+        //headers
+        contentType = w.getContentType();
+        accept = w.getAccept();
+        userAgent = w.getUserAgent();
+        userAgentPostman = w.getUserAgentPostman();
+        baseHeaders = w.getBaseHeaders();
+        headers = w.getHeaders();
+        //TestWeb
         endpoint = c.getEndpoint();
+        endpointId = c.getEndpointId();
         endpointUrl = url(c.getEndpointId(), token);
         debug("getParams: " + getParamsSlash(tokenK, token));
     }
