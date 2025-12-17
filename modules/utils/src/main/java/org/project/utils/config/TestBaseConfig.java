@@ -76,7 +76,7 @@ public interface TestBaseConfig extends BaseConfig {
      * @return String
      */
     @Key("api.endpoint")
-    String getEndpoint();
+    String getApiEndpoint();
 
     /**
      *
@@ -321,5 +321,12 @@ public interface TestBaseConfig extends BaseConfig {
     //TestUTF8
     @Key("test.utf8")
     String getUtf8();
+
+    //TestWeb
+    @Key("endpoint")
+    String getEndpoint();
+
+    @Key("endpoint.id")
+    int getEndpointId();
 
 }

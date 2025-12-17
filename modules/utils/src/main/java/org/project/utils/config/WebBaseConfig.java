@@ -129,6 +129,12 @@ public interface WebBaseConfig extends BaseConfig {
      * @return String
      */
     //tokens
+    @Key("token.key")
+    String getTokenKey();
+
+    @Key("token")
+    String getToken();
+
     @Key("TOKEN_KEYS")
     String getTokenKeys();
 
@@ -174,18 +180,5 @@ public interface WebBaseConfig extends BaseConfig {
      */
     @Key("HEADERS")
     String getHeaders();
-
-    //TestWeb
-    @Key("endpoint")
-    String getEndpoint();
-
-    @Key("token.key")
-    String getTokenKey();
-
-    @Key("token")
-    String getToken();
-
-    @Key("project.id")
-    int getProjectId();
 
 }
