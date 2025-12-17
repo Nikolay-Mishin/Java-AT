@@ -25,10 +25,6 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
-    protected static String endpoint;
-    /**
-     *
-     */
     protected static String tokenK;
     /**
      *
@@ -37,7 +33,11 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
-    protected static String project;
+    protected static String endpoint;
+    /**
+     *
+     */
+    protected static String endpointUrl;
 
     /**
      *
@@ -45,10 +45,10 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     @ConstructorProperties({})
     public TestWeb() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestWeb:init");
-        endpoint = w.getEndpoint();
         tokenK = w.getTokenKey();
         token = w.getToken();
-        project = url(w.getProjectId(), token);
+        endpoint = c.getEndpoint();
+        endpointUrl = url(c.getEndpointId(), token);
         debug("getParams: " + getParamsSlash(tokenK, token));
     }
 
@@ -97,8 +97,8 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         debug("localStorage data: " + ls.items());
 
         // Navigate to the webpage where localStorage data is stored
-        debug("project: " + project);
-        webDriver.get(project);
+        debug("project: " + endpointUrl);
+        webDriver.get(endpointUrl);
 
         /*
         assertFalse(driverWeb.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected());
