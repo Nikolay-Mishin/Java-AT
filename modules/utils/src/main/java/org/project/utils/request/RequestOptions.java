@@ -19,6 +19,7 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.split;
 import static org.project.utils.Helper.toMap;
 import static org.project.utils.config.WebConfig.config;
 
@@ -142,6 +143,18 @@ public class RequestOptions extends org.project.utils.request.Response {
     public QueryableRequestSpecification query() {
         request.get();
         return SpecificationQuerier.query(request);
+    }
+
+    /**
+     * Set query request
+     * @param query String
+     * @return R
+     * @param <R> extends RequestOptions
+     */
+    @SuppressWarnings("unchecked")
+    public <R extends RequestOptions> R query(String query) {
+        query((Object[]) split(query, ","));
+        return (R) this;
     }
 
     /**
