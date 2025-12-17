@@ -47,6 +47,62 @@ public class Request extends RequestAuth {
      * @return Request
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static Request req(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return new Request(method, pathList);
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static Request req(String uri, METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return new Request(method, pathList).uri(uri);
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @param query String
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static Request query(METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return new Request(method, pathList).query(query);
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param method METHOD
+     * @param query String
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static Request query(String uri, METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return new Request(method, pathList).uri(uri).query(query);
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
      */
     public Request init(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException {
         return init(new ApiConfig(), method, pathList);
