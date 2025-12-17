@@ -115,7 +115,8 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Request reqQuery(String uri, METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static Request reqQuery(String uri, METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException
+    {
         return req = query(uri, method, query, pathList);
     }
 
@@ -126,6 +127,16 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      */
     public static Response resp() throws ReflectiveOperationException {
         return resp = req.response();
+    }
+
+    /**
+     *
+     * @param body Object
+     * @return Response
+     * @throws ReflectiveOperationException throws
+     */
+    public static Response resp(Object body) throws ReflectiveOperationException {
+        return resp = req.response(body);
     }
 
     /**
