@@ -31,8 +31,11 @@ import static org.project.utils.fs.File.exist;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.invoke;
 import static org.project.utils.request.Request.paramsStr;
+import static org.project.utils.request.Request.query;
+import static org.project.utils.request.Request.req;
 
 import org.project.utils.base.HashMap;
+import org.project.utils.constant.RequestConstants.METHOD;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
 import org.project.utils.fs.FS;
 import org.project.utils.Helper;
@@ -100,27 +103,122 @@ public class JsonSchema {
 
     /**
      *
-     * @param endpoint String
+     * @param pathList Object[]
      * @return JsonSchema
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema jsonSchema(String endpoint) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return new JsonSchema(new Request(GET, endpoint));
+    public static JsonSchema jsonSchemaReq(Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return jsonSchema(GET, pathList);
     }
 
     /**
      *
-     * @param endpoint String
      * @param uri String
+     * @param pathList Object[]
      * @return JsonSchema
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema jsonSchema(String endpoint, String uri) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return new JsonSchema(new Request(GET, endpoint).uri(uri));
+    public static JsonSchema jsonSchema(String uri, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return jsonSchema(uri, GET, pathList);
+    }
+
+    /**
+     *
+     * @param query String
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchemaQuery(String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return jsonSchemaQuery(GET, query, pathList);
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param query String
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchemaQuery(String uri, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return jsonSchemaQuery(uri, GET, query, pathList);
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchema(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return jsonSchema(req(method, pathList));
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchema(String uri, METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return jsonSchema(req(uri, method, pathList));
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @param query String
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchemaQuery(METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return jsonSchema(query(method, query, pathList));
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param method METHOD
+     * @param query String
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchemaQuery(String uri, METHOD method, String query, Object... pathList)
+        throws MalformedURLException, URISyntaxException, ReflectiveOperationException
+    {
+        return jsonSchema(query(uri, method, query, pathList));
+    }
+
+    /**
+     *
+     * @param req Request
+     * @return JsonSchema
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchema(Request req) throws ReflectiveOperationException {
+        return new JsonSchema(req);
     }
 
     /**
@@ -244,7 +342,7 @@ public class JsonSchema {
      *
      * @return Request
      */
-    public Request req() {
+    public Request getReq() {
         return req;
     }
 
