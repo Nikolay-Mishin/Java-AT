@@ -131,6 +131,9 @@ public interface WebBaseConfig extends BaseConfig {
     String getTargetJsonPackage();
 
     //auth
+    @Key("auth.type")
+    String getAuthType();
+
     @Key("endpoint.auth")
     String getEndpointAuth();
 
@@ -141,9 +144,6 @@ public interface WebBaseConfig extends BaseConfig {
     String getPasswordKey();
 
     //tokens
-    @Key("token.type")
-    String getTokenType();
-
     @Key("token.access.key")
     String getAccessTokenKey();
 
