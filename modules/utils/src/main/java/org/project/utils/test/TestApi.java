@@ -13,6 +13,7 @@ import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.isNull;
 import static org.project.utils.constant.ContentType.getContentType;
 import static org.project.utils.constant.ContentType.getAccept;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
@@ -126,7 +127,7 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      * @throws ReflectiveOperationException throws
      */
     public static Response resp() throws ReflectiveOperationException {
-        return resp = req.response();
+        return resp(null);
     }
 
     /**
@@ -136,7 +137,7 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      * @throws ReflectiveOperationException throws
      */
     public static Response resp(Object body) throws ReflectiveOperationException {
-        return resp = req.response(body);
+        return resp = isNull(body) ? req.response() : req.response(body);
     }
 
     /**
