@@ -228,7 +228,7 @@ public class Auth extends SingleInstance<Auth> {
      * @throws Exception throws
      */
     public static String baseUrl(String baseUrl) throws Exception {
-        auth(baseUrl);
+        setAuth(baseUrl);
         return i.baseUrl = baseUrl;
     }
 
@@ -269,7 +269,7 @@ public class Auth extends SingleInstance<Auth> {
      *
      * @return Request
      */
-    public static Request auth() {
+    public static Request getAuth() {
         return i.auth;
     }
 
@@ -279,7 +279,7 @@ public class Auth extends SingleInstance<Auth> {
      * @return Request
      * @throws Exception throws
      */
-    public static Request auth(String baseUrl) throws Exception {
+    public static Request setAuth(String baseUrl) throws Exception {
         return auth(req(baseUrl));
     }
 
@@ -294,7 +294,7 @@ public class Auth extends SingleInstance<Auth> {
      * @throws IllegalAccessException throws
      */
     public static <T> Request auth(AuthBaseRequests<T> req) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return auth((Request) invoke(req, getMethod(method())));
+        return setAuth((Request) invoke(req, getMethod(method())));
     }
 
     /**
@@ -302,7 +302,7 @@ public class Auth extends SingleInstance<Auth> {
      * @param req Request
      * @return Request
      */
-    public static Request auth(Request req) {
+    public static Request setAuth(Request req) {
         return i.auth = req;
     }
 
@@ -589,7 +589,7 @@ public class Auth extends SingleInstance<Auth> {
      * @return Response
      */
     public static Response auth(AuthModel model) throws Exception {
-        Request req = auth();
+        Request req = getAuth();
         debug("fullPath: " + req.fullPath());
         Response resp = req.response(model);
         debug(resp.asPrettyString());
@@ -601,17 +601,8 @@ public class Auth extends SingleInstance<Auth> {
      *
      * @return RequestSpecification
      */
-    public static RequestSpecification setAuth() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+    public static RequestSpecification auth() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return auth(authType, getAccessToken());
-    }
-
-    /**
-     *
-     * @param args Object[]
-     * @return RequestSpecification
-     */
-    public static RequestSpecification auth(Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return auth(authType, args);
     }
 
     /**
@@ -621,7 +612,26 @@ public class Auth extends SingleInstance<Auth> {
      * @return RequestSpecification
      */
     public static RequestSpecification auth(String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return auth(auth(), authType, args);
+        return auth(getAuth(), authType, args);
+    }
+
+    /**
+     *
+     * @param req Request
+     * @return RequestSpecification
+     */
+    public static RequestSpecification auth(Request req) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return auth(req, authType);
+    }
+
+    /**
+     *
+     * @param req Request
+     * @param authType String
+     * @return RequestSpecification
+     */
+    public static RequestSpecification auth(Request req, String authType) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return auth(req, authType, getAccessToken());
     }
 
     /**

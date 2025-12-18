@@ -8,6 +8,7 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.auth.Auth.accessToken;
 import static org.project.utils.auth.Auth.auth;
 import static org.project.utils.auth.Auth.getAccessToken;
+import static org.project.utils.auth.Auth.getAuth;
 import static org.project.utils.auth.Auth.printTokens;
 import static org.project.utils.auth.Auth.token;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
@@ -67,8 +68,8 @@ public class TestAuth<T extends TestBaseConfig> extends TestReq<T> {
         debug("instance: " + Auth.instance());
         debug("SingleInstance: " + SingleInstance.instance());
         debug("req: " + Auth.req());
-        debug("auth: " + auth());
-        debug("authUrl: " + auth().url());
+        debug("auth: " + getAuth());
+        debug("authUrl: " + getAuth().url());
     }
 
 }
