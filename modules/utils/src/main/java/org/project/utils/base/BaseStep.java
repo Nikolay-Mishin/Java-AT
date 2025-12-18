@@ -4,7 +4,6 @@ import static java.lang.Long.valueOf;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
@@ -46,14 +45,10 @@ public class BaseStep<R extends BaseRequests<M>, M> {
 
     /**
      *
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({})
-    public BaseStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public BaseStep() throws ReflectiveOperationException {
         init();
     }
 
@@ -61,14 +56,10 @@ public class BaseStep<R extends BaseRequests<M>, M> {
      *
      * @param req Class R
      * @param modelClass Class M
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"req", "modelClass"})
-    public BaseStep(Class<R> req, Class<M> modelClass) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public BaseStep(Class<R> req, Class<M> modelClass) throws ReflectiveOperationException {
         init(req, modelClass);
     }
 
@@ -85,14 +76,10 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     /**
      *
      * @param config WebBaseConfig
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"config"})
-    public BaseStep(WebBaseConfig config) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public BaseStep(WebBaseConfig config) throws ReflectiveOperationException {
         init(config);
     }
 
@@ -101,16 +88,10 @@ public class BaseStep<R extends BaseRequests<M>, M> {
      * @param config WebBaseConfig
      * @param req Class R
      * @param modelClass Class M
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"config", "req", "modelClass"})
-    public BaseStep(WebBaseConfig config, Class<R> req, Class<M> modelClass)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+    public BaseStep(WebBaseConfig config, Class<R> req, Class<M> modelClass) throws ReflectiveOperationException {
         init(config, req, modelClass);
     }
 
@@ -128,15 +109,9 @@ public class BaseStep<R extends BaseRequests<M>, M> {
     /**
      *
      * @param config WebBaseConfig
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
-    protected void init(WebBaseConfig config)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+    protected void init(WebBaseConfig config) throws ReflectiveOperationException {
         init(config, getGenericClass(), getGenericClass(1));
     }
 
@@ -145,15 +120,9 @@ public class BaseStep<R extends BaseRequests<M>, M> {
      * @param config WebBaseConfig
      * @param req Class R
      * @param modelClass Class M
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
-    protected void init(WebBaseConfig config, Class<R> req, Class<M> modelClass)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+    protected void init(WebBaseConfig config, Class<R> req, Class<M> modelClass) throws ReflectiveOperationException {
         init(config, create(req), modelClass);
     }
 
@@ -171,14 +140,9 @@ public class BaseStep<R extends BaseRequests<M>, M> {
 
     /**
      *
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
-    protected void init() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+    protected void init() throws ReflectiveOperationException {
         init(getGenericClass(), getGenericClass(1));
     }
 
@@ -186,15 +150,9 @@ public class BaseStep<R extends BaseRequests<M>, M> {
      *
      * @param req Class R
      * @param modelClass Class M
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
-    protected void init(Class<R> req, Class<M> modelClass)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException
-    {
+    protected void init(Class<R> req, Class<M> modelClass) throws ReflectiveOperationException {
         init(create(req), modelClass);
     }
 

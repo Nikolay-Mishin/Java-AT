@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.base.Properties.propsMap;
@@ -20,7 +19,7 @@ public class TestModel<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      *
      */
     @ConstructorProperties({})
-    public TestModel() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestModel() throws Exception {
         debug("TestModel:init");
     }
 

@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.TestConfig.getConfig;
@@ -24,9 +23,11 @@ public class BaseTest<T extends TestBaseConfig> extends SingleInstance<BaseTest<
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public BaseTest() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public BaseTest() throws NoSuchFieldException, IllegalAccessException {
         debug("BaseTest:init");
         c = getConfig();
         setInstance(this);
@@ -34,13 +35,9 @@ public class BaseTest<T extends TestBaseConfig> extends SingleInstance<BaseTest<
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws IllegalAccessException throws
+     * @throws ReflectiveOperationException throws
      */
-    public static BaseTest<? extends TestBaseConfig> init()
-        throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException
-    {
+    public static BaseTest<? extends TestBaseConfig> init() throws ReflectiveOperationException {
         debug("BaseTest:instance");
         return SingleInstance.instance();
     }
