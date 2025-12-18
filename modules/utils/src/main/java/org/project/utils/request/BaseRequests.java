@@ -18,6 +18,7 @@ import static org.project.utils.constant.RequestConstants.METHOD.PUT;
 import static org.project.utils.constant.RequestConstants.getMethod;
 import static org.project.utils.fs.File.path;
 import static org.project.utils.reflection.Reflection.getField;
+import static org.project.utils.reflection.Reflection.setField;
 
 import org.project.utils.constant.RequestConstants.METHOD;
 import org.project.utils.constant.RequestConstants.METHOD_LOWER_CASE;
@@ -60,6 +61,7 @@ public class BaseRequests<T> {
      */
     @ConstructorProperties({"pathList"})
     public BaseRequests(Object... pathList) throws Exception {
+        debug("BaseRequests:init");
         baseUrl(pathList);
         //init(pathList);
     }
@@ -216,7 +218,7 @@ public class BaseRequests<T> {
      * @throws URISyntaxException throws
      */
     public Request getOrCreate(METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
-        return req(req(getMethod(method)), method);
+        return getOrCreate(req(getMethod(method)), method);
     }
 
     /**
@@ -229,7 +231,8 @@ public class BaseRequests<T> {
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      */
-    public Request req(Request req, METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
+    public Request getOrCreate(Request req, METHOD method) throws NoSuchFieldException, IllegalAccessException, MalformedURLException, URISyntaxException {
+        debug("getOrCreate: " + notNull(req));
         return notNull(req) ? req : req(method);
     }
 
@@ -262,8 +265,8 @@ public class BaseRequests<T> {
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
      */
-    public Request req(METHOD method) throws MalformedURLException, URISyntaxException {
-        return new Request(method, baseUrl);
+    public Request req(METHOD method) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        return (Request) setField(this, getMethod(method), new Request(method, baseUrl));
     }
 
     /**
@@ -275,7 +278,7 @@ public class BaseRequests<T> {
      * @throws IllegalAccessException throws
      */
     public Request get() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return req(get, GET);
+        return getOrCreate(GET);
     }
 
     /**
@@ -296,7 +299,7 @@ public class BaseRequests<T> {
      * @throws IllegalAccessException throws
      */
     public Request post() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return req(post, POST);
+        return getOrCreate(POST);
     }
 
     /**
@@ -317,7 +320,7 @@ public class BaseRequests<T> {
      * @throws IllegalAccessException throws
      */
     public Request patch() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return req(patch, PATCH);
+        return getOrCreate(PATCH);
     }
 
     /**
@@ -338,7 +341,7 @@ public class BaseRequests<T> {
      * @throws IllegalAccessException throws
      */
     public Request put() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return req(put, PUT);
+        return getOrCreate(PUT);
     }
 
     /**
@@ -359,7 +362,7 @@ public class BaseRequests<T> {
      * @throws IllegalAccessException throws
      */
     public Request delete() throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return req(delete, DELETE);
+        return getOrCreate(DELETE);
     }
 
     /**
