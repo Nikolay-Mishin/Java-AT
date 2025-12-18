@@ -28,7 +28,6 @@ public class Step extends BaseStep<Requests, Model> {
      */
     @ConstructorProperties({})
     public Step() throws ReflectiveOperationException {
-        super();
         hashMap = new HashMap<String, Class<?>>("category", "tags").values(Category.class, TagsItem.class);
     }
 
