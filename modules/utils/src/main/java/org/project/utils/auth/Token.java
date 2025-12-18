@@ -241,7 +241,7 @@ public class Token extends Register<String, Token> {
         debug("refreshTokens: " + tokens);
         debug("isJson: " + isJson(tokens));
         debug("jsonNotNull: " + jsonNotNull(tokens));
-        debug("tokens: " + ((Response) tokens).asPrettyString());
+        if (!isJson(tokens)) debug("tokens: " + ((Response) tokens).asPrettyString());
         for (String key : keys) {
             String path = key(key);
             String token = null;
