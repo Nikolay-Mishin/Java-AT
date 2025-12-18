@@ -1,10 +1,8 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -22,7 +20,6 @@ import static org.project.utils.auth.Auth.fileTokenK;
 import static org.project.utils.auth.Auth.password;
 import static org.project.utils.auth.Auth.passwordK;
 import static org.project.utils.auth.Auth.refreshTokenK;
-import static org.project.utils.auth.Auth.token;
 import static org.project.utils.auth.Auth.tokenK;
 import static org.project.utils.auth.Auth.tokenKeys;
 import static org.project.utils.auth.Auth.tokenV;

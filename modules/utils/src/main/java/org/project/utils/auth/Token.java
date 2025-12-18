@@ -239,12 +239,21 @@ public class Token extends Register<String, Token> {
      */
     protected void _refreshTokens(Object tokens) throws ReflectiveOperationException {
         debug("refreshTokens: " + tokens);
+        debug("isJson: " + isJson(tokens));
         debug("jsonNotNull: " + jsonNotNull(tokens));
         for (String key : keys) {
             String path = key(key);
             String token = null;
-            if (!isJson(tokens)) token = invoke(tokens, "path", path);
-            else if (jsonNotNull(tokens)) token = invoke(tokens, "get", path, "string");
+            debug("path: " + path);
+            try {
+                if (!isJson(tokens)) {
+                    debug("tokens: " + ((Response) tokens).asPrettyString());
+                    token = invoke(tokens, "path", path);
+                }
+                else if (jsonNotNull(tokens)) token = invoke(tokens, "get", path, "string");
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
             token(key, new Token(key, token, path));
         }
     }

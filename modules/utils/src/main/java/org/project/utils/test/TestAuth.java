@@ -71,4 +71,14 @@ public class TestAuth<T extends TestBaseConfig> extends TestReq<T> {
         debug("authUrl: " + auth().url());
     }
 
+    /**
+     *
+     * @throws Exception throws
+     */
+    public static void testAuthReq() throws Exception {
+        Auth.authReq();
+        debug("fullPath: " + Auth.auth().fullPath());
+        //Auth.auth(req, authType);
+    }
+
 }
