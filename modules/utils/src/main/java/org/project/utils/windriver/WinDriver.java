@@ -38,6 +38,17 @@ public class WinDriver extends RemoteWebDriver {
     }
 
     /**
+     * ClassInitialize
+     * @param app String
+     * @param params String[]
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<WebElement> start(String app, String... params) throws Exception {
+        return RemoteWebDriver.start(app, params);
+    }
+
+    /**
      *
      * @param loc Location
      */
