@@ -233,7 +233,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         system = c.getUserName();
         user = c.getUser();
         //TestWeb
-        endpoint = c.getEndpoint();
+        endpoint = url + c.getEndpoint();
         endpointId = c.getEndpointId();
         endpointUrl = url(c.getEndpointId(), token);
         debug("getParams: " + getParamsSlash(tokenK, token));
