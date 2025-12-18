@@ -22,5 +22,5 @@ public class Model {
     private List<String> photoUrls;
     private String name;
     private Category category;
-    private List<TagsItem> tags;
+    private List<Tag> tags;
 }

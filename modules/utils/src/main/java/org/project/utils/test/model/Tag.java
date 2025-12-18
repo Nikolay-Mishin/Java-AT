@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class TagsItem {
+public class Tag {
     private String name;
     private int id;
 }

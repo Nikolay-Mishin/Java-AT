@@ -15,7 +15,7 @@ import org.project.utils.base.BaseStep;
 import org.project.utils.base.HashMap;
 import org.project.utils.test.model.Category;
 import org.project.utils.test.model.Model;
-import org.project.utils.test.model.TagsItem;
+import org.project.utils.test.model.Tag;
 
 /**
  *
@@ -28,7 +28,7 @@ public class Step extends BaseStep<Requests, Model> {
      */
     @ConstructorProperties({})
     public Step() throws ReflectiveOperationException {
-        hashMap = new HashMap<String, Class<?>>("category", "tags").values(Category.class, TagsItem.class);
+        hashMap = new HashMap<String, Class<?>>("category", "tags").values(Category.class, Tag.class);
     }
 
     @Override
