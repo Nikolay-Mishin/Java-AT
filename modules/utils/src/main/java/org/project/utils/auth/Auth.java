@@ -111,18 +111,6 @@ public class Auth extends SingleInstance<Auth> {
      *
      */
     protected static AuthModel model;
-    /**
-     *
-     */
-    protected static String accessToken;
-    /**
-     *
-     */
-    protected static String refreshToken;
-    /**
-     *
-     */
-    protected static String fileToken;
 
     /**
      *
@@ -432,30 +420,6 @@ public class Auth extends SingleInstance<Auth> {
 
     /**
      *
-     * @return String
-     */
-    public static String accessTokenV() {
-        return accessToken;
-    }
-
-    /**
-     *
-     * @return String
-     */
-    public static String refreshTokenV() {
-        return refreshToken;
-    }
-
-    /**
-     *
-     * @return String
-     */
-    public static String fileTokenV() {
-        return fileToken;
-    }
-
-    /**
-     *
      * @param req AuthBaseRequests of T
      * @param token AuthToken
      * @return Auth
@@ -629,14 +593,7 @@ public class Auth extends SingleInstance<Auth> {
         debug("fullPath: " + req.fullPath());
         Response resp = req.response(model);
         debug(resp.asPrettyString());
-        setTokens(resp);
-        debug("tokens: " + token());
-        debug("accessToken: " + accessToken());
-        debug("value: " + getAccessToken());
         refreshTokens(resp);
-        debug("tokens: " + token());
-        debug("accessToken: " + accessToken());
-        debug("value: " + getAccessToken());
         return resp;
     }
 
@@ -645,7 +602,7 @@ public class Auth extends SingleInstance<Auth> {
      * @return RequestSpecification
      */
     public static RequestSpecification setAuth() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return auth(authType, accessToken);
+        return auth(authType, getAccessToken());
     }
 
     /**
@@ -676,60 +633,6 @@ public class Auth extends SingleInstance<Auth> {
      */
     public static RequestSpecification auth(Request req, String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return authType.isEmpty() ? null : invoke(req, authType, args);
-    }
-
-    /**
-     *
-     * @param resp Response
-     */
-    public static void setTokens(Response resp) {
-        accessToken(resp);
-        refreshToken(resp);
-        fileToken(resp);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @return String
-     */
-    public static String accessToken(Response resp) {
-        return accessToken = token(resp, accessTokenK);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @return String
-     */
-    public static String refreshToken(Response resp) {
-        return refreshToken = token(resp, refreshTokenK);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @return String
-     */
-    public static String fileToken(Response resp) {
-        return fileToken = token(resp, fileTokenK);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @param k String
-     * @return String
-     */
-    public static String token(Response resp, String k) {
-        try {
-            String token = resp.path(k);
-            debug(k + ": " + token);
-            return token;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**

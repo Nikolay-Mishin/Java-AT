@@ -6,7 +6,6 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.test.CucumberRunTest.setOptions;
 
-import org.project.utils.auth.Auth;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
@@ -23,7 +22,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests<>(1, 29);
+        new BaseTests<>(1, 8);
         debug("instance: " + instance());
     }
 
@@ -120,7 +119,6 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      * <p>26: makeOperation();
      * <p>27: testFind(0);
      * <p>28: testModel();
-     * <p>29: testAuthReq();
      * @param n int
      * @throws Exception throws
      */
@@ -182,8 +180,6 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
             case 27: testFind(0);
                 break;
             case 28: testModel();
-                break;
-            case 29: testAuthReq();
                 break;
         }
     }
