@@ -671,6 +671,16 @@ public class Reflection {
     }
 
     /**
+     *
+     * @param subClass SubClass
+     * @param superClass SuperClass
+     * @return boolean
+     */
+    public static boolean isExtends(Class<?> subClass, Class<?> superClass) {
+        return superClass.isAssignableFrom(subClass);
+    }
+
+    /**
      * Get object property
      * @param obj Object
      * @param prop String
