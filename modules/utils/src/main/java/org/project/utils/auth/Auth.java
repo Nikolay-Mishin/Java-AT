@@ -722,7 +722,6 @@ public class Auth extends SingleInstance<Auth> {
      * @return String
      */
     public static String token(Response resp, String k) {
-        debug("token: " + k);
         try {
             String token = resp.path(k);
             debug(k + ": " + token);

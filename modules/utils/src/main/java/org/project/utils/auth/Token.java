@@ -241,13 +241,13 @@ public class Token extends Register<String, Token> {
         debug("refreshTokens: " + tokens);
         debug("isJson: " + isJson(tokens));
         debug("jsonNotNull: " + jsonNotNull(tokens));
+        debug("tokens: " + ((Response) tokens).asPrettyString());
         for (String key : keys) {
             String path = key(key);
             String token = null;
             debug("path: " + path);
             try {
                 if (!isJson(tokens)) {
-                    debug("tokens: " + ((Response) tokens).asPrettyString());
                     token = invoke(tokens, "path", path);
                 }
                 else if (jsonNotNull(tokens)) token = invoke(tokens, "get", path, "string");

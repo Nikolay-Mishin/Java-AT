@@ -378,9 +378,15 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      * @return String
      */
     public static String token(Response resp, String k) {
-        String token = resp.path(k);
-        debug(k + ": " + token);
-        return token;
+        try {
+            //String token = resp.path(k);
+            String token = invoke(resp, "path", k);
+            debug(k + ": " + token);
+            return token;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
