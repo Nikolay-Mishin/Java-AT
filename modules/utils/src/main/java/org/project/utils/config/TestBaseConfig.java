@@ -25,6 +25,21 @@ public interface TestBaseConfig extends BaseConfig {
      *
      * @return String
      */
+    @Key("user.name")
+    String getUserName();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("user")
+    String getUser();
+
+    //Cucumber
+    /**
+     *
+     * @return String
+     */
     @Key("c.plugin.pkg")
     String getCPluginPkg();
 

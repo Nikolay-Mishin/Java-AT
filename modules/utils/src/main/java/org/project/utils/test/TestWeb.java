@@ -69,6 +69,10 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static String hostApi;
+    /**
+     *
+     */
     protected static String username;
     /**
      *
@@ -153,6 +157,14 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static String system;
+    /**
+     *
+     */
+    protected static String user;
+    /**
+     *
+     */
     protected static String endpoint;
     /**
      *
@@ -191,6 +203,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         hostUrl = w.getHostUrl();
         rootApi = w.getRootApi();
         api = w.getBaseApi();
+        hostApi = w.getBaseHostApi();
         username = username();
         password = password();
         //db
@@ -216,6 +229,9 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         userAgentPostman = w.getUserAgentPostman();
         baseHeaders = w.getBaseHeaders();
         headers = w.getHeaders();
+        //System
+        system = c.getUserName();
+        user = c.getUser();
         //TestWeb
         endpoint = c.getEndpoint();
         endpointId = c.getEndpointId();
