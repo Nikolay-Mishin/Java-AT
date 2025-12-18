@@ -46,33 +46,6 @@ public class AuthToken extends Token {
 
     /**
      *
-     * @return String
-     * @throws ClassNotFoundException throws
-     */
-    public String getAccessToken() throws ClassNotFoundException {
-        return accessToken().value;
-    }
-
-    /**
-     *
-     * @return String
-     * @throws ClassNotFoundException throws
-     */
-    public String getRefreshToken() throws ClassNotFoundException {
-        return refreshToken().value;
-    }
-
-    /**
-     *
-     * @return String
-     * @throws ClassNotFoundException throws
-     */
-    public String getFileToken() throws ClassNotFoundException {
-        return fileToken().value;
-    }
-
-    /**
-     *
      * @return Token
      * @throws ClassNotFoundException throws
      */
@@ -96,6 +69,33 @@ public class AuthToken extends Token {
      */
     public Token fileToken() throws ClassNotFoundException {
         return token("file");
+    }
+
+    /**
+     *
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
+    public String getAccessToken() throws ClassNotFoundException {
+        return accessToken().value;
+    }
+
+    /**
+     *
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
+    public String getRefreshToken() throws ClassNotFoundException {
+        return refreshToken().value;
+    }
+
+    /**
+     *
+     * @return String
+     * @throws ClassNotFoundException throws
+     */
+    public String getFileToken() throws ClassNotFoundException {
+        return fileToken().value;
     }
 
     /**

@@ -1,26 +1,46 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertNotNull;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.openqa.selenium.JavascriptExecutor;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.sb;
+import static org.project.utils.auth.Auth.accessTokenK;
+import static org.project.utils.auth.Auth.authEndpoint;
+import static org.project.utils.auth.Auth.authType;
+import static org.project.utils.auth.Auth.fileTokenK;
+import static org.project.utils.auth.Auth.password;
+import static org.project.utils.auth.Auth.passwordK;
+import static org.project.utils.auth.Auth.refreshTokenK;
+import static org.project.utils.auth.Auth.token;
+import static org.project.utils.auth.Auth.tokenK;
+import static org.project.utils.auth.Auth.tokenKeys;
+import static org.project.utils.auth.Auth.tokenV;
+import static org.project.utils.auth.Auth.username;
+import static org.project.utils.auth.Auth.usernameK;
+import static org.project.utils.constant.RequestConstants.METHOD.POST;
+import static org.project.utils.reflection.Reflection.invoke;
 import static org.project.utils.request.Request.getParams;
 import static org.project.utils.request.Request.getParamsSlash;
 import static org.project.utils.windriver.WebDriver.ls;
 
+import org.project.utils.auth.Auth;
 import org.project.utils.base.Model;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
-import org.project.utils.test.model.Auth;
+import org.project.utils.request.Request;
+import org.project.utils.test.model.AuthModel;
 
 /**
  * @param <T> extends TestBaseConfig
@@ -69,6 +89,10 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static String authType;
+    /**
+     *
+     */
     protected static String authEndpoint;
     /**
      *
@@ -78,10 +102,6 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      */
     protected static String passwordK;
-    /**
-     *
-     */
-    protected static String tokenType;
     /**
      *
      */
@@ -145,7 +165,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
-    protected static Auth model;
+    protected static AuthModel model;
     /**
      *
      */
@@ -163,31 +183,32 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      */
     @ConstructorProperties({})
-    public TestWeb() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestWeb() throws Exception {
         debug("TestWeb:init");
+        Auth.init();
         baseHost = w.getBaseHost();
         host = w.getHost();
         hostUrl = w.getHostUrl();
         rootApi = w.getRootApi();
         api = w.getBaseApi();
-        username = w.getUserLogin();
-        password = w.getUserPassword();
+        username = username();
+        password = password();
         //db
         dbUrl = w.getDbUrl();
         dbLogin = w.getDbLogin();
         dbPassword = w.getDbPassword();
         //auth
-        authEndpoint = w.getEndpointAuth();
-        usernameK = w.getUsernameKey();
-        passwordK = w.getPasswordKey();
+        authType = authType();
+        authEndpoint = authEndpoint();
+        usernameK = usernameK();
+        passwordK = passwordK();
         //tokens
-        tokenType = w.getTokenType();
-        accessTokenK = w.getAccessTokenKey();
-        refreshTokenK = w.getRefreshTokenKey();
-        fileTokenK = w.getFileTokenKey();
-        tokenK = w.getTokenKey();
-        token = w.getToken();
-        tokenKeys = w.getTokenKeys();
+        accessTokenK = accessTokenK();
+        refreshTokenK = refreshTokenK();
+        fileTokenK = fileTokenK();
+        tokenK = tokenK();
+        token = tokenV();
+        tokenKeys = tokenKeys();
         //headers
         contentType = w.getContentType();
         accept = w.getAccept();
@@ -216,8 +237,8 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      * @return Auth
      */
-    public static Auth model() throws ReflectiveOperationException {
-        return model(Auth.class, usernameK, username, passwordK, password);
+    public static AuthModel model() throws ReflectiveOperationException {
+        return model(AuthModel.class, usernameK, username, passwordK, password);
     }
 
     /**
@@ -226,7 +247,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      * @param args Object[]
      * @return Auth
      */
-    public static Auth model(Class<Auth> authModel, Object... args) throws ReflectiveOperationException {
+    public static AuthModel model(Class<AuthModel> authModel, Object... args) throws ReflectiveOperationException {
         return model = new Model<>(authModel, args).get();
     }
 
@@ -234,7 +255,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      * @return Response
      */
-    public static Response auth() throws ReflectiveOperationException {
+    public static Response authReq() throws Exception {
         return auth(model());
     }
 
@@ -244,7 +265,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      * @param args Object[]
      * @return Response
      */
-    public static Response auth(Class<Auth> authModel, Object... args) throws ReflectiveOperationException {
+    public static Response auth(Class<AuthModel> authModel, Object... args) throws Exception {
         return auth(model(authModel, args));
     }
 
@@ -253,11 +274,51 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      * @param model Auth
      * @return Response
      */
-    public static Response auth(Auth model) throws ReflectiveOperationException {
+    public static Response auth(AuthModel model) throws Exception {
+        setReq(POST, authEndpoint);
+        debug("fullPath: " + req.fullPath());
         resp(model);
         debug(resp.asPrettyString());
         setTokens(resp);
         return resp;
+    }
+
+    /**
+     *
+     * @return RequestSpecification
+     */
+    public static RequestSpecification auth() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return auth(authType, accessToken);
+    }
+
+    /**
+     *
+     * @param args Object[]
+     * @return RequestSpecification
+     */
+    public static RequestSpecification auth(Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return auth(authType, args);
+    }
+
+    /**
+     *
+     * @param authType String
+     * @param args Object[]
+     * @return RequestSpecification
+     */
+    public static RequestSpecification auth(String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return auth(req, authType, args);
+    }
+
+    /**
+     *
+     * @param req Request
+     * @param authType String
+     * @param args Object[]
+     * @return RequestSpecification
+     */
+    public static RequestSpecification auth(Request req, String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return authType.isEmpty() ? null : invoke(req, authType, args);
     }
 
     /**

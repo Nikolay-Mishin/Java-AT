@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.auth.Auth.accessToken;
 import static org.project.utils.auth.Auth.auth;
+import static org.project.utils.auth.Auth.getAccessToken;
 import static org.project.utils.auth.Auth.printTokens;
 import static org.project.utils.auth.Auth.token;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
@@ -50,8 +52,8 @@ public class TestAuth<T extends TestBaseConfig> extends TestReq<T> {
         printRegisterMap();
 
         debug("token: " + token());
-        debug("accessToken: " + token().accessToken());
-        debug("value: " + token().getAccessToken());
+        debug("accessToken: " + accessToken());
+        debug("value: " + getAccessToken());
     }
 
     /**

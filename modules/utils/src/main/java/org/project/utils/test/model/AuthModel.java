@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class Auth {
+public class AuthModel {
     private String username;
     private String password;
 }
