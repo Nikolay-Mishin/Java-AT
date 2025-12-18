@@ -1,6 +1,7 @@
 package org.project.utils.reflection;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -8,6 +9,7 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.reflection.ReflectionUtils.getGenericParameterClass;
 
 import org.project.utils.base.Register;
+import org.project.utils.function.SupplierWithExceptions;
 
 /**
  *
@@ -21,15 +23,41 @@ public class Instance<T> extends Register<Class<T>, T> {
      * @param args Object[]
      * @return T
      * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
+    public static <T> T create(Class<T> clazz, Object... args) throws ReflectiveOperationException {
+        return create(clazz, () -> Reflection.instance(clazz, args));
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param args Map {Class, Object}
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
+    public static <T> T create(Class<T> clazz, Map<Class<?>, Object> args) throws ReflectiveOperationException {
+        return create(clazz, () -> Reflection.instance(clazz, args));
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param cb Supplier {T}
+     * @return T
+     * @param <T> T
+     * @param <E> extends ReflectiveOperationException
      * @throws NoSuchMethodException throws
      * @throws InstantiationException throws
      * @throws IllegalAccessException throws
      * @throws InvocationTargetException throws
      * @throws ClassNotFoundException throws
+     * @throws E throws
      */
-    public static <T> T create(Class<T> clazz, Object... args)
-        throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
-        T _instance = Reflection.instance(clazz, args);
+    public static <T, E extends ReflectiveOperationException> T create(Class<T> clazz, SupplierWithExceptions<T, E> cb)
+        throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, E {
+        T _instance = cb.get();
         registerMap(Instance.class, clazz, _instance);
         return _instance;
     }

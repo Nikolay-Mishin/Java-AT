@@ -12,9 +12,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Proxy;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -135,7 +137,7 @@ public class Reflection {
      */
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
         debug(Arrays.toString(args));
-        Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : arg.getClass());
+        Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : !(arg instanceof Proxy) ? getClazz(arg) : getInterface(arg, 0));
         debug(Arrays.toString(argTypes));
         return argTypes;
     }
@@ -157,6 +159,25 @@ public class Reflection {
         while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
         new AssertException(actualClass).notNull();
         return (Class<T>) ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
+    }
+
+    /**
+     *
+     * @param o Object
+     * @return Class[]
+     */
+    public static Class<?>[] getInterfaces(Object o) {
+        return getClazz(o).getInterfaces();
+    }
+
+    /**
+     *
+     * @param o Object
+     * @param i int
+     * @return Class[]
+     */
+    public static Class<?> getInterface(Object o, int i) {
+        return getInterfaces(o)[i];
     }
 
     /**
@@ -793,7 +814,7 @@ public class Reflection {
      * @throws NoSuchMethodException throws
      */
     public static <T> Constructor<T> getConstructor(Class<T> clazz, Object... args) throws NoSuchMethodException {
-        debug("getConstructor");
+        debug("getDeclaredConstructor");
         return getMethod(clazz, c -> clazz.getConstructor(getTypes(args)));
     }
 
@@ -813,6 +834,19 @@ public class Reflection {
     /**
      *
      * @param clazz Class T
+     * @param types Class[]
+     * @return Constructor T
+     * @param <T> T
+     * @throws NoSuchMethodException throws
+     */
+    public static <T> Constructor<T> getConstructor(Class<T> clazz, Class<?>... types) throws NoSuchMethodException {
+        debug("getConstructor");
+        return getMethod(clazz, c -> clazz.getConstructor(types));
+    }
+
+    /**
+     *
+     * @param clazz Class T
      * @param args Object[]
      * @return T
      * @param <T> T
@@ -822,8 +856,44 @@ public class Reflection {
      * @throws IllegalAccessException throws
      */
     public static <T> T instance(Class<T> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        //T instance = getPrimitiveConstructor(clazz, args).newInstance(args);
-        T instance = tryCatchNoArgs(() -> getConstructor(clazz, args), e -> getPrimitiveConstructor(clazz, args)).newInstance(args);
+        debug("instance: args");
+        return instance(tryCatchNoArgs(() -> getConstructor(clazz, args), e -> getPrimitiveConstructor(clazz, args)), args);
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param args Map {Class, Object}
+     * @return T
+     * @param <T> T
+     * @throws NoSuchMethodException throws
+     * @throws InvocationTargetException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
+     */
+    public static <T> T instance(Class<T> clazz, Map<Class<?>, Object> args)
+        throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException
+    {
+        debug("instance: map");
+        return instance(getConstructor(clazz, args.keySet().toArray(Class[]::new)), args.values().toArray());
+    }
+
+    /**
+     *
+     * @param constructor Constructor T
+     * @param args Object[]
+     * @return T
+     * @param <T> T
+     * @throws NoSuchMethodException throws
+     * @throws InvocationTargetException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
+     */
+    public static <T> T instance(Constructor<T> constructor, Object... args)
+        throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException
+    {
+        debug("newInstance");
+        T instance = constructor.newInstance(args);
         debug(instance);
         return instance;
     }
@@ -1055,9 +1125,9 @@ public class Reflection {
      * @throws NullPointerException throws
      */
     public static Method getMethod(Object obj, String method, Object... args) throws ReflectiveOperationException, NullPointerException {
-        Method _method = tryCatchNoArgs(() -> tryCatchNoArgs(() -> getDeclaredMethod(obj, method, args), e -> getDeclaredPrimitiveMethod(obj, method, args)),
-            e -> tryCatchNoArgs(() -> getSuperMethod(obj, method, args), _e -> getPrimitiveMethod(obj, method, args)));
-        //Method _method = getInvoke(obj, c -> tryCatchNoArgs(() -> getDeclaredMethod(c, method, args), e -> getDeclaredPrimitiveMethod(c, method, args)));
+        /*Method _method = tryCatchNoArgs(() -> tryCatchNoArgs(() -> getDeclaredMethod(obj, method, args), e -> getDeclaredPrimitiveMethod(obj, method, args)),
+            e -> tryCatchNoArgs(() -> getSuperMethod(obj, method, args), _e -> getPrimitiveMethod(obj, method, args)));*/
+        Method _method = getInvoke(obj, c -> tryCatchNoArgs(() -> getDeclaredMethod(c, method, args), e -> getDeclaredPrimitiveMethod(c, method, args)));
         debug(_method);
         new AssertException(_method).notNull();
         debug(Arrays.toString(_method.getParameterTypes()));

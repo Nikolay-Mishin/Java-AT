@@ -1,6 +1,6 @@
 package org.project.utils.reflection;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
@@ -48,16 +48,21 @@ public class SingleInstance<T> extends Instance<T> {
      * @param args Object[]
      * @return T
      * @param <T> T
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
-     * @throws NoSuchFieldException throws
+     * @throws ReflectiveOperationException throws
      */
-    public static <T extends SingleInstance<?>> T instance(Object... args)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NoSuchFieldException {
-        return _instance(getGenericClass(), args);
+    public static <T extends SingleInstance<?>> T instance(Object... args) throws ReflectiveOperationException {
+        return instance(getGenericClass(), args);
+    }
+
+    /**
+     *
+     * @param args Map {Class, Object}
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
+    public static <T extends SingleInstance<?>> T instance(Map<Class<?>, Object> args) throws ReflectiveOperationException {
+        return instance(getGenericClass(), args);
     }
 
     /**
@@ -66,16 +71,22 @@ public class SingleInstance<T> extends Instance<T> {
      * @param args Object[]
      * @return T
      * @param <T> T
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
-     * @throws ClassNotFoundException throws
-     * @throws NoSuchFieldException throws
+     * @throws ReflectiveOperationException throws
      */
-    public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Object... args)
-        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchFieldException {
-        return _instance(clazz, args);
+    public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Object... args) throws ReflectiveOperationException {
+        return instance(clazz, create(clazz, args));
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param args Map {Class, Object}
+     * @return T
+     * @param <T> T
+     * @throws ReflectiveOperationException throws
+     */
+    public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Map<Class<?>, Object> args) throws ReflectiveOperationException {
+        return instance(clazz, create(clazz, args));
     }
 
     /**
@@ -83,38 +94,13 @@ public class SingleInstance<T> extends Instance<T> {
      * @param obj T
      * @return T
      * @param <T> T
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
      * @throws IllegalAccessException throws
-     * @throws ClassNotFoundException throws
      * @throws NoSuchFieldException throws
      */
     @SuppressWarnings("unchecked")
-    public static <T extends SingleInstance<?>> T setInstance(T obj)
-        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchFieldException
-    {
+    public static <T extends SingleInstance<?>> T setInstance(T obj) throws IllegalAccessException, NoSuchFieldException {
         debug("setInstance: " + obj);
-        return _instance((Class<T>) getClazz(obj), obj);
-    }
-
-    /**
-     *
-     * @param clazz Class T
-     * @param args Object[]
-     * @return T
-     * @param <T> T
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
-     * @throws ClassNotFoundException throws
-     * @throws NoSuchFieldException throws
-     */
-    protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, Object... args)
-        throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException, NoSuchFieldException
-    {
-        return _instance(clazz, create(clazz, args));
+        return instance((Class<T>) getClazz(obj), obj);
     }
 
     /**
@@ -127,7 +113,7 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws NoSuchFieldException throws
      */
     @SuppressWarnings("unchecked")
-    protected static <T extends SingleInstance<?>> T _instance(Class<T> clazz, T value) throws IllegalAccessException, NoSuchFieldException {
+    protected static <T extends SingleInstance<?>> T instance(Class<T> clazz, T value) throws IllegalAccessException, NoSuchFieldException {
         debug("instance: " + clazz);
         T i = (T) getField(clazz, iField);
         debug("field.get: " + i);
