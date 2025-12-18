@@ -626,8 +626,9 @@ public class Auth extends SingleInstance<Auth> {
      * @return Response
      */
     public static Response auth(AuthModel model) throws Exception {
-        debug("fullPath: " + auth().fullPath());
-        Response resp = auth().response(model);
+        Request req = auth();
+        debug("fullPath: " + req.fullPath());
+        Response resp = req.response(model);
         debug(resp.asPrettyString());
         setTokens(resp);
         debug("token: " + token());
