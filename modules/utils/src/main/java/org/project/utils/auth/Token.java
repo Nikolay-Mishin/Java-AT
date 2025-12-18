@@ -248,7 +248,8 @@ public class Token extends Register<String, Token> {
             debug("path: " + path);
             try {
                 if (!isJson(tokens)) {
-                    token = invoke(tokens, "path", path);
+                    //token = invoke(tokens, "path", path);
+                    token = ((Response) tokens).path(path);
                 }
                 else if (jsonNotNull(tokens)) token = invoke(tokens, "get", path, "string");
             } catch (NoSuchMethodException e) {
