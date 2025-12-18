@@ -203,7 +203,8 @@
       <version>7.3.10-SNAPSHOT</version>
       <version>7.3.11-SNAPSHOT</version>
       <version>7.3.12-SNAPSHOT</version>
+      <version>7.4.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20251218120649</lastUpdated>
+    <lastUpdated>20251218134620</lastUpdated>
   </versioning>
 </metadata>
