@@ -62,6 +62,13 @@ public interface WebBaseConfig extends BaseConfig {
      *
      * @return String
      */
+    @Key("BASE_HOST_API")
+    String getBaseHostApi();
+
+    /**
+     *
+     * @return String
+     */
     @Key("USER_LOGIN")
     String getUserLogin();
 
