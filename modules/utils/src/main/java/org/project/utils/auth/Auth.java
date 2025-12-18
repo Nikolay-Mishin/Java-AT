@@ -631,11 +631,11 @@ public class Auth extends SingleInstance<Auth> {
         Response resp = req.response(model);
         debug(resp.asPrettyString());
         setTokens(resp);
-        debug("token: " + token());
+        debug("tokens: " + token());
         debug("accessToken: " + accessToken());
         debug("value: " + getAccessToken());
         refreshTokens(resp);
-        debug("token: " + token());
+        debug("tokens: " + token());
         debug("accessToken: " + accessToken());
         debug("value: " + getAccessToken());
         return resp;
