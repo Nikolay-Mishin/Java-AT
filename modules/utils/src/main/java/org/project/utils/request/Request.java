@@ -50,7 +50,7 @@ public class Request extends RequestAuth {
      * @throws ReflectiveOperationException throws
      */
     public static Request req(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return new Request(method, pathList);
+        return req(new Request(method, pathList));
     }
 
     /**
@@ -64,7 +64,7 @@ public class Request extends RequestAuth {
      * @throws ReflectiveOperationException throws
      */
     public static Request req(String uri, METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return new Request(method, pathList).uri(uri);
+        return req(new Request(method, pathList).uri(uri));
     }
 
     /**
@@ -78,7 +78,7 @@ public class Request extends RequestAuth {
      * @throws ReflectiveOperationException throws
      */
     public static Request query(METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return new Request(method, pathList).query(query);
+        return req(new Request(method, pathList).query(query));
     }
 
     /**
@@ -92,8 +92,21 @@ public class Request extends RequestAuth {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Request query(String uri, METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return new Request(method, pathList).uri(uri).query(query);
+    public static Request query(String uri, METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException
+    {
+        return req(new Request(method, pathList).uri(uri).query(query));
+    }
+
+    /**
+     *
+     * @return Request
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    protected static Request req(Request req) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        debug("fullPath: " + req.fullPath());
+        return req;
     }
 
     /**

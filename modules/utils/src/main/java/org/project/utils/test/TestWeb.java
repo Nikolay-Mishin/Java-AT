@@ -2,13 +2,10 @@ package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertNotNull;
 
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.openqa.selenium.JavascriptExecutor;
 
 import static org.project.utils.Helper.debug;
@@ -25,19 +22,14 @@ import static org.project.utils.auth.Auth.tokenKeys;
 import static org.project.utils.auth.Auth.tokenV;
 import static org.project.utils.auth.Auth.username;
 import static org.project.utils.auth.Auth.usernameK;
-import static org.project.utils.constant.RequestConstants.METHOD.POST;
-import static org.project.utils.reflection.Reflection.invoke;
 import static org.project.utils.request.Request.getParams;
 import static org.project.utils.request.Request.getParamsSlash;
 import static org.project.utils.windriver.WebDriver.ls;
 
 import org.project.utils.auth.Auth;
-import org.project.utils.base.Model;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
-import org.project.utils.request.Request;
-import org.project.utils.test.model.AuthModel;
 
 /**
  * @param <T> extends TestBaseConfig
@@ -171,22 +163,6 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      */
     protected static String endpointUrl;
-    /**
-     *
-     */
-    protected static AuthModel model;
-    /**
-     *
-     */
-    protected static String accessToken;
-    /**
-     *
-     */
-    protected static String refreshToken;
-    /**
-     *
-     */
-    protected static String fileToken;
 
     /**
      *
@@ -244,146 +220,6 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      */
     public static String url(int project, String token) {
         return sb(endpoint, project, getParams(tokenK, token));
-    }
-
-    /**
-     *
-     * @return Auth
-     */
-    public static AuthModel model() throws ReflectiveOperationException {
-        return model(AuthModel.class, usernameK, username, passwordK, password);
-    }
-
-    /**
-     *
-     * @param authModel Class Auth
-     * @param args Object[]
-     * @return Auth
-     */
-    public static AuthModel model(Class<AuthModel> authModel, Object... args) throws ReflectiveOperationException {
-        return model = new Model<>(authModel, args).get();
-    }
-
-    /**
-     *
-     * @return Response
-     */
-    public static Response authReq() throws Exception {
-        return auth(model());
-    }
-
-    /**
-     *
-     * @param authModel Class Auth
-     * @param args Object[]
-     * @return Response
-     */
-    public static Response auth(Class<AuthModel> authModel, Object... args) throws Exception {
-        return auth(model(authModel, args));
-    }
-
-    /**
-     *
-     * @param model Auth
-     * @return Response
-     */
-    public static Response auth(AuthModel model) throws Exception {
-        setReq(POST, authEndpoint);
-        debug("fullPath: " + req.fullPath());
-        resp(model);
-        debug(resp.asPrettyString());
-        setTokens(resp);
-        return resp;
-    }
-
-    /**
-     *
-     * @return RequestSpecification
-     */
-    public static RequestSpecification auth() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return auth(authType, accessToken);
-    }
-
-    /**
-     *
-     * @param args Object[]
-     * @return RequestSpecification
-     */
-    public static RequestSpecification auth(Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return auth(authType, args);
-    }
-
-    /**
-     *
-     * @param authType String
-     * @param args Object[]
-     * @return RequestSpecification
-     */
-    public static RequestSpecification auth(String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return auth(req, authType, args);
-    }
-
-    /**
-     *
-     * @param req Request
-     * @param authType String
-     * @param args Object[]
-     * @return RequestSpecification
-     */
-    public static RequestSpecification auth(Request req, String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return authType.isEmpty() ? null : invoke(req, authType, args);
-    }
-
-    /**
-     *
-     * @param resp Response
-     */
-    public static void setTokens(Response resp) {
-        accessToken(resp);
-        refreshToken(resp);
-        fileToken(resp);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @return String
-     */
-    public static String accessToken(Response resp) {
-        return accessToken = token(resp, accessTokenK);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @return String
-     */
-    public static String refreshToken(Response resp) {
-        return refreshToken = token(resp, refreshTokenK);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @return String
-     */
-    public static String fileToken(Response resp) {
-        return fileToken = token(resp, fileTokenK);
-    }
-
-    /**
-     *
-     * @param resp Response
-     * @param k String
-     * @return String
-     */
-    public static String token(Response resp, String k) {
-        try {
-            return resp.path(k);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
