@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -15,7 +14,6 @@ import static org.project.utils.Helper.notNull;
 import static org.project.utils.constant.RequestConstants.getMethod;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.fs.File.path;
-import static org.project.utils.reflection.Reflection.getGenericClass;
 import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.base.HashMap;
@@ -579,7 +577,8 @@ public class Auth extends SingleInstance<Auth> {
      */
     public static <T extends WebBaseConfig> Auth init(T config) throws Exception {
         debug("Auth: config");
-        instance(config);
+        debug(config.getClass());
+        instance(new HashMap<Class<?>, Object>(WebBaseConfig.class).values(config));
         baseUrl(authEndpoint);
         return instance();
     }

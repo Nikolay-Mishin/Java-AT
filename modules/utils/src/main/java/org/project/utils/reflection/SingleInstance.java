@@ -51,6 +51,7 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws ReflectiveOperationException throws
      */
     public static <T extends SingleInstance<?>> T instance(Object... args) throws ReflectiveOperationException {
+        debug("getGenericClass: " + getGenericClass());
         return instance(getGenericClass(), args);
     }
 
@@ -62,6 +63,7 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws ReflectiveOperationException throws
      */
     public static <T extends SingleInstance<?>> T instance(Map<Class<?>, Object> args) throws ReflectiveOperationException {
+        debug("getGenericClass: " + getGenericClass());
         return instance(getGenericClass(), args);
     }
 

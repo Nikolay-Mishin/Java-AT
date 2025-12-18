@@ -5,6 +5,7 @@ import static java.lang.reflect.Array.newInstance;
 
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
@@ -13,6 +14,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.List;
@@ -137,7 +140,7 @@ public class Reflection {
      */
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
         debug(Arrays.toString(args));
-        Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : !(arg instanceof Proxy) ? getClazz(arg) : getInterface(arg, 0));
+        Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : !(arg instanceof Proxy) ? getClazz(arg) : getInterface(arg));
         debug(Arrays.toString(argTypes));
         return argTypes;
     }
@@ -168,6 +171,15 @@ public class Reflection {
      */
     public static Class<?>[] getInterfaces(Object o) {
         return getClazz(o).getInterfaces();
+    }
+
+    /**
+     *
+     * @param o Object
+     * @return Class[]
+     */
+    public static Class<?> getInterface(Object o) {
+        return getInterface(o, 0);
     }
 
     /**
@@ -806,6 +818,91 @@ public class Reflection {
     }
 
     /**
+     * @param clazz Class T
+     * @return TypeVariable {Class {T}}[]
+     * @param <T> T
+     */
+    public static <T> TypeVariable<Class<T>>[] types(Class<T> clazz) {
+        return clazz.getTypeParameters();
+    }
+
+    /**
+     * @param clazz Class T
+     * @return TypeVariable {Class {T}}
+     * @param <T> T
+     */
+    public static <T> TypeVariable<Class<T>> type(Class<T> clazz) {
+        return type(clazz, 0);
+    }
+
+    /**
+     * @param clazz Class T
+     * @param i int
+     * @return TypeVariable {Class {T}}
+     * @param <T> T
+     */
+    public static <T> TypeVariable<Class<T>> type(Class<T> clazz, int i) {
+        return types(clazz)[i];
+    }
+
+    /**
+     * @param clazz Class T
+     * @return String
+     * @param <T> T
+     */
+    public static <T> String typeName(Class<T> clazz) {
+        return typeName(clazz, 0);
+    }
+
+    /**
+     * @param clazz Class T
+     * @param i int
+     * @return String
+     * @param <T> T
+     */
+    public static <T> String typeName(Class<T> clazz, int i) {
+        return type(clazz, i).getTypeName();
+    }
+
+    /**
+     * @param clazz Class T
+     * @return Type[]
+     * @param <T> T
+     */
+    public static <T> Type[] typeBounds(Class<T> clazz) {
+        return typeBounds(clazz, 0);
+    }
+
+    /**
+     * @param clazz Class T
+     * @param i int
+     * @return Type[]
+     * @param <T> T
+     */
+    public static <T> Type[] typeBounds(Class<T> clazz, int i) {
+        return type(clazz, i).getBounds();
+    }
+
+    /**
+     * @param clazz Class T
+     * @return Annotation[]
+     * @param <T> T
+     */
+    public static <T> Annotation[] typeAnnotations(Class<T> clazz) {
+        return typeAnnotations(clazz, 0);
+    }
+
+    /**
+     * @param clazz Class T
+     * @param i int
+     * @return Annotation[]
+     * @param <T> T
+     */
+    public static <T> Annotation[] typeAnnotations(Class<T> clazz, int i) {
+        return type(clazz, i).getAnnotations();
+    }
+
+    /**
      *
      * @param clazz Class T
      * @param args Object[]
@@ -857,6 +954,7 @@ public class Reflection {
      */
     public static <T> T instance(Class<T> clazz, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         debug("instance: args");
+        debug("constructors: " + Arrays.toString(clazz.getConstructors()));
         return instance(tryCatchNoArgs(() -> getConstructor(clazz, args), e -> getPrimitiveConstructor(clazz, args)), args);
     }
 
@@ -875,6 +973,7 @@ public class Reflection {
         throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException
     {
         debug("instance: map");
+        debug("constructors: " + Arrays.toString(clazz.getConstructors()));
         return instance(getConstructor(clazz, args.keySet().toArray(Class[]::new)), args.values().toArray());
     }
 
