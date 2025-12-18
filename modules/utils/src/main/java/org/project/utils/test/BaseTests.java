@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
@@ -23,7 +22,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests<>(1, 28);
+        new BaseTests<>(1, 8);
         debug("instance: " + instance());
     }
 
@@ -31,7 +30,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      *
      */
     @ConstructorProperties({})
-    public BaseTests() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public BaseTests() throws Exception {
         debug("BaseTests:init");
     }
 
