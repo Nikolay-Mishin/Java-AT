@@ -338,10 +338,26 @@ public interface TestBaseConfig extends BaseConfig {
     String getUtf8();
 
     //TestWeb
+
+    /**
+     *
+     * @return String
+     */
     @Key("endpoint")
     String getEndpoint();
 
+    /**
+     *
+     * @return int
+     */
     @Key("endpoint.id")
     int getEndpointId();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("endpoint.token")
+    String getEndpointToken();
 
 }
