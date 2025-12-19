@@ -490,7 +490,7 @@ public class RemoteWebDriver extends WebElement {
      * @param <T> extends WebDriver
      * @throws MalformedURLException throws
      */
-    public static <T extends WebDriver/*org.openqa.selenium.remote.RemoteWebDriver*/> String handleHex(Function<WindowsDriver, org.openqa.selenium.WebElement> cb) throws Exception {
+    public static String handleHex(Function<WindowsDriver, org.openqa.selenium.WebElement> cb) throws Exception {
         debug("handleHex");
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability("platformName", "Windows");
