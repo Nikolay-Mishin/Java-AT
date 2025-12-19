@@ -35,7 +35,7 @@ public class WebElement extends Actions {
     }
 
     /**
-     *
+     * You get the desktop session
      * @param driver T
      * @return T
      * @param <T> T
