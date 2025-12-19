@@ -6,10 +6,12 @@ import java.net.MalformedURLException;
 import static org.junit.Assert.assertNotNull;
 
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.openqa.selenium.JavascriptExecutor;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.sb;
+import static org.project.utils.Helper.trim;
 import static org.project.utils.auth.Auth.accessTokenK;
 import static org.project.utils.auth.Auth.authEndpoint;
 import static org.project.utils.auth.Auth.authType;
@@ -220,6 +222,32 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      */
     public static String url(int project, String token) {
         return sb(endpoint, project, getParams(tokenK, token));
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public static String token() throws ReflectiveOperationException {
+        return token(resp());
+    }
+
+    /**
+     *
+     * @param resp Response
+     * @return String
+     */
+    public static String token(Response resp) throws ReflectiveOperationException {
+        return token(resp.asString());
+    }
+
+    /**
+     *
+     * @param token String
+     * @return String
+     */
+    public static String token(String s) throws ReflectiveOperationException {
+        return token = trim(s, "\"");
     }
 
     /**
