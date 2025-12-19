@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -31,7 +32,7 @@ import org.project.utils.json.JsonSchema;
  * @param <K> K
  * @param <V> V
  */
-public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> {
+public class HashMap<K, V> extends java.util.LinkedHashMap<K, V> implements Map<K, V> {
     /**
      *
      */
@@ -123,7 +124,8 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
             V value = valuesNotJson ? values[i] : invoke(jsonSchema, "get", key, type);
             hashMap.put(key, value);
         }
-        debug(hashMap);
+        debug("hashMap: " + hashMap);
+        debug("sortByK: " + sortByK(hashMap));
         return hashMap;
     }
 
@@ -197,8 +199,22 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
      * @param <K> K
      * @param <V> V
      */
-    public static <K, V> Function<Entry<K, V>, String> getVComp() {
+    public static <K, V> Function<Entry<K, V>, String> getVCompStr() {
         return o -> o.getValue().toString();
+    }
+
+    /**
+     *
+     * @return Function {Entry {K, V}, V}
+     * @param <K> K
+     * @param <V> V
+     */
+    @SuppressWarnings("unchecked")
+    public static <K, V> Function<Entry<K, V>, V> getVComp() {
+        return o -> {
+            V v = o.getValue();
+            return notNull(v) ? v : (V) "";
+        };
     }
 
     /**
@@ -227,7 +243,7 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
      * @param <V> V
      */
     public static <K, V> Comparator<Entry<K, V>> vComp() {
-        return comparing(getVComp());
+        return comparing(getVCompStr());
     }
 
     /**
@@ -253,7 +269,7 @@ public class HashMap<K, V> extends java.util.HashMap<K, V> implements Map<K, V> 
      * @throws ReflectiveOperationException throws
      */
     public static <T extends Map<K, V>, K, V> T sortByV(T map) throws ReflectiveOperationException {
-        return sort(map, getVComp());
+        return sort(map, getVCompStr());
     }
 
     /**

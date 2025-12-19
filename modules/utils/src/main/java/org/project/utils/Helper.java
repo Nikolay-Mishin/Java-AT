@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static org.project.utils.config.Config.debugLvl;
+import static org.project.utils.base.HashMap.getVComp;
 import static org.project.utils.reflection.Reflection.arrInstance;
 import static org.project.utils.reflection.Reflection.fields;
 import static org.project.utils.reflection.Reflection.getClazz;
@@ -585,7 +586,8 @@ public class Helper {
      * @param <M> extends Map {K, V}
      */
     public static <K, V, M extends Map<K, V>> M newMap(Stream<Entry<K, V>> map, Supplier<M> factory) {
-        return toMap(map, Entry::getKey, Entry::getValue, (v1, v2) -> v1, factory);
+        //return toMap(map, Entry::getKey, Entry::getValue, (v1, v2) -> v1, factory);
+        return toMap(map, Entry::getKey, getVComp(), (v1, v2) -> v1, factory);
     }
 
     /**
