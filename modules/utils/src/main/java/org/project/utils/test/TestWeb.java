@@ -267,7 +267,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         //count total number of checkbox
         debug(driverWeb.findElements(By.cssSelector("input[type='checkbox']")).size());
         */
-        //quit();
+        //quitWeb();
     }
 
 }

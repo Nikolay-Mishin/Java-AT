@@ -15,11 +15,14 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.config.WebConfig.getConfig;
 import static org.project.utils.reflection.Reflection.isExtends;
+import static org.project.utils.windriver.RemoteWebDriver.attachApp;
+import static org.project.utils.windriver.RemoteWebDriver.attachAppClass;
 import static org.project.utils.windriver.RemoteWebDriver.drivers;
 import static org.project.utils.windriver.RemoteWebDriver.open;
 import static org.project.utils.windriver.RemoteWebDriver.startAttach;
+import static org.project.utils.windriver.RemoteWebDriver.startAttachClass;
 import static org.project.utils.windriver.WebDriver.ls;
-import static org.project.utils.windriver.WebDriver.start;
+import static org.project.utils.windriver.WinDriver.start;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.project.utils.config.DriverBaseConfig;
@@ -69,13 +72,184 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
 
     /**
      *
+     * @param driver WindowsDriver {WebElement}
+     * @return WindowsDriver {WebElement}
+     */
+    public static WindowsDriver<WebElement> winDriver(WindowsDriver<WebElement> driver) {
+        winDriver = driver;
+        assertNotNull(winDriver);
+        return winDriver;
+    }
+
+    /**
+     *
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<WebElement> winDriver() throws Exception {
+        return winDriver(start());
+    }
+
+    /**
+     *
+     * @param app String
+     * @param params String[]
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<WebElement> winDriver(String app, String... params) throws Exception {
+        return winDriver(start(app, params));
+    }
+
+    /**
+     *
+     * @param url String
+     * @return ChromeDriver
+     */
+    public static ChromeDriver winDriverUrl(String url) throws Exception {
+        winDriver();
+        return webDriver(url);
+    }
+
+    /**
+     *
+     * @param url String
+     * @param app String
+     * @param params String[]
+     * @return ChromeDriver
+     */
+    public static ChromeDriver winDriverUrl(String url, String app, String... params) throws Exception {
+        winDriver(app, params);
+        return webDriver(url);
+    }
+
+    /**
+     * @param driver RemoteWebDriver
+     * @return RemoteWebDriver
+     */
+    public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver(org.openqa.selenium.remote.RemoteWebDriver driver) {
+        remoteDriver = driver;
+        assertNotNull(remoteDriver);
+        return remoteDriver;
+    }
+
+    /**
+     *
+     * @return RemoteWebDriver
+     * @throws Exception throws
+     */
+    public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver() throws Exception {
+        return remoteDriver(RemoteWebDriver.start());
+    }
+
+    /**
+     *
+     * @param app String
+     * @param params String[]
+     * @return RemoteWebDriver
+     * @throws Exception throws
+     */
+    public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver(String app, String... params) throws Exception {
+        return remoteDriver(RemoteWebDriver.start(app, params));
+    }
+
+    /**
+     *
+     * @param url String
+     * @return ChromeDriver
+     */
+    public static ChromeDriver remoteDriverUrl(String url) throws Exception {
+        remoteDriver();
+        return webDriver(url);
+    }
+
+    /**
+     *
+     * @param url String
+     * @param app String
+     * @param params String[]
+     * @return ChromeDriver
+     */
+    public static ChromeDriver remoteDriverUrl(String url, String app, String... params) throws Exception {
+        remoteDriver(app, params);
+        return webDriver(url);
+    }
+
+    /**
+     *
+     */
+    public static void quitWin() {
+        WinDriver.quit();
+        winDriver = null;
+    }
+
+    /**
+     *
+     */
+    public static void quitRemote() {
+        RemoteWebDriver.quit();
+        remoteDriver = null;
+    }
+
+    /**
+     *
+     */
+    public static void quitAll() {
+        WinDriver.quit(driver, remoteDriver, webDriver, winDriver);
+        driver = null;
+        remoteDriver = null;
+        webDriver = null;
+        winDriver = null;
+    }
+
+    /**
+     * @param app String
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<WebElement> handleApp(String app) throws Exception {
+        return winDriver(attachApp(app));
+    }
+
+    /**
+     *
+     * @param appClass String
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<WebElement> handleAppClass(String appClass) throws Exception {
+        return winDriver(attachAppClass(appClass));
+    }
+
+    /**
+     *
+     * @param app String
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<WebElement> startHandle(String app) throws Exception {
+        return winDriver(startAttach(app));
+    }
+
+    /**
+     *
+     * @param appClass String
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<WebElement> startHandleClass(String appClass) throws Exception {
+        return winDriver(startAttachClass(appClass));
+    }
+
+    /**
+     *
      * @throws IOException throws
      * @throws InterruptedException throws
      */
     public static void testTimeout() throws IOException, InterruptedException {
         debug("testTimeout");
         open();
-        WinDriver.quit();
+        quitWin();
         setTimeout(() -> { open(); return null; });
     }
 
@@ -85,13 +259,13 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void testDriver() throws Exception {
         debug("testDriver");
-        driver = RemoteWebDriver.start();
-        remoteDriver = RemoteWebDriver.start();
-        webDriver = start();
-        winDriver = WinDriver.start();
+        driver();
+        remoteDriver();
+        webDriver();
+        winDriver();
         WinDriver.printCall();
-        WinDriver.quit(driver, remoteDriver, webDriver, winDriver);
-        WinDriver.start("");
+        quitAll();
+        winDriver("");
     }
 
     /**
@@ -99,8 +273,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @throws Exception throws
      */
     public static void testWinDriver() throws Exception {
-        WinDriver.start();
-        start(url);
+        winDriverUrl(url);
     }
 
     /**
@@ -108,15 +281,15 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @throws ReflectiveOperationException throws
      * @throws MalformedURLException throws
      */
-    public static void testWebDriver() throws ReflectiveOperationException, MalformedURLException {
-        start(url);
+    public static void testWebDriver() throws Exception {
+        webDriver(url);
         // Set the localStorage data
         ls.set("accessToken", "");
         ls.set("refreshToken", "");
         // Print the localStorage data
         debug("localStorage data: " + ls.items());
         debug("localStorage item: " + ls.get("accessToken"));
-        quit();
+        quitWeb();
     }
 
     /**
@@ -172,7 +345,8 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void testAppEdit() throws Exception {
         debug("testAppEdit");
-        winDriver = WinDriver.start();
+        //winDriver = WinDriver.start();
+        winDriver();
         el = winDriver.findElementByName("Текстовый редактор");
         debug(el);
         el = winDriver.findElementByClassName("Notepad");
@@ -188,7 +362,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     public static void testAppCalc() throws Exception {
         debug("testAppCalc");
         debug(calcPath);
-        winDriver = WinDriver.start(calcPath);
+        winDriver(calcPath);
         debug(winDriver);
         el = winDriver.findElementByAccessibilityId("num1Button");
         debug(el);
@@ -222,7 +396,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void testHandleApp() throws Exception {
         debug("testHandleApp");
-        winDriver = startAttach("Калькулятор");
+        startHandle("Калькулятор");
         debug("calc: " + winDriver);
         assertNotNull(winDriver);
         winDriver.findElementByName("Один").click();

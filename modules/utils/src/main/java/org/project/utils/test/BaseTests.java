@@ -3,8 +3,12 @@ package org.project.utils.test;
 import java.beans.ConstructorProperties;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Thread.getSleep;
+import static org.project.utils.Thread.timeout;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.test.CucumberRunTest.setOptions;
+import static org.project.utils.windriver.RemoteWebDriver.getTimeout;
+import static org.project.utils.windriver.RemoteWebDriver.sleep;
 
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
@@ -22,8 +26,12 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests<>(1, 30);
+        new BaseTests<>(1, 32);
         debug("instance: " + instance());
+        debug("sleep: " + getSleep());
+        debug("timeout: " + timeout());
+        debug("sleep: " + sleep());
+        debug("timeout: " + getTimeout());
     }
 
     /**

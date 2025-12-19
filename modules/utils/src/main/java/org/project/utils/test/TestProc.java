@@ -25,13 +25,14 @@ import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
 import static org.project.utils.stream.GobblerStream.stream;
+import static org.project.utils.windriver.WebDriver.start;
 import static org.project.utils.windriver.WinDriver.findByClass;
-import static org.project.utils.windriver.WinDriver.start;
 
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.windriver.Capabilities;
 import org.project.utils.windriver.WebDriver;
+import org.project.utils.windriver.WinDriver;
 
 /**
  * @param <T> extends TestBaseConfig
@@ -59,11 +60,38 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
     }
 
     /**
+     * @param driver ChromeDriver
+     * @return ChromeDriver
+     */
+    public static ChromeDriver webDriver(ChromeDriver driver) {
+        webDriver = driver;
+        assertNotNull(webDriver);
+        return webDriver;
+    }
+
+    /**
+     *
+     * @return ChromeDriver
+     */
+    public static ChromeDriver webDriver() throws Exception {
+        return webDriver(start());
+    }
+
+    /**
+     *
+     * @param url String
+     * @return ChromeDriver
+     */
+    public static ChromeDriver webDriver(String url) throws Exception {
+        return webDriver(start(url));
+    }
+
+    /**
      *
      */
-    public static void quit() {
+    public static void quitWeb() {
         WebDriver.quit();
-        driver = null;
+        webDriver = null;
     }
 
     /**
@@ -71,7 +99,7 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      * @throws Exception throws
      */
     public static void testBaseProc() throws Exception {
-        driver = start(notepadPath);
+        driver = WinDriver.start(notepadPath);
         WebElement wrk = findByClass("Edit");
         wrk.sendKeys("Привет Appium!");
         driver.quit();
@@ -81,7 +109,7 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
         stream(p);
         //transfer(p);
 
-        quit();
+        quitWeb();
     }
 
     /**
