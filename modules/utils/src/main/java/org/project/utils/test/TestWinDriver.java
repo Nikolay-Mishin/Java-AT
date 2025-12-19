@@ -15,9 +15,9 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.config.WebConfig.getConfig;
 import static org.project.utils.reflection.Reflection.isExtends;
-import static org.project.utils.windriver.RemoteWebDriver.attachApp;
 import static org.project.utils.windriver.RemoteWebDriver.drivers;
 import static org.project.utils.windriver.RemoteWebDriver.open;
+import static org.project.utils.windriver.RemoteWebDriver.startAttach;
 import static org.project.utils.windriver.WebDriver.ls;
 import static org.project.utils.windriver.WebDriver.start;
 
@@ -222,7 +222,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void testHandleApp() throws Exception {
         debug("testHandleApp");
-        winDriver = attachApp("Калькулятор");
+        winDriver = startAttach("Калькулятор");
         debug("calc: " + winDriver);
         assertNotNull(winDriver);
         winDriver.findElementByName("Один").click();

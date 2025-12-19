@@ -39,6 +39,7 @@ import org.project.utils.Process;
 import org.project.utils.base.HashMap;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
+import org.project.utils.function.SupplierWithExceptions;
 
 /**
  *
@@ -257,6 +258,52 @@ public class RemoteWebDriver extends WebElement {
 
     /**
      *
+     * @param app String
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T startAttach(String app) throws Exception {
+        return startAttach(app, sleep);
+    }
+
+    /**
+     *
+     * @param app String
+     * @param sleep long
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T startAttach(String app, long sleep) throws Exception {
+        return start(sleep, () -> attachApp(app));
+    }
+
+    /**
+     *
+     * @param appClass String
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T startAttachClass(String appClass) throws Exception {
+        return startAttachClass(appClass, sleep);
+    }
+
+    /**
+     *
+     * @param appClass String
+     * @param sleep long
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T startAttachClass(String appClass, long sleep) throws Exception {
+        return start(sleep, () -> attachAppClass(appClass));
+    }
+
+    /**
+     *
      * @param config DriverBaseConfig
      * @return T
      * @param <T> extends WebDriver
@@ -302,7 +349,32 @@ public class RemoteWebDriver extends WebElement {
      * @throws Exception throws
      */
     public static <T extends WebDriver> T start(DesiredCapabilities cap, long sleep, int index) throws Exception {
-        return setTimeout(sleep, () -> { open(); return null; }, o -> getDriver(cap, index + 3));
+        return start(sleep, () -> getDriver(cap, index + 4));
+    }
+
+    /**
+     *
+     * @param cb SupplierWithExceptions {T, E}
+     * @return T
+     * @param <T> extends WebDriver
+     * @param <E> extends Exception
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver, E extends Exception> T start(SupplierWithExceptions<T, E> cb) throws Exception {
+        return start(sleep, cb);
+    }
+
+    /**
+     *
+     * @param sleep long
+     * @param cb SupplierWithExceptions {T, E}
+     * @return T
+     * @param <T> extends WebDriver
+     * @param <E> extends Exception
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver, E extends Exception> T start(long sleep, SupplierWithExceptions<T, E> cb) throws Exception {
+        return setTimeout(sleep, () -> { open(); return null; }, o -> cb.get());
     }
 
     /**
