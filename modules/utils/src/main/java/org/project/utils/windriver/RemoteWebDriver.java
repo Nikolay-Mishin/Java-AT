@@ -443,13 +443,32 @@ public class RemoteWebDriver extends WebElement {
     /**
      * You attach to the already running application
      * @param app String
-     * @return WindowsDriver {WebElement}
+     * @return T
+     * @param <T> extends WebDriver
+     */
+    public static <T extends WebDriver> T attachApp(String app) throws Exception {
+        return attachAppHex(handleHex(app));
+    }
+
+    /**
+     * You attach to the already running application
+     * @param appClass String
+     * @return T
+     * @param <T> extends WebDriver
+     */
+    public static <T extends WebDriver> T attachAppClass(String appClass) throws Exception {
+        return attachAppHex(handleHexClass(appClass));
+    }
+
+    /**
+     * You attach to the already running application
+     * @param handleHex String
+     * @return T
+     * @param <T> extends WebDriver
      */
     @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T attachApp(String app) throws MalformedURLException {
-        debug("attachApp: " + app);
+    public static <T extends WebDriver> T attachAppHex(String handleHex) {
         try {
-            String handleHex = handleHex(app);
             debug("handleHex: " + handleHex);
             cap(handleHex, true);
             return (T) driver(getWinDriver(cap));
