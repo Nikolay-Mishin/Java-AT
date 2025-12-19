@@ -16,8 +16,10 @@ import static org.project.utils.Helper.trim;
 import static org.project.utils.auth.Auth.accessTokenK;
 import static org.project.utils.auth.Auth.auth;
 import static org.project.utils.auth.Auth.authEndpoint;
+import static org.project.utils.auth.Auth.authReq;
 import static org.project.utils.auth.Auth.authType;
 import static org.project.utils.auth.Auth.fileTokenK;
+import static org.project.utils.auth.Auth.getAuth;
 import static org.project.utils.auth.Auth.password;
 import static org.project.utils.auth.Auth.passwordK;
 import static org.project.utils.auth.Auth.refreshTokenK;
@@ -30,6 +32,7 @@ import static org.project.utils.constant.RequestConstants.METHOD;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.request.Request.getParams;
 import static org.project.utils.request.Request.getParamsSlash;
+import static org.project.utils.request.RequestOptions.getHeaders;
 import static org.project.utils.windriver.WebDriver.ls;
 
 import org.project.utils.auth.Auth;
@@ -168,11 +171,11 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
-    protected static String endpointUrl;
+    protected static String tokenEndpoint;
     /**
      *
      */
-    protected static String tokenEndpoint;
+    protected static String endpointUrl;
 
     /**
      *
@@ -218,8 +221,9 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         //TestWeb
         endpoint = url + c.getEndpoint();
         endpointId = c.getEndpointId();
-        endpointUrl = url(c.getEndpointId(), token);
         tokenEndpoint = c.getEndpointToken();
+        authInit();
+        endpointUrl = url(c.getEndpointId(), token);
         debug("getParams: " + getParamsSlash(tokenK, token));
     }
 
@@ -231,6 +235,13 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      */
     public static String url(int project, String token) {
         return sb(endpoint, project, getParams(tokenK, token));
+    }
+
+    public static void authInit() throws Exception {
+        authReq();
+        debug("Headers:\n" + getHeaders(getAuth().spec()));
+        debug("auth: " + authType);
+        token();
     }
 
     /**
