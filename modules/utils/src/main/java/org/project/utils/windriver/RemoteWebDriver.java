@@ -152,6 +152,14 @@ public class RemoteWebDriver extends WebElement {
     }
 
     /**
+     * You set the Handle as one of the capabilities
+     * @return Capabilities
+     */
+    public static Capabilities cap(String app, boolean handle) {
+        return cap(new Capabilities(app, handle));
+    }
+
+    /**
      *
      * @param config DriverBaseConfig
      * @return Capabilities
@@ -242,11 +250,9 @@ public class RemoteWebDriver extends WebElement {
      * @param <T> extends WebDriver
      * @throws Exception throws
      */
-    @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T start(String app, String... params) throws Exception {
-        start(cap(app));
         if (params.length > 0) init(app, params);
-        return (T) d;
+        return start(cap(app));
     }
 
     /**
@@ -307,9 +313,7 @@ public class RemoteWebDriver extends WebElement {
      * @throws MalformedURLException throws
      * @throws ClassNotFoundException throws
      */
-    public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver)
-        throws MalformedURLException, ClassNotFoundException
-    {
+    public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver) throws MalformedURLException, ClassNotFoundException {
         assertNotNull(driver);
         driver(driver);
         action(driver);
@@ -406,10 +410,11 @@ public class RemoteWebDriver extends WebElement {
      *
      * @param cap DesiredCapabilities
      * @return ChromeDriver
-     * @throws Exception throws
+     * @throws MalformedURLException throws
+     * @throws ReflectiveOperationException throws
      */
-    public static ChromeDriver getWebDriver(DesiredCapabilities cap) {
-        return new ChromeDriver(cap);
+    public static ChromeDriver getWebDriver(DesiredCapabilities cap) throws MalformedURLException, ReflectiveOperationException {
+        return start(create(webDriver, new HashMap<>(org.openqa.selenium.Capabilities.class).values(cap)));
     }
 
     /**
@@ -436,27 +441,18 @@ public class RemoteWebDriver extends WebElement {
     }
 
     /**
-     *
+     * You attach to the already running application
      * @param app String
      * @return WindowsDriver {WebElement}
      */
-    public static WindowsDriver<org.openqa.selenium.WebElement> attachApp(String app) {
+    @SuppressWarnings("unchecked")
+    public static <T extends WebDriver> T attachApp(String app) throws MalformedURLException {
         debug("attachApp: " + app);
         try {
-            // Here you find the already running application and get the handle
             String handleHex = handleHex(app);
             debug("handleHex: " + handleHex);
-            // You attach to the already running application
-            DesiredCapabilities cap = new DesiredCapabilities();
-            cap.setCapability("platformName", "Windows");
-            cap.setCapability("deviceName", "WindowsPC");
-            // You set the Handle as one of the capabilities
-            cap.setCapability("appTopLevelWindow", handleHex);
-            debug("cap: " + cap);
-            // My Application Session
-            WindowsDriver<org.openqa.selenium.WebElement> driver = getWinDriver(cap);
-            debug("driver: " + driver);
-            return driver;
+            cap(handleHex, true);
+            return (T) driver(getWinDriver(cap));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -464,7 +460,7 @@ public class RemoteWebDriver extends WebElement {
     }
 
     /**
-     *
+     * Here you find the already running application and get the handle
      * @param app String
      * @return String
      * @throws MalformedURLException throws
@@ -474,7 +470,7 @@ public class RemoteWebDriver extends WebElement {
     }
 
     /**
-     *
+     * Here you find the already running application and get the handle
      * @param appClass String
      * @return String
      * @throws MalformedURLException throws
@@ -484,29 +480,21 @@ public class RemoteWebDriver extends WebElement {
     }
 
     /**
-     *
+     * Here you find the already running application and get the handle
      * @param cb Function {WindowsDriver, String}
      * @return String
      * @param <T> extends WebDriver
      * @throws MalformedURLException throws
      */
-    public static String handleHex(Function<WindowsDriver, org.openqa.selenium.WebElement> cb) throws Exception {
+    @SuppressWarnings("unchecked")
+    public static <T extends org.openqa.selenium.remote.RemoteWebDriver> String handleHex(Function<T, org.openqa.selenium.WebElement> cb) throws Exception {
         debug("handleHex");
-        DesiredCapabilities cap = new DesiredCapabilities();
-        cap.setCapability("platformName", "Windows");
-        cap.setCapability("deviceName", "WindowsPC");
-        cap.setCapability("app", "Root");
-        debug("cap: " + cap);
-        // You get the desktop session
-        WindowsDriver<org.openqa.selenium.WebElement> driver = getWinDriver(cap);
-        debug("driver: " + driver);
-        // Here you find the already running application and get the handle
-        org.openqa.selenium.WebElement handleEl = cb.apply(driver);
+        cap("Root");
+        driver(getWinDriver(cap));
+        org.openqa.selenium.WebElement handleEl = cb.apply((T) d);
         debug("handleEl: " + handleEl);
         String handleStr = handleEl.getAttribute("NativeWindowHandle");
-        debug("handleStr: " + handleStr);
         int handleInt = parseInt(handleStr);
-        debug("handleInt: " + handleInt);
         return toHexString(handleInt);
     }
 
