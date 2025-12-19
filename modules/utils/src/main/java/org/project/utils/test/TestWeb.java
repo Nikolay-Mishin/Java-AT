@@ -2,6 +2,7 @@ package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -13,6 +14,7 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.sb;
 import static org.project.utils.Helper.trim;
 import static org.project.utils.auth.Auth.accessTokenK;
+import static org.project.utils.auth.Auth.auth;
 import static org.project.utils.auth.Auth.authEndpoint;
 import static org.project.utils.auth.Auth.authType;
 import static org.project.utils.auth.Auth.fileTokenK;
@@ -24,6 +26,8 @@ import static org.project.utils.auth.Auth.tokenKeys;
 import static org.project.utils.auth.Auth.tokenV;
 import static org.project.utils.auth.Auth.username;
 import static org.project.utils.auth.Auth.usernameK;
+import static org.project.utils.constant.RequestConstants.METHOD;
+import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.request.Request.getParams;
 import static org.project.utils.request.Request.getParamsSlash;
 import static org.project.utils.windriver.WebDriver.ls;
@@ -165,6 +169,10 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      */
     protected static String endpointUrl;
+    /**
+     *
+     */
+    protected static String tokenEndpoint;
 
     /**
      *
@@ -211,6 +219,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         endpoint = url + c.getEndpoint();
         endpointId = c.getEndpointId();
         endpointUrl = url(c.getEndpointId(), token);
+        tokenEndpoint = c.getEndpointToken();
         debug("getParams: " + getParamsSlash(tokenK, token));
     }
 
@@ -227,8 +236,9 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      * @return String
+     * @throws ReflectiveOperationException throws
      */
-    public static String token() throws ReflectiveOperationException {
+    public static String getToken() throws ReflectiveOperationException {
         return token(resp());
     }
 
@@ -236,6 +246,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      *
      * @param resp Response
      * @return String
+     * @throws ReflectiveOperationException throws
      */
     public static String token(Response resp) throws ReflectiveOperationException {
         return token(resp.asString());
@@ -243,11 +254,37 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
 
     /**
      *
-     * @param token String
+     * @param s String
      * @return String
+     * @throws ReflectiveOperationException throws
      */
     public static String token(String s) throws ReflectiveOperationException {
         return token = trim(s, "\"");
+    }
+
+    /**
+     *
+     * @return String
+     * @throws ReflectiveOperationException throws
+     */
+    public static String token() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return token(POST, tokenEndpoint);
+    }
+
+    /**
+     *
+     * @param method METHOD
+     * @param pathList Object[]
+     * @return String
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static String token(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        setReq(method, pathList);
+        auth(req);
+        debug("token: " + getToken());
+        return token;
     }
 
     /**
