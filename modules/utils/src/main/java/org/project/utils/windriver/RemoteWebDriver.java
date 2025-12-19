@@ -3,10 +3,14 @@ package org.project.utils.windriver;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.logging.Level;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.toHexString;
 import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.windows.WindowsDriver;
@@ -27,9 +31,12 @@ import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
+import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getCallingClassSimpleName;
+import static org.project.utils.reflection.Reflection.isExtends;
 
 import org.project.utils.Process;
+import org.project.utils.base.HashMap;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
 
@@ -41,6 +48,10 @@ public class RemoteWebDriver extends WebElement {
      *
      */
     protected static DriverBaseConfig c = DriverConfig.config();
+    /**
+     *
+     */
+    protected static List<String> drivers = List.of("WinDriver", "WebDriver", "RemoteWebDriver");
     /**
      *
      */
@@ -69,6 +80,18 @@ public class RemoteWebDriver extends WebElement {
      *
      */
     protected static ProcessBuilder pb;
+    /**
+     *
+     */
+    protected static Class<WindowsDriver> windowsDriver = WindowsDriver.class;
+    /**
+     *
+     */
+    protected static Class<ChromeDriver> webDriver = ChromeDriver.class;
+    /**
+     *
+     */
+    protected static Class<org.openqa.selenium.remote.RemoteWebDriver> remoteDriver = org.openqa.selenium.remote.RemoteWebDriver.class;
 
     /**
      *
@@ -85,6 +108,14 @@ public class RemoteWebDriver extends WebElement {
      */
     public static DriverBaseConfig config(DriverBaseConfig config)  {
         return init(config);
+    }
+
+    /**
+     *
+     * @return List {String}
+     */
+    public static List<String> drivers() {
+        return drivers;
     }
 
     /**
@@ -110,6 +141,14 @@ public class RemoteWebDriver extends WebElement {
      */
     public static Capabilities cap(Capabilities capabilities) {
         return cap = capabilities;
+    }
+
+    /**
+     *
+     * @return Capabilities
+     */
+    public static Capabilities cap(String app) {
+        return cap(new Capabilities(app));
     }
 
     /**
@@ -166,7 +205,7 @@ public class RemoteWebDriver extends WebElement {
      * @throws IOException throws
      * @throws IllegalAccessException throws
      */
-    protected static void init(String app, String... params) throws IOException, IllegalAccessException {
+    public static void init(String app, String... params) throws IOException, IllegalAccessException {
         p = run(app, params);
         pb = p.pb();
     }
@@ -205,7 +244,7 @@ public class RemoteWebDriver extends WebElement {
      */
     @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T start(String app, String... params) throws Exception {
-        start();
+        start(cap(app));
         if (params.length > 0) init(app, params);
         return (T) d;
     }
@@ -315,7 +354,7 @@ public class RemoteWebDriver extends WebElement {
      * @throws MalformedURLException throws
      * @throws ClassNotFoundException throws
      */
-    public static <T extends WebDriver> T getDriver(DesiredCapabilities cap) throws MalformedURLException, ClassNotFoundException {
+    public static <T extends WebDriver> T getDriver(DesiredCapabilities cap) throws Exception {
         return getDriver(cap, 0);
     }
 
@@ -328,14 +367,147 @@ public class RemoteWebDriver extends WebElement {
      * @throws MalformedURLException throws
      * @throws ClassNotFoundException throws
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T getDriver(DesiredCapabilities cap, int index) throws MalformedURLException, ClassNotFoundException {
+    public static <T extends WebDriver> T getDriver(DesiredCapabilities cap, int index) throws Exception {
         // Прикрепить переменную драйвера к собственно Winium драйверу
-        return (T) (switch (getCallingClassSimpleName(index + 3)) {
-            case "WinDriver": yield start(new WindowsDriver<>(new URL(winDriverHost), cap));
-            case "WebDriver": yield start(new ChromeDriver(cap));
-            default: yield start(new org.openqa.selenium.remote.RemoteWebDriver(new URL(winDriverHost), cap));
+        //return getDriver(cap, getCallingClassSimpleName(index + 3));
+        return getDriver(cap, getCallingClassSimpleName(index, c -> isExtends(c, RemoteWebDriver.class)));
+    }
+
+    /**
+     * Прикрепить переменную драйвера к собственно Winium драйверу
+     * @param cap DesiredCapabilities
+     * @param className String
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws MalformedURLException throws
+     * @throws ClassNotFoundException throws
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends WebDriver> T getDriver(DesiredCapabilities cap, String className) throws Exception {
+        return (T) (switch (className) {
+            case "WinDriver": yield getWinDriver(cap);
+            case "WebDriver": yield getWebDriver(cap);
+            default: yield getRemoteDriver(cap);
         });
+    }
+
+    /**
+     *
+     * @param cap DesiredCapabilities
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    @SuppressWarnings("unchecked")
+    public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver(DesiredCapabilities cap) throws Exception {
+        return getDriver(windowsDriver, cap);
+    }
+
+    /**
+     *
+     * @param cap DesiredCapabilities
+     * @return ChromeDriver
+     * @throws Exception throws
+     */
+    public static ChromeDriver getWebDriver(DesiredCapabilities cap) {
+        return new ChromeDriver(cap);
+    }
+
+    /**
+     *
+     * @param cap DesiredCapabilities
+     * @return org.openqa.selenium.remote.RemoteWebDriver
+     * @throws Exception throws
+     */
+    public static org.openqa.selenium.remote.RemoteWebDriver getRemoteDriver(DesiredCapabilities cap) throws Exception {
+        return getDriver(remoteDriver, cap);
+    }
+
+    /**
+     *
+     * @param clazz Class {T}
+     * @param cap DesiredCapabilities
+     * @return T
+     * @param <T> extends RemoteWebDriver
+     * @throws MalformedURLException throws
+     * @throws ClassNotFoundException throws
+     */
+    public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T getDriver(Class<T> clazz, DesiredCapabilities cap) throws Exception {
+        return start(create(clazz, new HashMap<>(URL.class, org.openqa.selenium.Capabilities.class).values(new URL(winDriverHost), cap)));
+    }
+
+    /**
+     *
+     * @param app String
+     * @return WindowsDriver {WebElement}
+     */
+    public static WindowsDriver<org.openqa.selenium.WebElement> attachApp(String app) {
+        debug("attachApp: " + app);
+        try {
+            // Here you find the already running application and get the handle
+            String handleHex = handleHex(app);
+            debug("handleHex: " + handleHex);
+            // You attach to the already running application
+            DesiredCapabilities cap = new DesiredCapabilities();
+            cap.setCapability("platformName", "Windows");
+            cap.setCapability("deviceName", "WindowsPC");
+            // You set the Handle as one of the capabilities
+            cap.setCapability("appTopLevelWindow", handleHex);
+            debug("cap: " + cap);
+            // My Application Session
+            WindowsDriver<org.openqa.selenium.WebElement> driver = getWinDriver(cap);
+            debug("driver: " + driver);
+            return driver;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param app String
+     * @return String
+     * @throws MalformedURLException throws
+     */
+    public static String handleHex(String app) throws Exception {
+        return handleHex(d -> d.findElementByName(app));
+    }
+
+    /**
+     *
+     * @param appClass String
+     * @return String
+     * @throws MalformedURLException throws
+     */
+    public static String handleHexClass(String appClass) throws Exception {
+        return handleHex(d -> d.findElementByClassName(appClass));
+    }
+
+    /**
+     *
+     * @param cb Function {WindowsDriver, String}
+     * @return String
+     * @param <T> extends WebDriver
+     * @throws MalformedURLException throws
+     */
+    public static <T extends WebDriver/*org.openqa.selenium.remote.RemoteWebDriver*/> String handleHex(Function<WindowsDriver, org.openqa.selenium.WebElement> cb) throws Exception {
+        debug("handleHex");
+        DesiredCapabilities cap = new DesiredCapabilities();
+        cap.setCapability("platformName", "Windows");
+        cap.setCapability("deviceName", "WindowsPC");
+        cap.setCapability("app", "Root");
+        debug("cap: " + cap);
+        // You get the desktop session
+        WindowsDriver<org.openqa.selenium.WebElement> driver = getWinDriver(cap);
+        debug("driver: " + driver);
+        // Here you find the already running application and get the handle
+        org.openqa.selenium.WebElement handleEl = cb.apply(driver);
+        debug("handleEl: " + handleEl);
+        String handleStr = handleEl.getAttribute("NativeWindowHandle");
+        debug("handleStr: " + handleStr);
+        int handleInt = parseInt(handleStr);
+        debug("handleInt: " + handleInt);
+        return toHexString(handleInt);
     }
 
     /**

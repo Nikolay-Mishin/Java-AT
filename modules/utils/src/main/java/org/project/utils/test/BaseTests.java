@@ -22,7 +22,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests<>(1, 18);
+        new BaseTests<>(1, 30);
         debug("instance: " + instance());
     }
 
@@ -119,6 +119,11 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      * <p>26: makeOperation();
      * <p>27: testFind(0);
      * <p>28: testModel();
+     * <p>29: testDriverInit();
+     * <p>30: testDriverApp();
+     * <p>31: testAppEdit();
+     * <p>32: testAppCalc();
+     * <p>33: testHandleApp();
      * @param n int
      * @throws Exception throws
      */
@@ -180,6 +185,16 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
             case 27: testFind(0);
                 break;
             case 28: testModel();
+                break;
+            case 29: testDriverInit();
+                break;
+            case 30: testDriverApp();
+                break;
+            case 31: testAppEdit();
+                break;
+            case 32: testAppCalc();
+                break;
+            case 33: testHandleApp();
                 break;
         }
     }

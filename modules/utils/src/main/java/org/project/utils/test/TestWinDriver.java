@@ -4,17 +4,32 @@ import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 import io.appium.java_client.windows.WindowsDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.toHexString;
+import static org.junit.Assert.assertNotNull;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.setTimeout;
+import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.WebConfig.getConfig;
+import static org.project.utils.reflection.Reflection.getCallingClass;
+import static org.project.utils.reflection.Reflection.getCallingClassSimpleName;
+import static org.project.utils.reflection.Reflection.isExtends;
+import static org.project.utils.windriver.RemoteWebDriver.attachApp;
+import static org.project.utils.windriver.RemoteWebDriver.drivers;
 import static org.project.utils.windriver.RemoteWebDriver.open;
 import static org.project.utils.windriver.WebDriver.ls;
 import static org.project.utils.windriver.WebDriver.start;
 
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
@@ -41,6 +56,10 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      *
      */
     protected static org.openqa.selenium.remote.RemoteWebDriver remoteDriver;
+    /**
+     *
+     */
+    protected static WebElement el;
 
     /**
      *
@@ -102,6 +121,117 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         debug("localStorage data: " + ls.items());
         debug("localStorage item: " + ls.get("accessToken"));
         quit();
+    }
+
+    /**
+     *
+     */
+    public static void testDriverInit() {
+        debug("testDriverInit");
+        List<String> drivers = drivers();
+        debug("drivers: " + drivers);
+        debug("contains: " + drivers.contains("WinDriver"));
+        debug("contains: " + drivers.contains("ChromeDriver"));
+
+        Class<WebDriver> iWebDriver = WebDriver.class;
+        Class<org.openqa.selenium.remote.RemoteWebDriver> remoteWebDriver = org.openqa.selenium.remote.RemoteWebDriver.class;
+        Class<RemoteWebDriver> remoteDriver = RemoteWebDriver.class;
+        Class<WindowsDriver> windowsDriver = WindowsDriver.class;
+        Class<ChromeDriver> chromeDriver = ChromeDriver.class;
+        Class<WinDriver> winDriver = WinDriver.class;
+        Class<org.project.utils.windriver.WebDriver> webDriver = org.project.utils.windriver.WebDriver.class;
+
+        debug(windowsDriver);
+        debug("extends: " + isExtends(windowsDriver, iWebDriver));
+        debug("extends: " + isExtends(windowsDriver, remoteWebDriver));
+        debug(chromeDriver);
+        debug("extends: " + isExtends(chromeDriver, iWebDriver));
+        debug("extends: " + isExtends(chromeDriver, remoteWebDriver));
+        debug(remoteDriver);
+        debug("extends: " + isExtends(remoteDriver, iWebDriver));
+        debug("extends: " + isExtends(remoteDriver, remoteWebDriver));
+        debug("extends: " + isExtends(remoteDriver, remoteDriver));
+        debug(winDriver);
+        debug("extends: " + isExtends(winDriver, iWebDriver));
+        debug("extends: " + isExtends(winDriver, remoteWebDriver));
+        debug("extends: " + isExtends(winDriver, remoteDriver));
+        debug(webDriver);
+        debug("extends: " + isExtends(webDriver, iWebDriver));
+        debug("extends: " + isExtends(webDriver, remoteWebDriver));
+        debug("extends: " + isExtends(webDriver, remoteDriver));
+    }
+
+    /**
+     *
+     * @throws Exception throws
+     */
+    public static void testDriverApp() throws Exception {
+        testAppEdit();
+        testAppCalc();
+        testHandleApp();
+    }
+
+    /**
+     *
+     * @throws Exception throws
+     */
+    public static void testAppEdit() throws Exception {
+        debug("testAppEdit");
+        winDriver = WinDriver.start();
+        el = winDriver.findElementByName("Текстовый редактор");
+        debug(el);
+        el = winDriver.findElementByClassName("Notepad");
+        debug(el);
+        el = winDriver.findElementByClassName("Edit");
+        debug(el);
+    }
+
+    /**
+     *
+     * @throws Exception throws
+     */
+    public static void testAppCalc() throws Exception {
+        debug("testAppCalc");
+        debug(calcPath);
+        winDriver = WinDriver.start(calcPath);
+        debug(winDriver);
+        el = winDriver.findElementByAccessibilityId("num1Button");
+        debug(el);
+        el.click();
+
+        el = winDriver.findElementByName("Калькулятор");
+        debug(el);
+        el = winDriver.findElementByClassName("ApplicationFrameWindow");
+        debug(el);
+        el = winDriver.findElementByClassName("Windows.UI.Core.CoreWindow");
+        debug(el);
+
+        el = winDriver.findElementByName("Один");
+        debug(el);
+        el.click();
+        el = winDriver.findElementByName("Плюс");
+        debug(el);
+        el.click();
+        el = winDriver.findElementByName("Семь");
+        debug(el);
+        el.click();
+        el = winDriver.findElementByName("Равно");
+        debug(el);
+        el.click();
+    }
+
+    /**
+     *
+     */
+    public static void testHandleApp() {
+        debug("testHandleApp");
+        winDriver = attachApp("Калькулятор"); // My Application Session
+        debug("calc: " + winDriver);
+        assertNotNull(winDriver);
+        winDriver.findElementByName("Один").click();
+        winDriver.findElementByName("Плюс").click();
+        winDriver.findElementByName("Семь").click();
+        winDriver.findElementByName("Равно").click();
     }
 
 }
