@@ -11,6 +11,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static org.project.utils.config.Config.config;
+
+import org.project.utils.config.BaseConfig;
 import org.project.utils.function.FunctionWithExceptions;
 import org.project.utils.function.SupplierWithExceptions;
 
@@ -18,6 +21,34 @@ import org.project.utils.function.SupplierWithExceptions;
  *
  */
 public class Thread {
+    /**
+     *
+     */
+    protected static BaseConfig c = config();
+    /**
+     *
+     */
+    protected static long sleep = c.getSleep();
+    /**
+     *
+     */
+    protected static long timeout = c.getTimeout();
+
+    /**
+     *
+     * @return long
+     */
+    public static long getSleep() {
+        return sleep;
+    }
+
+    /**
+     *
+     * @return long
+     */
+    public static long timeout() {
+        return timeout;
+    }
 
     /**
      *
@@ -89,7 +120,7 @@ public class Thread {
      * @throws E throws
      */
     public static <T, R, E extends Exception> R setTimeout(SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws InterruptedException, E {
-        return setTimeout(1000, cb, out);
+        return setTimeout(sleep, cb, out);
     }
 
     /**
@@ -105,7 +136,7 @@ public class Thread {
      * @throws E throws
      */
     public static <T, R, E extends Exception> R setTimeout(long sleep, SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws InterruptedException, E {
-        return setTimeout(sleep, sleep + 1000, cb, out);
+        return setTimeout(sleep, timeout, cb, out);
     }
 
     /**

@@ -51,14 +51,6 @@ public interface DriverBaseConfig extends BaseConfig {
 
     /**
      *
-     * @return long
-     */
-    // app
-    @Key("SLEEP")
-    long getSleep();
-
-    /**
-     *
      * @return boolean
      */
     @Key("WIN_HOST")
