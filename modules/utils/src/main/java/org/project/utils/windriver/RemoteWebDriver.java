@@ -64,6 +64,10 @@ public class RemoteWebDriver extends WebElement {
     /**
      *
      */
+    protected static long timeout = c.getTimeout();
+    /**
+     *
+     */
     protected static String winDriver = WINDRIVER;
     /**
      *
@@ -180,6 +184,22 @@ public class RemoteWebDriver extends WebElement {
     }
 
     /**
+     *
+     * @return long
+     */
+    public static long sleep() {
+        return sleep;
+    }
+
+    /**
+     *
+     * @return long
+     */
+    public static long getTimeout() {
+        return timeout;
+    }
+
+    /**
      * ConfigInitialize
      * @param config DriverBaseConfig
      * @return DriverBaseConfig
@@ -276,7 +296,20 @@ public class RemoteWebDriver extends WebElement {
      * @throws Exception throws
      */
     public static <T extends WebDriver> T startAttach(String app, long sleep) throws Exception {
-        return start(sleep, () -> attachApp(app));
+        return startAttach(app, sleep, timeout);
+    }
+
+    /**
+     *
+     * @param app String
+     * @param sleep long
+     * @param timeout long
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T startAttach(String app, long sleep, long timeout) throws Exception {
+        return start(sleep, timeout, () -> attachApp(app));
     }
 
     /**
@@ -299,7 +332,20 @@ public class RemoteWebDriver extends WebElement {
      * @throws Exception throws
      */
     public static <T extends WebDriver> T startAttachClass(String appClass, long sleep) throws Exception {
-        return start(sleep, () -> attachAppClass(appClass));
+        return startAttachClass(appClass, sleep, timeout);
+    }
+
+    /**
+     *
+     * @param appClass String
+     * @param sleep long
+     * @param timeout long
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T startAttachClass(String appClass, long sleep, long timeout) throws Exception {
+        return start(sleep, timeout, () -> attachAppClass(appClass));
     }
 
     /**
@@ -336,20 +382,47 @@ public class RemoteWebDriver extends WebElement {
      * @throws Exception throws
      */
     public static <T extends WebDriver> T start(DesiredCapabilities cap, long sleep) throws Exception {
-        return start(cap, sleep, 2);
+        return start(cap, sleep, timeout);
     }
 
     /**
      *
      * @param cap DesiredCapabilities
      * @param sleep long
-     * @param index int
+     * @param timeout long
      * @return T
      * @param <T> extends WebDriver
      * @throws Exception throws
      */
-    public static <T extends WebDriver> T start(DesiredCapabilities cap, long sleep, int index) throws Exception {
-        return start(sleep, () -> getDriver(cap, index + 4));
+    public static <T extends WebDriver> T start(DesiredCapabilities cap, long sleep, long timeout) throws Exception {
+        return start(cap, 2, sleep, timeout);
+    }
+
+    /**
+     *
+     * @param cap DesiredCapabilities
+     * @param index int
+     * @param sleep long
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T start(DesiredCapabilities cap, int index, long sleep) throws Exception {
+        return start(cap, index, sleep, timeout);
+    }
+
+    /**
+     *
+     * @param cap DesiredCapabilities
+     * @param index int
+     * @param sleep long
+     * @param timeout long
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver> T start(DesiredCapabilities cap, int index, long sleep, long timeout) throws Exception {
+        return start(sleep, timeout, () -> getDriver(cap, index + 4));
     }
 
     /**
@@ -374,7 +447,21 @@ public class RemoteWebDriver extends WebElement {
      * @throws Exception throws
      */
     public static <T extends WebDriver, E extends Exception> T start(long sleep, SupplierWithExceptions<T, E> cb) throws Exception {
-        return setTimeout(sleep, () -> { open(); return null; }, o -> cb.get());
+        return start(sleep, timeout, cb);
+    }
+
+    /**
+     *
+     * @param sleep long
+     * @param timeout long
+     * @param cb SupplierWithExceptions {T, E}
+     * @return T
+     * @param <T> extends WebDriver
+     * @param <E> extends Exception
+     * @throws Exception throws
+     */
+    public static <T extends WebDriver, E extends Exception> T start(long sleep, long timeout, SupplierWithExceptions<T, E> cb) throws Exception {
+        return setTimeout(sleep, timeout, () -> { open(); return null; }, o -> cb.get());
     }
 
     /**
@@ -399,6 +486,33 @@ public class RemoteWebDriver extends WebElement {
      */
     public static void open() throws MalformedURLException {
         open(winDriver);
+    }
+
+    /**
+     *
+     * @throws MalformedURLException throws
+     */
+    public static void openTimeout() throws MalformedURLException, InterruptedException {
+        open(sleep);
+    }
+
+    /**
+     *
+     * @throws MalformedURLException throws
+     */
+    public static void open(long sleep) throws MalformedURLException, InterruptedException {
+        open(sleep, timeout);
+    }
+
+    /**
+     *
+     * @param sleep long
+     * @param timeout long
+     * @throws MalformedURLException throws
+     * @throws InterruptedException throws
+     */
+    public static void open(long sleep, long timeout) throws MalformedURLException, InterruptedException {
+        setTimeout(sleep, timeout, () -> { open(); return null; });
     }
 
     /**
