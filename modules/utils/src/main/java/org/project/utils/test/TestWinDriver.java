@@ -4,23 +4,16 @@ import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import io.appium.java_client.windows.WindowsDriver;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static java.lang.Integer.parseInt;
-import static java.lang.Integer.toHexString;
 import static org.junit.Assert.assertNotNull;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.setTimeout;
-import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.WebConfig.getConfig;
-import static org.project.utils.reflection.Reflection.getCallingClass;
-import static org.project.utils.reflection.Reflection.getCallingClassSimpleName;
 import static org.project.utils.reflection.Reflection.isExtends;
 import static org.project.utils.windriver.RemoteWebDriver.attachApp;
 import static org.project.utils.windriver.RemoteWebDriver.drivers;
@@ -29,7 +22,6 @@ import static org.project.utils.windriver.WebDriver.ls;
 import static org.project.utils.windriver.WebDriver.start;
 
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
@@ -168,7 +160,6 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     public static void testDriverApp() throws Exception {
         testAppEdit();
         testAppCalc();
-        testHandleApp();
     }
 
     /**
@@ -218,14 +209,16 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         el = winDriver.findElementByName("Равно");
         debug(el);
         el.click();
+
+        testHandleApp();
     }
 
     /**
      *
      */
-    public static void testHandleApp() {
+    public static void testHandleApp() throws MalformedURLException {
         debug("testHandleApp");
-        winDriver = attachApp("Калькулятор"); // My Application Session
+        winDriver = attachApp("Калькулятор");
         debug("calc: " + winDriver);
         assertNotNull(winDriver);
         winDriver.findElementByName("Один").click();
