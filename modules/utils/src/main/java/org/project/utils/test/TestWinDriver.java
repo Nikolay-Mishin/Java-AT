@@ -52,6 +52,10 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      *
      */
     protected static WebElement el;
+    /**
+     *
+     */
+    protected static List<WebElement> list;
 
     /**
      *
@@ -216,7 +220,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     /**
      *
      */
-    public static void testHandleApp() throws MalformedURLException {
+    public static void testHandleApp() throws Exception {
         debug("testHandleApp");
         winDriver = attachApp("Калькулятор");
         debug("calc: " + winDriver);
