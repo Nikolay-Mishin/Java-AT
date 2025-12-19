@@ -505,6 +505,108 @@ public class Reflection {
 
     /**
      *
+     * @param index int
+     * @param rec Function {Class {T}, Boolean}
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
+    public static <T> Class<T> getCallingClass(int index, Function<Class<T>, Boolean> rec) throws ClassNotFoundException {
+        return getCallingClass(index, rec, c -> c);
+    }
+
+    /**
+     *
+     * @param index int
+     * @param rec Function {Class {T}, Boolean}
+     * @param cb Function {Class {T}, Class {T}}
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
+    public static <T> Class<T> getCallingClass(int index, Function<Class<T>, Boolean> rec, Function<Class<T>, Class<T>> cb) throws ClassNotFoundException {
+        return getCallingClassRec(index + 2, rec, cb);
+    }
+
+    /**
+     *
+     * @param index int
+     * @param rec Function {Class {T}, Boolean}
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
+    public static <T> String getCallingClassName(int index, Function<Class<T>, Boolean> rec) throws ClassNotFoundException {
+        return getCallingClassRec(index + 2, rec, Class::getName);
+    }
+
+    /**
+     *
+     * @param index int
+     * @param rec Function {Class {T}, Boolean}
+     * @param cb Function {String, String}
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
+    public static <T> String getCallingClassName(int index, Function<Class<T>, Boolean> rec, Function<String, String> cb) throws ClassNotFoundException {
+        return getCallingClassRec(index + 2, rec, c -> cb.apply(c.getName()));
+    }
+
+    /**
+     *
+     * @param index int
+     * @param rec Function {Class {T}, Boolean}
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
+    public static <T> String getCallingClassSimpleName(int index, Function<Class<T>, Boolean> rec) throws ClassNotFoundException
+    {
+        return getCallingClassRec(index + 2, rec, Class::getSimpleName);
+    }
+
+    /**
+     *
+     * @param index int
+     * @param rec Function {Class {T}, Boolean}
+     * @param cb Function {String, String}
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
+    public static <T> String getCallingClassSimpleName(int index, Function<Class<T>, Boolean> rec, Function<String, String> cb) throws ClassNotFoundException
+    {
+        return getCallingClassRec(index + 2, rec, c -> cb.apply(c.getSimpleName()));
+    }
+
+    /**
+     *
+     * @param index int
+     * @param rec Function {Class {T}, Boolean}
+     * @param cb Function {Class {T}, R}
+     * @return Class T
+     * @param <T> T
+     * @param <R> R
+     * @throws ClassNotFoundException throws
+     */
+    public static <T, R> R getCallingClassRec(int index, Function<Class<T>, Boolean> rec, Function<Class<T>, R> cb) throws ClassNotFoundException {
+        Class<T> clazz = getCallingClass(index);
+        boolean isExtends = rec.apply(clazz);
+
+        while (isExtends) {
+            Class<T> next = getCallingClass(++index);
+            isExtends = rec.apply(next);
+            if (isExtends) clazz = next;
+        }
+
+        debug("recClass: " + clazz);
+
+        return cb.apply(clazz);
+    }
+
+    /**
+     *
      * @return Class T
      * @param <T> T
      * @throws ClassNotFoundException throws
