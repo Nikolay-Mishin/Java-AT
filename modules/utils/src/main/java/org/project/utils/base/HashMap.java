@@ -125,7 +125,7 @@ public class HashMap<K, V> extends java.util.LinkedHashMap<K, V> implements Map<
             hashMap.put(key, value);
         }
         debug("hashMap: " + hashMap);
-        debug("sortByK: " + sortByK(hashMap));
+        //debug("sortByK: " + sortByK(hashMap));
         return hashMap;
     }
 
