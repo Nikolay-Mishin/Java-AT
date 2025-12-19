@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.entries;
 import static org.project.utils.Helper.isNull;
@@ -18,6 +19,10 @@ import org.project.utils.config.DriverBaseConfig;
  */
 public class Capabilities extends DesiredCapabilities {
     /**
+     * если хотим захватывать какую-либо запущенную программу и прикреплять к текущему сеансу
+     */
+    protected static boolean handle;
+    /**
      * если хотим сразу запускать какую-либо программу
      */
     protected String app;
@@ -30,13 +35,21 @@ public class Capabilities extends DesiredCapabilities {
      */
     protected String platformName;
     /**
+     * платформа
+     */
+    protected String platform;
+    /**
      * устройство
      */
     protected String deviceName;
     /**
-     * квлючить экспериментальные функции
+     * включить экспериментальные функции
      */
     protected boolean experimental;
+    /**
+     * включить JS
+     */
+    protected boolean javascriptEnabled;
 
     /**
      *
@@ -50,16 +63,25 @@ public class Capabilities extends DesiredCapabilities {
      *
      * @param app String
      */
-    @ConstructorProperties({"token"})
+    @ConstructorProperties({"app"})
     public Capabilities(String app){
         app(app).init();
+    }
+
+    /**
+     * You set the Handle as one of the capabilities
+     * @param app String
+     */
+    @ConstructorProperties({"app", "handle"})
+    public Capabilities(String app, boolean handle){
+        app(app, handle).init();
     }
 
     /**
      *
      * @param config DriverBaseConfig
      */
-    @ConstructorProperties({"token"})
+    @ConstructorProperties({"config"})
     public Capabilities(DriverBaseConfig config) {
         init(config);
     }
@@ -69,7 +91,7 @@ public class Capabilities extends DesiredCapabilities {
      * @param cap T
      * @param <T> T
      */
-    @ConstructorProperties({"token"})
+    @ConstructorProperties({"cap"})
     public <T extends DesiredCapabilities> Capabilities(T cap) {
         init(cap);
     }
@@ -80,8 +102,27 @@ public class Capabilities extends DesiredCapabilities {
      * @return Capabilities
      */
     public Capabilities app(String app) {
+        return app(app, false);
+    }
+
+    /**
+     * You set the Handle as one of the capabilities
+     * @param app String
+     * @param handle boolean
+     * @return Capabilities
+     */
+    public Capabilities app(String app, boolean handle) {
         this.app = app;
+        Capabilities.handle = handle;
         return this;
+    }
+
+    /**
+     * You set the Handle as one of the capabilities
+     * @return boolean
+     */
+    public static boolean handle() {
+        return handle;
     }
 
     /**
@@ -99,10 +140,14 @@ public class Capabilities extends DesiredCapabilities {
      */
     public Capabilities init(DriverBaseConfig config) {
         if (isNull(app)) app = config.getApp();
+        if (isNull(handle)) handle = config.getHandle();
         launchDelay = config.getLaunchDelay();
         platformName = config.getPlatformName();
+        platform = config.getPlatform();
+        if (platform.isEmpty()) platform = platformName.toUpperCase();
         deviceName = config.getDeviceName();
         experimental = config.getExperimental();
+        javascriptEnabled = config.getJS();
         return init(this);
     }
 
@@ -116,7 +161,10 @@ public class Capabilities extends DesiredCapabilities {
         for (Map.Entry<String, Object> entry : entries(cap).entrySet()) {
             String k = entry.getKey();
             Object v = entry.getValue();
-            if (v != "") cap.setCapability(notEquals(k, "experimental") ? k : "ms:experimental-webdriver", v);
+            if (v != "" && notEquals(k, "handle")) {
+                if (_equals(k, "app") && handle()) k = "appTopLevelWindow"; // You set the Handle as one of the capabilities
+                cap.setCapability(notEquals(k, "experimental") ? k : "ms:experimental-webdriver", v);
+            }
         }
         debug("cap: " + cap);
         return cap;

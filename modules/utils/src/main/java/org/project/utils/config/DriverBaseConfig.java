@@ -181,6 +181,13 @@ public interface DriverBaseConfig extends BaseConfig {
 
     /**
      *
+     * @return boolean
+     */
+    @Key("HANDLE")
+    boolean getHandle();
+
+    /**
+     *
      * @return String
      */
     @Key("LAUNCH_DELAY")
@@ -193,6 +200,13 @@ public interface DriverBaseConfig extends BaseConfig {
     @Key("EXPERIMENTAL")
     boolean getExperimental();
 
+    /**
+     *
+     * @return boolean
+     */
+    @Key("JS")
+    boolean getJS();
+
     // платформа
     /**
      *
@@ -200,6 +214,13 @@ public interface DriverBaseConfig extends BaseConfig {
      */
     @Key("PLATFORM_NAME")
     String getPlatformName();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("PLATFORM")
+    String getPlatform();
 
     /**
      *
