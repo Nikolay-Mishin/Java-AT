@@ -4,6 +4,9 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 
 import static org.junit.Assert.assertNotNull;
 import static org.project.utils.Helper.debug;
@@ -13,9 +16,9 @@ import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
 import static org.project.utils.test.TestProc.webDriver;
+import static org.project.utils.windriver.Actions.getAction;
 import static org.project.utils.windriver.RemoteWebDriver.start;
 
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.windriver.RemoteWebDriver;
 
@@ -27,6 +30,14 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
      *
      */
     protected static WebDriver driver;
+    /**
+     *
+     */
+    protected static Actions a;
+    /**
+     *
+     */
+    protected static Action action;
     /**
      *
      */
@@ -69,6 +80,8 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
     public static WebDriver driver(WebDriver d) {
         driver = d;
         assertNotNull(driver);
+        a = RemoteWebDriver.action();
+        action = getAction();
         return driver;
     }
 

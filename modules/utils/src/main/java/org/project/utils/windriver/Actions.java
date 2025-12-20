@@ -39,6 +39,10 @@ public class Actions {
      *
      */
     protected static org.openqa.selenium.interactions.Actions a;
+    /**
+     *
+     */
+    protected static Action action;
 
     /**
      *
@@ -87,7 +91,15 @@ public class Actions {
      * @param <T> {@code extends} WebDriver
      */
     public static <T extends WebDriver> org.openqa.selenium.interactions.Actions action(T driver) {
-        return a = new org.openqa.selenium.interactions.Actions(driver);
+        return action(new org.openqa.selenium.interactions.Actions(driver));
+    }
+
+    /**
+     *
+     * @return Action
+     */
+    public static Action getAction() {
+        return action;
     }
 
     /**
@@ -528,7 +540,7 @@ public class Actions {
      * @return Action
      */
     public static Action performBuild() {
-        Action action = build();
+        action = build();
         action.perform();
         return action;
     }
