@@ -286,6 +286,18 @@ public class RemoteWebDriver extends WebElement {
     }
 
     /**
+     * Run root application session
+     * @return T
+     * @param <T> extends WebDriver
+     * @throws Exception throws
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends WebDriver> T startRoot() throws Exception {
+        debug("startRoot");
+        return (T) start(getWinDriver());
+    }
+
+    /**
      *
      * @param app String
      * @return T
@@ -591,6 +603,25 @@ public class RemoteWebDriver extends WebElement {
 
     /**
      *
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver() throws Exception {
+        return getWinDriver(cap("Root"));
+    }
+
+    /**
+     *
+     * @param handleHex String
+     * @return WindowsDriver {WebElement}
+     * @throws Exception throws
+     */
+    public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver(String handleHex) throws Exception {
+        return getWinDriver(cap(handleHex, true));
+    }
+
+    /**
+     *
      * @param cap DesiredCapabilities
      * @return WindowsDriver {WebElement}
      * @throws Exception throws
@@ -676,8 +707,7 @@ public class RemoteWebDriver extends WebElement {
     public static <T extends WebDriver> T attachAppHex(String handleHex) {
         try {
             debug("handleHex: " + handleHex);
-            cap(handleHex, true);
-            return (T) start(getWinDriver(cap));
+            return (T) start(getWinDriver(handleHex));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -708,15 +738,12 @@ public class RemoteWebDriver extends WebElement {
      * Here you find the already running application and get the handle
      * @param cb Function {WindowsDriver, String}
      * @return String
-     * @param <T> extends WebDriver
+     * @param <T> extends RemoteWebDriver
      * @throws Exception throws
      */
-    @SuppressWarnings("unchecked")
     public static <T extends org.openqa.selenium.remote.RemoteWebDriver> String handleHex(Function<T, org.openqa.selenium.WebElement> cb) throws Exception {
         debug("handleHex");
-        cap("Root");
-        start(getWinDriver(cap));
-        org.openqa.selenium.WebElement handleEl = cb.apply((T) d);
+        org.openqa.selenium.WebElement handleEl = cb.apply(startRoot());
         debug("handleEl: " + handleEl);
         String handleStr = handleEl.getAttribute("NativeWindowHandle");
         int handleInt = parseInt(handleStr);
