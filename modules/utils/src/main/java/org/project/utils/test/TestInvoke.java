@@ -29,7 +29,7 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
     /**
      *
      */
-    protected static WebDriver driver;
+    protected static WebDriver d;
     /**
      *
      */
@@ -74,15 +74,15 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
     }
 
     /**
-     * @param d WebDriver
+     * @param driver WebDriver
      * @return WebDriver
      */
-    public static WebDriver driver(WebDriver d) {
-        driver = d;
-        assertNotNull(driver);
+    public static WebDriver driver(WebDriver driver) {
+        d = driver;
+        assertNotNull(d);
         a = RemoteWebDriver.action();
         action = getAction();
-        return driver;
+        return d;
     }
 
     /**
@@ -134,7 +134,7 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
      */
     public static void quit() {
         RemoteWebDriver.quit();
-        driver = null;
+        d = null;
     }
 
     /**

@@ -311,11 +311,11 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      * @throws MalformedURLException throws
      */
     public static void testWeb() throws ReflectiveOperationException, MalformedURLException {
-        webDriver = org.project.utils.windriver.WebDriver.start(url);
-        assertNotNull(webDriver);
+        web = org.project.utils.windriver.WebDriver.start(url);
+        assertNotNull(web);
 
         // Cast WebDriver to JavascriptExecutor
-        JavascriptExecutor js = webDriver;
+        JavascriptExecutor js = web;
 
         // Execute JavaScript to retrieve item from localStorage
         String setItemScript = "localStorage.setItem(arguments[0], arguments[1])";
@@ -341,7 +341,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
 
         // Navigate to the webpage where localStorage data is stored
         debug("project: " + endpointUrl);
-        webDriver.get(endpointUrl);
+        web.get(endpointUrl);
 
         /*
         assertFalse(driverWeb.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).isSelected());

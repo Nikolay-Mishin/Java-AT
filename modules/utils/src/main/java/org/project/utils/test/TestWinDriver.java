@@ -46,11 +46,11 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     /**
      *
      */
-    protected static WindowsDriver<WebElement> winDriver;
+    protected static WindowsDriver<WebElement> app;
     /**
      *
      */
-    protected static org.openqa.selenium.remote.RemoteWebDriver remoteDriver;
+    protected static org.openqa.selenium.remote.RemoteWebDriver remote;
     /**
      *
      */
@@ -82,9 +82,9 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @return WindowsDriver {WebElement}
      */
     public static WindowsDriver<WebElement> winDriver(WindowsDriver<WebElement> driver) {
-        winDriver = driver;
-        assertNotNull(winDriver);
-        return winDriver;
+        app = driver;
+        assertNotNull(app);
+        return app;
     }
 
     /**
@@ -136,9 +136,9 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @return RemoteWebDriver
      */
     public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver(org.openqa.selenium.remote.RemoteWebDriver driver) {
-        remoteDriver = driver;
-        assertNotNull(remoteDriver);
-        return remoteDriver;
+        remote = driver;
+        assertNotNull(remote);
+        return remote;
     }
 
     /**
@@ -190,7 +190,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void quitWin() {
         WinDriver.quit();
-        winDriver = null;
+        app = null;
     }
 
     /**
@@ -198,18 +198,18 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void quitRemote() {
         RemoteWebDriver.quit();
-        remoteDriver = null;
+        remote = null;
     }
 
     /**
      *
      */
     public static void quitAll() {
-        WinDriver.quit(driver, remoteDriver, webDriver, winDriver);
-        driver = null;
-        remoteDriver = null;
-        webDriver = null;
-        winDriver = null;
+        WinDriver.quit(d, remote, web, app);
+        d = null;
+        remote = null;
+        web = null;
+        app = null;
     }
 
     /**
@@ -356,11 +356,11 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         debug("testAppEdit");
         //winDriver = WinDriver.start();
         winDriver();
-        el = winDriver.findElementByName("Текстовый редактор");
+        el = app.findElementByName("Текстовый редактор");
         debug(el);
-        el = winDriver.findElementByClassName("Notepad");
+        el = app.findElementByClassName("Notepad");
         debug(el);
-        el = winDriver.findElementByClassName("Edit");
+        el = app.findElementByClassName("Edit");
         debug(el);
     }
 
@@ -372,28 +372,28 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         debug("testAppCalc");
         debug(calcPath);
         winDriver(calcPath);
-        debug(winDriver);
-        el = winDriver.findElementByAccessibilityId("num1Button");
+        debug(app);
+        el = app.findElementByAccessibilityId("num1Button");
         debug(el);
         el.click();
 
-        el = winDriver.findElementByName("Калькулятор");
+        el = app.findElementByName("Калькулятор");
         debug(el);
-        el = winDriver.findElementByClassName("ApplicationFrameWindow");
+        el = app.findElementByClassName("ApplicationFrameWindow");
         debug(el);
-        el = winDriver.findElementByClassName("Windows.UI.Core.CoreWindow");
+        el = app.findElementByClassName("Windows.UI.Core.CoreWindow");
         debug(el);
 
-        el = winDriver.findElementByName("Один");
+        el = app.findElementByName("Один");
         debug(el);
         el.click();
-        el = winDriver.findElementByName("Плюс");
+        el = app.findElementByName("Плюс");
         debug(el);
         el.click();
-        el = winDriver.findElementByName("Семь");
+        el = app.findElementByName("Семь");
         debug(el);
         el.click();
-        el = winDriver.findElementByName("Равно");
+        el = app.findElementByName("Равно");
         debug(el);
         el.click();
 
@@ -407,12 +407,12 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     public static void testHandleApp() throws Exception {
         debug("testHandleApp");
         startHandle("Калькулятор");
-        debug("calc: " + winDriver);
-        assertNotNull(winDriver);
-        winDriver.findElementByName("Один").click();
-        winDriver.findElementByName("Плюс").click();
-        winDriver.findElementByName("Семь").click();
-        winDriver.findElementByName("Равно").click();
+        debug("calc: " + app);
+        assertNotNull(app);
+        app.findElementByName("Один").click();
+        app.findElementByName("Плюс").click();
+        app.findElementByName("Семь").click();
+        app.findElementByName("Равно").click();
     }
 
 }

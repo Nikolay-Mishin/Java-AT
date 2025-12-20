@@ -49,7 +49,7 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
     /**
      *
      */
-    protected static ChromeDriver webDriver;
+    protected static ChromeDriver web;
 
     /**
      *
@@ -70,9 +70,9 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      * @return ChromeDriver
      */
     public static ChromeDriver webDriver(ChromeDriver driver) {
-        webDriver = driver;
-        assertNotNull(webDriver);
-        return webDriver;
+        web = driver;
+        assertNotNull(web);
+        return web;
     }
 
     /**
@@ -99,7 +99,7 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      */
     public static void quitWeb() {
         WebDriver.quit();
-        webDriver = null;
+        web = null;
     }
 
     /**
@@ -107,10 +107,10 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      * @throws Exception throws
      */
     public static void testBaseProc() throws Exception {
-        driver = WinDriver.start(notepadPath);
+        d = WinDriver.start(notepadPath);
         WebElement wrk = findByClass("Edit");
         wrk.sendKeys("Привет Appium!");
-        driver.quit();
+        d.quit();
         pb = new ProcessBuilder("taskkill", "/f", "/IM", WINDRIVER_NAME);//.inheritIO();
         p = pb.start();
 
@@ -145,16 +145,16 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
             }
         }
 
-        driver = new RemoteWebDriver(new URL(WINDRIVER_HOST), cap);
-        assertNotNull(driver);
+        d = new RemoteWebDriver(new URL(WINDRIVER_HOST), cap);
+        assertNotNull(d);
 
-        WebElement el = driver.findElement(By.className("Edit"));
+        WebElement el = d.findElement(By.className("Edit"));
         el.sendKeys("Appium");
 
         stream(p);
         //transfer(p);
 
-        driver.quit();
+        d.quit();
         p.destroy();
     }
 
@@ -172,10 +172,10 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
         // Set the path to the ChromeDriver executable
         setProperty("webdriver.chrome.driver", BASE_CONFIG.getChromeDriver());
         // Initialize the Chrome driver
-        webDriver = new ChromeDriver(options);
-        assertNotNull(webDriver);
+        web = new ChromeDriver(options);
+        assertNotNull(web);
 
-        webDriver.get(url);
+        web.get(url);
     }
 
 }

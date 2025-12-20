@@ -60,7 +60,7 @@ public class TestFind<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      */
     //[TestMethod]
     public static void makeOperation() throws Exception {
-        driver = start(calcPath);
+        d = start(calcPath);
         WebElement el = findByName("txtNumber");
         el.clear();
         el.sendKeys("5");
@@ -83,11 +83,11 @@ public class TestFind<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      * @throws Exception throws
      */
     public static void testFind(int aid) throws Exception {
-        driver = start(notepadPath);
+        d = start(notepadPath);
         // By.name – по полю Name, By.className — по полю ClassName и By.xpath для более изощрённых условий поиска
-        WebElement wrk = driver.findElement(By.name("Name")); //один элемент, поиск по полю Name
+        WebElement wrk = d.findElement(By.name("Name")); //один элемент, поиск по полю Name
         //список элементов с заданным полем ClassName - элементы будут добавлены в порядке tab-ордера
-        List<WebElement> wrkL = driver.findElements(By.className("ClassName"));
+        List<WebElement> wrkL = d.findElements(By.className("ClassName"));
         WebElement wrk1 = wrk.findElement(By.name("Значение поля Name")); //Так же мы можем прикрепляться к элементам другого элемента
         /**
          * Если первые два механизма прикрепления очень узкоспециализированы - работают строго в иерархической структуре и строго с полями Name и ClassName, то для работы с иными случаями нам потребуется третий механизм, а именно By.xpath.
