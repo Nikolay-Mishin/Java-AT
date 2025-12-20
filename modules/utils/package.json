@@ -1,6 +1,6 @@
 {
 	"name": "maven-at-modules-utils",
-	"version": "7.7.1",
+	"version": "7.7.2",
     "main": "index.js",
     "type": "module",
 	"license": "ISC",
@@ -26,7 +26,7 @@
         "start": "npm run build & npm run deploy",
         "build": "mvn clean install",
         "pkg": "mvn clean package",
-        "deploy": "npm run deploy:src_doc",
+        "deploy": "npm run deploy:src",
         "deploy:internal": "mvn clean deploy",
         "deploy:site": "mvn clean deploy -Dsite",
         "deploy:src": "mvn clean deploy -Dsite -Dsrc",
