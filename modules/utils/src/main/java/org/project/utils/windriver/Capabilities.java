@@ -113,12 +113,12 @@ public class Capabilities extends DesiredCapabilities {
     /**
      * You set the Handle as one of the capabilities
      * @param app String
-     * @param handle boolean
+     * @param handleApp boolean
      * @return Capabilities
      */
-    public Capabilities app(String app, boolean handle) {
+    public Capabilities app(String app, boolean handleApp) {
         this.app = app;
-        Capabilities.handle = handle;
+        handle = handleApp;
         return this;
     }
 
