@@ -3,47 +3,11 @@ package org.project.utils.windriver;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import static org.project.utils.Helper.debug;
 
 /**
  *
  */
 public class WebElement extends Actions {
-    /**
-     *
-     */
-    protected static RemoteWebDriver d;
-
-    /**
-     *
-     */
-    public static void printClass() {
-        debug(d.getClass());
-    }
-
-    /**
-     *
-     * @return T
-     * @param <T> T
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends WebDriver> T driver() {
-        return (T) d;
-    }
-
-    /**
-     * You get the desktop session
-     * @param driver T
-     * @return T
-     * @param <T> T
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends RemoteWebDriver> T driver(T driver) {
-        return (T) (d = driver);
-    }
 
     /**
      * Основным элементом взаимодействия с внешним миром являются «рычаги».

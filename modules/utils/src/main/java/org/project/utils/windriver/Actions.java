@@ -2,6 +2,7 @@ package org.project.utils.windriver;
 
 import static java.util.Arrays.stream;
 
+import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.Keys.ALT;
 import static org.openqa.selenium.Keys.ARROW_DOWN;
 import static org.openqa.selenium.Keys.ARROW_LEFT;
@@ -24,10 +25,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
-
-import static org.project.utils.Helper.debug;
-import static org.project.utils.reflection.Reflection.getCallingChildClassName;
-import static org.project.utils.reflection.Reflection.getCallingClassName;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  *
@@ -36,7 +34,34 @@ public class Actions {
     /**
      *
      */
+    protected static RemoteWebDriver d;
+    /**
+     *
+     */
     protected static org.openqa.selenium.interactions.Actions a;
+
+    /**
+     *
+     * @return T
+     * @param <T> T
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends WebDriver> T driver() {
+        return (T) d;
+    }
+
+    /**
+     * You get the desktop session
+     * @param driver T
+     * @return T
+     * @param <T> T
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends RemoteWebDriver> T driver(T driver) {
+        assertNotNull(driver);
+        action(driver);
+        return (T) (d = driver);
+    }
 
     /**
      *
@@ -63,14 +88,6 @@ public class Actions {
      */
     public static <T extends WebDriver> org.openqa.selenium.interactions.Actions action(T driver) {
         return a = new org.openqa.selenium.interactions.Actions(driver);
-    }
-
-    /**
-     *
-     */
-    public static void printCall() {
-        debug(getCallingClassName());
-        debug(getCallingChildClassName());
     }
 
     /**

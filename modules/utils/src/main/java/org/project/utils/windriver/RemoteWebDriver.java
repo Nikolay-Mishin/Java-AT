@@ -474,11 +474,7 @@ public class RemoteWebDriver extends WebElement {
      * @throws ClassNotFoundException throws
      */
     public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T start(T driver) throws MalformedURLException, ClassNotFoundException {
-        assertNotNull(driver);
-        driver(driver);
-        action(driver);
-        printClass();
-        return driver;
+        return driver(driver);
     }
 
     /**
@@ -669,7 +665,7 @@ public class RemoteWebDriver extends WebElement {
         try {
             debug("handleHex: " + handleHex);
             cap(handleHex, true);
-            return (T) driver(getWinDriver(cap));
+            return (T) start(getWinDriver(cap));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -707,7 +703,7 @@ public class RemoteWebDriver extends WebElement {
     public static <T extends org.openqa.selenium.remote.RemoteWebDriver> String handleHex(Function<T, org.openqa.selenium.WebElement> cb) throws Exception {
         debug("handleHex");
         cap("Root");
-        driver(getWinDriver(cap));
+        start(getWinDriver(cap));
         org.openqa.selenium.WebElement handleEl = cb.apply((T) d);
         debug("handleEl: " + handleEl);
         String handleStr = handleEl.getAttribute("NativeWindowHandle");
