@@ -3,33 +3,27 @@
   <groupId>org.project</groupId>
   <artifactId>utils</artifactId>
   <versioning>
-    <lastUpdated>20251220131140</lastUpdated>
+    <lastUpdated>20251220134240</lastUpdated>
     <snapshot>
-      <timestamp>20251220.131140</timestamp>
+      <timestamp>20251220.134240</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>7.7.0-20251220.131140-1</value>
-        <updated>20251220131140</updated>
+        <value>7.7.0-20251220.134240-1</value>
+        <updated>20251220134240</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>7.7.0-20251220.131140-1</value>
-        <updated>20251220131140</updated>
+        <value>7.7.0-20251220.134240-1</value>
+        <updated>20251220134240</updated>
       </snapshotVersion>
       <snapshotVersion>
         <classifier>sources</classifier>
         <extension>jar</extension>
-        <value>7.7.0-20251220.131140-1</value>
-        <updated>20251220131140</updated>
-      </snapshotVersion>
-      <snapshotVersion>
-        <classifier>javadoc</classifier>
-        <extension>jar</extension>
-        <value>7.7.0-20251220.131140-1</value>
-        <updated>20251220131140</updated>
+        <value>7.7.0-20251220.134240-1</value>
+        <updated>20251220134240</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
