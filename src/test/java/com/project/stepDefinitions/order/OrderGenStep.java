@@ -1,7 +1,6 @@
 package com.project.stepDefinitions.order;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +15,7 @@ import requests.order.OrderGenRequests;
 public class OrderGenStep extends BaseStep<OrderGenRequests, Order> {
 
     @ConstructorProperties({})
-    public OrderGenStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public OrderGenStep() throws ReflectiveOperationException {
     }
 
     @When("создать заказ gen статус {int}")

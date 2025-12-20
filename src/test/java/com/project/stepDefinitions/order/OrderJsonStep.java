@@ -1,7 +1,6 @@
 package com.project.stepDefinitions.order;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +15,7 @@ import requests.order.OrderJsonRequests;
 public class OrderJsonStep extends BaseStep<OrderJsonRequests, Order> {
 
     @ConstructorProperties({})
-    public OrderJsonStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public OrderJsonStep() throws ReflectiveOperationException {
     }
 
     @When("создать заказ json статус {int}")

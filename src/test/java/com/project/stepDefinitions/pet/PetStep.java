@@ -23,7 +23,6 @@ public class PetStep extends BaseStep<PetRequests, Pet> {
 
     @ConstructorProperties({})
     public PetStep() throws ReflectiveOperationException {
-        super();
         hashMap = new HashMap<String, Class<?>>("category", "tags").values(Category.class, TagsItem.class);
     }
 

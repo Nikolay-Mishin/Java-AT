@@ -1,7 +1,6 @@
 package com.project.stepDefinitions.order;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -18,7 +17,7 @@ import requests.order.OrderRequests;
 public class OrderStep extends BaseStep<OrderRequests, Order> {
 
     @ConstructorProperties({})
-    public OrderStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public OrderStep() throws ReflectiveOperationException {
     }
 
     @When("создать заказ статус {int}")

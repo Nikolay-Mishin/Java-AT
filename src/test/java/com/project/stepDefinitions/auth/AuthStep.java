@@ -1,7 +1,6 @@
 package com.project.stepDefinitions.auth;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 
 import io.cucumber.java.en.When;
 
@@ -18,7 +17,7 @@ import requests.auth.AuthRequests;
 public class AuthStep extends BaseStep<AuthRequests, Token> {
 
     @ConstructorProperties({})
-    public AuthStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public AuthStep() throws ReflectiveOperationException {
     }
 
     @When("авторизоваться")

@@ -26,7 +26,7 @@
         "start": "npm run build & npm run deploy",
         "build": "mvn clean install",
         "pkg": "mvn clean package",
-        "deploy": "npm run deploy:src_doc",
+        "deploy": "npm run deploy:src",
         "deploy:internal": "mvn clean deploy",
         "deploy:site": "mvn clean deploy -Dsite",
         "deploy:src": "mvn clean deploy -Dsite -Dsrc",

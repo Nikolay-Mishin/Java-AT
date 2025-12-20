@@ -1,7 +1,6 @@
 package com.project.stepDefinitions.order;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +15,7 @@ import requests.order.OrderSchemaRequests;
 public class OrderSchemaStep extends BaseStep<OrderSchemaRequests, OrderSchema> {
 
     @ConstructorProperties({})
-    public OrderSchemaStep() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public OrderSchemaStep() throws ReflectiveOperationException {
     }
 
     @When("создать заказ schema статус {int}")
