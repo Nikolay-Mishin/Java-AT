@@ -1,15 +1,14 @@
 package org.project.utils.windriver;
 
 import java.beans.ConstructorProperties;
-import java.util.Map;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
-import static org.project.utils.Helper.entries;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notEquals;
+import static org.project.utils.base.HashMap.forEachSort;
 import static org.project.utils.config.DriverConfig.config;
 
 import org.project.utils.config.DriverBaseConfig;
@@ -53,36 +52,41 @@ public class Capabilities extends DesiredCapabilities {
 
     /**
      *
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({})
-    public Capabilities() {
+    public Capabilities() throws ReflectiveOperationException {
         init();
     }
 
     /**
      *
      * @param app String
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"app"})
-    public Capabilities(String app){
+    public Capabilities(String app) throws ReflectiveOperationException {
         app(app).init();
     }
 
     /**
      * You set the Handle as one of the capabilities
      * @param app String
+     * @param handle boolean
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"app", "handle"})
-    public Capabilities(String app, boolean handle){
+    public Capabilities(String app, boolean handle) throws ReflectiveOperationException {
         app(app, handle).init();
     }
 
     /**
      *
      * @param config DriverBaseConfig
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"config"})
-    public Capabilities(DriverBaseConfig config) {
+    public Capabilities(DriverBaseConfig config) throws ReflectiveOperationException {
         init(config);
     }
 
@@ -90,9 +94,10 @@ public class Capabilities extends DesiredCapabilities {
      *
      * @param cap T
      * @param <T> T
+     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"cap"})
-    public <T extends DesiredCapabilities> Capabilities(T cap) {
+    public <T extends DesiredCapabilities> Capabilities(T cap) throws ReflectiveOperationException {
         init(cap);
     }
 
@@ -128,8 +133,9 @@ public class Capabilities extends DesiredCapabilities {
     /**
      *
      * @return Capabilities
+     * @throws ReflectiveOperationException throws
      */
-    public Capabilities init() {
+    public Capabilities init() throws ReflectiveOperationException {
         return init(config());
     }
 
@@ -137,8 +143,9 @@ public class Capabilities extends DesiredCapabilities {
      *
      * @param config DriverBaseConfig
      * @return Capabilities
+     * @throws ReflectiveOperationException throws
      */
-    public Capabilities init(DriverBaseConfig config) {
+    public Capabilities init(DriverBaseConfig config) throws ReflectiveOperationException {
         if (isNull(app)) app = config.getApp();
         if (isNull(handle)) handle = config.getHandle();
         launchDelay = config.getLaunchDelay();
@@ -156,16 +163,15 @@ public class Capabilities extends DesiredCapabilities {
      * @param cap T
      * @return T
      * @param <T> T
+     * @throws ReflectiveOperationException throws
      */
-    public static <T extends DesiredCapabilities> T init(T cap) {
-        for (Map.Entry<String, Object> entry : entries(cap).entrySet()) {
-            String k = entry.getKey();
-            Object v = entry.getValue();
-            if (v != "" && notEquals(k, "handle")) {
+    public static <T extends DesiredCapabilities> T init(T cap) throws ReflectiveOperationException {
+        forEachSort(cap, (k, v) -> {
+            if (!v.equals("") && !k.equals("handle")) {
                 if (_equals(k, "app") && handle()) k = "appTopLevelWindow"; // You set the Handle as one of the capabilities
                 cap.setCapability(notEquals(k, "experimental") ? k : "ms:experimental-webdriver", v);
             }
-        }
+        });
         debug("cap: " + cap);
         return cap;
     }

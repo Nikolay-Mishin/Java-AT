@@ -11,12 +11,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.entries;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.newMap;
 import static org.project.utils.Helper.notNull;
@@ -274,6 +276,26 @@ public class HashMap<K, V> extends java.util.LinkedHashMap<K, V> implements Map<
 
     /**
      *
+     * @param set Set {T}
+     * @return List {T}
+     * @param <T> T
+     */
+    public static <T> List<T> sort(Set<T> set) {
+        return sortedStream(set).toList();
+    }
+
+    /**
+     *
+     * @param set Set {T}
+     * @return Stream {T}
+     * @param <T> T
+     */
+    public static <T> Stream<T> sortedStream(Set<T> set) {
+        return set.stream().sorted();
+    }
+
+    /**
+     *
      * @param map T
      * @return T
      * @param <T> T
@@ -369,6 +391,38 @@ public class HashMap<K, V> extends java.util.LinkedHashMap<K, V> implements Map<
      */
     public static <T extends Map<K, V>, K, V> Stream<Entry<K, V>> sorted(T map, Comparator<Entry<K, V>> comparator) {
         return streamMap(map).sorted(comparator);
+    }
+
+    /**
+     *
+     * @param o T
+     * @param cb BiConsumer {String, Object}
+     * @param <T> T
+     */
+    public static <T> void forEach(T o, BiConsumer<String, Object> cb) {
+        entries(o).forEach(cb);
+    }
+
+    /**
+     *
+     * @param o T
+     * @param cb BiConsumer {String, Object}
+     * @param <T> T
+     */
+    public static <T> void forEachSort(T o, BiConsumer<String, Object> cb) throws ReflectiveOperationException {
+        sort(entries(o)).forEach(cb);
+    }
+
+    /**
+     *
+     * @param map T
+     * @param cb BiConsumer {String, Object}
+     * @param <T> T extends Map {K, V}
+     * @param <K> K extends Comparable {K}
+     * @param <V> V
+     */
+    public static <T extends Map<K, V>, K extends Comparable<K>, V> void forEachMap(T map, BiConsumer<K, V> cb) throws ReflectiveOperationException {
+        sort(map).forEach(cb);
     }
 
     /**
