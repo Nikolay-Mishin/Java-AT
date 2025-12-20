@@ -263,7 +263,6 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         remoteDriver();
         webDriver();
         winDriver();
-        WinDriver.printCall();
         quitAll();
         winDriver("");
     }
