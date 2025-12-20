@@ -17,6 +17,7 @@ import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.remote.Command;
@@ -590,6 +591,17 @@ public class RemoteWebDriver extends WebElement {
     @SuppressWarnings("unchecked")
     public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver(DesiredCapabilities cap) throws Exception {
         return getDriver(windowsDriver, cap);
+    }
+
+    /**
+     *
+     * @param options ChromeOptions
+     * @return ChromeDriver
+     * @throws MalformedURLException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static ChromeDriver getWebDriver(ChromeOptions options) throws MalformedURLException, ReflectiveOperationException {
+        return start(create(webDriver, options));
     }
 
     /**

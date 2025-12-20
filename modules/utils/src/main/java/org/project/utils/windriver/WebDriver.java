@@ -57,7 +57,7 @@ public class WebDriver extends RemoteWebDriver {
      * @throws ClassNotFoundException throws
      */
     //[ClassInitialize]
-    public static ChromeDriver start() throws MalformedURLException, ClassNotFoundException {
+    public static ChromeDriver start() throws MalformedURLException, ReflectiveOperationException {
         setProperty("webdriver.chrome.driver", chromeDriver);
         start(options());
         assertNotNull(d);
@@ -72,7 +72,7 @@ public class WebDriver extends RemoteWebDriver {
      * @throws MalformedURLException throws
      * @throws ClassNotFoundException throws
      */
-    public static ChromeDriver start(String url) throws MalformedURLException, ClassNotFoundException {
+    public static ChromeDriver start(String url) throws MalformedURLException, ReflectiveOperationException {
         start();
         return get(url);
     }
@@ -84,8 +84,8 @@ public class WebDriver extends RemoteWebDriver {
      * @throws MalformedURLException throws
      * @throws ClassNotFoundException throws
      */
-    public static ChromeDriver start(ChromeOptions options) throws MalformedURLException, ClassNotFoundException {
-        return start(new ChromeDriver(options));
+    public static ChromeDriver start(ChromeOptions options) throws MalformedURLException, ReflectiveOperationException {
+        return getWebDriver(options);
     }
 
     /**
