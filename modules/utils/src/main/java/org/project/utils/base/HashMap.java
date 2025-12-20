@@ -408,6 +408,7 @@ public class HashMap<K, V> extends java.util.LinkedHashMap<K, V> implements Map<
      * @param o T
      * @param cb BiConsumer {String, Object}
      * @param <T> T
+     * @throws ReflectiveOperationException throws
      */
     public static <T> void forEachSort(T o, BiConsumer<String, Object> cb) throws ReflectiveOperationException {
         sort(entries(o)).forEach(cb);
@@ -420,6 +421,7 @@ public class HashMap<K, V> extends java.util.LinkedHashMap<K, V> implements Map<
      * @param <T> T extends Map {K, V}
      * @param <K> K extends Comparable {K}
      * @param <V> V
+     * @throws ReflectiveOperationException throws
      */
     public static <T extends Map<K, V>, K extends Comparable<K>, V> void forEachMap(T map, BiConsumer<K, V> cb) throws ReflectiveOperationException {
         sort(map).forEach(cb);

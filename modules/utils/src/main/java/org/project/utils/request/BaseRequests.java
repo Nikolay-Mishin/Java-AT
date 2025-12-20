@@ -264,6 +264,8 @@ public class BaseRequests<T> {
      * @return Request
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
      */
     public Request req(METHOD method) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
         return (Request) setField(this, getMethod(method), new Request(method, baseUrl));

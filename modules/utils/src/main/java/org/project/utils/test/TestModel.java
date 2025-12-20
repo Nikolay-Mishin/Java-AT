@@ -17,6 +17,7 @@ public class TestModel<T extends TestBaseConfig, W extends WebBaseConfig, D exte
 
     /**
      *
+     * @throws Exception throws
      */
     @ConstructorProperties({})
     public TestModel() throws Exception {

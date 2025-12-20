@@ -16,9 +16,11 @@ public class TestNumber<T extends TestBaseConfig> extends BaseTest<T> {
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestNumber() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestNumber() throws NoSuchFieldException, IllegalAccessException {
         debug("TestNumber:init");
     }
 

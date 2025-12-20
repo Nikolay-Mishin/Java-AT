@@ -32,6 +32,12 @@ public class TestAuth<T extends TestBaseConfig> extends TestReq<T> {
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws ClassNotFoundException throws
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public TestAuth() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

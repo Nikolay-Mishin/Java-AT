@@ -128,8 +128,7 @@ public class Auth extends SingleInstance<Auth> {
      */
     @ConstructorProperties({})
     public Auth() throws Exception {
-        config(c);
-        token = new AuthToken(authEndpoint);
+        token = token(c);
     }
 
     /**
@@ -140,12 +139,12 @@ public class Auth extends SingleInstance<Auth> {
      */
     @ConstructorProperties({"c"})
     public <T extends WebBaseConfig> Auth(T c) throws Exception {
-        config(c);
-        token = new AuthToken(authEndpoint);
+        token = token(c);
     }
 
     /**
      *
+     * @return T
      * @param <T> T
      */
     @SuppressWarnings("unchecked")
@@ -156,9 +155,10 @@ public class Auth extends SingleInstance<Auth> {
     /**
      *
      * @param c T
+     * @return authEndpoint
      * @param <T> T
      */
-    public static <T extends WebBaseConfig> void config(T c) {
+    public static <T extends WebBaseConfig> String config(T c) {
         username = c.getUserLogin();
         password = c.getUserPassword();
         //auth
@@ -173,6 +173,7 @@ public class Auth extends SingleInstance<Auth> {
         tokenK = c.getTokenKey();
         tokenV = c.getToken();
         tokenKeys = c.getTokenKeys();
+        return authEndpoint;
     }
 
     /**
@@ -312,6 +313,18 @@ public class Auth extends SingleInstance<Auth> {
      */
     public static AuthToken token() {
         return i.token;
+    }
+
+    /**
+     *
+     * @param config T
+     * @return AuthToken
+     * @param <T> extends WebBaseConfig
+     * @throws ReflectiveOperationException throws
+     * @throws IOException throws
+     */
+    public static <T extends WebBaseConfig> AuthToken token(T config) throws ReflectiveOperationException, IOException {
+        return new AuthToken(config(config));
     }
 
     /**
@@ -550,6 +563,7 @@ public class Auth extends SingleInstance<Auth> {
     /**
      *
      * @return Auth
+     * @throws ReflectiveOperationException throws
      */
     public static AuthModel model() throws ReflectiveOperationException {
         return model(AuthModel.class, usernameK, username, passwordK, password);
@@ -560,6 +574,7 @@ public class Auth extends SingleInstance<Auth> {
      * @param authModel Class Auth
      * @param args Object[]
      * @return Auth
+     * @throws ReflectiveOperationException throws
      */
     public static AuthModel model(Class<AuthModel> authModel, Object... args) throws ReflectiveOperationException {
         return model = new Model<>(authModel, args).get();
@@ -568,6 +583,7 @@ public class Auth extends SingleInstance<Auth> {
     /**
      *
      * @return Response
+     * @throws Exception throws
      */
     public static Response authReq() throws Exception {
         return auth(model());
@@ -578,6 +594,7 @@ public class Auth extends SingleInstance<Auth> {
      * @param authModel Class Auth
      * @param args Object[]
      * @return Response
+     * @throws Exception throws
      */
     public static Response auth(Class<AuthModel> authModel, Object... args) throws Exception {
         return auth(model(authModel, args));
@@ -587,6 +604,7 @@ public class Auth extends SingleInstance<Auth> {
      *
      * @param model Auth
      * @return Response
+     * @throws Exception throws
      */
     public static Response auth(AuthModel model) throws Exception {
         Request req = getAuth();
@@ -600,6 +618,9 @@ public class Auth extends SingleInstance<Auth> {
     /**
      *
      * @return RequestSpecification
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
      */
     public static RequestSpecification auth() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return auth(authType, getAccessToken());
@@ -610,6 +631,9 @@ public class Auth extends SingleInstance<Auth> {
      * @param authType String
      * @param args Object[]
      * @return RequestSpecification
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
      */
     public static RequestSpecification auth(String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return auth(getAuth(), authType, args);
@@ -619,6 +643,9 @@ public class Auth extends SingleInstance<Auth> {
      *
      * @param req Request
      * @return RequestSpecification
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
      */
     public static RequestSpecification auth(Request req) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return auth(req, authType);
@@ -629,6 +656,9 @@ public class Auth extends SingleInstance<Auth> {
      * @param req Request
      * @param authType String
      * @return RequestSpecification
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
      */
     public static RequestSpecification auth(Request req, String authType) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return auth(req, authType, getAccessToken());
@@ -640,6 +670,9 @@ public class Auth extends SingleInstance<Auth> {
      * @param authType String
      * @param args Object[]
      * @return RequestSpecification
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
      */
     public static RequestSpecification auth(Request req, String authType, Object... args) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return authType.isEmpty() ? null : invoke(req, authType, args);

@@ -57,6 +57,12 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws ClassNotFoundException throws
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public TestApi() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -73,6 +79,7 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      * @return Request
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
      */
     public static Request setReq(METHOD method, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return req = req(method, pathList);
@@ -100,6 +107,7 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      * @return Request
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
      */
     public static Request reqQuery(METHOD method, String query, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return req = query(method, query, pathList);

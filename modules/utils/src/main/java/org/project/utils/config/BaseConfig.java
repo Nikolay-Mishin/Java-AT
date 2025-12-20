@@ -68,15 +68,14 @@ public interface BaseConfig extends Config {
     String getJavaHome();
 
     /**
-     *
+     * app
      * @return long
      */
-    // app
     @Key("SLEEP")
     long getSleep();
 
     /**
-     *
+     * app
      * @return long
      */
     @Key("TIMEOUT")

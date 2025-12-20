@@ -61,6 +61,12 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws ClassNotFoundException throws
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public TestJson() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

@@ -62,6 +62,12 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws ClassNotFoundException throws
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public TestZip() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {

@@ -99,6 +99,7 @@ public class Request extends RequestAuth {
 
     /**
      *
+     * @param req Request
      * @return Request
      * @throws MalformedURLException throws
      * @throws URISyntaxException throws
@@ -196,6 +197,8 @@ public class Request extends RequestAuth {
 
     /**
      *
+     * @param before String
+     * @param after String
      * @param sep String
      * @param k Function {Object, R}
      * @param v Function {Object, R}
@@ -209,6 +212,8 @@ public class Request extends RequestAuth {
 
     /**
      *
+     * @param before String
+     * @param after String
      * @param sep String
      * @param k Function {Object, R}
      * @param v Function {Object, R}

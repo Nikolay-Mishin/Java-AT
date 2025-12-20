@@ -62,6 +62,12 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws ClassNotFoundException throws
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public TestWinDriver() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -105,6 +111,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      *
      * @param url String
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver winDriverUrl(String url) throws Exception {
         winDriver();
@@ -117,6 +124,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @param app String
      * @param params String[]
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver winDriverUrl(String url, String app, String... params) throws Exception {
         winDriver(app, params);
@@ -157,6 +165,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      *
      * @param url String
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver remoteDriverUrl(String url) throws Exception {
         remoteDriver();
@@ -169,6 +178,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @param app String
      * @param params String[]
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver remoteDriverUrl(String url, String app, String... params) throws Exception {
         remoteDriver(app, params);
@@ -392,6 +402,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
 
     /**
      *
+     * @throws Exception throws
      */
     public static void testHandleApp() throws Exception {
         debug("testHandleApp");

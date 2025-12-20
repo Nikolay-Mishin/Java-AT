@@ -53,6 +53,12 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws ClassNotFoundException throws
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public TestProc() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -72,6 +78,7 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
     /**
      *
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver webDriver() throws Exception {
         return webDriver(start());
@@ -81,6 +88,7 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      *
      * @param url String
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver webDriver(String url) throws Exception {
         return webDriver(start(url));
@@ -115,8 +123,9 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
     /**
      *
      * @throws IOException throws
+     * @throws ReflectiveOperationException throws
      */
-    public static void testProc() throws IOException {
+    public static void testProc() throws IOException, ReflectiveOperationException {
         pb = new ProcessBuilder(WINDRIVER);//.inheritIO();
         p = pb.start();
 

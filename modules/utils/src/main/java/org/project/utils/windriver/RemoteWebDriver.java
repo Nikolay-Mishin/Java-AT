@@ -11,7 +11,6 @@ import java.util.logging.Level;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.toHexString;
-import static org.junit.Assert.assertNotNull;
 
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.OutputType;
@@ -111,8 +110,9 @@ public class RemoteWebDriver extends WebElement {
      * ConfigInitialize
      * @param config DriverBaseConfig
      * @return DriverBaseConfig
+     * @throws ReflectiveOperationException throws
      */
-    public static DriverBaseConfig config(DriverBaseConfig config)  {
+    public static DriverBaseConfig config(DriverBaseConfig config) throws ReflectiveOperationException {
         return init(config);
     }
 
@@ -151,17 +151,22 @@ public class RemoteWebDriver extends WebElement {
 
     /**
      *
+     * @param app String
      * @return Capabilities
+     * @throws ReflectiveOperationException throws
      */
-    public static Capabilities cap(String app) {
+    public static Capabilities cap(String app) throws ReflectiveOperationException {
         return cap(new Capabilities(app));
     }
 
     /**
      * You set the Handle as one of the capabilities
+     * @param app String
+     * @param handle boolean
      * @return Capabilities
+     * @throws ReflectiveOperationException throws
      */
-    public static Capabilities cap(String app, boolean handle) {
+    public static Capabilities cap(String app, boolean handle) throws ReflectiveOperationException {
         return cap(new Capabilities(app, handle));
     }
 
@@ -169,8 +174,9 @@ public class RemoteWebDriver extends WebElement {
      *
      * @param config DriverBaseConfig
      * @return Capabilities
+     * @throws ReflectiveOperationException throws
      */
-    public static Capabilities cap(DriverBaseConfig config) {
+    public static Capabilities cap(DriverBaseConfig config) throws ReflectiveOperationException {
         return cap(new Capabilities(config));
     }
 
@@ -179,8 +185,9 @@ public class RemoteWebDriver extends WebElement {
      * @param capabilities T
      * @return Capabilities
      * @param <T> extends DesiredCapabilities
+     * @throws ReflectiveOperationException throws
      */
-    public static <T extends DesiredCapabilities> Capabilities cap(T capabilities) {
+    public static <T extends DesiredCapabilities> Capabilities cap(T capabilities) throws ReflectiveOperationException {
         return cap(new Capabilities(capabilities));
     }
 
@@ -204,8 +211,9 @@ public class RemoteWebDriver extends WebElement {
      * ConfigInitialize
      * @param config DriverBaseConfig
      * @return DriverBaseConfig
+     * @throws ReflectiveOperationException throws
      */
-    public static DriverBaseConfig init(DriverBaseConfig config) {
+    public static DriverBaseConfig init(DriverBaseConfig config) throws ReflectiveOperationException {
         c = config;
         cap(config);
         winDriver = config.getWindriver();
@@ -488,6 +496,7 @@ public class RemoteWebDriver extends WebElement {
     /**
      *
      * @throws MalformedURLException throws
+     * @throws InterruptedException throws
      */
     public static void openTimeout() throws MalformedURLException, InterruptedException {
         open(sleep);
@@ -495,7 +504,9 @@ public class RemoteWebDriver extends WebElement {
 
     /**
      *
+     * @param sleep long
      * @throws MalformedURLException throws
+     * @throws InterruptedException throws
      */
     public static void open(long sleep) throws MalformedURLException, InterruptedException {
         open(sleep, timeout);
@@ -627,8 +638,7 @@ public class RemoteWebDriver extends WebElement {
      * @param cap DesiredCapabilities
      * @return T
      * @param <T> extends RemoteWebDriver
-     * @throws MalformedURLException throws
-     * @throws ClassNotFoundException throws
+     * @throws Exception throws
      */
     public static <T extends org.openqa.selenium.remote.RemoteWebDriver> T getDriver(Class<T> clazz, DesiredCapabilities cap) throws Exception {
         return start(create(clazz, new HashMap<>(URL.class, org.openqa.selenium.Capabilities.class).values(new URL(winDriverHost), cap)));
@@ -639,6 +649,7 @@ public class RemoteWebDriver extends WebElement {
      * @param app String
      * @return T
      * @param <T> extends WebDriver
+     * @throws Exception throws
      */
     public static <T extends WebDriver> T attachApp(String app) throws Exception {
         return attachAppHex(handleHex(app));
@@ -649,6 +660,7 @@ public class RemoteWebDriver extends WebElement {
      * @param appClass String
      * @return T
      * @param <T> extends WebDriver
+     * @throws Exception throws
      */
     public static <T extends WebDriver> T attachAppClass(String appClass) throws Exception {
         return attachAppHex(handleHexClass(appClass));
@@ -676,7 +688,7 @@ public class RemoteWebDriver extends WebElement {
      * Here you find the already running application and get the handle
      * @param app String
      * @return String
-     * @throws MalformedURLException throws
+     * @throws Exception throws
      */
     public static String handleHex(String app) throws Exception {
         return handleHex(d -> d.findElementByName(app));
@@ -686,7 +698,7 @@ public class RemoteWebDriver extends WebElement {
      * Here you find the already running application and get the handle
      * @param appClass String
      * @return String
-     * @throws MalformedURLException throws
+     * @throws Exception throws
      */
     public static String handleHexClass(String appClass) throws Exception {
         return handleHex(d -> d.findElementByClassName(appClass));
@@ -697,7 +709,7 @@ public class RemoteWebDriver extends WebElement {
      * @param cb Function {WindowsDriver, String}
      * @return String
      * @param <T> extends WebDriver
-     * @throws MalformedURLException throws
+     * @throws Exception throws
      */
     @SuppressWarnings("unchecked")
     public static <T extends org.openqa.selenium.remote.RemoteWebDriver> String handleHex(Function<T, org.openqa.selenium.WebElement> cb) throws Exception {

@@ -63,159 +63,155 @@ public interface DriverBaseConfig extends BaseConfig {
     @Key("IS_WINIUM")
     boolean getIsWinium();
 
-    // Winium
     /**
-     *
+     * Winium
      * @return String
      */
     @Key("WINIUM_PATH")
     String getWiniumPath();
 
     /**
-     *
+     * Winium
      * @return String
      */
     @Key("WINIUM_NAME")
     String getWiniumName();
 
     /**
-     *
+     * Winium
      * @return String
      */
     @Key("WINIUM")
     String getWinium();
 
     /**
-     *
+     * Winium
      * @return int
      */
     @Key("WINIUM_PORT")
     int getWiniumPort();
 
     /**
-     *
+     * Winium
      * @return String
      */
     @Key("WINIUM_HOST")
     String getWiniumHost();
 
-    // WinAppDriver
     /**
-     *
+     * WinAppDriver
      * @return String
      */
     @Key("WINDRIVER_PATH")
     String getWindriverPath();
 
     /**
-     *
+     * WinAppDriver
      * @return String
      */
     @Key("WINDRIVER_NAME")
     String getWindriverName();
 
     /**
-     *
+     * WinAppDriver
      * @return String
      */
     @Key("WINDRIVER")
     String getWindriver();
 
     /**
-     *
+     * WinAppDriver
      * @return int
      */
     @Key("WINDRIVER_PORT")
     int getWindriverPort();
 
     /**
-     *
+     * WinAppDriver
      * @return String
      */
     @Key("WINDRIVER_HOST")
     String getWindriverHost();
 
-    // ChromeDriver
     /**
-     *
+     * ChromeDriver
      * @return String
      */
     @Key("WEBDRIVER_PARAM")
     String getWebdriverParam();
 
     /**
-     *
+     * ChromeDriver
      * @return String
      */
     @Key("CHROME_DRIVER_PATH")
     String getChromeDriverPath();
 
     /**
-     *
+     * ChromeDriver
      * @return String
      */
     @Key("CHROME_DRIVER_NAME")
     String getChromeDriverName();
 
     /**
-     *
+     * ChromeDriver
      * @return String
      */
     @Key("CHROME_DRIVER")
     String getChromeDriver();
 
     /**
-     *
+     * app
      * @return String
      */
     @Key("APP")
     String getApp();
 
     /**
-     *
+     * set the Handle as one of the capabilities
      * @return boolean
      */
     @Key("HANDLE")
     boolean getHandle();
 
     /**
-     *
+     * app
      * @return String
      */
     @Key("LAUNCH_DELAY")
     String getLaunchDelay();
 
     /**
-     *
+     * app
      * @return boolean
      */
     @Key("EXPERIMENTAL")
     boolean getExperimental();
 
     /**
-     *
+     * app
      * @return boolean
      */
     @Key("JS")
     boolean getJS();
 
-    // платформа
     /**
-     *
+     * платформа
      * @return String
      */
     @Key("PLATFORM_NAME")
     String getPlatformName();
 
     /**
-     *
+     * платформа
      * @return String
      */
     @Key("PLATFORM")
     String getPlatform();
 
     /**
-     *
+     * платформа
      * @return String
      */
     @Key("DEVICE_NAME")

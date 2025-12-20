@@ -46,6 +46,12 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
 
     /**
      *
+     * @throws NoSuchFieldException throws
+     * @throws ClassNotFoundException throws
+     * @throws InvocationTargetException throws
+     * @throws NoSuchMethodException throws
+     * @throws InstantiationException throws
+     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public TestInvoke() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
@@ -69,6 +75,7 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
     /**
      *
      * @return WebDriver
+     * @throws Exception throws
      */
     public static WebDriver driver() throws Exception {
         return driver(start());
@@ -79,6 +86,7 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
      * @param app String
      * @param params String[]
      * @return WebDriver
+     * @throws Exception throws
      */
     public static WebDriver driver(String app, String... params) throws Exception {
         return driver(start(app, params));
@@ -88,6 +96,7 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
      *
      * @param url String
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver driverUrl(String url) throws Exception {
         driver();
@@ -100,6 +109,7 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
      * @param app String
      * @param params String[]
      * @return ChromeDriver
+     * @throws Exception throws
      */
     public static ChromeDriver driverUrl(String url, String app, String... params) throws Exception {
         driver(app, params);

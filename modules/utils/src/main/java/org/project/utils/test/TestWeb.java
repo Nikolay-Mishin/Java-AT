@@ -179,6 +179,7 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
 
     /**
      *
+     * @throws Exception throws
      */
     @ConstructorProperties({})
     public TestWeb() throws Exception {
@@ -237,6 +238,10 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         return sb(endpoint, project, getParams(tokenK, token));
     }
 
+    /**
+     *
+     * @throws Exception throws
+     */
     public static void authInit() throws Exception {
         authReq();
         debug("Headers:\n" + getHeaders(getAuth().spec()));
@@ -276,6 +281,8 @@ public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      * @return String
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
     public static String token() throws MalformedURLException, URISyntaxException, ReflectiveOperationException {

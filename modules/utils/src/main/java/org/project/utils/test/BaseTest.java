@@ -35,6 +35,7 @@ public class BaseTest<T extends TestBaseConfig> extends SingleInstance<BaseTest<
 
     /**
      *
+     * @return BaseTest extends TestBaseConfig
      * @throws ReflectiveOperationException throws
      */
     public static BaseTest<? extends TestBaseConfig> init() throws ReflectiveOperationException {
@@ -44,7 +45,7 @@ public class BaseTest<T extends TestBaseConfig> extends SingleInstance<BaseTest<
 
     /**
      *
-     * @return BaseTest {? extends TestBaseConfig}
+     * @return BaseTest extends TestBaseConfig
      * @throws NoSuchFieldException throws
      * @throws ClassNotFoundException throws
      * @throws IllegalAccessException throws
@@ -55,9 +56,11 @@ public class BaseTest<T extends TestBaseConfig> extends SingleInstance<BaseTest<
 
     /**
      *
+     * @return T
+     * @param <T> extends TestBaseConfig
      */
     @SuppressWarnings("unchecked")
-    public T c() {
+    public static <T extends TestBaseConfig> T c() {
         return (T) i.c;
     }
 

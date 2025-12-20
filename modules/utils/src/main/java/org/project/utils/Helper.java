@@ -30,12 +30,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.google.common.collect.ImmutableList.copyOf;
-import static org.testng.collections.Lists.newArrayList;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.testng.collections.Lists;
 
 import static org.project.utils.config.Config.debugLvl;
 import static org.project.utils.base.HashMap.getVComp;
@@ -267,12 +268,28 @@ public class Helper {
      * @param <I> I
      */
     @SuppressWarnings("unchecked")
-    //public static <I> List<I> toList(Iterator<I> iterator) {
-    //public static <T, I> ImmutableList<T> toList(Iterator<I> iterator) {
     public static <T, I> List<T> toList(Iterator<I> iterator) {
-        //return arrayList(iterator);
-        //return copyOf(iterator);
         return IteratorUtils.toList(iterator);
+    }
+
+    /**
+     *
+     * @param iterator Iterator {T}
+     * @return List {T}
+     * @param <T> T
+     */
+    public static <T> List<T> newList(Iterator<T> iterator) {
+        return Lists.newArrayList(iterator);
+    }
+
+    /**
+     *
+     * @param iterator Iterator {T}
+     * @return List {T}
+     * @param <T> T
+     */
+   public static <T> ImmutableList<T> copyList(Iterator<T> iterator) {
+        return copyOf(iterator);
     }
 
     /**
@@ -911,7 +928,8 @@ public class Helper {
      *
      * @param arr String[]
      * @param sep String
-     * @return String[]
+     * @return T
+     * @param <T> T
      */
     @SuppressWarnings("unchecked")
     public static <T> T lastTrim(T[] arr, String sep) {
@@ -1295,6 +1313,7 @@ public class Helper {
 
     /**
      *
+     * @param sep String
      * @param args String[]
      * @return String
      */
