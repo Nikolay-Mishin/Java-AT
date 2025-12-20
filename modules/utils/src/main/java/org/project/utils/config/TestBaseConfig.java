@@ -338,6 +338,12 @@ public interface TestBaseConfig extends BaseConfig {
     String getUtf8();
 
     //TestWeb
+    /**
+     *
+     * @return boolean
+     */
+    @Key("auth.init")
+    boolean getAuthInit();
 
     /**
      *
