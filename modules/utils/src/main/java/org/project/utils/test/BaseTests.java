@@ -26,7 +26,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests<>(1, 32);
+        new BaseTests<>(1, 18);
         debug("instance: " + instance());
         debug("sleep: " + getSleep());
         debug("timeout: " + timeout());
