@@ -255,7 +255,7 @@ public class BaseRequests<T> {
      * @throws IllegalAccessException throws
      */
     public Request req(String method) throws NoSuchFieldException, IllegalAccessException {
-        return (Request) getField(this, method);
+        return getField(this, method);
     }
 
     /**
@@ -268,7 +268,7 @@ public class BaseRequests<T> {
      * @throws IllegalAccessException throws
      */
     public Request req(METHOD method) throws MalformedURLException, URISyntaxException, NoSuchFieldException, IllegalAccessException {
-        return (Request) setField(this, getMethod(method), new Request(method, baseUrl));
+        return setField(this, getMethod(method), new Request(method, baseUrl));
     }
 
     /**

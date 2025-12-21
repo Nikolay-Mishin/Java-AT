@@ -38,7 +38,7 @@ public class SingleInstance<T> extends Instance<T> {
         debug("instanceChildCall: " + getCallingChildClass());
         try {
             debug("instanceGeneric: " + getGenericClass());
-            return (T) getField(getGenericClass(), iField);
+            return getField(getGenericClass(), iField);
         }
         catch (IllegalArgumentException e) {return (T) i;}
     }
@@ -114,12 +114,11 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws IllegalAccessException throws
      * @throws NoSuchFieldException throws
      */
-    @SuppressWarnings("unchecked")
     protected static <T extends SingleInstance<?>> T instance(Class<T> clazz, T value) throws IllegalAccessException, NoSuchFieldException {
         debug("instance: " + clazz);
-        T i = (T) getField(clazz, iField);
+        T i = getField(clazz, iField);
         debug("field.get: " + i);
-        return notNull(i) ? i : (T) setField(clazz, iField, value);
+        return notNull(i) ? i : setField(clazz, iField, value);
     }
 
 }
