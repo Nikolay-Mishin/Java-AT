@@ -1,13 +1,15 @@
 package org.project.utils;
 
 import static java.lang.System.out;
+import static java.nio.charset.Charset.defaultCharset;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.stream;
 import static java.util.Map.Entry;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.nio.charset.Charset;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -709,17 +711,27 @@ public class Helper {
 
     /**
      *
-     * @return Charset
      */
-    public static Charset defaultCharset() {
-        return Charset.defaultCharset();
+    public static void printDefaultCharset() {
+        debug(defaultCharset());
     }
 
     /**
      *
+     * @param value String
+     * @return ByteBuffer
      */
-    public static void printDefaultCharset() {
-        debug(defaultCharset());
+    public static ByteBuffer encode(String value) {
+        return UTF_8.encode(value);
+    }
+
+    /**
+     *
+     * @param buf ByteBuffer
+     * @return String
+     */
+    public static String decode(ByteBuffer buf) {
+        return defaultCharset().decode(buf.flip()).toString();
     }
 
     /**
