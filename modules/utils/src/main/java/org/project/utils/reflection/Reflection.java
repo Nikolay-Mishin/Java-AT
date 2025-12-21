@@ -16,6 +16,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.nio.file.Path;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.List;
@@ -140,7 +141,11 @@ public class Reflection {
      */
     private static Class<?>[] _getTypes(Boolean getPrimitive, Object... args) {
         debug(Arrays.toString(args));
-        Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> getPrimitive ? getPrimitiveType(arg) : !(arg instanceof Proxy) ? getClazz(arg) : getInterface(arg));
+        Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> {
+            Class<?> clazz = getClazz(arg);
+            if (clazz.getName().equals("sun.nio.fs.WindowsPath")) clazz = Path.class;
+            return getPrimitive ? getPrimitiveType(clazz) : !(arg instanceof Proxy) ? clazz : getInterface(clazz);
+        });
         debug(Arrays.toString(argTypes));
         return argTypes;
     }
@@ -1696,7 +1701,7 @@ public class Reflection {
      * @return Object
      * @throws ReflectiveOperationException throws
      */
-    public static Object getField(String className) throws ReflectiveOperationException {
+    public static <T> T getField(String className) throws ReflectiveOperationException {
         return invoke(className, Reflection::getField);
     }
 
@@ -1708,9 +1713,10 @@ public class Reflection {
      * @throws NoSuchFieldException throws
      * @throws IllegalAccessException throws
      */
-    public static Object getField(Object obj, String name) throws NoSuchFieldException, IllegalAccessException {
+    @SuppressWarnings("unchecked")
+    public static <T> T getField(Object obj, String name) throws NoSuchFieldException, IllegalAccessException {
         return field(obj, name, field -> {
-            try {return field.get(obj);}
+            try {return (T) field.get(obj);}
             catch (IllegalAccessException e) {throw new RuntimeException(e);}
         });
     }
@@ -1722,7 +1728,7 @@ public class Reflection {
      * @return Object
      * @throws ReflectiveOperationException throws
      */
-    public static Object setField(String className, Object value) throws ReflectiveOperationException {
+    public static <T> T setField(String className, T value) throws ReflectiveOperationException {
         return invoke(className, Reflection::setField, value);
     }
 
@@ -1735,11 +1741,12 @@ public class Reflection {
      * @throws NoSuchFieldException throws
      * @throws IllegalAccessException throws
      */
-    public static Object setField(Object obj, String name, Object value) throws NoSuchFieldException, IllegalAccessException {
+    @SuppressWarnings("unchecked")
+    public static <T, R> R setField(Object obj, String name, T value) throws NoSuchFieldException, IllegalAccessException {
         return field(obj, name, field -> {
             try {
                 field.set(obj, value);
-                return field.get(obj);
+                return (R) field.get(obj);
             } catch (IllegalAccessException e) {throw new RuntimeException(e);}
         });
     }
@@ -1753,11 +1760,11 @@ public class Reflection {
      * @throws NoSuchFieldException throws
      * @throws IllegalAccessException throws
      */
-    public static Object field(Object obj, String name, Function<Field, Object> cb) throws NoSuchFieldException, IllegalAccessException {
+    public static <T> T field(Object obj, String name, Function<Field, T> cb) throws NoSuchFieldException, IllegalAccessException {
         Field field = field(obj, name);
         boolean make = makeAccessible(field, obj);
         debug("field: " + field);
-        Object value = cb.apply(field);
+        T value = cb.apply(field);
         makeUnAccessible(field, make);
         return value;
     }
