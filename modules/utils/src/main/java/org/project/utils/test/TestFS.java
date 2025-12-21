@@ -1,19 +1,22 @@
 package org.project.utils.test;
 
+import static java.nio.file.FileSystems.getDefault;
+
 import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.FileStore;
-import java.nio.file.FileSystems;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.fs.Attributes.supportedTypes;
 import static org.project.utils.fs.Attributes.printAttrs;
-import static org.project.utils.fs.Attributes.printCustomAttrs;
+import static org.project.utils.fs.Attributes.printUserAttrs;
 import static org.project.utils.fs.File.delete;
 import static org.project.utils.fs.File.pathStr;
 
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.fs.Attributes;
 
 /**
  * @param <T> extends TestBaseConfig
@@ -85,50 +88,69 @@ public class TestFS<T extends TestBaseConfig> extends TestZip<T> {
      */
     public static void testFS() throws IOException {
         debug("testFS");
-        for (FileStore store: FileSystems.getDefault().getFileStores()) {
+        for (FileStore store: getDefault().getFileStores()) {
             long total = store.getTotalSpace() / 1024;
             long used = (store.getTotalSpace() - store.getUnallocatedSpace()) / 1024;
             long avail = store.getUsableSpace() / 1024;
             System.out.format("%-20s %12d %12d %12d%n", store, total, used, avail);
         }
 
-        debug(FileSystems.getDefault().getRootDirectories());
-        debug(FileSystems.getDefault().getRootDirectories());
-        debug(FileSystems.getDefault().getRootDirectories());
-        debug(FileSystems.getDefault().getPath(chromedriverRoot));
-        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem());
-        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem().getRootDirectories());
-        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem().getFileStores());
-        debug(FileSystems.getDefault().getPath(chromedriverRoot).getFileSystem().supportedFileAttributeViews());
+        debug(getDefault().getRootDirectories());
+        debug(getDefault().getRootDirectories());
+        debug(getDefault().getRootDirectories());
+        debug(getDefault().getPath(chromedriverRoot));
+        debug(getDefault().getPath(chromedriverRoot).getFileSystem());
+        debug(getDefault().getPath(chromedriverRoot).getFileSystem().getRootDirectories());
+        debug(getDefault().getPath(chromedriverRoot).getFileSystem().getFileStores());
+        debug(getDefault().getPath(chromedriverRoot).getFileSystem().supportedFileAttributeViews());
 
-        debug(FileSystems.getDefault().getPath(chromedriverPathStr));
-        debug(FileSystems.getDefault().getPath(chromedriverPathStr).toFile());
-        debug(FileSystems.getDefault().getPath(chromedriverPathStr).toFile().canExecute());
+        debug(getDefault().getPath(chromedriverPathStr));
+        debug(getDefault().getPath(chromedriverPathStr).toFile());
+        debug(getDefault().getPath(chromedriverPathStr).toFile().canExecute());
 
         debug(Path.of(chromedriverPathStr));
         debug(Path.of(chromedriverPathStr).toFile());
         debug(Path.of(chromedriverPathStr).toFile().canExecute());
 
         debug(delete(fsDelete));
-        debug(delete(FileSystems.getDefault().getPath(fsFile).toFile()));
+        debug(delete(getDefault().getPath(fsFile).toFile()));
 
-        debug(FileSystems.getDefault().supportedFileAttributeViews());
+        debug(getDefault().supportedFileAttributeViews());
+    }
+
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
+    public static void testAttrs() throws ReflectiveOperationException {
+        debug("testAttrs");
+        debug(supportedTypes());
+        testSystemAttrs();
+        testCustomAttrs();
     }
 
     /**
      *
      */
-    public static void testAttrs() {
-        debug("testAttrs");
-        debug(FileSystems.getDefault().supportedFileAttributeViews());
-        printAttrs();
-        printAttrs(attrsTest);
+    public static void testSystemAttrs() {
+        debug("testSystemAttrs");
+        /*printAttrs(attrsTest);
         printAttrs("/" + attrsTest);
-        printAttrs(filenameZip);
+        printAttrs();
+        printAttrs(filenameZip);*/
         printAttrs(chromedriverPath);
-        printCustomAttrs(filenameZip, attrK);
-        printCustomAttrs(filenameZip, attrK, attrV);
-        printCustomAttrs(filenameZip, attrK);
+    }
+
+    /**
+     *
+     * @throws ReflectiveOperationException throws
+     */
+    public static void testCustomAttrs() throws ReflectiveOperationException {
+        debug("testCustomAttrs");
+        printUserAttrs(filenameZip, attrK, attrV);
+        printUserAttrs(filenameZip, attrK);
+        printUserAttrs(filenameZip, "name");
+        new Attributes(filenameZip);
     }
 
 }
