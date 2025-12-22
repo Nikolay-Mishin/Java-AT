@@ -134,7 +134,7 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
         config.defaultAnnotations().forEach(annotation -> {
             try {
                 annotation(clazz, annotation);
-            } catch (InvocationTargetException|NoSuchMethodException|IllegalAccessException e) {
+            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -152,7 +152,7 @@ public class BaseAnnotator extends AbstractAnnotator implements Annotator {
             additionalProperties.fieldNames().forEachRemaining(property -> {
                 try {
                     annotation(clazz, property);
-                } catch (InvocationTargetException|NoSuchMethodException|IllegalAccessException e) {
+                } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
             });

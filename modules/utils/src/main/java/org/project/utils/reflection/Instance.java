@@ -25,7 +25,7 @@ public class Instance<T> extends Register<Class<T>, T> {
      * @param <T> T
      * @throws ReflectiveOperationException throws
      */
-    public static <T> T create(Class<T> clazz, Object... args) throws ReflectiveOperationException {
+    public static <T> T create(Class<T> clazz, Object... args) {
         return create(clazz, () -> Reflection.instance(clazz, args));
     }
 
@@ -37,7 +37,7 @@ public class Instance<T> extends Register<Class<T>, T> {
      * @param <T> T
      * @throws ReflectiveOperationException throws
      */
-    public static <T> T create(Class<T> clazz, Map<Class<?>, Object> args) throws ReflectiveOperationException {
+    public static <T> T create(Class<T> clazz, Map<Class<?>, Object> args) {
         return create(clazz, () -> Reflection.instance(clazz, args));
     }
 
@@ -55,11 +55,15 @@ public class Instance<T> extends Register<Class<T>, T> {
      * @throws ClassNotFoundException throws
      * @throws E throws
      */
-    public static <T, E extends ReflectiveOperationException> T create(Class<T> clazz, SupplierWithExceptions<T, E> cb)
-        throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException, E {
-        T _instance = cb.get();
-        registerMap(Instance.class, clazz, _instance);
-        return _instance;
+    public static <T, E extends ReflectiveOperationException> T create(Class<T> clazz, SupplierWithExceptions<T, E> cb) {
+        try {
+            T _instance = cb.get();
+            registerMap(Instance.class, clazz, _instance);
+            return _instance;
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

@@ -341,7 +341,7 @@ public class Attributes {
         debug("Reading " + getClassSimpleName(type) + ": " + path(path));
         try {
             return readAttributes(path, type);
-        } catch (IOException|UnsupportedOperationException e) {
+        } catch (IOException | UnsupportedOperationException e) {
             //Logger.getLogger(MGSiap.class.getName()).log(Level.SEVERE, null, e);
             debug("Error reading attributes.");
             e.printStackTrace();
@@ -578,7 +578,7 @@ public class Attributes {
         debug("Reading attributes" + " (" + attrs + "): " + path(path));
         try {
             return readAttributes(path, attrs);
-        } catch (IOException|UnsupportedOperationException e) {
+        } catch (IOException | UnsupportedOperationException e) {
             debug("Error reading attributes.");
             e.printStackTrace();
         }
@@ -826,7 +826,7 @@ public class Attributes {
         UserDefinedFileAttributeView view = userAttrView(path);
         try {
             debug(name + ": " + getAttribute(path, "user:name"));
-        } catch (IOException|IllegalArgumentException e) {
+        } catch (IOException | IllegalArgumentException e) {
             debug("Error getAttribute.");
             e.printStackTrace();
         }
@@ -893,7 +893,7 @@ public class Attributes {
             debug(name + ": " + setAttribute(path, "user:name", buf));
             debug(name + ": " + getAttribute(path, "user:name"));
             debug(userAttrs(view));
-        } catch (IOException|IllegalArgumentException e) {
+        } catch (IOException | IllegalArgumentException e) {
             debug("Error setAttribute.");
             e.printStackTrace();
         }

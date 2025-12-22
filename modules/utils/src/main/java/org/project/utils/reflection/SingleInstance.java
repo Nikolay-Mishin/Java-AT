@@ -33,14 +33,18 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws IllegalAccessException throws
      */
     @SuppressWarnings("unchecked")
-    public static <T extends SingleInstance<?>> T getInstance() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
-        //debug("instanceCall: " + getCallingClass());
-        debug("instanceChildCall: " + getCallingChildClass());
+    public static <T extends SingleInstance<?>> T getInstance() {
         try {
+            //debug("instanceCall: " + getCallingClass());
+            debug("instanceChildCall: " + getCallingChildClass());
             debug("instanceGeneric: " + getGenericClass());
             return getField(getGenericClass(), iField);
+        } catch (IllegalArgumentException e) {
+            return (T) i;
+        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
         }
-        catch (IllegalArgumentException e) {return (T) i;}
     }
 
     /**
@@ -50,9 +54,14 @@ public class SingleInstance<T> extends Instance<T> {
      * @param <T> T
      * @throws ReflectiveOperationException throws
      */
-    public static <T extends SingleInstance<?>> T instance(Object... args) throws ReflectiveOperationException {
-        debug("getGenericClass: " + getGenericClass());
-        return instance(getGenericClass(), args);
+    public static <T extends SingleInstance<?>> T instance(Object... args) {
+        try {
+            debug("getGenericClass: " + getGenericClass());
+            return instance(getGenericClass(), args);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -62,9 +71,14 @@ public class SingleInstance<T> extends Instance<T> {
      * @param <T> T
      * @throws ReflectiveOperationException throws
      */
-    public static <T extends SingleInstance<?>> T instance(Map<Class<?>, Object> args) throws ReflectiveOperationException {
-        debug("getGenericClass: " + getGenericClass());
-        return instance(getGenericClass(), args);
+    public static <T extends SingleInstance<?>> T instance(Map<Class<?>, Object> args) {
+        try {
+            debug("getGenericClass: " + getGenericClass());
+            return instance(getGenericClass(), args);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -75,7 +89,7 @@ public class SingleInstance<T> extends Instance<T> {
      * @param <T> T
      * @throws ReflectiveOperationException throws
      */
-    public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Object... args) throws ReflectiveOperationException {
+    public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Object... args) {
         return instance(clazz, create(clazz, args));
     }
 
@@ -87,7 +101,7 @@ public class SingleInstance<T> extends Instance<T> {
      * @param <T> T
      * @throws ReflectiveOperationException throws
      */
-    public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Map<Class<?>, Object> args) throws ReflectiveOperationException {
+    public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Map<Class<?>, Object> args) {
         return instance(clazz, create(clazz, args));
     }
 
@@ -100,7 +114,7 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws NoSuchFieldException throws
      */
     @SuppressWarnings("unchecked")
-    public static <T extends SingleInstance<?>> T setInstance(T obj) throws IllegalAccessException, NoSuchFieldException {
+    public static <T extends SingleInstance<?>> T setInstance(T obj) {
         debug("setInstance: " + obj);
         return instance((Class<T>) getClazz(obj), obj);
     }
@@ -114,11 +128,18 @@ public class SingleInstance<T> extends Instance<T> {
      * @throws IllegalAccessException throws
      * @throws NoSuchFieldException throws
      */
-    protected static <T extends SingleInstance<?>> T instance(Class<T> clazz, T value) throws IllegalAccessException, NoSuchFieldException {
-        debug("instance: " + clazz);
-        T i = getField(clazz, iField);
-        debug("field.get: " + i);
-        return notNull(i) ? i : setField(clazz, iField, value);
+    protected static <T extends SingleInstance<?>> T instance(Class<T> clazz, T value) {
+        try {
+            debug("instance: " + clazz);
+            T i = getField(clazz, iField);
+            debug("field.get: " + i);
+            T _i = notNull(i) ? i : setField(clazz, iField, value);
+            debug("field.set: " + _i);
+            return _i;
+        } catch (IllegalAccessException | NoSuchFieldException | NullPointerException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
