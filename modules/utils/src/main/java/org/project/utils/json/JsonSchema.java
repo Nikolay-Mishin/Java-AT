@@ -64,6 +64,14 @@ public class JsonSchema {
     /**
      *
      */
+    private Map<String, Object> map;
+    /**
+     *
+     */
+    private String url;
+    /**
+     *
+     */
     private static String delimiter = "\\.";
 
     /**
@@ -265,6 +273,29 @@ public class JsonSchema {
 
     /**
      *
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @param urlK String
+     * @return String
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema loadJson(String uri, String endpoint, String key, String k, String v, String urlK)
+        throws IOException, URISyntaxException, ReflectiveOperationException
+    {
+        debug("loadJson");
+        JsonSchema json = jsonSchema(uri, endpoint);
+        json.map = json.toMap(key, k, v);
+        json.url = json.map.get(urlK).toString();
+        return json;
+    }
+
+    /**
+     *
      * @return String
      */
     public static String delimiter() {
@@ -344,6 +375,30 @@ public class JsonSchema {
      */
     public Request getReq() {
         return req;
+    }
+
+    /**
+     *
+     * @return Request
+     */
+    public Request setReq(Request req) {
+        return this.req = req;
+    }
+
+    /**
+     *
+     * @return Map {String, Object}
+     */
+    public Map<String, Object> getMap() {
+        return map;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String getUrl() {
+        return url;
     }
 
     /**

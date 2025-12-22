@@ -18,14 +18,16 @@ import static org.project.utils.fs.FS.path;
 import static org.project.utils.json.JsonSchema.jsonSchema;
 import static org.project.utils.json.JsonSchema.toList;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
+public class TestJson<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestApi<T, W, D> {
     /**
      *
      */
@@ -69,27 +71,14 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestJson() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestJson() throws NoSuchFieldException, IllegalAccessException {
         debug("TestJson:init");
-        jsonVer = c.getJsonVer();
-        jsonDownloads = c.getJsonDownloads();
-        jsonGet = c.getJson();
-        jsonK = c.getJsonK();
-        jsonV = c.getJsonV();
-        jsonUrl = c.getJsonUrl();
-    }
-
-    /**
-     *
-     * @param uri String
-     * @param pathList Object[]
-     * @return JsonSchema
-     * @throws MalformedURLException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static JsonSchema json(String uri, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
-        return json = jsonSchema(uri, pathList);
+        jsonVer = win.getJsonVer();
+        jsonDownloads = win.getJsonDownloads();
+        jsonGet = win.getJson();
+        jsonK = win.getJsonK();
+        jsonV = win.getJsonV();
+        jsonUrl = win.getUrlK();
     }
 
     /**
@@ -103,6 +92,19 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      */
     public static Request setReq(String uri, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
         return req = json(uri, pathList).getReq();
+    }
+
+    /**
+     *
+     * @param uri String
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws MalformedURLException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema json(String uri, Object... pathList) throws MalformedURLException, URISyntaxException, ReflectiveOperationException {
+        return json = jsonSchema(uri, pathList);
     }
 
     /**
@@ -126,50 +128,30 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      * @param key String
      * @param k String
      * @param v String
-     * @return Map {String, Object}
-     * @throws MalformedURLException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static Map<String, Object> map(String uri, String endpoint, String key, String k, String v)
-        throws MalformedURLException, URISyntaxException, ReflectiveOperationException
-    {
-        setReq(uri, endpoint);
-        return map = json.toMap(key, k, v);
-    }
-
-    /**
-     *
-     * @param endpoint String
-     * @param uri String
-     * @param key String
-     * @param k String
-     * @param v String
-     * @param urlPath String
+     * @param urlK String
      * @return String
-     * @throws MalformedURLException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static String url(String uri, String endpoint, String key, String k, String v, String urlPath)
-        throws MalformedURLException, URISyntaxException, ReflectiveOperationException
-    {
-        map(uri, endpoint, key, k, v);
-        url = (String) map.get(urlPath);
-        debug(url);
-        return url;
-    }
-
-    /**
-     *
      * @throws IOException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static void loadJson(String uri, String endpoint, String key, String k, String v, String urlPath) throws IOException, URISyntaxException, ReflectiveOperationException
+    public static String loadJson(String uri, String endpoint, String key, String k, String v, String urlK)
+        throws IOException, URISyntaxException, ReflectiveOperationException
     {
         debug("loadJson");
-        url(uri, endpoint, key, k, v, urlPath);
+        return setJson(JsonSchema.loadJson(uri, endpoint, key, k, v, urlK));
+    }
+
+    /**
+     *
+     * @param jsonO JsonSchema
+     * @return String
+     */
+    public static String setJson(JsonSchema jsonO) {
+        debug("setJson");
+        json = jsonO;
+        req = json.getReq();
+        map = json.getMap();
+        return url = json.getUrl();
     }
 
     /**
@@ -180,7 +162,8 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      */
     public static void testJson() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testJson");
-        map(uri, endpoint);
+        loadJson(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
+        map = json.toMap();
 
         debug(req.string());
         debug(req.pretty());
@@ -204,14 +187,15 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
         debug(list1);
         debug(toList(chromedriver, jsonK, jsonV));
 
-        debug(table(map));
+        debug("tableMap: " + table(map));
 
-        loadJson(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
+        map = json.getMap();
+
+        debug("tableMap: " + table(map));
 
         debug(json.arrayToMap(jsonGet));
         debug(json.toMap(jsonGet, o -> ((JSONObject) o).get(jsonK).equals(jsonV)));
 
-        debug(table(map));
         debug(json.toTable());
         debug(json.arrayToTable(jsonGet));
         debug(json.toTable(jsonGet, jsonK, jsonV));
