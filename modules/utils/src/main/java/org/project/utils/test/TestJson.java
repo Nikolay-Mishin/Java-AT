@@ -166,6 +166,18 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
+    public static void loadJson(String uri, String endpoint, String key, String k, String v, String urlPath) throws IOException, URISyntaxException, ReflectiveOperationException
+    {
+        debug("loadJson");
+        url(uri, endpoint, key, k, v, urlPath);
+    }
+
+    /**
+     *
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
     public static void testJson() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testJson");
         map(uri, endpoint);
@@ -194,7 +206,7 @@ public class TestJson<T extends TestBaseConfig> extends TestApi<T> {
 
         debug(table(map));
 
-        url(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
+        loadJson(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
 
         debug(json.arrayToMap(jsonGet));
         debug(json.toMap(jsonGet, o -> ((JSONObject) o).get(jsonK).equals(jsonV)));

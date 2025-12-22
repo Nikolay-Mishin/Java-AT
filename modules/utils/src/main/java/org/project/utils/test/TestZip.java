@@ -34,6 +34,10 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
     /**
      *
      */
+    protected static String rootZip;
+    /**
+     *
+     */
     protected static String outZip;
     /**
      *
@@ -72,6 +76,7 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
     @ConstructorProperties({})
     public TestZip() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         debug("TestZip:init");
+        rootZip = c.getZipRoot();
         outZip = c.getZipOut();
         filename = c.getZipFilename();
         filenameZip = c.getZipFilenameFull();
@@ -83,35 +88,113 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
 
     /**
      *
+     * @param url String
+     * @param pathList String[]
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static void loadZip(String url, String... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
+        loadZip(url, pathStr(pathList));
+    }
+
+    /**
+     *
+     * @param url String
+     * @param file File
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static void loadZip(String url, File file) throws IOException, URISyntaxException, ReflectiveOperationException {
+        loadZip(url, file.toPath());
+    }
+
+    /**
+     *
+     * @param url String
+     * @param path Path
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static void loadZip(String url, Path path) throws IOException, URISyntaxException, ReflectiveOperationException {
+        debug("loadZip");
+        setReq(url, GET);
+        writeFile(path, req.stream());
+    }
+
+    /**
+     *
+     * @param url String
+     * @param out String
+     * @param pathList String[]
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static void loadZip(String url, String out, String... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
+        loadZip(url, out, pathStr(pathList));
+    }
+
+    /**
+     *
+     * @param url String
+     * @param out String
+     * @param file File
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static void loadZip(String url, String out, File file) throws IOException, URISyntaxException, ReflectiveOperationException {
+        loadZip(url, out, file.toPath());
+    }
+
+    /**
+     *
+     * @param url String
+     * @param out String
+     * @param path Path
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static void loadZip(String url, String out, Path path) throws IOException, URISyntaxException, ReflectiveOperationException {
+        loadZip(url, path);
+        debug("unZip");
+        unzip(path, resolve(out));
+    }
+
+    /**
+     *
      * @throws IOException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
     public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testZip");
-        url(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
+        debug(delete(rootZip));
 
-        setReq(url, GET);
+        loadJson(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
 
-        InputStream inputStream = req.stream();
+        String last = last(url);
+
+        debug(last);
+        debug(resolve(rootZip, last));
+        debug(filenameZip);
+
+        loadZip(url, outZip, resolve(rootZip, last));
+
+        debug(req.statusCode());
+
         byte[] bytes = req.bytes();
         String str = req.string();
 
         //debug(str);
         //debug(req.pretty());
 
-        debug(req.statusCode());
-        debug(req.statusCode());
-
-        debug(inputStream.toString());
-
-        String last = last(url);
-        debug(last);
-
-        writeFile(outZip + last, inputStream);
-        writeFile(filenameZip, bytes);
         writeFile(filenameTxt, str);
-        writeFile(filenameTxt, TestJson.req.string() + "\n" + "\n" + TestJson.req.pretty());
+        writeFile(filenameTxt, req.string() + "\n" + "\n" + req.pretty());
 
         Path resolve = resolve(outZip);
         Path resolve1 = resolve(outZip, outZip);
@@ -137,18 +220,20 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
 
         debug(new File(outZip).toString());
 
-        debug(readDir(readDir).toList());
-        debug(readDir(outZip).toList());
+        writeFile(filenameZip, bytes);
 
         debug(mkdirs(mkdir));
 
         debug(delete(filenameTxt));
         debug(delete(mkdirRoot));
 
-        unzip(filenameZip, outZip);
+        //unzip(filenameZip, outZip);
         unzipFile(filenameZip, outZip + "1");
         unzipPass(filenameZip, outZip + "2");
         unzipSelenium(filenameZip, outZip + "3");
+
+        debug(readDir(readDir).toList());
+        debug(readDir(outZip).toList());
 
         debug(filenameZip);
     }
