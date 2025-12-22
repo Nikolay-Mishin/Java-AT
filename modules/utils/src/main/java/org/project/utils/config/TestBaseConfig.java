@@ -73,27 +73,6 @@ public interface TestBaseConfig extends BaseConfig {
      * TestApi
      * @return String
      */
-    @Key("api.ver")
-    String getApiVer();
-
-    /**
-     * TestApi
-     * @return String
-     */
-    @Key("api.uri")
-    String getApiUri();
-
-    /**
-     * TestApi
-     * @return String
-     */
-    @Key("api.endpoint")
-    String getApiEndpoint();
-
-    /**
-     * TestApi
-     * @return String
-     */
     @Key("api.endpoint.test")
     String getEndpointTest();
 
@@ -110,62 +89,6 @@ public interface TestBaseConfig extends BaseConfig {
      */
     @Key("api.auth.test")
     String getAuthTest();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.ver")
-    String getJsonVer();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.ver.type")
-    String getJsonVerType();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.downloads")
-    String getJsonDownloads();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.get")
-    String getJson();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.get.type")
-    String getJsonType();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.k")
-    String getJsonK();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.v")
-    String getJsonV();
-
-    /**
-     * TestJson
-     * @return String
-     */
-    @Key("json.url")
-    String getJsonUrl();
 
     /**
      * TestZip

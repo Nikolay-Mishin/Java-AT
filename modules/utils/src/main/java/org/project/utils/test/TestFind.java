@@ -11,31 +11,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.DriverConfig.getConfig;
 import static org.project.utils.windriver.WinDriver.findByName;
-import static org.project.utils.windriver.WinDriver.quit;
 import static org.project.utils.windriver.WinDriver.start;
 import static org.project.utils.windriver.WinDriver.timeout;
 
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestFind<T extends TestBaseConfig, D extends DriverBaseConfig> extends TestAuth<T> {
-    /**
-     *
-     */
-    protected D win;
-    /**
-     *
-     */
-    protected static String notepadPath;
-    /**
-     *
-     */
-    protected static String calcPath;
+public class TestFind<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestWinDriver<T, W, D> {
 
     /**
      *
@@ -47,11 +34,8 @@ public class TestFind<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestFind() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestFind() throws NoSuchFieldException, IllegalAccessException {
         debug("TestFind:init");
-        win = getConfig();
-        notepadPath = win.getNotepad();
-        calcPath = win.getCalc();
     }
 
     /**

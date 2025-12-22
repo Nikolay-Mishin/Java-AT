@@ -7,13 +7,15 @@ import java.util.List;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.table;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.function.ConsumerWithExceptions;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestReq<T extends TestBaseConfig> extends TestProps<T> {
+public class TestReq<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestProps<T, W, D> {
     /**
      *
      */
@@ -33,7 +35,7 @@ public class TestReq<T extends TestBaseConfig> extends TestProps<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestReq() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestReq() throws NoSuchFieldException, IllegalAccessException {
         debug("TestReq:init");
         body = c.getReqBody();
         bodyTest = c.getReqTest();

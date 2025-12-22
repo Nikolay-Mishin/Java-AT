@@ -22,14 +22,16 @@ import static org.project.utils.request.Request.req;
 import static org.project.utils.request.RequestOptions.getHeaders;
 
 import org.project.utils.config.ApiConfig;
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.constant.RequestConstants.METHOD;
 import org.project.utils.request.Request;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
+public class TestApi<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestConfig<T, W, D> {
     /**
      *
      */
@@ -42,6 +44,10 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      *
      */
     protected static String url;
+    /**
+     *
+     */
+    protected static String apiVer;
     /**
      *
      */
@@ -65,10 +71,11 @@ public class TestApi<T extends TestBaseConfig> extends TestConfig<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestApi() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestApi() throws NoSuchFieldException, IllegalAccessException {
         debug("TestApi:init");
-        uri = c.getApiUri();
-        endpoint = c.getApiEndpoint();
+        apiVer = win.getApiVer();
+        uri = win.getApiUri();
+        endpoint = win.getApiEndpoint();
         endpointTest = c.getEndpointTest();
     }
 

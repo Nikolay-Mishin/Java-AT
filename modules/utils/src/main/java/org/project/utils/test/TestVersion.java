@@ -4,19 +4,16 @@ import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.config.DriverConfig.config;
-import static org.project.utils.fs.Version.getVersion;
+import static org.project.utils.fs.Library.updateLibrary;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestVersion<T extends TestBaseConfig> extends TestZip<T> {
-    /**
-     *
-     */
-    protected static String chromePath;
+public class TestVersion<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestZip<T, W, D> {
 
     /**
      *
@@ -28,17 +25,16 @@ public class TestVersion<T extends TestBaseConfig> extends TestZip<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestVersion() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        debug("TestFS:init");
-        chromePath = config().getChrome();
+    public TestVersion() throws NoSuchFieldException, IllegalAccessException {
+        debug("TestVersion:init");
     }
 
     /**
      *
      */
     public static void testVersion() {
-        debug("testVersion: " + chromePath);
-        debug("Version: " + getVersion(chromePath));
+        debug("testVersion");
+        updateLibrary();
     }
 
 }

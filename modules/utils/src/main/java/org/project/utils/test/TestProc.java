@@ -25,19 +25,18 @@ import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
 import static org.project.utils.stream.GobblerStream.stream;
-import static org.project.utils.windriver.WebDriver.start;
 import static org.project.utils.windriver.WinDriver.findByClass;
+import static org.project.utils.windriver.WinDriver.start;
 
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.windriver.Capabilities;
-import org.project.utils.windriver.WebDriver;
-import org.project.utils.windriver.WinDriver;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> extends TestFind<T, D> {
+public class TestProc<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestFind<T, W, D> {
     /**
      *
      */
@@ -46,10 +45,6 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      *
      */
     protected static Process p;
-    /**
-     *
-     */
-    protected static ChromeDriver web;
 
     /**
      *
@@ -61,45 +56,8 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestProc() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestProc() throws NoSuchFieldException, IllegalAccessException {
         debug("TestProc:init");
-    }
-
-    /**
-     * @param driver ChromeDriver
-     * @return ChromeDriver
-     */
-    public static ChromeDriver webDriver(ChromeDriver driver) {
-        web = driver;
-        assertNotNull(web);
-        return web;
-    }
-
-    /**
-     *
-     * @return ChromeDriver
-     * @throws Exception throws
-     */
-    public static ChromeDriver webDriver() throws Exception {
-        return webDriver(start());
-    }
-
-    /**
-     *
-     * @param url String
-     * @return ChromeDriver
-     * @throws Exception throws
-     */
-    public static ChromeDriver webDriver(String url) throws Exception {
-        return webDriver(start(url));
-    }
-
-    /**
-     *
-     */
-    public static void quitWeb() {
-        WebDriver.quit();
-        web = null;
     }
 
     /**
@@ -107,7 +65,7 @@ public class TestProc<T extends TestBaseConfig, D extends DriverBaseConfig> exte
      * @throws Exception throws
      */
     public static void testBaseProc() throws Exception {
-        d = WinDriver.start(notepadPath);
+        d = start(notepadPath);
         WebElement wrk = findByClass("Edit");
         wrk.sendKeys("Привет Appium!");
         d.quit();

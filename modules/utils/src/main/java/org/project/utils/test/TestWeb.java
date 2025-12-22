@@ -43,7 +43,7 @@ import org.project.utils.config.WebBaseConfig;
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestWinDriver<T, W, D> {
+public class TestWeb<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestProc<T, W, D> {
     /**
      *
      */

@@ -16,12 +16,14 @@ import static org.project.utils.base.Properties.propsMapKeys;
 import static org.project.utils.request.Request.getParamsUri;
 
 import org.project.utils.base.Properties;
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestProps<T extends TestBaseConfig> extends TestException<T> {
+public class TestProps<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestException<T, W, D> {
 
     /**
      *
@@ -33,7 +35,7 @@ public class TestProps<T extends TestBaseConfig> extends TestException<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestProps() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestProps() throws NoSuchFieldException, IllegalAccessException {
         debug("TestProps:init");
     }
 

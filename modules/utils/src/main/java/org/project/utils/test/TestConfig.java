@@ -16,12 +16,13 @@ import org.project.utils.config.BaseConfig;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.config.WebConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestConfig<T extends TestBaseConfig> extends TestUTF8<T> {
+public class TestConfig<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestUTF8<T, W, D> {
 
     /**
      *
@@ -33,7 +34,7 @@ public class TestConfig<T extends TestBaseConfig> extends TestUTF8<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestConfig() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestConfig() throws NoSuchFieldException, IllegalAccessException {
         debug("TestConfig:init");
     }
 
@@ -46,6 +47,9 @@ public class TestConfig<T extends TestBaseConfig> extends TestUTF8<T> {
         debug("WinConfig: " + DriverConfig.config());
         debug("BaseConfig: " + config());
         debug("debugLevel: " + WebConfig.config().getDebugLevel());
+        debug("c: " + c());
+        debug("w: " + w());
+        debug("win: " + win());
     }
 
     /**

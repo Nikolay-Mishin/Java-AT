@@ -15,13 +15,15 @@ import static org.project.utils.fs.Attributes.printUserAttrs;
 import static org.project.utils.fs.File.delete;
 import static org.project.utils.fs.File.pathStr;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.fs.Attributes;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestFS<T extends TestBaseConfig> extends TestVersion<T> {
+public class TestFS<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestVersion<T, W, D> {
     /**
      *
      */
@@ -69,7 +71,7 @@ public class TestFS<T extends TestBaseConfig> extends TestVersion<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestFS() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestFS() throws NoSuchFieldException, IllegalAccessException {
         debug("TestFS:init");
         chromedriverRoot = c.getChromeDriverRoot();
         chromedriverFile = c.getChromeDriverFile();

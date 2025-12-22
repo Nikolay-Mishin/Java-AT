@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.auth.Auth.accessToken;
-import static org.project.utils.auth.Auth.auth;
 import static org.project.utils.auth.Auth.getAccessToken;
 import static org.project.utils.auth.Auth.getAuth;
 import static org.project.utils.auth.Auth.printTokens;
@@ -14,13 +13,15 @@ import static org.project.utils.auth.Auth.token;
 import static org.project.utils.constant.RequestConstants.METHOD.POST;
 
 import org.project.utils.auth.Auth;
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 import org.project.utils.reflection.SingleInstance;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestAuth<T extends TestBaseConfig> extends TestReq<T> {
+public class TestAuth<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestReq<T, W, D> {
     /**
      *
      */
@@ -40,7 +41,7 @@ public class TestAuth<T extends TestBaseConfig> extends TestReq<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestAuth() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestAuth() throws NoSuchFieldException, IllegalAccessException {
         debug("TestAuth:init");
         auth = c.getAuth();
         authTest = c.getAuthTest();

@@ -10,12 +10,14 @@ import java.util.ResourceBundle;
 import static org.project.utils.Helper.debug;
 
 import org.project.utils.base.UTF8Control;
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestUTF8<T extends TestBaseConfig> extends TestEntries<T> {
+public class TestUTF8<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestEntries<T, W, D> {
 
     /**
      *
@@ -27,7 +29,7 @@ public class TestUTF8<T extends TestBaseConfig> extends TestEntries<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestUTF8() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestUTF8() throws NoSuchFieldException, IllegalAccessException {
         debug("TestUTF8:init");
     }
 

@@ -17,12 +17,14 @@ import static org.project.utils.Helper.shiftList;
 import static org.project.utils.Helper.shiftSkip;
 import static org.project.utils.reflection.Reflection.getField;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestEntries<T extends TestBaseConfig> extends TestNumber<T> {
+public class TestEntries<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestNumber<T, W, D> {
 
     /**
      *
@@ -34,7 +36,7 @@ public class TestEntries<T extends TestBaseConfig> extends TestNumber<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestEntries() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestEntries() throws NoSuchFieldException, IllegalAccessException {
         debug("TestEntries:init");
     }
 

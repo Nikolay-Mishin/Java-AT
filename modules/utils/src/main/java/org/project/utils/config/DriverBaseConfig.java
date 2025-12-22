@@ -50,6 +50,83 @@ public interface DriverBaseConfig extends BaseConfig {
     String WINDRIVER_HOST = IS_WINIUM ? WINIUM_HOST : WINIUM_HOST.replaceAll(String.valueOf(WINIUM_PORT), String.valueOf(WINDRIVER_PORT));
 
     /**
+     * Library
+     * @return String
+     */
+    @Key("api.ver")
+    String getApiVer();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("api.uri")
+    String getApiUri();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("api.endpoint")
+    String getApiEndpoint();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("json.ver")
+    String getJsonVer();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("json.downloads")
+    String getJsonDownloads();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("json.get")
+    String getJson();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("json.k")
+    String getJsonK();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("json.v")
+    String getJsonV();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("json.url")
+    String getUrlK();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("lib.root")
+    String getLibRoot();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("lib.out")
+    String getLibOut();
+
+    /**
      *
      * @return boolean
      */

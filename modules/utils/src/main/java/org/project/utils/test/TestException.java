@@ -21,12 +21,14 @@ import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
 
 import org.project.utils.Helper;
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestException<T extends TestBaseConfig> extends TestInvoke<T> {
+public class TestException<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestInvoke<T, W, D> {
     /**
      *
      */
@@ -50,7 +52,7 @@ public class TestException<T extends TestBaseConfig> extends TestInvoke<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestException() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestException() throws NoSuchFieldException, IllegalAccessException {
         debug("TestException:init");
         cPlugin = c.getCPlugin();
         cPluginField = c.getCPluginField();
