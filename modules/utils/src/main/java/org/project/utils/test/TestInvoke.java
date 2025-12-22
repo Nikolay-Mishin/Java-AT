@@ -3,41 +3,25 @@ package org.project.utils.test;
 import java.beans.ConstructorProperties;
 import java.lang.reflect.InvocationTargetException;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-
-import static org.junit.Assert.assertNotNull;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.table;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.invoke;
-import static org.project.utils.test.TestProc.webDriver;
-import static org.project.utils.windriver.Actions.getAction;
-import static org.project.utils.windriver.RemoteWebDriver.start;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
-import org.project.utils.windriver.RemoteWebDriver;
+import org.project.utils.config.WebBaseConfig;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
+public class TestInvoke<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestFS<T, W, D> {
     /**
      *
      */
-    protected static WebDriver d;
-    /**
-     *
-     */
-    protected static Actions a;
-    /**
-     *
-     */
-    protected static Action action;
+    protected static String testInvoke;
     /**
      *
      */
@@ -65,76 +49,12 @@ public class TestInvoke<T extends TestBaseConfig> extends TestFS<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestInvoke() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestInvoke() throws NoSuchFieldException, IllegalAccessException {
         debug("TestInvoke:init");
         fsClass = c.getFs();
         fsField = c.getFsField();
         fsMethod = c.getFsMethod();
         fsMethodName = c.getFsMethodName();
-    }
-
-    /**
-     * @param driver WebDriver
-     * @return WebDriver
-     */
-    public static WebDriver driver(WebDriver driver) {
-        d = driver;
-        assertNotNull(d);
-        a = RemoteWebDriver.action();
-        action = getAction();
-        return d;
-    }
-
-    /**
-     *
-     * @return WebDriver
-     * @throws Exception throws
-     */
-    public static WebDriver driver() throws Exception {
-        return driver(start());
-    }
-
-    /**
-     *
-     * @param app String
-     * @param params String[]
-     * @return WebDriver
-     * @throws Exception throws
-     */
-    public static WebDriver driver(String app, String... params) throws Exception {
-        return driver(start(app, params));
-    }
-
-    /**
-     *
-     * @param url String
-     * @return ChromeDriver
-     * @throws Exception throws
-     */
-    public static ChromeDriver driverUrl(String url) throws Exception {
-        driver();
-        return webDriver(url);
-    }
-
-    /**
-     *
-     * @param url String
-     * @param app String
-     * @param params String[]
-     * @return ChromeDriver
-     * @throws Exception throws
-     */
-    public static ChromeDriver driverUrl(String url, String app, String... params) throws Exception {
-        driver(app, params);
-        return webDriver(url);
-    }
-
-    /**
-     *
-     */
-    public static void quit() {
-        RemoteWebDriver.quit();
-        d = null;
     }
 
     /**
