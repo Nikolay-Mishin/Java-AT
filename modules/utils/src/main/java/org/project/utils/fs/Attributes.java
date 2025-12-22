@@ -982,7 +982,7 @@ public class Attributes {
     /**
      *
      */
-    public static void printAttrs() {
+    public static void printAttrs() throws IOException {
         printAttrs("");
     }
 
@@ -990,7 +990,7 @@ public class Attributes {
      *
      * @param path String
      */
-    public static void printAttrs(String path) {
+    public static void printAttrs(String path) throws IOException {
         printAttrs(pathStr(path));
     }
 
@@ -998,7 +998,7 @@ public class Attributes {
      *
      * @param file File
      */
-    public static void printAttrs(java.io.File file) {
+    public static void printAttrs(java.io.File file) throws IOException {
         printAttrs(file.toPath());
     }
 
@@ -1006,7 +1006,7 @@ public class Attributes {
      *
      * @param path Path
      */
-    public static void printAttrs(Path path) {
+    public static void printAttrs(Path path) throws IOException {
         printBaseAttrs(path);
         printDosAttrs(path);
         printPosAttrs(path);
@@ -1059,7 +1059,7 @@ public class Attributes {
     /**
      *
      */
-    public static void printDosAttrs() {
+    public static void printDosAttrs() throws IOException {
         printDosAttrs("");
     }
 
@@ -1067,7 +1067,7 @@ public class Attributes {
      *
      * @param path String
      */
-    public static void printDosAttrs(String path) {
+    public static void printDosAttrs(String path) throws IOException {
         printDosAttrs(pathStr(path));
     }
 
@@ -1075,7 +1075,7 @@ public class Attributes {
      *
      * @param file File
      */
-    public static void printDosAttrs(java.io.File file) {
+    public static void printDosAttrs(java.io.File file) throws IOException {
         printDosAttrs(file.toPath());
     }
 
@@ -1083,10 +1083,11 @@ public class Attributes {
      *
      * @param path Path
      */
-    public static void printDosAttrs(Path path) {
+    public static void printDosAttrs(Path path) throws IOException {
         DosFileAttributes attrs = dosAttrs(path);
         debug(attrs);
         debug(dosAttrsMap(path));
+        debug(userAttrs(path));
         if (notNull(attrs)) {
             debug("size             = " + attrs.size() + " bytes");
             debug("creationTime     = " + attrs.creationTime());
@@ -1101,6 +1102,9 @@ public class Attributes {
             debug("isArchive        = " + attrs.isArchive());
             debug("isHidden         = " + attrs.isHidden());
             debug("isSystem         = " + attrs.isSystem());
+
+            debug("owner            = " + owner(path));
+            debug("ownerName        = " + ownerName(path));
         }
     }
 
