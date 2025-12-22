@@ -137,6 +137,13 @@ public interface DriverBaseConfig extends BaseConfig {
      * ChromeDriver
      * @return String
      */
+    @Key("CHROME_PATH")
+    String getChrome();
+
+    /**
+     * ChromeDriver
+     * @return String
+     */
     @Key("WEBDRIVER_PARAM")
     String getWebdriverParam();
 
