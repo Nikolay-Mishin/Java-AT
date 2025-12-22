@@ -2,7 +2,6 @@ package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
 import java.io.File;
-import java.io.InputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -10,7 +9,6 @@ import java.nio.file.Path;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.last;
-import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.fs.FS.absolute;
 import static org.project.utils.fs.FS.delete;
 import static org.project.utils.fs.FS.isDir;
@@ -20,17 +18,19 @@ import static org.project.utils.fs.FS.pathStr;
 import static org.project.utils.fs.FS.readDir;
 import static org.project.utils.fs.FS.resolve;
 import static org.project.utils.fs.FS.writeFile;
-import static org.project.utils.fs.Zip.unzip;
 import static org.project.utils.fs.Zip.unzipFile;
 import static org.project.utils.fs.Zip.unzipPass;
 import static org.project.utils.fs.Zip.unzipSelenium;
 
+import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.config.WebBaseConfig;
+import org.project.utils.fs.Zip;
 
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
+public class TestZip<T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> extends TestJson<T, W, D> {
     /**
      *
      */
@@ -74,7 +74,7 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestZip() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public TestZip() throws NoSuchFieldException, IllegalAccessException {
         debug("TestZip:init");
         rootZip = c.getZipRoot();
         outZip = c.getZipOut();
@@ -88,81 +88,24 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
 
     /**
      *
-     * @param url String
-     * @param pathList String[]
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @param urlK String
+     * @param out String
+     * @param rootZip String
+     * @return String
      * @throws IOException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static void loadZip(String url, String... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
-        loadZip(url, pathStr(pathList));
-    }
-
-    /**
-     *
-     * @param url String
-     * @param file File
-     * @throws IOException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static void loadZip(String url, File file) throws IOException, URISyntaxException, ReflectiveOperationException {
-        loadZip(url, file.toPath());
-    }
-
-    /**
-     *
-     * @param url String
-     * @param path Path
-     * @throws IOException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static void loadZip(String url, Path path) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static String loadZip(String uri, String endpoint, String key, String k, String v, String urlK, String out, String rootZip)
+        throws IOException, URISyntaxException, ReflectiveOperationException
+    {
         debug("loadZip");
-        setReq(url, GET);
-        writeFile(path, req.stream());
-    }
-
-    /**
-     *
-     * @param url String
-     * @param out String
-     * @param pathList String[]
-     * @throws IOException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static void loadZip(String url, String out, String... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
-        loadZip(url, out, pathStr(pathList));
-    }
-
-    /**
-     *
-     * @param url String
-     * @param out String
-     * @param file File
-     * @throws IOException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static void loadZip(String url, String out, File file) throws IOException, URISyntaxException, ReflectiveOperationException {
-        loadZip(url, out, file.toPath());
-    }
-
-    /**
-     *
-     * @param url String
-     * @param out String
-     * @param path Path
-     * @throws IOException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
-     */
-    public static void loadZip(String url, String out, Path path) throws IOException, URISyntaxException, ReflectiveOperationException {
-        loadZip(url, path);
-        debug("unZip");
-        unzip(path, resolve(out));
+        return setJson(Zip.loadZip(uri, endpoint, key, k, v, urlK, out, rootZip));
     }
 
     /**
@@ -174,18 +117,15 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
     public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testZip");
         debug(delete(rootZip));
+        loadZip(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl, outZip, rootZip);
 
-        loadJson(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
+        debug(req.statusCode());
 
         String last = last(url);
 
         debug(last);
         debug(resolve(rootZip, last));
         debug(filenameZip);
-
-        loadZip(url, outZip, resolve(rootZip, last));
-
-        debug(req.statusCode());
 
         byte[] bytes = req.bytes();
         String str = req.string();
@@ -227,7 +167,6 @@ public class TestZip<T extends TestBaseConfig> extends TestJson<T> {
         debug(delete(filenameTxt));
         debug(delete(mkdirRoot));
 
-        //unzip(filenameZip, outZip);
         unzipFile(filenameZip, outZip + "1");
         unzipPass(filenameZip, outZip + "2");
         unzipSelenium(filenameZip, outZip + "3");
