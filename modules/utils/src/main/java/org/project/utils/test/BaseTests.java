@@ -26,7 +26,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         setOptions(BASE_CONFIG);
-        new BaseTests<>(1, 6);
+        new BaseTests<>(1, 34);
         debug("instance: " + instance());
         debug("sleep: " + getSleep());
         debug("timeout: " + timeout());
@@ -133,6 +133,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      * <p>31: testAppEdit();
      * <p>32: testAppCalc();
      * <p>33: testHandleApp();
+     * <p>34: testVersion();
      * @param n int
      * @throws Exception throws
      */
@@ -204,6 +205,8 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
             case 32: testAppCalc();
                 break;
             case 33: testHandleApp();
+                break;
+            case 34: testVersion();
                 break;
         }
     }

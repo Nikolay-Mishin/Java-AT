@@ -21,7 +21,7 @@ import org.project.utils.fs.Attributes;
 /**
  * @param <T> extends TestBaseConfig
  */
-public class TestFS<T extends TestBaseConfig> extends TestZip<T> {
+public class TestFS<T extends TestBaseConfig> extends TestVersion<T> {
     /**
      *
      */
@@ -121,8 +121,9 @@ public class TestFS<T extends TestBaseConfig> extends TestZip<T> {
     /**
      *
      * @throws ReflectiveOperationException throws
+     * @throws IOException throws
      */
-    public static void testAttrs() throws ReflectiveOperationException {
+    public static void testAttrs() throws ReflectiveOperationException, IOException {
         debug("testAttrs");
         debug(supportedTypes());
         testSystemAttrs();
@@ -131,13 +132,14 @@ public class TestFS<T extends TestBaseConfig> extends TestZip<T> {
 
     /**
      *
+     * @throws IOException throws
      */
-    public static void testSystemAttrs() {
+    public static void testSystemAttrs() throws IOException {
         debug("testSystemAttrs");
-        /*printAttrs(attrsTest);
+        printAttrs(attrsTest);
         printAttrs("/" + attrsTest);
         printAttrs();
-        printAttrs(filenameZip);*/
+        printAttrs(filenameZip);
         printAttrs(chromedriverPath);
     }
 
