@@ -1335,6 +1335,50 @@ public class Helper {
 
     /**
      *
+     * @param args T[]
+     * @return String
+     * @param <T> T
+     */
+    @SafeVarargs
+    public static <T> String join(T... args) {
+        return join("", args);
+    }
+
+    /**
+     *
+     * @param sep String
+     * @param args T[]
+     * @return String
+     * @param <T> T
+     */
+    @SafeVarargs
+    public static <T> String join(String sep, T... args) {
+        return join(sep, toArray(args, String[]::new));
+    }
+
+    /**
+     *
+     * @param args List {T}
+     * @return String
+     * @param <T> T
+     */
+    public static <T> String join(List<T> args) {
+        return join("", args);
+    }
+
+    /**
+     *
+     * @param sep String
+     * @param args List {T}
+     * @return String
+     * @param <T> T
+     */
+    public static <T> String join(String sep, List<T> args) {
+        return join(sep, map(args.toArray(), String[]::new, Object::toString));
+    }
+
+    /**
+     *
      * @param args Object[]
      * @return String
      */
