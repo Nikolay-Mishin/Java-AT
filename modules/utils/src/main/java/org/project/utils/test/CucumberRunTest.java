@@ -67,14 +67,15 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      */
     @BeforeClass
     public static void setUp() {
-        init();
+        out.println("setUp");
+        //init();
     }
 
     /**
      *
      */
     public static void init() {
-        out.println("setUp");
+        out.println("setUp:init");
         new CucumberRunTest<>();
     }
 
@@ -84,11 +85,9 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      * @return String[]
      * @param <T> extends TestBaseConfig
      */
+    @SuppressWarnings("unchecked")
     public static <T extends TestBaseConfig> String[] init(String field) {
-        return init(clazz -> {
-            out.println("CucumberRunTest: " + clazz);
-            return getField(clazz, field);
-        });
+        return init(clazz -> (T) getField(clazz, field));
     }
 
     /**
@@ -110,7 +109,9 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     public static <T extends TestBaseConfig, E extends ReflectiveOperationException> String[] init(FunctionWithExceptions<Class<T>, T, E> cb) {
         try {
             out.println(Arrays.toString(getStackTrace()));
-            return setOptions(cb.apply(getGenericClass()));
+            Class<T> clazz = getGenericClass();
+            out.println("CucumberRunTest: " + clazz);
+            return setOptions(cb.apply(clazz));
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
             return setOptions();
