@@ -33,8 +33,9 @@ import static org.project.utils.Helper.notNull;
 import static org.project.utils.Helper.split;
 import static org.project.utils.Helper.trim;
 import static org.project.utils.base.HashMap.sort;
+import static org.project.utils.config.TestConfig.config;
+import static org.project.utils.exception.UtilException.tryCatchNoArgs;
 import static org.project.utils.exception.UtilException.tryConsumerWithIgnore;
-import static org.project.utils.exception.UtilException.tryNoArgsWithIgnore;
 import static org.project.utils.reflection.Reflection.getClassName;
 import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.getClazz;
@@ -54,6 +55,10 @@ import org.project.utils.config.TestBaseConfig;
  * </ul>
  */
 public class CucumberEventListener implements ConcurrentEventListener {
+    /**
+     *
+     */
+    protected static TestBaseConfig c = config();
     /**
      *
      */
@@ -196,7 +201,8 @@ public class CucumberEventListener implements ConcurrentEventListener {
         String[] args = trim(arg.split(argsSep));
         debug("CucumberEventListener: " + Arrays.toString(args));
         for (String a : args) {
-            Class<?> clazz = tryNoArgsWithIgnore(() -> getClazz(a));
+            String pkg = config().getCPluginPkg();
+            Class<?> clazz = tryCatchNoArgs(() -> getClazz(a), e -> getClazz((pkg.isEmpty() ? "" : pkg + ".") + a));
             out.println("getClass: " + clazz);
             if (isNull(clazz)) tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));
         }
