@@ -42,6 +42,7 @@ import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 
 import org.project.utils.config.TestBaseConfig;
+import org.project.utils.function.FunctionWithExceptions;
 
 /**
  * Создайте конструктор по умолчанию или конструктор, принимающий аргумент. Конструктор, принимающий аргумент, используется для настройки плагина.
@@ -202,11 +203,44 @@ public class CucumberEventListener implements ConcurrentEventListener {
         debug("CucumberEventListener: " + Arrays.toString(args));
         for (String a : args) {
             String pkg = config().getCPluginPkg();
-            Class<?> clazz = tryCatchNoArgs(() -> getClazz(a), e -> getClazz((pkg.isEmpty() ? "" : pkg + ".") + a));
+            /*Class<?> clazz = tryCatchNoArgs(() -> getClazz(a), e -> getClazz((pkg.isEmpty() ? "" : pkg + ".") + a));
             out.println("getClass: " + clazz);
-            if (isNull(clazz)) tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));
+            if (isNull(clazz)) tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));*/
+            init(a, pkg);
         }
         eventHandler(eventHandler);
+    }
+
+    /**
+     *
+     * @param a String
+     * @param pkg String
+     * @throws ReflectiveOperationException throws
+     */
+    public static void init(String a, String pkg) throws ReflectiveOperationException {
+        init(a, e -> getClazz((pkg.isEmpty() ? "" : pkg + ".") + a));
+    }
+
+    /**
+     *
+     * @param a String
+     * @throws ReflectiveOperationException throws
+     */
+    public static void initArg(String a) throws ReflectiveOperationException {
+        init(a, e -> null);
+    }
+
+    /**
+     *
+     * @param a String
+     * @param catchCb FunctionWithExceptions {Exception, Class, E}
+     * @param <E> extends ReflectiveOperationException
+     * @throws ReflectiveOperationException throws
+     */
+    public static <E extends ReflectiveOperationException> void init(String a, FunctionWithExceptions<Exception, Class<?>, E> catchCb) throws ReflectiveOperationException {
+        Class<?> clazz = tryCatchNoArgs(() -> getClazz(a), catchCb::apply);
+        out.println("getClass: " + clazz);
+        if (isNull(clazz)) tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));
     }
 
     /**

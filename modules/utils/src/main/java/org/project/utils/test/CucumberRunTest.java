@@ -25,6 +25,8 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
 import static org.project.utils.config.TestConfig.config;
 import static org.project.utils.event.CucumberEventListener.getPlugins;
+import static org.project.utils.event.CucumberEventListener.initArg;
+import static org.project.utils.reflection.Reflection.getGenericClass;
 
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
@@ -73,6 +75,14 @@ public class CucumberRunTest {
     public static void setUp(TestBaseConfig config) throws ReflectiveOperationException {
         setOptions(config);
         out.println("setUp: " + config());
+        try {
+            Class<?> clazz = getGenericClass();
+            out.println("getGenericClass: " + clazz);
+            //initArg(clazz.getName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            //out.println("BASE_CONFIG: " + getField(TestConfig.class, "BASE_CONFIG"));
+        }
     }
 
     /**
