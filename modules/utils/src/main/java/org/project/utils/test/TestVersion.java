@@ -32,7 +32,7 @@ public class TestVersion<T extends TestBaseConfig, W extends WebBaseConfig, D ex
     /**
      *
      */
-    public static void testVersion() {
+    public static void testVersion() throws Exception {
         debug("testVersion");
         updateLibrary();
     }
