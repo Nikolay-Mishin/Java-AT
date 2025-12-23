@@ -57,6 +57,14 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     public CucumberRunTest() {
         out.println("CucumberRunTest");
         //setUp(BASE_CONFIG);
+        try {
+            Class<T> clazz = getGenericClass();
+            out.println("getGenericClass: " + clazz);
+            //initArg(clazz.getName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            //out.println("BASE_CONFIG: " + getField(TestConfig.class, "BASE_CONFIG"));
+        }
     }
 
     /**
@@ -76,14 +84,7 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     public static <T extends TestBaseConfig> void setUp(T config) throws ReflectiveOperationException {
         setOptions(config);
         out.println("setUp: " + config());
-        try {
-            Class<T> clazz = getGenericClass();
-            out.println("getGenericClass: " + clazz);
-            //initArg(clazz.getName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            //out.println("BASE_CONFIG: " + getField(TestConfig.class, "BASE_CONFIG"));
-        }
+        new CucumberRunTest<>();
     }
 
     /**
