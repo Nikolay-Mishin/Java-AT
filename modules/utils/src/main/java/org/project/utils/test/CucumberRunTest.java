@@ -28,6 +28,7 @@ import static org.project.utils.event.CucumberEventListener.getPlugins;
 import static org.project.utils.event.CucumberEventListener.initArg;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.getGenericClass;
+import static org.project.utils.reflection.Reflection.getStackTrace;
 
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
@@ -108,6 +109,7 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      */
     public static <T extends TestBaseConfig, E extends ReflectiveOperationException> String[] init(FunctionWithExceptions<Class<T>, T, E> cb) {
         try {
+            out.println(Arrays.toString(getStackTrace()));
             return setOptions(cb.apply(getGenericClass()));
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
