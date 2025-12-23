@@ -28,6 +28,7 @@ import static org.project.utils.event.CucumberEventListener.getPlugins;
 import static org.project.utils.event.CucumberEventListener.initArg;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 
+import org.project.utils.config.BaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
 
@@ -47,7 +48,7 @@ import org.project.utils.event.CucumberEventListener;
         //"org.project.utils.event.CucumberEventListener:config.WebConfig"
     }
 )
-public class CucumberRunTest {
+public class CucumberRunTest<T extends BaseConfig> {
 
     /**
      *
@@ -76,7 +77,7 @@ public class CucumberRunTest {
         setOptions(config);
         out.println("setUp: " + config());
         try {
-            Class<?> clazz = getGenericClass();
+            Class<? extends BaseConfig> clazz = getGenericClass();
             out.println("getGenericClass: " + clazz);
             //initArg(clazz.getName());
         } catch (ClassNotFoundException e) {
