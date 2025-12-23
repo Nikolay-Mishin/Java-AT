@@ -23,6 +23,8 @@ import org.junit.runner.RunWith;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
+import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
+import static org.project.utils.config.TestConfig.config;
 import static org.project.utils.event.CucumberEventListener.getPlugins;
 
 import org.project.utils.config.TestBaseConfig;
@@ -58,8 +60,9 @@ public class CucumberRunTest {
      *
      */
     @BeforeClass
-    public static void setUp() {
+    public static void setUp() throws ReflectiveOperationException {
         out.println("setUp");
+        out.println("setUp: " + config());
         //setOptions(BASE_CONFIG);
     }
 
