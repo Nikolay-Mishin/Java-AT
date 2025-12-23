@@ -144,7 +144,7 @@ public class Reflection {
         Class<?>[] argTypes = map(args, Class<?>[]::new, arg -> {
             Class<?> clazz = getClazz(arg);
             if (clazz.getName().equals("sun.nio.fs.WindowsPath")) clazz = Path.class;
-            return getPrimitive ? getPrimitiveType(clazz) : !(arg instanceof Proxy) ? clazz : getInterface(clazz);
+            return getPrimitive ? getPrimitiveType(arg) : !(arg instanceof Proxy) ? clazz : getInterface(clazz);
         });
         debug(Arrays.toString(argTypes));
         return argTypes;
