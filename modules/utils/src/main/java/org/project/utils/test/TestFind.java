@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -26,15 +25,9 @@ public class TestFind<T extends TestBaseConfig, W extends WebBaseConfig, D exten
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestFind() throws NoSuchFieldException, IllegalAccessException {
+    public TestFind() {
         debug("TestFind:init");
     }
 

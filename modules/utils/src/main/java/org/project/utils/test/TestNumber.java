@@ -17,11 +17,9 @@ public class TestNumber<T extends TestBaseConfig, W extends WebBaseConfig, D ext
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestNumber() throws NoSuchFieldException, IllegalAccessException {
+    public TestNumber() {
         debug("TestNumber:init");
     }
 

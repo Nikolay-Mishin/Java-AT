@@ -2,7 +2,6 @@ package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
@@ -67,15 +66,9 @@ public class TestApi<T extends TestBaseConfig, W extends WebBaseConfig, D extend
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestApi() throws NoSuchFieldException, IllegalAccessException {
+    public TestApi() {
         debug("TestApi:init");
         apiVer = win.getApiVer();
         uri = win.getApiUri();

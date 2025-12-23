@@ -2,7 +2,6 @@ package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -67,15 +66,9 @@ public class TestJson<T extends TestBaseConfig, W extends WebBaseConfig, D exten
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestJson() throws NoSuchFieldException, IllegalAccessException {
+    public TestJson() {
         debug("TestJson:init");
         jsonVer = win.getJsonVer();
         jsonDownloads = win.getJsonDownloads();

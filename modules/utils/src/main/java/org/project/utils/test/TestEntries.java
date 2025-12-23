@@ -28,15 +28,9 @@ public class TestEntries<T extends TestBaseConfig, W extends WebBaseConfig, D ex
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestEntries() throws NoSuchFieldException, IllegalAccessException {
+    public TestEntries() {
         debug("TestEntries:init");
     }
 

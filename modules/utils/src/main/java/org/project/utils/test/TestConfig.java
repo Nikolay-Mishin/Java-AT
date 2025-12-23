@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
@@ -26,15 +25,9 @@ public class TestConfig<T extends TestBaseConfig, W extends WebBaseConfig, D ext
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestConfig() throws NoSuchFieldException, IllegalAccessException {
+    public TestConfig() {
         debug("TestConfig:init");
     }
 

@@ -2,16 +2,19 @@ package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static org.junit.Assert.assertNotNull;
+
 import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 
-import static org.junit.Assert.assertNotNull;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.reflection.Reflection.isExtends;
@@ -25,9 +28,6 @@ import static org.project.utils.windriver.RemoteWebDriver.startAttachClass;
 import static org.project.utils.windriver.WebDriver.ls;
 import static org.project.utils.windriver.WinDriver.start;
 
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
@@ -85,15 +85,9 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestWinDriver() throws NoSuchFieldException, IllegalAccessException {
+    public TestWinDriver() {
         debug("TestWinDriver:init");
         url = w.getBaseUrl();
         notepadPath = win.getNotepad();

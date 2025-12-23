@@ -3,7 +3,6 @@ package org.project.utils.test;
 import static java.lang.System.getProperty;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Function;
@@ -27,15 +26,9 @@ public class TestProps<T extends TestBaseConfig, W extends WebBaseConfig, D exte
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestProps() throws NoSuchFieldException, IllegalAccessException {
+    public TestProps() {
         debug("TestProps:init");
     }
 

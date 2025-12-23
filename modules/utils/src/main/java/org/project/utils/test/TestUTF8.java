@@ -4,7 +4,6 @@ import static java.util.ResourceBundle.Control;
 import static java.util.ResourceBundle.getBundle;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 
 import static org.project.utils.Helper.debug;
@@ -21,15 +20,9 @@ public class TestUTF8<T extends TestBaseConfig, W extends WebBaseConfig, D exten
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestUTF8() throws NoSuchFieldException, IllegalAccessException {
+    public TestUTF8() {
         debug("TestUTF8:init");
     }
 

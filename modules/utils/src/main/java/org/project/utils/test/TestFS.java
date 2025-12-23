@@ -4,7 +4,6 @@ import static java.nio.file.FileSystems.getDefault;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.FileStore;
 
@@ -63,15 +62,9 @@ public class TestFS<T extends TestBaseConfig, W extends WebBaseConfig, D extends
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestFS() throws NoSuchFieldException, IllegalAccessException {
+    public TestFS() {
         debug("TestFS:init");
         chromedriverRoot = c.getChromeDriverRoot();
         chromedriverFile = c.getChromeDriverFile();

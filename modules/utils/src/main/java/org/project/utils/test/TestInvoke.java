@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.table;
@@ -41,15 +40,9 @@ public class TestInvoke<T extends TestBaseConfig, W extends WebBaseConfig, D ext
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestInvoke() throws NoSuchFieldException, IllegalAccessException {
+    public TestInvoke() {
         debug("TestInvoke:init");
         fsClass = c.getFs();
         fsField = c.getFsField();

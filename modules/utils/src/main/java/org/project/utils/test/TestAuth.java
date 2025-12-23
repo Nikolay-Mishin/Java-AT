@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;
@@ -33,15 +32,9 @@ public class TestAuth<T extends TestBaseConfig, W extends WebBaseConfig, D exten
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestAuth() throws NoSuchFieldException, IllegalAccessException {
+    public TestAuth() {
         debug("TestAuth:init");
         auth = c.getAuth();
         authTest = c.getAuthTest();

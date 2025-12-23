@@ -4,7 +4,6 @@ import static java.lang.System.setProperty;
 
 import java.beans.ConstructorProperties;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Map;
@@ -48,15 +47,9 @@ public class TestProc<T extends TestBaseConfig, W extends WebBaseConfig, D exten
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestProc() throws NoSuchFieldException, IllegalAccessException {
+    public TestProc() {
         debug("TestProc:init");
     }
 

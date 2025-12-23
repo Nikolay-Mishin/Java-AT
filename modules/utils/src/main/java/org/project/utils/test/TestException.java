@@ -44,15 +44,9 @@ public class TestException<T extends TestBaseConfig, W extends WebBaseConfig, D 
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestException() throws NoSuchFieldException, IllegalAccessException {
+    public TestException() {
         debug("TestException:init");
         cPlugin = c.getCPlugin();
         cPluginField = c.getCPluginField();

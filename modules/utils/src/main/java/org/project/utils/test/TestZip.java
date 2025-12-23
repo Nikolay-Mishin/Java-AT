@@ -3,7 +3,6 @@ package org.project.utils.test;
 import java.beans.ConstructorProperties;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 
@@ -66,15 +65,9 @@ public class TestZip<T extends TestBaseConfig, W extends WebBaseConfig, D extend
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestZip() throws NoSuchFieldException, IllegalAccessException {
+    public TestZip() {
         debug("TestZip:init");
         rootZip = c.getZipRoot();
         outZip = c.getZipOut();

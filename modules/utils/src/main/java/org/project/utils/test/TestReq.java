@@ -1,7 +1,6 @@
 package org.project.utils.test;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import static org.project.utils.Helper.debug;
@@ -27,15 +26,9 @@ public class TestReq<T extends TestBaseConfig, W extends WebBaseConfig, D extend
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws InvocationTargetException throws
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public TestReq() throws NoSuchFieldException, IllegalAccessException {
+    public TestReq() {
         debug("TestReq:init");
         body = c.getReqBody();
         bodyTest = c.getReqTest();
