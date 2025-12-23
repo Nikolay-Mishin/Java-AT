@@ -18,6 +18,7 @@ import static org.project.utils.fs.FS.pathStr;
 import static org.project.utils.fs.FS.readDir;
 import static org.project.utils.fs.FS.resolve;
 import static org.project.utils.fs.FS.writeFile;
+import static org.project.utils.fs.Zip.unzip;
 import static org.project.utils.fs.Zip.unzipFile;
 import static org.project.utils.fs.Zip.unzipPass;
 import static org.project.utils.fs.Zip.unzipSelenium;
@@ -25,7 +26,6 @@ import static org.project.utils.fs.Zip.unzipSelenium;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
-import org.project.utils.fs.Zip;
 
 /**
  * @param <T> extends TestBaseConfig
@@ -101,11 +101,9 @@ public class TestZip<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static String loadZip(String uri, String endpoint, String key, String k, String v, String urlK, String out, String rootZip)
-        throws IOException, URISyntaxException, ReflectiveOperationException
-    {
+    public static String loadZip(String uri, String endpoint, String key, String k, String v, String urlK, String out, String rootZip) throws Exception {
         debug("loadZip");
-        return setJson(Zip.loadZip(uri, endpoint, key, k, v, urlK, out, rootZip));
+        return setJson(unzip(uri, endpoint, key, k, v, urlK, out, rootZip));
     }
 
     /**
@@ -114,10 +112,10 @@ public class TestZip<T extends TestBaseConfig, W extends WebBaseConfig, D extend
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static void testZip() throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static void testZip() throws Exception {
         debug("testZip");
-        debug(delete(rootZip));
-        loadZip(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl, outZip, rootZip);
+        //debug(delete(rootZip));
+        loadZip(uri, endpointVer, jsonGet, jsonK, jsonV, jsonUrl, outZip, rootZip);
 
         debug(req.statusCode());
 

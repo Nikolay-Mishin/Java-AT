@@ -11,6 +11,7 @@ import java.util.zip.ZipInputStream;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import org.project.utils.function.BiFunctionWithExceptions;
 import org.project.utils.json.JsonSchema;
 import org.project.utils.request.Request;
 
@@ -25,6 +26,7 @@ import static org.project.utils.fs.FS.mkdirs;
 import static org.project.utils.fs.FS.path;
 import static org.project.utils.fs.FS.pathStr;
 import static org.project.utils.fs.FS.resolve;
+import static org.project.utils.fs.File.exist;
 import static org.project.utils.json.JsonSchema.loadJson;
 import static org.project.utils.request.Request.req;
 import static org.project.utils.stream.InputStream.arrayIn;
@@ -94,8 +96,7 @@ public class Zip {
      * @throws IOException throws
      */
     public static void unzip(InputStream src, Path out) throws IOException {
-        debug("Clear: " + out);
-        debug(delete(out));
+        debug("unzip: " + out);
         out = out.toAbsolutePath();
         try (ZipInputStream zipIn = zipIn(src)) {
             for (ZipEntry ze; (ze = zipIn.getNextEntry()) != null; ) {
@@ -105,6 +106,7 @@ public class Zip {
                     throw new RuntimeException("Entry with an illegal path: " + ze.getName());
                 }
                 mkdirs(ze, resolve);
+                if (exist(resolve)) delete(resolve);
                 copy(zipIn, resolve);
             }
         }
@@ -297,8 +299,8 @@ public class Zip {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Request loadZip(String url, String out, String... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
-        return loadZip(url, out, pathStr(pathList));
+    public static Request unzip(String url, String out, String... pathList) throws IOException, URISyntaxException, ReflectiveOperationException {
+        return unzip(url, out, pathStr(pathList));
     }
 
     /**
@@ -311,8 +313,8 @@ public class Zip {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Request loadZip(String url, String out, File file) throws IOException, URISyntaxException, ReflectiveOperationException {
-        return loadZip(url, out, file.toPath());
+    public static Request unzip(String url, String out, File file) throws IOException, URISyntaxException, ReflectiveOperationException {
+        return unzip(url, out, file.toPath());
     }
 
     /**
@@ -325,11 +327,93 @@ public class Zip {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static Request loadZip(String url, String out, Path path) throws IOException, URISyntaxException, ReflectiveOperationException {
+    public static Request unzip(String url, String out, Path path) throws IOException, URISyntaxException, ReflectiveOperationException {
         Request req = loadZip(url, path);
         debug("unZip");
         unzip(path, resolve(out));
         return req;
+    }
+
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @param urlK String
+     * @param rootZip File
+     * @return JsonSchema
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema loadZip(String uri, String endpoint, String key, String k, String v, String urlK, File rootZip)
+        throws Exception {
+        return loadZip(uri, endpoint, key, k, v, urlK, rootZip.toPath());
+    }
+
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @param urlK String
+     * @param rootZip Path
+     * @return JsonSchema
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema loadZip(String uri, String endpoint, String key, String k, String v, String urlK, Path rootZip)
+        throws Exception {
+        return loadZip(uri, endpoint, key, k, v, urlK, rootZip.toString());
+    }
+
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @param urlK String
+     * @param rootZip String
+     * @return JsonSchema
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema loadZip(String uri, String endpoint, String key, String k, String v, String urlK, String rootZip) throws Exception {
+        return loadZip(uri, endpoint, key, k, v, urlK, rootZip, Zip::loadZip);
+    }
+
+    /**
+     *
+     * @param endpoint String
+     * @param uri String
+     * @param key String
+     * @param k String
+     * @param v String
+     * @param urlK String
+     * @param rootZip String
+     * @param setReq FunctionWithExceptions {String, Request, E}
+     * @return JsonSchema
+     * @param <E> extends Exception
+     * @throws IOException throws
+     * @throws URISyntaxException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static <E extends Exception> JsonSchema loadZip
+    (String uri, String endpoint, String key, String k, String v, String urlK, String rootZip, BiFunctionWithExceptions<String, Path, Request, E> setReq)
+        throws IOException, URISyntaxException, ReflectiveOperationException, E
+    {
+        JsonSchema json = loadJson(uri, endpoint, key, k, v, urlK);
+        String url = json.getUrl();
+        json.setReq(setReq.apply(url, resolve(rootZip, last(url))));
+        return json;
     }
 
     /**
@@ -347,10 +431,9 @@ public class Zip {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema loadZip(String uri, String endpoint, String key, String k, String v, String urlK, String out, File rootZip)
-        throws IOException, URISyntaxException, ReflectiveOperationException
-    {
-        return loadZip(uri, endpoint, key, k, v, urlK, out, rootZip.toPath());
+    public static JsonSchema unzip(String uri, String endpoint, String key, String k, String v, String urlK, String out, File rootZip)
+        throws Exception {
+        return unzip(uri, endpoint, key, k, v, urlK, out, rootZip.toPath());
     }
 
     /**
@@ -368,10 +451,9 @@ public class Zip {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema loadZip(String uri, String endpoint, String key, String k, String v, String urlK, String out, Path rootZip)
-        throws IOException, URISyntaxException, ReflectiveOperationException
-    {
-        return loadZip(uri, endpoint, key, k, v, urlK, out, rootZip.toString());
+    public static JsonSchema unzip(String uri, String endpoint, String key, String k, String v, String urlK, String out, Path rootZip)
+        throws Exception {
+        return unzip(uri, endpoint, key, k, v, urlK, out, rootZip.toString());
     }
 
     /**
@@ -389,13 +471,10 @@ public class Zip {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static JsonSchema loadZip(String uri, String endpoint, String key, String k, String v, String urlK, String out, String rootZip)
-        throws IOException, URISyntaxException, ReflectiveOperationException
+    public static JsonSchema unzip(String uri, String endpoint, String key, String k, String v, String urlK, String out, String rootZip)
+        throws Exception
     {
-        JsonSchema json = loadJson(uri, endpoint, key, k, v, urlK);
-        String url = json.getUrl();
-        json.setReq(loadZip(url, out, resolve(rootZip, last(url))));
-        return json;
+        return loadZip(uri, endpoint, key, k, v, urlK, rootZip, (url, path) -> unzip(url, out, path));
     }
 
 }
