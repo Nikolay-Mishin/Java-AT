@@ -52,7 +52,8 @@ public class CucumberRunTest {
      */
     @ConstructorProperties({})
     public CucumberRunTest() {
-        //setOptions(BASE_CONFIG);
+        out.println("CucumberRunTest");
+        //setUp(BASE_CONFIG);
     }
 
     /**
@@ -61,8 +62,17 @@ public class CucumberRunTest {
     @BeforeClass
     public static void setUp() throws ReflectiveOperationException {
         out.println("setUp");
-        out.println("config: " + config());
-        //setOptions(BASE_CONFIG);
+        //setUp(BASE_CONFIG);
+    }
+
+    /**
+     *
+     * @param config TestBaseConfig
+     * @throws ReflectiveOperationException throws
+     */
+    public static void setUp(TestBaseConfig config) throws ReflectiveOperationException {
+        setOptions(config);
+        out.println("setUp: " + config());
     }
 
     /**
