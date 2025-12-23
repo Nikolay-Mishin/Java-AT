@@ -48,7 +48,7 @@ import org.project.utils.event.CucumberEventListener;
         //"org.project.utils.event.CucumberEventListener:config.WebConfig"
     }
 )
-public class CucumberRunTest<T extends BaseConfig> {
+public class CucumberRunTest<T extends TestBaseConfig> {
 
     /**
      *
@@ -73,11 +73,11 @@ public class CucumberRunTest<T extends BaseConfig> {
      * @param config TestBaseConfig
      * @throws ReflectiveOperationException throws
      */
-    public static void setUp(TestBaseConfig config) throws ReflectiveOperationException {
+    public static <T extends TestBaseConfig> void setUp(T config) throws ReflectiveOperationException {
         setOptions(config);
         out.println("setUp: " + config());
         try {
-            Class<? extends BaseConfig> clazz = getGenericClass();
+            Class<T> clazz = getGenericClass();
             out.println("getGenericClass: " + clazz);
             //initArg(clazz.getName());
         } catch (ClassNotFoundException e) {
