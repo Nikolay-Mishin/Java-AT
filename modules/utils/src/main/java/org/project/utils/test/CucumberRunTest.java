@@ -30,7 +30,6 @@ import static org.project.utils.event.CucumberEventListener.initArg;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 
-import org.project.utils.config.BaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
 
@@ -58,14 +57,14 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     @ConstructorProperties({})
     public CucumberRunTest() {
         out.println("CucumberRunTest:init");
-        //setUp(BASE_CONFIG);
         try {
             Class<T> clazz = getGenericClass();
             out.println("CucumberRunTest: " + clazz);
             out.println("BASE_CONFIG: " + getField(clazz, "BASE_CONFIG"));
-            initArg(clazz.getName() + "::BASE_CONFIG");
+            //initArg(clazz.getName() + "::BASE_CONFIG");
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
+            setOptions();
         }
     }
 
@@ -73,9 +72,8 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      *
      */
     @BeforeClass
-    public static void setUp() throws ReflectiveOperationException {
+    public static void setUp() {
         out.println("setUp");
-        //setOptions();
         new CucumberRunTest<>();
     }
 
@@ -92,11 +90,15 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     /**
      *
      * @return String[]
-     * @throws ReflectiveOperationException throws
      */
-    public static String[] setOptions() throws ReflectiveOperationException {
+    public static String[] setOptions() {
         out.println("setOptions: base");
-        return setOptions(BASE_CONFIG);
+        try {
+            return setOptions(BASE_CONFIG);
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
