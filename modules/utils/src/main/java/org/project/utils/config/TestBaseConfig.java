@@ -73,13 +73,6 @@ public interface TestBaseConfig extends BaseConfig {
      * TestApi
      * @return String
      */
-    @Key("api.endpoint.test")
-    String getEndpointTest();
-
-    /**
-     * TestApi
-     * @return String
-     */
     @Key("api.auth")
     String getAuth();
 
@@ -89,6 +82,13 @@ public interface TestBaseConfig extends BaseConfig {
      */
     @Key("api.auth.test")
     String getAuthTest();
+
+    /**
+     * TestApi
+     * @return String
+     */
+    @Key("api.endpoint.test")
+    String getEndpointTest();
 
     /**
      * TestZip
