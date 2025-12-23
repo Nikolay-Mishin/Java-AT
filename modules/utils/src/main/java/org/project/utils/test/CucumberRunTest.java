@@ -24,13 +24,14 @@ import org.junit.runner.RunWith;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
-import static org.project.utils.config.TestConfig.config;
 import static org.project.utils.event.CucumberEventListener.getPlugins;
+import static org.project.utils.event.CucumberEventListener.initArg;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
+import org.project.utils.function.FunctionWithExceptions;
 
 /**
  * класс для запуска тестов Cucumber
@@ -56,15 +57,8 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     @ConstructorProperties({})
     public CucumberRunTest() {
         out.println("CucumberRunTest:init");
-        try {
-            Class<T> clazz = getGenericClass();
-            out.println("CucumberRunTest: " + clazz);
-            out.println("BASE_CONFIG: " + getField(clazz, "BASE_CONFIG"));
-            //initArg(clazz.getName() + "::BASE_CONFIG");
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
-            setOptions();
-        }
+        init("BASE_CONFIG");
+        //initField("BASE_CONFIG");
     }
 
     /**
@@ -72,18 +66,53 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      */
     @BeforeClass
     public static void setUp() {
+        init();
+    }
+
+    /**
+     *
+     */
+    public static void init() {
         out.println("setUp");
         new CucumberRunTest<>();
     }
 
     /**
      *
-     * @param config TestBaseConfig
-     * @throws ReflectiveOperationException throws
+     * @param field String
+     * @return String[]
+     * @param <T> extends TestBaseConfig
      */
-    public static <T extends TestBaseConfig> void setUp(T config) throws ReflectiveOperationException {
-        setOptions(config);
-        out.println("setUp: " + config());
+    public static <T extends TestBaseConfig> String[] init(String field) {
+        return init(clazz -> {
+            out.println("CucumberRunTest: " + clazz);
+            return getField(getGenericClass(), field);
+        });
+    }
+
+    /**
+     *
+     * @param arg String
+     * @return String[]
+     */
+    public static String[] initField(String arg) {
+        return init(clazz -> initArg(clazz.getName() + "::" + arg));
+    }
+
+    /**
+     *
+     * @param cb SupplierWithExceptions {T, E}
+     * @return String[]
+     * @param <T> extends TestBaseConfig
+     * @param <E> extends ReflectiveOperationException
+     */
+    public static <T extends TestBaseConfig, E extends ReflectiveOperationException> String[] init(FunctionWithExceptions<Class<T>, T, E> cb) {
+        try {
+            return setOptions(cb.apply(getGenericClass()));
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+            return setOptions();
+        }
     }
 
     /**
@@ -108,6 +137,7 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      */
     public static String[] setOptions(TestBaseConfig config) throws ReflectiveOperationException {
         out.println("setOptions: config");
+        out.println(config);
         return setOptions(getOptions(config));
     }
 

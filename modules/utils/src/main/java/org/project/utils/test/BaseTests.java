@@ -5,8 +5,6 @@ import java.beans.ConstructorProperties;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.getSleep;
 import static org.project.utils.Thread.timeout;
-import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
-import static org.project.utils.test.CucumberRunTest.setOptions;
 import static org.project.utils.windriver.RemoteWebDriver.getTimeout;
 import static org.project.utils.windriver.RemoteWebDriver.sleep;
 
@@ -25,7 +23,6 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      * @throws Exception throws
      */
     public static void main(String[] args) throws Exception {
-        //setOptions(BASE_CONFIG);
         new CucumberBaseTest();
         new BaseTests<>(1);
         debug("instance: " + instance());

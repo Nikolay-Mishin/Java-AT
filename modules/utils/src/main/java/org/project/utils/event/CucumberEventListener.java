@@ -34,6 +34,7 @@ import static org.project.utils.Helper.split;
 import static org.project.utils.Helper.trim;
 import static org.project.utils.base.HashMap.sort;
 import static org.project.utils.config.TestConfig.config;
+import static org.project.utils.config.TestConfig.getConfig;
 import static org.project.utils.exception.UtilException.tryCatchNoArgs;
 import static org.project.utils.exception.UtilException.tryConsumerWithIgnore;
 import static org.project.utils.reflection.Reflection.getClassName;
@@ -211,32 +212,39 @@ public class CucumberEventListener implements ConcurrentEventListener {
      *
      * @param a String
      * @param pkg String
+     * @return T
+     * @param <T> extends TestBaseConfig
      * @throws ReflectiveOperationException throws
      */
-    public static void init(String a, String pkg) throws ReflectiveOperationException {
-        init(a, e -> getClazz((pkg.isEmpty() ? "" : pkg + ".") + a));
+    public static <T extends TestBaseConfig> T init(String a, String pkg) throws ReflectiveOperationException {
+        return init(a, e -> getClazz((pkg.isEmpty() ? "" : pkg + ".") + a));
     }
 
     /**
      *
      * @param a String
+     * @return T
+     * @param <T> extends TestBaseConfig
      * @throws ReflectiveOperationException throws
      */
-    public static void initArg(String a) throws ReflectiveOperationException {
-        init(a, e -> null);
+    public static <T extends TestBaseConfig> T initArg(String a) throws ReflectiveOperationException {
+        return init(a, e -> null);
     }
 
     /**
      *
      * @param a String
      * @param catchCb FunctionWithExceptions {Exception, Class, E}
+     * @return T
+     * @param <T> extends TestBaseConfig
      * @param <E> extends ReflectiveOperationException
      * @throws ReflectiveOperationException throws
      */
-    public static <E extends ReflectiveOperationException> void init(String a, FunctionWithExceptions<Exception, Class<?>, E> catchCb) throws ReflectiveOperationException {
+    public static <T extends TestBaseConfig, E extends ReflectiveOperationException> T init(String a, FunctionWithExceptions<Exception, Class<?>, E> catchCb) throws ReflectiveOperationException {
         Class<?> clazz = tryCatchNoArgs(() -> getClazz(a), catchCb::apply);
         out.println("getClass: " + clazz);
         if (isNull(clazz)) tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));
+        return getConfig();
     }
 
     /**
