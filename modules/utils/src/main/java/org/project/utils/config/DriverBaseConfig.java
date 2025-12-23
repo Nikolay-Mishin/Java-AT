@@ -53,6 +53,20 @@ public interface DriverBaseConfig extends BaseConfig {
      * Library
      * @return String
      */
+    @Key("api.milestone")
+    String getApiMilestone();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("api.build")
+    String getApiBuild();
+
+    /**
+     * Library
+     * @return String
+     */
     @Key("api.ver")
     String getApiVer();
 
@@ -74,6 +88,27 @@ public interface DriverBaseConfig extends BaseConfig {
      * Library
      * @return String
      */
+    @Key("api.endpoint.ver")
+    String getApiEndpointVer();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("lib.endpoint")
+    String getLibEndpoint();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("lib.endpoints")
+    String getLibEndpoints();
+
+    /**
+     * Library
+     * @return String
+     */
     @Key("json.ver")
     String getJsonVer();
 
@@ -83,6 +118,13 @@ public interface DriverBaseConfig extends BaseConfig {
      */
     @Key("json.downloads")
     String getJsonDownloads();
+
+    /**
+     * Library
+     * @return String
+     */
+    @Key("json.downloads.get")
+    String getJsonDownloadsK();
 
     /**
      * Library
@@ -125,6 +167,13 @@ public interface DriverBaseConfig extends BaseConfig {
      */
     @Key("lib.out")
     String getLibOut();
+
+    /**
+     * Library
+     * @return boolean
+     */
+    @Key("lib.write")
+    boolean getLibWrite();
 
     /**
      *

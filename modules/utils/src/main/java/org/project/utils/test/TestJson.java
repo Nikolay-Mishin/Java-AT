@@ -47,6 +47,10 @@ public class TestJson<T extends TestBaseConfig, W extends WebBaseConfig, D exten
     /**
      *
      */
+    protected static String jsonDownloadsK;
+    /**
+     *
+     */
     protected static String jsonGet;
     /**
      *
@@ -75,6 +79,7 @@ public class TestJson<T extends TestBaseConfig, W extends WebBaseConfig, D exten
         debug("TestJson:init");
         jsonVer = win.getJsonVer();
         jsonDownloads = win.getJsonDownloads();
+        jsonDownloadsK = win.getJsonDownloadsK();
         jsonGet = win.getJson();
         jsonK = win.getJsonK();
         jsonV = win.getJsonV();
@@ -162,7 +167,7 @@ public class TestJson<T extends TestBaseConfig, W extends WebBaseConfig, D exten
      */
     public static void testJson() throws IOException, URISyntaxException, ReflectiveOperationException {
         debug("testJson");
-        loadJson(uri, endpoint, jsonGet, jsonK, jsonV, jsonUrl);
+        loadJson(uri, endpointVer, jsonGet, jsonK, jsonV, jsonUrl);
         map = json.toMap();
 
         debug(req.string());

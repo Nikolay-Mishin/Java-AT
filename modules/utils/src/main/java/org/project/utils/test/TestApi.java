@@ -59,6 +59,10 @@ public class TestApi<T extends TestBaseConfig, W extends WebBaseConfig, D extend
     /**
      *
      */
+    protected static String endpointVer;
+    /**
+     *
+     */
     protected static String endpointTest;
 
     /**
@@ -76,6 +80,7 @@ public class TestApi<T extends TestBaseConfig, W extends WebBaseConfig, D extend
         apiVer = win.getApiVer();
         uri = win.getApiUri();
         endpoint = win.getApiEndpoint();
+        endpointVer = win.getApiEndpointVer();
         endpointTest = c.getEndpointTest();
     }
 
