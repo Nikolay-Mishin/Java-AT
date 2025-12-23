@@ -30,8 +30,8 @@ public class ReflectionUtils {
         // Мы будем подниматься вверх по иерархии, пока не найдем интересующий нас класс.
         // В процессе поднятия мы будем сохранять в genericClasses все классы - они нам понадобятся при спуске вниз.
 
-        // Проейденные классы - используются для спуска вниз.
-        Stack<ParameterizedType> genericClasses = new Stack<ParameterizedType>();
+        // Пройденные классы - используются для спуска вниз.
+        Stack<ParameterizedType> genericClasses = new Stack<>();
 
         // clazz - текущий рассматриваемый класс
         Class<?> clazz = actualClass;
@@ -116,7 +116,7 @@ public class ReflectionUtils {
         if (actualArgumentIndex != null) {
             return actualArgumentIndex;
         } else {
-            throw new IllegalStateException("Argument " + typeVariable.toString() + " is not found in " + genericDeclaration.toString() + ".");
+            throw new IllegalStateException("Argument " + typeVariable + " is not found in " + genericDeclaration + ".");
         }
     }
 }
