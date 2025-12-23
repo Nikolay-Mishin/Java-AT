@@ -86,7 +86,7 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     public static <T extends TestBaseConfig> String[] init(String field) {
         return init(clazz -> {
             out.println("CucumberRunTest: " + clazz);
-            return getField(getGenericClass(), field);
+            return getField(clazz, field);
         });
     }
 
@@ -186,6 +186,7 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      * @return String[]
      */
     public static String[] setCliOptions(String[] options) {
+        out.println("setCliOptions: " + Arrays.toString(options));
         return setOptions(options, o -> run(options, currentThread().getContextClassLoader()));
     }
 
