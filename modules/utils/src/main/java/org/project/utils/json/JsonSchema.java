@@ -22,6 +22,7 @@ import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.map;
 import static org.project.utils.Helper.pop;
 import static org.project.utils.Helper.sb;
+import static org.project.utils.Helper.table;
 import static org.project.utils.Helper.toLowerCaseFirst;
 import static org.project.utils.Helper.toUpperCaseFirst;
 import static org.project.utils.config.WebConfig.config;
@@ -107,6 +108,67 @@ public class JsonSchema {
     @ConstructorProperties({"args"})
     public JsonSchema(Object... args) {
         data(paramsStr("{\n", "\n}", ",\n", a -> sb("    \"", a, "\""), (a, sep) -> sb(": \"", a, "\"" + sep), args));
+    }
+
+    /**
+     *
+     * @param jsonString String
+     * @return JsonSchema
+     */
+    public static JsonSchema jsonSchema(String jsonString) {
+        return new JsonSchema(jsonString);
+    }
+
+    /**
+     *
+     * @param req Request
+     * @return JsonSchema
+     * @throws ReflectiveOperationException throws
+     */
+    public static JsonSchema jsonSchema(Request req) throws ReflectiveOperationException {
+        return new JsonSchema(req);
+    }
+
+    /**
+     *
+     * @param args Object[]
+     * @return JsonSchema
+     */
+    public static JsonSchema jsonSchemaArgs(Object... args) {
+        return new JsonSchema(args);
+    }
+
+    /**
+     *
+     * @param method METHOD_LOWER_CASE
+     * @param modelClass Class
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws IOException throws
+     */
+    public static JsonSchema jsonSchema(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
+        return new JsonSchema().path(method, modelClass, pathList);
+    }
+
+    /**
+     *
+     * @param modelClass Class
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws IOException throws
+     */
+    public static JsonSchema jsonSchema(Class<?> modelClass, Object... pathList) throws IOException {
+        return new JsonSchema().path(modelClass, pathList);
+    }
+
+    /**
+     *
+     * @param pathList Object[]
+     * @return JsonSchema
+     * @throws IOException throws
+     */
+    public static JsonSchema jsonSchema(Object... pathList) throws IOException {
+        return new JsonSchema().path(pathList);
     }
 
     /**
@@ -221,58 +283,6 @@ public class JsonSchema {
 
     /**
      *
-     * @param req Request
-     * @return JsonSchema
-     * @throws ReflectiveOperationException throws
-     */
-    public static JsonSchema jsonSchema(Request req) throws ReflectiveOperationException {
-        return new JsonSchema(req);
-    }
-
-    /**
-     *
-     * @param method METHOD_LOWER_CASE
-     * @param modelClass Class
-     * @param pathList Object[]
-     * @return JsonSchema
-     * @throws IOException throws
-     */
-    public static JsonSchema jsonSchema(METHOD_LOWER_CASE method, Class<?> modelClass, Object... pathList) throws IOException {
-        return new JsonSchema().path(method, modelClass, pathList);
-    }
-
-    /**
-     *
-     * @param modelClass Class
-     * @param pathList Object[]
-     * @return JsonSchema
-     * @throws IOException throws
-     */
-    public static JsonSchema jsonSchema(Class<?> modelClass, Object... pathList) throws IOException {
-        return new JsonSchema().path(modelClass, pathList);
-    }
-
-    /**
-     *
-     * @param pathList Object[]
-     * @return JsonSchema
-     * @throws IOException throws
-     */
-    public static JsonSchema jsonSchema(Object... pathList) throws IOException {
-        return new JsonSchema().path(pathList);
-    }
-
-    /**
-     *
-     * @param args Object[]
-     * @return JsonSchema
-     */
-    public static JsonSchema jsonSchemaArgs(Object... args) {
-        return new JsonSchema(args);
-    }
-
-    /**
-     *
      * @param endpoint String
      * @param uri String
      * @param key String
@@ -291,6 +301,8 @@ public class JsonSchema {
         JsonSchema json = jsonSchema(uri, endpoint);
         json.map = json.toMap(key, k, v);
         json.url = json.map.get(urlK).toString();
+        debug(json.map);
+        debug("url: " + json.url);
         return json;
     }
 
@@ -317,7 +329,7 @@ public class JsonSchema {
      * @return List {List {Object}}
      */
     public static List<List<Object>> toTable(JSONObject o) {
-        return Helper.table(toMap(o));
+        return table(toMap(o));
     }
 
     /**
@@ -327,6 +339,25 @@ public class JsonSchema {
      */
     public static Map<String, Object> toMap(JSONObject o) {
         return o.toMap();
+    }
+
+    /**
+     *
+     * @param jsonString String
+     * @return Map {String, Object}
+     */
+    public static Map<String, Object> getMap(String jsonString) {
+        return jsonSchema(jsonString).toMap();
+    }
+
+    /**
+     *
+     * @param req Request
+     * @return Map {String, Object}
+     * @throws ReflectiveOperationException throws
+     */
+    public static Map<String, Object> toMap(Request req) throws ReflectiveOperationException {
+        return jsonSchema(req).toMap();
     }
 
     /**
@@ -467,7 +498,7 @@ public class JsonSchema {
      * @throws ReflectiveOperationException throws
      */
     public List<List<Object>> toTable(String k) throws ReflectiveOperationException {
-        return Helper.table(toMap(k));
+        return table(toMap(k));
     }
 
     /**
@@ -477,7 +508,7 @@ public class JsonSchema {
      * @throws ReflectiveOperationException throws
      */
     public List<List<Object>> arrayToTable(String k) throws ReflectiveOperationException {
-        return Helper.table(arrayToMap(k));
+        return table(arrayToMap(k));
     }
 
     /**
@@ -489,7 +520,7 @@ public class JsonSchema {
      * @throws ReflectiveOperationException throws
      */
     public List<List<Object>> toTable(String key, String k, String v) throws ReflectiveOperationException {
-        return Helper.table(toMap(key, k, v));
+        return table(toMap(key, k, v));
     }
 
     /**
@@ -501,7 +532,7 @@ public class JsonSchema {
      * @throws ReflectiveOperationException throws
      */
     public <T> List<List<Object>> toTable(String k, Predicate<T> filter) throws ReflectiveOperationException {
-        return Helper.table(toMap(k, filter));
+        return table(toMap(k, filter));
     }
 
     /**
