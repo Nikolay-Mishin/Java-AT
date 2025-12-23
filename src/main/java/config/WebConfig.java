@@ -11,10 +11,10 @@ import org.project.utils.config.WebBaseConfig;
 
 @LoadPolicy(MERGE)
 @Sources({
-    "${props.stand}",
-    "${props.dev}"
     //"system:properties", // -DpropertyName=propertyValue
     //"system:env", // environment variables
+    "${props.stand}",
+    "${props.web}"
 })
 public interface WebConfig extends WebBaseConfig {
     WebConfig BASE_CONFIG = config(WebConfig.class);
