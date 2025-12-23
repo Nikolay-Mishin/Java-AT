@@ -36,8 +36,6 @@ public class BaseTest<T extends TestBaseConfig, W extends WebBaseConfig, D exten
 
     /**
      *
-     * @throws NoSuchFieldException throws
-     * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
     public BaseTest() {
@@ -51,9 +49,6 @@ public class BaseTest<T extends TestBaseConfig, W extends WebBaseConfig, D exten
      * @param <T> extends TestBaseConfig
      * @param <W> extends WebBaseConfig
      * @param <D> extends DriverBaseConfig
-     * @throws NoSuchFieldException throws
-     * @throws ClassNotFoundException throws
-     * @throws IllegalAccessException throws
      */
     public static <T extends TestBaseConfig, W extends WebBaseConfig, D extends DriverBaseConfig> BaseTest<T, W, D> instance() {
         return SingleInstance.getInstance();
