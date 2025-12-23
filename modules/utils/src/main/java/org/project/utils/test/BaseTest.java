@@ -20,7 +20,7 @@ public class BaseTest<T extends TestBaseConfig, W extends WebBaseConfig, D exten
     /**
      *
      */
-    protected static BaseTest<? extends TestBaseConfig, ? extends WebBaseConfig, ? extends DriverBaseConfig> i = SingleInstance.instance();
+    protected static BaseTest<? extends TestBaseConfig, ? extends WebBaseConfig, ? extends DriverBaseConfig> i;
     /**
      *
      */
@@ -40,25 +40,9 @@ public class BaseTest<T extends TestBaseConfig, W extends WebBaseConfig, D exten
      * @throws IllegalAccessException throws
      */
     @ConstructorProperties({})
-    public BaseTest() throws NoSuchFieldException, IllegalAccessException {
+    public BaseTest() {
         debug("BaseTest:init");
-        //setInstance(this);
-        debug("i: " + i);
-        debug("c: " + c);
-        debug("w: " + w);
-        debug("win: " + win);
-        c = getConfig();
-        w = WebConfig.getConfig();
-        win = DriverConfig.getConfig();
-        debug("i: " + i);
-        debug("c: " + c);
-        debug("w: " + w);
-        debug("win: " + win);
-        debug("c: " + getConfig());
-        /*debug("instance: " + instance());
-        debug("c: " + c());
-        debug("w: " + w());
-        debug("win: " + win());*/
+        setInstance(this);
     }
 
     /**
