@@ -18,8 +18,12 @@ import static io.cucumber.core.cli.Main.run;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
@@ -53,7 +57,7 @@ import org.project.utils.function.FunctionWithExceptions;
 public class CucumberRunTest<T extends TestBaseConfig> {
 
     /**
-     *
+     * CucumberRunTest:init
      */
     @ConstructorProperties({})
     public CucumberRunTest() {
@@ -63,16 +67,59 @@ public class CucumberRunTest<T extends TestBaseConfig> {
     }
 
     /**
-     *
+     * setUp
      */
     @BeforeClass
+    @org.junit.BeforeClass
     public static void setUp() {
         out.println("setUp");
-        //init();
     }
 
     /**
-     *
+     * setUp:staticSuite
+     */
+    @BeforeSuite
+    public static void setUpAppSuite() {
+        debug("setUp:staticSuite");
+    }
+
+    /**
+     * setUp:suite
+     */
+    @BeforeSuite
+    public void setUpSuite() {
+        debug("setUp:suite");
+    }
+
+    /**
+     * setUp:app
+     */
+    @org.testng.annotations.BeforeClass
+    public void setUpApp() {
+        debug("setUp:app");
+    }
+
+    /**
+     * testSetUp
+     * @param filePath String
+     */
+    @BeforeTest
+    @Parameters(value={"filePath"})
+    public void testSetUp(String filePath) {
+        out.println("testSetUp: " + filePath);
+    }
+
+    /**
+     * test:init
+     */
+    @org.junit.Test()
+    @Test(description="Base test init", priority = 0)
+    public void test() {
+        out.println("test:init");
+    }
+
+    /**
+     * setUp:init
      */
     public static void init() {
         out.println("setUp:init");
