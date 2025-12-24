@@ -4,7 +4,9 @@ import static org.aeonbits.owner.Config.LoadPolicy;
 import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
 
+import static org.project.utils.config.Config.setConfig;
 import static org.project.utils.config.TestConfig.config;
+import static org.project.utils.config.TestConfig.key;
 
 /**
  *
@@ -18,7 +20,8 @@ public interface TestBaseConfig extends BaseConfig {
     /**
      *
      */
-    TestBaseConfig BASE_CONFIG = config(TestBaseConfig.class);
+    //TestBaseConfig BASE_CONFIG = config(TestBaseConfig.class);
+    TestBaseConfig BASE_CONFIG = setConfig(key());
 
     /**
      * System

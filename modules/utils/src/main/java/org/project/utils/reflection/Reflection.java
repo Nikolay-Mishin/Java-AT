@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.apache.commons.beanutils.PropertyUtils.getProperty;
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
@@ -39,8 +41,10 @@ import static org.project.utils.Helper.isList;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.isParseType;
 import static org.project.utils.Helper.map;
+import static org.project.utils.Helper.notNull;
 import static org.project.utils.exception.UtilException.tryCatchNoArgs;
 import static org.project.utils.exception.UtilException.tryNoArgsWithPrintMsg;
+import static org.project.utils.reflection.ReflectionUtils.getGenericParameterClass;
 
 import org.project.utils.exception.AssertException;
 import org.project.utils.function.BiFunctionWithExceptions;
@@ -158,7 +162,6 @@ public class Reflection {
      * @param <T> T
      * @throws ClassNotFoundException throws
      */
-    @SuppressWarnings("unchecked")
     private static <T> Class<T> _getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
         int traceDepth = 0;
         Class<?> clazz = getCallingClass(traceDepth);
@@ -166,7 +169,7 @@ public class Reflection {
         Class<?> actualClass = getCallingClass(++traceDepth);
         while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
         new AssertException(actualClass).notNull();
-        return (Class<T>) ReflectionUtils.getGenericParameterClass(actualClass, genericClass, index);
+        return getGenericParameterClass(actualClass, genericClass, index);
     }
 
     /**
@@ -500,6 +503,21 @@ public class Reflection {
 
     /**
      *
+     * @param cb Function {Class, Boolean}
+     * @return Class T
+     * @param <T> T
+     * @throws ClassNotFoundException throws
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Class<T> getCallingClass(Function<Class<?>, Boolean> cb) throws ClassNotFoundException {
+        int i = 0;
+        Class<?> c = getCallingClass(i);
+        while (cb.apply(c)) c = getCallingClass(++i);
+        return (Class<T>) c;
+    }
+
+    /**
+     *
      * @return Class T
      * @param <T> T
      * @throws ClassNotFoundException throws
@@ -784,7 +802,7 @@ public class Reflection {
      * @return boolean
      */
     public static boolean isExtends(Class<?> subClass, Class<?> superClass) {
-        return superClass.isAssignableFrom(subClass);
+        return notNull(subClass) && notNull(superClass) && superClass.isAssignableFrom(subClass);
     }
 
     /**
@@ -959,7 +977,18 @@ public class Reflection {
      * @param <T> T
      */
     public static <T> TypeVariable<Class<T>> type(Class<T> clazz, int i) {
-        return types(clazz)[i];
+        return type(i, () -> types(clazz));
+    }
+
+    /**
+     * @param i int
+     * @param cb Supplier {T[]}
+     * @return T
+     * @param <T> extends Type
+     */
+    public static <T extends Type> T type(int i, Supplier<T[]> cb) {
+        T[] types = cb.get();
+        return notNull(types) && types.length > 0 && i < types.length ? types[i] : null;
     }
 
     /**
@@ -978,7 +1007,8 @@ public class Reflection {
      * @param <T> T
      */
     public static <T> String typeName(Class<T> clazz, int i) {
-        return type(clazz, i).getTypeName();
+        TypeVariable<Class<T>> type = type(clazz, i);
+        return notNull(type) ? type.getTypeName() : null;
     }
 
     /**
@@ -997,7 +1027,38 @@ public class Reflection {
      * @param <T> T
      */
     public static <T> Type[] typeBounds(Class<T> clazz, int i) {
-        return type(clazz, i).getBounds();
+        TypeVariable<Class<T>> type = type(clazz, i);
+        return notNull(type) ? type.getBounds() : null;
+    }
+
+    /**
+     * @param clazz Class T
+     * @return Type[]
+     * @param <T> T
+     */
+    public static <T> Type typeBound(Class<T> clazz) {
+        return typeBound(clazz, 0);
+    }
+
+    /**
+     * @param clazz Class T
+     * @param i int
+     * @return Type[]
+     * @param <T> T
+     */
+    public static <T> Type typeBound(Class<T> clazz, int i) {
+        return typeBound(clazz, i, 0);
+    }
+
+    /**
+     * @param clazz Class T
+     * @param i int
+     * @param b int
+     * @return Type[]
+     * @param <T> T
+     */
+    public static <T> Type typeBound(Class<T> clazz, int i, int b) {
+        return type(b, () -> typeBounds(clazz, i));
     }
 
     /**
@@ -1017,6 +1078,32 @@ public class Reflection {
      */
     public static <T> Annotation[] typeAnnotations(Class<T> clazz, int i) {
         return type(clazz, i).getAnnotations();
+    }
+
+    /**
+     * @param type Type
+     * @return Type
+     */
+    public static Type rawType(Type type) {
+        return type instanceof ParameterizedType ? ((ParameterizedType) type).getRawType() : type;
+    }
+
+    /**
+     * @param type Type
+     * @return Type
+     */
+    public static Type typeArg(ParameterizedType type) {
+        return typeArg(type, 0);
+    }
+
+    /**
+     * @param type Type
+     * @param i int
+     * @return Type
+     */
+    public static Type typeArg(ParameterizedType type, int i) {
+        //return type.getActualTypeArguments()[i];
+        return type(i, type::getActualTypeArguments);
     }
 
     /**

@@ -3,12 +3,19 @@ package org.project.utils.config;
 /**
  *
  */
-public class DriverConfig extends Config {
+public class DriverConfig extends Config<DriverBaseConfig> {
     /**
      *
      */
     protected static String key = "win";
 
+    /**
+     *
+     * @return String
+     */
+    public static String key() {
+        return key;
+    }
     /**
      *
      * @return T

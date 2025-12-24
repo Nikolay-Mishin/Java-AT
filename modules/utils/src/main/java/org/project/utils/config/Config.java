@@ -17,16 +17,17 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.base.Properties.setProps;
-import static org.project.utils.config.WebBaseConfig.DEBUG_LEVEL;
-import static org.project.utils.config.WebBaseConfig.ENV;
 import static org.project.utils.exception.UtilException.tryCatchNoArgs;
+import static org.project.utils.reflection.Reflection.getCallingClass;
+import static org.project.utils.reflection.Reflection.getGenericClass;
 
 import org.project.utils.base.HashMap;
+import org.project.utils.function.SupplierWithExceptions;
 
 /**
  *
  */
-public class Config {
+public class Config<T extends BaseConfig> implements BaseConfig {
     /**
      *
      */
@@ -51,6 +52,14 @@ public class Config {
      *
      */
     protected static Factory f = f();
+
+    /**
+     *
+     * @return String
+     */
+    public static String key() {
+        return key;
+    }
 
     /**
      *
@@ -103,6 +112,27 @@ public class Config {
 
     /**
      *
+     * @return T
+     * @param <T> T
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends BaseConfig> T setConfig() {
+        return config((T) createConfig());
+    }
+
+    /**
+     *
+     * @param k String
+     * @return T
+     * @param <T> T
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends BaseConfig> T setConfig(String k) {
+        return config(k, (T) createConfig());
+    }
+
+    /**
+     *
      * @param config T
      * @return T
      * @param <T> T
@@ -129,7 +159,7 @@ public class Config {
      * @param <T> T
      */
     public static <T extends BaseConfig> T compare(T config) {
-        return compare(key, init(config));
+        return compare(key, config);
     }
 
     /**
@@ -156,15 +186,49 @@ public class Config {
 
     /**
      *
+     * @return Class T
+     * @param <T> extends BaseConfig
+     */
+    public static <T extends BaseConfig> T createConfig() {
+        /*try {
+            Class<T> clazz = getGenericClass();
+            debug("getGenericClass: " + clazz);
+            //return clazz;
+        } catch (Exception e) {
+            debug("getGenericClass:catch");
+            e.printStackTrace();
+        }*/
+        return createConfig(() -> getCallingClass(c -> !c.isInterface()));
+    }
+
+    /**
+     *
      * @param clazz Class T
      * @return T
      * @param <T> T
      */
     public static <T extends BaseConfig> T createConfig(Class<T> clazz) {
-        setProps();
-        debug("createConfig: " + clazz);
-        //return init(getOrCreate(clazz, getenv(), setProperties()));
-        return init(getOrCreate(clazz));
+        return createConfig(() -> clazz);
+    }
+
+    /**
+     *
+     * @param cb Supplier {Class T}
+     * @return T
+     * @param <T> T
+     */
+    public static <T extends BaseConfig, E extends ClassNotFoundException> T createConfig(SupplierWithExceptions<Class<T>, E> cb) {
+        try {
+            setProps();
+            Class<T> clazz = cb.get();
+            debug("createConfig: " + clazz);
+            //return init(getOrCreate(clazz, getenv(), setProperties()));
+            return init(getOrCreate(clazz));
+        } catch (ClassNotFoundException e) {
+            debug("createConfig:catch");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -455,4 +519,63 @@ public class Config {
         debug("getProperties: " + getProperties());
     }
 
+    /**
+     * @return BaseConfig
+     */
+    @Override
+    public BaseConfig getBaseConfig() {
+        return null;
+    }
+
+    /**
+     * @return String
+     */
+    @Override
+    public String getEnv() {
+        return "";
+    }
+
+    /**
+     * @return int
+     */
+    @Override
+    public int getDebugLevel() {
+        return 0;
+    }
+
+    /**
+     * @return String
+     */
+    @Override
+    public String getJavaVer() {
+        return "";
+    }
+
+    /**
+     * @return String
+     */
+    @Override
+    public String getJavaHome() {
+        return "";
+    }
+
+    /**
+     * app
+     *
+     * @return long
+     */
+    @Override
+    public long getSleep() {
+        return 0;
+    }
+
+    /**
+     * app
+     *
+     * @return long
+     */
+    @Override
+    public long getTimeout() {
+        return 0;
+    }
 }

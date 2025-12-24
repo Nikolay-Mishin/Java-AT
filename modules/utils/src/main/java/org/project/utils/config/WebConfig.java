@@ -3,12 +3,19 @@ package org.project.utils.config;
 /**
  *
  */
-public class WebConfig extends Config {
+public class WebConfig extends Config<WebBaseConfig> {
     /**
      *
      */
     protected static String key = "web";
 
+    /**
+     *
+     * @return String
+     */
+    public static String key() {
+        return key;
+    }
     /**
      *
      * @return T

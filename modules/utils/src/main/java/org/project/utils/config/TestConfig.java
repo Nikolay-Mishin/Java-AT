@@ -3,12 +3,19 @@ package org.project.utils.config;
 /**
  *
  */
-public class TestConfig extends Config {
+public class TestConfig extends Config<TestBaseConfig> {
     /**
      *
      */
     protected static String key = "test";
 
+    /**
+     *
+     * @return String
+     */
+    public static String key() {
+        return key;
+    }
     /**
      *
      * @return T

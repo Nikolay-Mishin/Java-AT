@@ -240,7 +240,9 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param <E> extends ReflectiveOperationException
      * @throws ReflectiveOperationException throws
      */
-    public static <T extends TestBaseConfig, E extends ReflectiveOperationException> T init(String a, FunctionWithExceptions<Exception, Class<?>, E> catchCb) throws ReflectiveOperationException {
+    public static <T extends TestBaseConfig, E extends ReflectiveOperationException> T init(String a, FunctionWithExceptions<Exception, Class<?>, E> catchCb)
+        throws ReflectiveOperationException
+    {
         Class<?> clazz = tryCatchNoArgs(() -> getClazz(a), catchCb::apply);
         out.println("getClass: " + clazz);
         if (isNull(clazz)) tryConsumerWithIgnore(() -> out.println("getField: " + getField(a)));

@@ -19,10 +19,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.entries;
-import static org.project.utils.config.DriverBaseConfig.BASE_CONFIG;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
+import static org.project.utils.config.DriverConfig.config;
 import static org.project.utils.stream.GobblerStream.stream;
 import static org.project.utils.windriver.WinDriver.findByClass;
 import static org.project.utils.windriver.WinDriver.start;
@@ -121,7 +121,7 @@ public class TestProc<T extends TestBaseConfig, W extends WebBaseConfig, D exten
         cap.setCapability(ChromeOptions.CAPABILITY, options);
 
         // Set the path to the ChromeDriver executable
-        setProperty("webdriver.chrome.driver", BASE_CONFIG.getChromeDriver());
+        setProperty("webdriver.chrome.driver", config().getChromeDriver());
         // Initialize the Chrome driver
         web = new ChromeDriver(options);
         assertNotNull(web);

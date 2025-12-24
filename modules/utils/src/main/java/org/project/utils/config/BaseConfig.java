@@ -9,6 +9,7 @@ import org.aeonbits.owner.Config;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.debugLvl;
 import static org.project.utils.config.Config.env;
+import static org.project.utils.config.Config.setConfig;
 
 /**
  *
@@ -22,7 +23,8 @@ public interface BaseConfig extends Config {
     /**
      *
      */
-    BaseConfig BASE_CONFIG = config(BaseConfig.class);
+    //BaseConfig BASE_CONFIG = config(BaseConfig.class);
+    BaseConfig BASE_CONFIG = setConfig();
     /**
      *
      */

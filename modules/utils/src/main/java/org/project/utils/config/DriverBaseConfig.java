@@ -4,8 +4,10 @@ import static org.aeonbits.owner.Config.LoadPolicy;
 import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
 
+import static org.project.utils.config.Config.setConfig;
 import static org.project.utils.config.DriverConfig.config;
 import static org.project.utils.config.DriverConfig.getConfig;
+import static org.project.utils.config.DriverConfig.key;
 
 /**
  *
@@ -19,7 +21,8 @@ public interface DriverBaseConfig extends BaseConfig {
     /**
      *
      */
-    DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);
+    //DriverBaseConfig BASE_CONFIG = config(DriverBaseConfig.class);
+    DriverBaseConfig BASE_CONFIG = setConfig(key());
     /**
      *
      */
