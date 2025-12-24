@@ -173,8 +173,8 @@ public class Library {
      *
      * @return boolean
      */
-    public static boolean checkLibrary() {
-        debug("checkLibrary");
+    public static boolean checkLib() {
+        debug("checkLib");
         debug("chrome: " + chrome);
         debug("chromeDriver: " + chromeDriver);
         debug("chromeVersion: " + chromeVersion);
@@ -183,7 +183,7 @@ public class Library {
         debug("chromeDriverBuildVersion: " + chromeDriverBuildVersion);
         debug("chromeMilestone: " + chromeMilestone);
         debug("chromeDriverMilestone: " + chromeDriverMilestone);
-        debug("updateLibrary: " + updateLibrary);
+        debug("updateLib: " + updateLibrary);
         debug("apiVer: " + apiVer);
         debug("apiBuild: " + apiBuild);
         debug("apiMilestone: " + apiMilestone);
@@ -237,19 +237,19 @@ public class Library {
     /**
      *
      */
-    public static void updateLibrary() throws Exception {
-        updateLibrary(libWrite);
+    public static void updateLib() throws Exception {
+        updateLib(libWrite);
     }
 
     /**
      *
      * @param writeLibrary boolean
      */
-    public static void updateLibrary(boolean writeLibrary) throws Exception {
-        if (checkLibrary()) {
-            debug("updateLibrary");
-            if (writeLibrary) writeLibrary();
-            else loadLibrary();
+    public static void updateLib(boolean writeLibrary) throws Exception {
+        if (checkLib()) {
+            debug("updateLib");
+            if (writeLibrary) writeLib();
+            else loadLib();
         }
     }
 
@@ -259,8 +259,8 @@ public class Library {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static void loadLibrary() throws Exception {
-        debug("loadLibrary");
+    public static void loadLib() throws Exception {
+        debug("loadLib");
         loadZip(uri, endpoint, key, k, v, urlK, root);
     }
 
@@ -270,8 +270,8 @@ public class Library {
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
      */
-    public static void writeLibrary() throws Exception {
-        debug("writeLibrary");
+    public static void writeLib() throws Exception {
+        debug("writeLib");
         unzip(uri, endpoint, key, k, v, urlK, out, root);
     }
 
