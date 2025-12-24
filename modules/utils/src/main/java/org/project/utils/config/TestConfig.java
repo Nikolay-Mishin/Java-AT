@@ -47,4 +47,12 @@ public class TestConfig extends Config<TestBaseConfig> {
     public static TestBaseConfig config(TestBaseConfig config) {
         return config(key, config);
     }
+    /**
+     *
+     * @return T
+     * @param <T> extends BaseConfig
+     */
+    public static <T extends BaseConfig> T setConfig() {
+        return setConfig(key());
+    }
 }

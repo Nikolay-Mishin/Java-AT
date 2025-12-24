@@ -47,4 +47,12 @@ public class WebConfig extends Config<WebBaseConfig> {
     public static WebBaseConfig config(WebBaseConfig config) {
         return config(key, config);
     }
+    /**
+     *
+     * @return T
+     * @param <T> extends BaseConfig
+     */
+    public static <T extends BaseConfig> T setConfig() {
+        return setConfig(key());
+    }
 }

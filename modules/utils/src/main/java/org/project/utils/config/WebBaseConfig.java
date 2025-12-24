@@ -6,9 +6,8 @@ import static org.aeonbits.owner.Config.Sources;
 
 import io.restassured.http.ContentType;
 
-import static org.project.utils.config.Config.setConfig;
 import static org.project.utils.config.WebConfig.config;
-import static org.project.utils.config.WebConfig.key;
+import static org.project.utils.config.WebConfig.setConfig;
 
 /**
  *
@@ -24,7 +23,7 @@ public interface WebBaseConfig extends BaseConfig {
      *
      */
     //WebBaseConfig BASE_CONFIG = config(WebBaseConfig.class);
-    WebBaseConfig BASE_CONFIG = setConfig(key());
+    WebBaseConfig BASE_CONFIG = setConfig();
 
     /**
      * web

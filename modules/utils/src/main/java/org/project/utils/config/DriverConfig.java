@@ -47,4 +47,12 @@ public class DriverConfig extends Config<DriverBaseConfig> {
     public static DriverBaseConfig config(DriverBaseConfig config) {
         return config(key, config);
     }
+    /**
+     *
+     * @return T
+     * @param <T> extends BaseConfig
+     */
+    public static <T extends BaseConfig> T setConfig() {
+        return setConfig(key());
+    }
 }
