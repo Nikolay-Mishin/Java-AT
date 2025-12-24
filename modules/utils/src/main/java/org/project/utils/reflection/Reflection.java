@@ -1579,7 +1579,6 @@ public class Reflection {
             Class<?> superClass = c.getSuperclass();
             if (isNull(superClass)) throw e;
             else {
-                debug("getSuperClass");
                 return getInvoke(superClass, cb);
             }
         });
