@@ -4,8 +4,7 @@ import static org.aeonbits.owner.Config.LoadPolicy;
 import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
 
-import static org.project.utils.config.WebConfig.config;
-import static org.project.utils.config.WebConfig.debugLvl;
+import static org.project.utils.config.WebConfig.setConfig;
 
 import org.project.utils.config.WebBaseConfig;
 
@@ -17,6 +16,5 @@ import org.project.utils.config.WebBaseConfig;
     "${props.web}"
 })
 public interface WebConfig extends WebBaseConfig {
-    WebConfig BASE_CONFIG = config(WebConfig.class);
-    int DEBUG_LEVEL = debugLvl();
+    WebConfig BASE_CONFIG = setConfig();
 }

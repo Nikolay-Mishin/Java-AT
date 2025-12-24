@@ -2,11 +2,11 @@ import org.junit.BeforeClass;
 
 import org.project.utils.test.CucumberRunTest;
 
-import static config.TestConfig.BASE_CONFIG;
+import config.TestConfig;
 
-public class ApiTest extends CucumberRunTest {
+public class ApiTest extends CucumberRunTest<TestConfig> {
     @BeforeClass
-    public static void setUp() throws ReflectiveOperationException {
-        setUp(BASE_CONFIG);
+    public static void setUp() {
+        init();
     }
 }
