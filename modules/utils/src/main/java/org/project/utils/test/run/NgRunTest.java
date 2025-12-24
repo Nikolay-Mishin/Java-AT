@@ -8,7 +8,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 import static org.project.utils.Helper.debug;
 
@@ -64,14 +63,6 @@ public class NgRunTest<T extends TestBaseConfig> extends CucumberConfigTest<T> {
     @Parameters(value={"filePath"})
     public void testSetUp(String filePath) {
         debug("testSetUp: " + filePath);
-    }
-
-    /**
-     * test:init
-     */
-    @Test(description="Test init")
-    public void testInit() {
-        debug("test:init");
     }
 
 }

@@ -65,14 +65,6 @@ public class CucumberConfigTest<T extends TestBaseConfig> {
     }
 
     /**
-     * setUp:init
-     */
-    public static void init() {
-        out.println("setUp:init");
-        new CucumberConfigTest<>();
-    }
-
-    /**
      *
      * @param field String
      * @return String[]
