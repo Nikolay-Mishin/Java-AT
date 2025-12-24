@@ -714,14 +714,24 @@ public class Reflection {
 
     /**
      *
-     * @param genericClass Class T
+     * @param actual Class T
+     * @return Class T
+     * @param <T> T
+     */
+    public static <T, R> Class<R> getGenericClass(Class<T> actual) {
+        return getGenericClass(actual, 0);
+    }
+
+    /**
+     *
+     * @param actual Class T
      * @param index int
      * @return Class T
      * @param <T> T
-     * @throws ClassNotFoundException throws
      */
-    public static <T> Class<T> getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
-        return _getGenericClass(genericClass, index);
+    public static <T, R> Class<R> getGenericClass(Class<T> actual, int index) {
+        //return (Class<R>) _getGenericClass(actual, index);
+        return getGenericParameterClass(actual, actual.getSuperclass(), index);
     }
 
     /**
