@@ -12,6 +12,7 @@ import static org.project.utils.reflection.Reflection.invoke;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
+import org.project.utils.test.step.Requests;
 
 /**
  * @param <T> extends TestBaseConfig

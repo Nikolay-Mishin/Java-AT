@@ -1,4 +1,4 @@
-package org.project.utils.test;
+package org.project.utils.test.step;
 
 import java.beans.ConstructorProperties;
 
