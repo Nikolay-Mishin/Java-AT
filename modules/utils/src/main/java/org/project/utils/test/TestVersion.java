@@ -3,6 +3,7 @@ package org.project.utils.test;
 import java.beans.ConstructorProperties;
 
 import static org.project.utils.Helper.debug;
+import static org.project.utils.fs.Library.checkLibrary;
 import static org.project.utils.fs.Library.updateLibrary;
 
 import org.project.utils.config.DriverBaseConfig;
@@ -27,7 +28,8 @@ public class TestVersion<T extends TestBaseConfig, W extends WebBaseConfig, D ex
      */
     public static void testVersion() throws Exception {
         debug("testVersion");
-        updateLibrary();
+        checkLibrary();
+        //updateLibrary();
     }
 
 }

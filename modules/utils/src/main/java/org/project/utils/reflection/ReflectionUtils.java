@@ -47,7 +47,7 @@ public class ReflectionUtils {
         Stack<ParameterizedType> genericClasses = getGenericClasses(actualClass, genericClass, parameterIndex);
 
         // Нужный класс найден. Теперь мы можем узнать, какими типами он параметризован.
-        Type result = genericClasses.empty() ? null : typeArg(genericClasses.pop());
+        Type result = genericClasses.empty() ? null : typeArg(genericClasses.pop(), parameterIndex);
 
         // Похоже наш параметр задан где-то ниже по иерархии, спускаемся вниз.
         while (result instanceof TypeVariable && !genericClasses.empty()) {

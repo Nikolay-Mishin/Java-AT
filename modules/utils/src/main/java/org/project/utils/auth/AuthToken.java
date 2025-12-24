@@ -53,13 +53,6 @@ public class AuthToken extends Token {
      * @throws ClassNotFoundException throws
      */
     public Token accessToken() throws ClassNotFoundException {
-        debug("accessToken: " + token("access"));
-        try {
-            token("access").print();
-            printRegisterMap();
-        } catch (ReflectiveOperationException e) {
-            throw new RuntimeException(e);
-        }
         return token("access");
     }
 

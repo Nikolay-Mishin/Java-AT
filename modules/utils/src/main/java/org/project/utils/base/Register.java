@@ -127,12 +127,11 @@ public class Register<K, V> {
      * @throws ClassNotFoundException throws
      */
     public static <K, V> V getRegister(K key) throws ClassNotFoundException {
-        debug("registerMap");
+        debug("registerMap: " + key);
         Class<?> t1 = getGenericClass();
         debug("Generic#1: " + t1);
-        Class<?> t2 = t1;
         try {
-            t2 = getGenericClass(1);
+            Class<?> t2 = getGenericClass(1);
             debug("Generic#2: " + t2);
             return register(t2, key);
         } catch (Exception e) {
