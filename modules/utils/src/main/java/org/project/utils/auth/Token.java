@@ -245,7 +245,9 @@ public class Token extends Register<String, Token> {
         for (String key : keys) {
             String path = key(key);
             String token = null;
+            debug("key: " + key);
             debug("path: " + path);
+            debug("token: " + token);
             try {
                 if (!isJson(tokens)) {
                     //token = invoke(tokens, "path", path);
@@ -255,6 +257,7 @@ public class Token extends Register<String, Token> {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
+            debug("token: " + token);
             token(key, new Token(key, token, path));
         }
     }

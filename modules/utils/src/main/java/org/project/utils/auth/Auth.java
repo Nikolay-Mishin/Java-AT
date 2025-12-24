@@ -729,6 +729,8 @@ public class Auth extends SingleInstance<Auth> {
      * @throws ClassNotFoundException throws
      */
     public static String getAccessToken() throws ClassNotFoundException {
+        debug("getAccessToken: " + token());
+        debug("getAccessToken: " + token().getAccessToken());
         return token().getAccessToken();
     }
 

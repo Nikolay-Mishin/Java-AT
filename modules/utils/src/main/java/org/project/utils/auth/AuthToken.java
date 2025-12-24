@@ -8,6 +8,9 @@ import io.restassured.response.Response;
 
 import org.project.utils.json.JsonSchema;
 
+import static org.project.utils.Helper.debug;
+import static org.project.utils.auth.Auth.printTokens;
+
 /**
  *
  */
@@ -50,6 +53,13 @@ public class AuthToken extends Token {
      * @throws ClassNotFoundException throws
      */
     public Token accessToken() throws ClassNotFoundException {
+        debug("accessToken");
+        try {
+            printTokens();
+            printRegisterMap();
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
         return token("access");
     }
 
@@ -77,6 +87,7 @@ public class AuthToken extends Token {
      * @throws ClassNotFoundException throws
      */
     public String getAccessToken() throws ClassNotFoundException {
+        debug("getAccessToken: " + accessToken());
         return accessToken().value;
     }
 
