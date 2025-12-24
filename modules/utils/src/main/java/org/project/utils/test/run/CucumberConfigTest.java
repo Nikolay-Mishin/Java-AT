@@ -1,8 +1,8 @@
-package org.project.utils.test;
+package org.project.utils.test.run;
 
 import static java.lang.System.getProperty;
-import static java.lang.System.setProperty;
 import static java.lang.System.out;
+import static java.lang.System.setProperty;
 import static java.lang.Thread.currentThread;
 
 import java.beans.ConstructorProperties;
@@ -16,33 +16,22 @@ import java.util.function.Function;
 
 import static io.cucumber.core.cli.Main.run;
 
-import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.junit.BeforeClass;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
+import static org.project.utils.Helper.isNull;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
 import static org.project.utils.event.CucumberEventListener.getPlugins;
 import static org.project.utils.event.CucumberEventListener.initArg;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.getGenericClass;
-import static org.project.utils.reflection.Reflection.getStackTrace;
 
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
 import org.project.utils.function.FunctionWithExceptions;
 
-/**
- * класс для запуска тестов Cucumber
- */
-// аннотация: класс для запуска тестов Cucumber
-@RunWith(Cucumber.class)
 // настройки Cucumber
 @CucumberOptions(
     //monochrome = true,
@@ -54,68 +43,25 @@ import org.project.utils.function.FunctionWithExceptions;
         //"org.project.utils.event.CucumberEventListener:config.WebConfig"
     }
 )
-public class CucumberRunTest<T extends TestBaseConfig> {
+public class CucumberConfigTest<T extends TestBaseConfig> {
 
     /**
      * CucumberRunTest:init
      */
     @ConstructorProperties({})
-    public CucumberRunTest() {
+    public CucumberConfigTest() {
         out.println("CucumberRunTest:init");
-        init("BASE_CONFIG");
         //initField("BASE_CONFIG");
+        //init("BASE_CONFIG");
+        init(getGenericClass(getClass()), "BASE_CONFIG");
     }
 
     /**
      * setUp
      */
     @BeforeClass
-    @org.junit.BeforeClass
     public static void setUp() {
         out.println("setUp");
-    }
-
-    /**
-     * setUp:staticSuite
-     */
-    @BeforeSuite
-    public static void setUpAppSuite() {
-        debug("setUp:staticSuite");
-    }
-
-    /**
-     * setUp:suite
-     */
-    @BeforeSuite
-    public void setUpSuite() {
-        debug("setUp:suite");
-    }
-
-    /**
-     * setUp:app
-     */
-    @org.testng.annotations.BeforeClass
-    public void setUpApp() {
-        debug("setUp:app");
-    }
-
-    /**
-     * testSetUp
-     * @param filePath String
-     */
-    @BeforeTest
-    @Parameters(value={"filePath"})
-    public void testSetUp(String filePath) {
-        out.println("testSetUp: " + filePath);
-    }
-
-    /**
-     * test:init
-     */
-    @org.junit.Test()
-    @Test(description="Base test init", priority = 0)
-    public void test() {
-        out.println("test:init");
     }
 
     /**
@@ -123,18 +69,28 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      */
     public static void init() {
         out.println("setUp:init");
-        new CucumberRunTest<>();
+        new CucumberConfigTest<>();
     }
 
     /**
      *
      * @param field String
      * @return String[]
+     */
+    public static String[] init(String field) {
+        return init(null, field);
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param field String
+     * @return String[]
      * @param <T> extends TestBaseConfig
      */
     @SuppressWarnings("unchecked")
-    public static <T extends TestBaseConfig> String[] init(String field) {
-        return init(clazz -> (T) getField(clazz, field));
+    public static <T extends TestBaseConfig> String[] init(Class<T> clazz, String field) {
+        return init(clazz, c -> (T) getField(clazz, field));
     }
 
     /**
@@ -143,20 +99,32 @@ public class CucumberRunTest<T extends TestBaseConfig> {
      * @return String[]
      */
     public static String[] initField(String arg) {
-        return init(clazz -> initArg(clazz.getName() + "::" + arg));
+        return initField(null, arg);
     }
 
     /**
      *
-     * @param cb SupplierWithExceptions {T, E}
+     * @param clazz Class T
+     * @param arg String
+     * @return String[]
+     * @param <T> extends TestBaseConfig
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends TestBaseConfig> String[] initField(Class<T> clazz, String arg) {
+        return init(clazz, c -> (T) initArg(clazz.getName() + "::" + arg));
+    }
+
+    /**
+     *
+     * @param clazz Class T
+     * @param cb FunctionWithExceptions {T, E}
      * @return String[]
      * @param <T> extends TestBaseConfig
      * @param <E> extends ReflectiveOperationException
      */
-    public static <T extends TestBaseConfig, E extends ReflectiveOperationException> String[] init(FunctionWithExceptions<Class<T>, T, E> cb) {
+    public static <T extends TestBaseConfig, E extends ReflectiveOperationException> String[] init(Class<T> clazz, FunctionWithExceptions<Class<T>, T, E> cb) {
         try {
-            out.println(Arrays.toString(getStackTrace()));
-            Class<T> clazz = getGenericClass();
+            if (isNull(clazz)) clazz = getGenericClass();
             out.println("CucumberRunTest: " + clazz);
             return setOptions(cb.apply(clazz));
         } catch (ReflectiveOperationException e) {

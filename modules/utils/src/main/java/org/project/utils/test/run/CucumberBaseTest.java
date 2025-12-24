@@ -1,4 +1,4 @@
-package org.project.utils.test;
+package org.project.utils.test.run;
 
 import org.project.utils.config.TestBaseConfig;
 
