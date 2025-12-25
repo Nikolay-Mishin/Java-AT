@@ -12,12 +12,12 @@ import io.restassured.response.Response;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.config.WebConfig.config;
-import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 
 import org.project.utils.config.WebBaseConfig;
 import org.project.utils.function.FunctionWithExceptions;
 import org.project.utils.function.SupplierWithExceptions;
+import org.project.utils.reflection.Instance;
 import org.project.utils.request.BaseRequests;
 
 /**
@@ -25,7 +25,7 @@ import org.project.utils.request.BaseRequests;
  * @param <R> R
  * @param <M> M
  */
-public class BaseStep<R extends BaseRequests<M>, M> {
+public class BaseStep<R extends BaseRequests<M>, M> extends Instance<R> {
     /**
      *
      */
