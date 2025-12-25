@@ -1079,8 +1079,6 @@ public class Reflection {
      * @return Type
      */
     public static Type typeArg(ParameterizedType type, int i) {
-        debug("genericType: " + type);
-        debug("i: " + i);
         return type(i, type::getActualTypeArguments);
     }
 
