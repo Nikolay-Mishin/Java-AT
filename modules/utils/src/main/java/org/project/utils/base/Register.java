@@ -130,8 +130,9 @@ public class Register<K, V> {
         debug("registerMap: " + key);
         Class<?> t1 = getGenericClass();
         debug("Generic#1: " + t1);
+        Class<?> t2;
         try {
-            Class<?> t2 = getGenericClass(1);
+            t2 = getGenericClass(1);
             debug("Generic#2: " + t2);
             return register(t2, key);
         } catch (Exception e) {

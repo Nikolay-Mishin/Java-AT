@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Stack;
 
+import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.reflection.Reflection.isExtends;
 import static org.project.utils.reflection.Reflection.rawType;
@@ -32,6 +33,10 @@ public class ReflectionUtils {
         final Class<?> actualClass = isClass ? actual : generic;
         final Class<?> genericClass = isClass ? generic : actual;
 
+        debug("actualClass: " + actualClass);
+        debug("genericClass: " + genericClass);
+        debug("parameterIndex: " + parameterIndex);
+
         // Прекращаем работу если genericClass не является предком actualClass.
         if (!isExtends(actualClass, genericClass)) {
             throw new IllegalArgumentException("Class " + genericClass.getName() + " is not a superclass of " + actualClass.getName() + ".");
@@ -44,8 +49,13 @@ public class ReflectionUtils {
         // Пройденные классы - используются для спуска вниз.
         Stack<ParameterizedType> genericClasses = getGenericClasses(actualClass, genericClass, parameterIndex);
 
+        debug("genericClasses: " + genericClasses);
+
         // Нужный класс найден. Теперь мы можем узнать, какими типами он параметризован.
         Type result = genericClasses.empty() ? null : typeArg(genericClasses.pop(), parameterIndex);
+
+        debug("result: " + result);
+        debug("TypeVariable: " + (result instanceof TypeVariable));
 
         // Похоже наш параметр задан где-то ниже по иерархии, спускаемся вниз.
         while (result instanceof TypeVariable && !genericClasses.empty()) {
@@ -90,13 +100,20 @@ public class ReflectionUtils {
         boolean isClass = !genericClass.isInterface();
         Stack<ParameterizedType> genericClasses = new Stack<>();
 
+        debug("actual: " + actualClass);
+        debug("generic: " + genericClass);
+
         // clazz - текущий рассматриваемый класс
         Class<?> clazz = isClass ? actualClass : genericClass;
 
         while (notNull(clazz)) {
             Type genericSuperclass = isClass ? clazz.getGenericSuperclass() : typeBound(clazz, parameterIndex);
+            boolean parameterizedType = genericSuperclass instanceof ParameterizedType;
 
-            if (genericSuperclass instanceof ParameterizedType) {
+            debug("genericSuperclass: " + genericSuperclass);
+            debug("parameterizedType: " + parameterizedType);
+
+            if (parameterizedType) {
                 // Если предок - параметризованный класс, то запоминаем его - возможно он пригодится при спуске вниз.
                 genericClasses.push((ParameterizedType) genericSuperclass);
             } else {
@@ -104,16 +121,22 @@ public class ReflectionUtils {
                 genericClasses.clear();
             }
 
+            debug("rawType: " + rawType(genericSuperclass));
+            debug("rawTypeGeneric: " + rawTypeGeneric(rawType(genericSuperclass), genericClass));
+
             // Проверяем, дошли мы до нужного предка или нет.
             if (!rawTypeGeneric(rawType(genericSuperclass), genericClass)) {
                 // genericClass не является непосредственным родителем для текущего класса.
                 // Поднимаемся по иерархии дальше.
                 clazz = clazz.getSuperclass();
             } else {
+                //if (!parameterizedType) genericClasses = getGenericClasses(clazz, genericClass.getSuperclass(), parameterIndex);
                 // Мы поднялись до нужного класса. Останавливаемся.
                 break;
             }
         }
+
+        debug("getGenericClasses: " + genericClasses);
 
         return genericClasses;
     }
