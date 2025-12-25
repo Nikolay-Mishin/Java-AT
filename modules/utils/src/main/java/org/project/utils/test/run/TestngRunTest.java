@@ -11,16 +11,17 @@ import org.testng.annotations.Parameters;
 
 import static org.project.utils.Helper.debug;
 
+import org.project.utils.config.CucumberRunConfig;
 import org.project.utils.config.TestBaseConfig;
 
-public class NgRunTest<T extends TestBaseConfig> extends CucumberConfigTest<T> {
+public class TestngRunTest<T extends TestBaseConfig> extends CucumberRunConfig<T> {
 
     /**
      * CucumberRunTest:init
      */
     @ConstructorProperties({})
-    public NgRunTest() {
-        out.println("NgRunTest:init");
+    public TestngRunTest() {
+        out.println("TestngRunTest:init");
     }
 
     /**
