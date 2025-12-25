@@ -71,11 +71,8 @@ public class Register<K, V> {
     protected static <K, V> Register<K, V> registerMap(Class<?> clazz, K key, V value) throws ClassNotFoundException {
         debug("registerMap");
         Class<?> t1 = getGenericClass();
+        Class<?> t2 = getGenericClass(1);
         debug("Generic#1: " + t1);
-        Class<?> t2 = t1;
-        try {
-            t2 = getGenericClass(1);
-        } catch (Exception ignored) {}
         debug("Generic#2: " + t2);
         Register<K, V> registerValue = registerMap(clazz);
         Register<K, V> register = notNull(registerValue) ? registerValue : new Register<>();
@@ -129,16 +126,10 @@ public class Register<K, V> {
     public static <K, V> V getRegister(K key) throws ClassNotFoundException {
         debug("registerMap: " + key);
         Class<?> t1 = getGenericClass();
+        Class<?> t2 = getGenericClass(1);
         debug("Generic#1: " + t1);
-        Class<?> t2;
-        try {
-            t2 = getGenericClass(1);
-            debug("Generic#2: " + t2);
-            return register(t2, key);
-        } catch (Exception e) {
-            debug(e.toString());
-        }
-        return null;
+        debug("Generic#2: " + t2);
+        return register(t2, key);
     }
 
     /**

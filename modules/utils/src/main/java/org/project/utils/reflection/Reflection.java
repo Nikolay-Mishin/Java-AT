@@ -680,9 +680,7 @@ public class Reflection {
      * @throws ClassNotFoundException throws
      */
     public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
-        debug("_getGenericClass:0");
-        return _getGenericClass(getCallingClass(1), 0);
-        //return getGenericClass(0);
+        return getGenericClass(0);
     }
 
     /**
@@ -693,34 +691,7 @@ public class Reflection {
      * @throws ClassNotFoundException throws
      */
     public static <T> Class<T> getGenericClass(int index) throws ClassNotFoundException {
-        debug("getStackTrace: " + Arrays.toString(getStackTrace()));
-        debug("_getGenericClass(index)" + index);
-        return _getGenericClass(getCallingClass(1), index);
-        //return getGenericClass(index, 0);
-    }
-
-    /**
-     *
-     * @param genericClass Class T
-     * @param index int
-     * @return Class T
-     * @param <T> T
-     * @throws ClassNotFoundException throws
-     */
-    private static <T> Class<T> _getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
-        try {
-            debug("getGenericClass: " + getGenericClass(index, 0));
-        } catch (Exception e) {
-            debug(e.toString());
-        }
-        debug("_getGenericClass");
-        int traceDepth = 0;
-        Class<?> clazz = getCallingClass(traceDepth);
-        while (clazz != genericClass) clazz = getCallingClass(++traceDepth);
-        Class<?> actualClass = getCallingClass(++traceDepth);
-        while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
-        new AssertException(actualClass).notNull();
-        return getGenericParameterClass(actualClass, genericClass, index);
+        return getGenericClass(index, 0);
     }
 
     /**
@@ -732,8 +703,7 @@ public class Reflection {
      * @throws ClassNotFoundException throws
      */
     public static <T> Class<T> getGenericClass(int index, int traceDepth) throws ClassNotFoundException {
-        debug("getGenericClass");
-        Class<?> genericClass = getCallingClass(++traceDepth);
+        Class<?> genericClass = getCallingClass(traceDepth);
         Class<?> actualClass = getCallingClass(++traceDepth);
         try {
             if (isExtends(genericClass, Reflection.class)) return getGenericClass(index, ++traceDepth);
@@ -747,9 +717,7 @@ public class Reflection {
             }
         } catch (ArrayIndexOutOfBoundsException ignored) {}
         new AssertException(actualClass).notNull();
-        Class<T> generic = getGenericParameterClass(actualClass, genericClass, index);
-        debug("getGenericClass: " + generic);
-        return generic;
+        return getGenericParameterClass(actualClass, genericClass, index);
     }
 
     /**
