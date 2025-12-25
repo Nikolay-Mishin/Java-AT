@@ -156,24 +156,6 @@ public class Reflection {
 
     /**
      *
-     * @param genericClass Class T
-     * @param index int
-     * @return Class T
-     * @param <T> T
-     * @throws ClassNotFoundException throws
-     */
-    private static <T> Class<T> _getGenericClass(Class<T> genericClass, int index) throws ClassNotFoundException {
-        int traceDepth = 0;
-        Class<?> clazz = getCallingClass(traceDepth);
-        while (clazz != genericClass) clazz = getCallingClass(++traceDepth);
-        Class<?> actualClass = getCallingClass(++traceDepth);
-        while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
-        new AssertException(actualClass).notNull();
-        return getGenericParameterClass(actualClass, genericClass, index);
-    }
-
-    /**
-     *
      * @param o Object
      * @return Class[]
      */
@@ -698,7 +680,7 @@ public class Reflection {
      * @throws ClassNotFoundException throws
      */
     public static <T> Class<T> getGenericClass() throws ClassNotFoundException {
-        return _getGenericClass(getCallingClass(1), 0);
+        return getGenericClass(0);
     }
 
     /**
@@ -709,7 +691,19 @@ public class Reflection {
      * @throws ClassNotFoundException throws
      */
     public static <T> Class<T> getGenericClass(int index) throws ClassNotFoundException {
-        return _getGenericClass(getCallingClass(1), index);
+        int traceDepth = 2;
+        Class<?> genericClass = getCallingClass(traceDepth);
+        Class<?> actualClass = getCallingClass(++traceDepth);
+        try {
+            while (actualClass == genericClass) actualClass = getCallingClass(++traceDepth);
+            while (actualClass != genericClass) {
+                Class<?> clazz = getCallingClass(++traceDepth);
+                if (!isExtends(clazz, actualClass)) break;
+                actualClass = clazz;
+            }
+        } catch (ArrayIndexOutOfBoundsException ignored) {}
+        new AssertException(actualClass).notNull();
+        return getGenericParameterClass(actualClass, genericClass, index);
     }
 
     /**
@@ -732,27 +726,6 @@ public class Reflection {
     public static <T, R> Class<R> getGenericClass(Class<T> actual, int index) {
         //return (Class<R>) _getGenericClass(actual, index);
         return getGenericParameterClass(actual, actual.getSuperclass(), index);
-    }
-
-    /**
-     *
-     * @return Class T
-     * @param <T> T
-     * @throws ClassNotFoundException throws
-     */
-    public static <T> Class<T> getGenericChildClass() throws ClassNotFoundException {
-        return _getGenericClass(getCallingChildClass(), 0);
-    }
-
-    /**
-     *
-     * @param index int
-     * @return Class T
-     * @param <T> T
-     * @throws ClassNotFoundException throws
-     */
-    public static <T> Class<T> getGenericChildClass(int index) throws ClassNotFoundException {
-        return _getGenericClass(getCallingChildClass(), index);
     }
 
     /**
@@ -784,25 +757,6 @@ public class Reflection {
      */
     public static <T> String getGenericClassName(Class<T> genericClass, int index) throws ClassNotFoundException {
         return getClassName(getGenericClass(genericClass, index));
-    }
-
-    /**
-     *
-     * @return String
-     * @throws ClassNotFoundException throws
-     */
-    public static String getGenericChildClassName() throws ClassNotFoundException {
-        return getClassName(getGenericChildClass());
-    }
-
-    /**
-     *
-     * @param index int
-     * @return String
-     * @throws ClassNotFoundException throws
-     */
-    public static String getGenericChildClassName(int index) throws ClassNotFoundException {
-        return getClassName(getGenericChildClass(index));
     }
 
     /**

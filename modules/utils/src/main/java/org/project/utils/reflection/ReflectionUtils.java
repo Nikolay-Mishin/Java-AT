@@ -32,10 +32,8 @@ public class ReflectionUtils {
         final Class<?> actualClass = isClass ? actual : generic;
         final Class<?> genericClass = isClass ? generic : actual;
 
-        boolean isSuperclass = isExtends(actualClass.getSuperclass(), genericClass) || isExtends(actualClass, genericClass);
-
         // Прекращаем работу если genericClass не является предком actualClass.
-        if (!isSuperclass) {
+        if (!isExtends(actualClass, genericClass)) {
             throw new IllegalArgumentException("Class " + genericClass.getName() + " is not a superclass of " + actualClass.getName() + ".");
         }
 
