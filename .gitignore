@@ -52,6 +52,7 @@ node_modules/
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
 !modules/ffmpeg/**/*
+modules/ffmpeg/lib/ffmpeg/bin/*
 
 ### VS Code ###
 .vscode/
