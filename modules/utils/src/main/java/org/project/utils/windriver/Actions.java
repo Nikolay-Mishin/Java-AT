@@ -27,12 +27,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.util.List;
+import org.project.utils.reflection.Instance;
 
 /**
  *
  */
-public class Actions {
+public class Actions<T extends RemoteWebDriver> extends Instance<T> {
     /**
      *
      */

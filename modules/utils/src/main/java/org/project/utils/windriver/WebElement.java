@@ -3,11 +3,12 @@ package org.project.utils.windriver;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  *
  */
-public class WebElement extends Actions {
+public class WebElement<T extends RemoteWebDriver> extends Actions<T> {
     /**
      *
      */

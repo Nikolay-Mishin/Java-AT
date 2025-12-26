@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Stack;
 
+import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.reflection.Reflection.isExtends;
 import static org.project.utils.reflection.Reflection.rawType;
@@ -45,7 +46,10 @@ public class ReflectionUtils {
         Stack<ParameterizedType> genericClasses = getGenericClasses(actualClass, genericClass, parameterIndex);
 
         // Нужный класс найден. Теперь мы можем узнать, какими типами он параметризован.
-        Type result = genericClasses.empty() ? null : typeArg(genericClasses.pop(), parameterIndex);
+        ParameterizedType genericType = genericClasses.empty() ? null : genericClasses.pop();
+        boolean genericNull = isNull(genericType);
+        String genericName = genericNull ? null : genericType.getTypeName();
+        Type result = genericNull ? genericType : typeArg(genericType, parameterIndex);
 
         // Похоже наш параметр задан где-то ниже по иерархии, спускаемся вниз.
         while (result instanceof TypeVariable && !genericClasses.empty()) {
@@ -58,7 +62,7 @@ public class ReflectionUtils {
         if (result instanceof TypeVariable) {
             // Мы спустились до самого низа, но даже там нужный параметр не имеет явного задания.
             // Следовательно из-за "Type erasure" узнать класс для параметра невозможно.
-            throw new IllegalStateException("Unable to resolve type variable " + result + "." + " Try to replace instances of parametrized class with its non-parameterized subtype.");
+            throw new IllegalStateException("Unable to resolve type variable " + result + " for " + genericName + "." + " Try to replace instances of parametrized class with its non-parameterized subtype.");
         }
 
         // Сам параметр оказался параметризованным.

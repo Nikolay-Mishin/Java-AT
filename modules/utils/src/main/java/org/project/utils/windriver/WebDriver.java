@@ -14,7 +14,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 /**
  *
  */
-public class WebDriver extends RemoteWebDriver {
+public class WebDriver extends RemoteWebDriver<ChromeDriver> {
     /**
      *
      */

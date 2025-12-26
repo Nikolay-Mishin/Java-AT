@@ -22,7 +22,7 @@ import org.openqa.selenium.remote.http.HttpMethod;
 /**
  *
  */
-public class WinDriver extends RemoteWebDriver {
+public class WinDriver extends RemoteWebDriver<WindowsDriver<WebElement>> {
     /**
      *
      */

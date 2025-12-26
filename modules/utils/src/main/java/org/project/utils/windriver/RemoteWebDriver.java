@@ -31,7 +31,6 @@ import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
-import static org.project.utils.reflection.Instance.create;
 import static org.project.utils.reflection.Reflection.getCallingClassSimpleName;
 import static org.project.utils.reflection.Reflection.isExtends;
 
@@ -44,7 +43,7 @@ import org.project.utils.function.SupplierWithExceptions;
 /**
  *
  */
-public class RemoteWebDriver extends WebElement {
+public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDriver> extends WebElement<org.openqa.selenium.remote.RemoteWebDriver> {
     /**
      *
      */
