@@ -4,10 +4,9 @@
     "main": "index.js",
     "type": "module",
     "exports": {
-        ".": {
-            "import": "./ffmpeg.config.js"
-        },
-        "./config": "./ffmpeg.config.js"
+        "default": "./index.js",
+        "import": "./index.js",
+        "require": "./index.js"
     },
     "license": "ISC",
     "author": {

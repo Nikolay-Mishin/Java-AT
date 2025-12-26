@@ -3,6 +3,10 @@ import config from './config.js';
 import test from './test.js';
 import { copyFilter, copyScan, ffmpeg, scan } from './core.js';
 
+export { config, test, copyFilter, copyScan, ffmpeg, scan };
+
+export default config;
+
 await config();
 
 await test();

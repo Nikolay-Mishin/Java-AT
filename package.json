@@ -1,6 +1,6 @@
 {
     "name": "maven-at",
-    "version": "7.22.0",
+    "version": "7.22.1",
     "main": "index.js",
     "type": "module",
     "exports": {
@@ -15,7 +15,13 @@
     },
     "description": "Library of development Java automatization",
     "keywords": [
-        "java", "auto-qa", "web-api", "cucumber", "allure", "lombok", "pojo"
+        "java",
+        "auto-qa",
+        "web-api",
+        "cucumber",
+        "allure",
+        "lombok",
+        "pojo"
     ],
     "repository": {
         "type": "git",
