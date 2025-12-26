@@ -1,6 +1,6 @@
 {
     "name": "maven-at",
-    "version": "7.21.1",
+    "version": "7.22.0",
     "main": "index.js",
     "type": "module",
     "exports": {
@@ -15,8 +15,7 @@
     },
     "description": "Library of development Java automatization",
     "keywords": [
-        "java",
-        "auto-qa"
+        "java", "auto-qa", "web-api", "cucumber", "allure", "lombok", "pojo"
     ],
     "repository": {
         "type": "git",
@@ -39,9 +38,25 @@
         "deploy-auto": "node index.js -deploy -repo -build",
         "deploy-manual": "mvn clean deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/repo -Dfile=target/Java-AT-7.7.10.jar -DgroupId=org.project -DartifactId=Java-AT -Dpackaging=jar -Dversion=7.7.10",
         "deploy-javadoc": "mvn clean deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/repo -Dfile=target/Java-AT-7.7.10.jar -DgroupId=org.project -DartifactId=Java-AT -Dpackaging=jar -Dversion=7.7.10 -Dsources=target/Java-AT-7.7.10-sources.jar -Djavadoc=target/Java-AT-7.7.10-javadoc.jar",
-        "deploy-repo_id": "mvn clean deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/repo -Dfile=target/Java-AT-7.7.10.jar -DgroupId=org.project -DartifactId=Java-AT -Dpackaging=jar -Dversion=7.7.10 -Dsources=target/Java-AT-7.7.10-sources.jar -Djavadoc=target/Java-AT-7.7.10-javadoc.jar -DrepositoryId=mvn-repo"
+        "deploy-repo_id": "mvn clean deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/repo -Dfile=target/Java-AT-7.7.10.jar -DgroupId=org.project -DartifactId=Java-AT -Dpackaging=jar -Dversion=7.7.10 -Dsources=target/Java-AT-7.7.10-sources.jar -Djavadoc=target/Java-AT-7.7.10-javadoc.jar -DrepositoryId=mvn-repo",
+        "ffmpeg-test-root": "node ffmpeg.run.js -test",
+        "ffmpeg-test": "node modules/ffmpeg/index.js -test",
+        "ffmpeg-start": "node modules/ffmpeg/index.js -exec",
+        "cut": "node modules/ffmpeg/index.js -exec -t=30",
+        "metrics": "node modules/ffmpeg/index.js -metrics -exec",
+        "metrics-test": "node modules/ffmpeg/index.js -metrics -test",
+        "scan": "node modules/ffmpeg/scan.js",
+        "ffmetrics": "node modules/ffmpeg/ffmetrics.js",
+        "film": "node modules/ffmpeg/index.js -exec -tune=film",
+        "grain": "node modules/ffmpeg/index.js -exec -tune=grain",
+        "no-tune": "node modules/ffmpeg/index.js -exec -tune=none",
+        "test-film": "node modules/ffmpeg/index.js -test -tune=film",
+        "test-grain": "node modules/ffmpeg/index.js -test -tune=grain",
+        "test-no-tune": "node modules/ffmpeg/index.js -test -tune=none",
+        "ws": "node modules/ffmpeg/ws.js",
+        "ws-test": "node modules/ffmpeg/ws.test.js"
     },
     "devDependencies": {
-        "xml2js": "^0.6.2"
+        "xml2js": "0.6.2"
     }
 }

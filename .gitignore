@@ -43,6 +43,16 @@ node_modules/
 /dist/
 /build/
 
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+
+# ignore all *.lock.json files
+#*lock.json
+
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+!modules/ffmpeg/**/*
+
 ### VS Code ###
 .vscode/
 
@@ -51,12 +61,3 @@ node_modules/
 
 ### Mac OS ###
 .DS_Store
-
-# ignore all *.lock.json files
-*lock.json
-
-# The packages folder can be ignored because of Package Restore
-**/packages/*
-
-# except build/, which is used as an MSBuild target.
-!**/packages/build/
