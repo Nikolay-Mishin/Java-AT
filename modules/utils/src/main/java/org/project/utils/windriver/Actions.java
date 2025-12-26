@@ -27,6 +27,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.util.List;
+
 /**
  *
  */
@@ -43,6 +45,10 @@ public class Actions {
      *
      */
     protected static Action action;
+    /**
+     *
+     */
+    protected static WebElement el;
 
     /**
      *
@@ -103,6 +109,15 @@ public class Actions {
     }
 
     /**
+     * You set WebElement
+     * @param elem WebElement
+     * @return WebElement
+     */
+    public static  WebElement el(WebElement elem) {
+        return el = elem;
+    }
+
+    /**
      * Также нам может потребоваться имитация ввода клавиш с клавиатуры.
      * <p>В обычном порядке это делается методом sendKeys(«Последовательность символов») у элемента.
      * <p>Однако, следует помнить, что некоторые символы используются как служебные и их надо экранировать
@@ -137,6 +152,16 @@ public class Actions {
      * @param y int
      * @return Actions
      */
+    public static org.openqa.selenium.interactions.Actions moveEl(int x, int y) {
+        return a.moveToElement(el, x, y);
+    }
+
+    /**
+     *
+     * @param x int
+     * @param y int
+     * @return Actions
+     */
     public static org.openqa.selenium.interactions.Actions move(int x, int y) {
         return a.moveByOffset(x, y);
     }
@@ -162,6 +187,14 @@ public class Actions {
      *
      * @return Actions
      */
+    public static org.openqa.selenium.interactions.Actions clickEl() {
+        return a.click(el);
+    }
+
+    /**
+     *
+     * @return Actions
+     */
     public static org.openqa.selenium.interactions.Actions doubleClick() {
         return a.doubleClick();
     }
@@ -172,6 +205,14 @@ public class Actions {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions doubleClick(WebElement el) {
+        return a.doubleClick(el);
+    }
+
+    /**
+     *
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions doubleClickEl() {
         return a.doubleClick(el);
     }
 
@@ -196,6 +237,14 @@ public class Actions {
      *
      * @return Actions
      */
+    public static org.openqa.selenium.interactions.Actions clickAndHoldEl() {
+        return a.clickAndHold(el);
+    }
+
+    /**
+     *
+     * @return Actions
+     */
     public static org.openqa.selenium.interactions.Actions contextClick() {
         return a.contextClick();
     }
@@ -206,6 +255,14 @@ public class Actions {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions contextClick(WebElement el) {
+        return a.contextClick(el);
+    }
+
+    /**
+     *
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions contextClickEl() {
         return a.contextClick(el);
     }
 
@@ -232,6 +289,25 @@ public class Actions {
 
     /**
      *
+     * @param target WebElement
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions dragAndDrop(WebElement target) {
+        return a.dragAndDrop(el, target);
+    }
+
+    /**
+     *
+     * @param x int
+     * @param y int
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions dragAndDrop(int x, int y) {
+        return a.dragAndDropBy(el, x, y);
+    }
+
+    /**
+     *
      * @param keys CharSequence[]
      * @return Actions
      */
@@ -251,10 +327,27 @@ public class Actions {
 
     /**
      *
+     * @param keys CharSequence[]
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions keysToEl(CharSequence... keys) {
+        return a.sendKeys(el, keys);
+    }
+
+    /**
+     *
      * @param el WebElement
      * @param keys CharSequence[]
      */
     public static void keysEl(WebElement el, CharSequence... keys) {
+        el.sendKeys(keys);
+    }
+
+    /**
+     *
+     * @param keys CharSequence[]
+     */
+    public static void keysEl(CharSequence... keys) {
         el.sendKeys(keys);
     }
 
@@ -281,10 +374,27 @@ public class Actions {
 
     /**
      *
+     * @param keys CharSequence[]
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions chordToEl(CharSequence... keys) {
+        return keys(el, Keys.chord(keys));
+    }
+
+    /**
+     *
      * @param el WebElement
      * @param keys CharSequence[]
      */
     public static void chordEl(WebElement el, CharSequence... keys) {
+        keysEl(el, Keys.chord(keys));
+    }
+
+    /**
+     *
+     * @param keys CharSequence[]
+     */
+    public static void chordEl(CharSequence... keys) {
         keysEl(el, Keys.chord(keys));
     }
 
@@ -306,6 +416,14 @@ public class Actions {
     public static org.openqa.selenium.interactions.Actions down(WebElement el, CharSequence key) {
         return a.keyDown(el, key);
     }
+    /**
+     *
+     * @param key CharSequence
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions downEl(CharSequence key) {
+        return a.keyDown(el, key);
+    }
 
     /**
      *
@@ -323,6 +441,15 @@ public class Actions {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions up(WebElement el, CharSequence key) {
+        return a.keyUp(el, key);
+    }
+
+    /**
+     *
+     * @param key CharSequence
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions upEl(CharSequence key) {
         return a.keyUp(el, key);
     }
 

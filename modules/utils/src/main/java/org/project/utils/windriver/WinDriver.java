@@ -311,8 +311,8 @@ public class WinDriver extends RemoteWebDriver {
      * @return WebElement
      */
     //один элемент, поиск по полю AccessibilityId
-    public static WebElement findByAccessId(String id) {
-        return d.findElementByAccessibilityId(id);
+    public static WebElement findByAId(String id) {
+        return el(d.findElementByAccessibilityId(id));
     }
 
     /**
@@ -320,8 +320,8 @@ public class WinDriver extends RemoteWebDriver {
      * @param id String
      * @return WebElement
      */
-    public static WebElement findByAid(String id) {
-        return d.findElementByWindowsUIAutomation(id);
+    public static WebElement findByAutoId(String id) {
+        return el(d.findElementByWindowsUIAutomation(id));
     }
 
     /**
@@ -330,7 +330,7 @@ public class WinDriver extends RemoteWebDriver {
      * @return WebElement
      */
     public static WebElement findByImage(String b64) {
-        return d.findElementByImage(b64);
+        return el(d.findElementByImage(b64));
     }
 
     /**
@@ -339,7 +339,7 @@ public class WinDriver extends RemoteWebDriver {
      * @return WebElement
      */
     public static WebElement findBySelector(String selector) {
-        return d.findElementByCustom(selector);
+        return el(d.findElementByCustom(selector));
     }
 
     /**
@@ -348,7 +348,7 @@ public class WinDriver extends RemoteWebDriver {
      * @return List {WebElement}
      */
     public static List<WebElement> listByAccessId(String id) {
-        return d.findElementsByAccessibilityId(id);
+        return list(d.findElementsByAccessibilityId(id));
     }
 
     /**
@@ -357,7 +357,7 @@ public class WinDriver extends RemoteWebDriver {
      * @return List {WebElement}
      */
     public static List<WebElement> listByAid(String id) {
-        return d.findElementsByWindowsUIAutomation(id);
+        return list(d.findElementsByWindowsUIAutomation(id));
     }
 
     /**
@@ -366,7 +366,7 @@ public class WinDriver extends RemoteWebDriver {
      * @return List {WebElement}
      */
     public static List<WebElement> listByImage(String b64) {
-        return d.findElementsByImage(b64);
+        return list(d.findElementsByImage(b64));
     }
 
     /**
@@ -375,6 +375,6 @@ public class WinDriver extends RemoteWebDriver {
      * @return List {WebElement}
      */
     public static List<WebElement> listBySelector(String selector) {
-        return d.findElementsByCustom(selector);
+        return list(d.findElementsByCustom(selector));
     }
 }
