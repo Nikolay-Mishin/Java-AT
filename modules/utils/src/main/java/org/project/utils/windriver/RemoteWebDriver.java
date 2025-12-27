@@ -630,7 +630,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     @SuppressWarnings("unchecked")
     public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver(DesiredCapabilities cap) throws Exception {
-        return winDriver(getDriver(windowsDriver, cap));
+        return winDriver(WinDriver.driver(getDriver(windowsDriver, cap)));
     }
 
     /**
@@ -641,7 +641,6 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws ReflectiveOperationException throws
      */
     public static ChromeDriver getWebDriver(ChromeOptions options) throws MalformedURLException, ReflectiveOperationException {
-        //return start(create(webDriver, options));
         return getWebDriver(() -> options);
     }
 
@@ -653,7 +652,6 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws ReflectiveOperationException throws
      */
     public static ChromeDriver getWebDriver(DesiredCapabilities cap) throws MalformedURLException, ReflectiveOperationException {
-        //return start(create(webDriver, new HashMap<>(org.openqa.selenium.Capabilities.class).values(cap)));
         return getWebDriver(() -> new HashMap<>(org.openqa.selenium.Capabilities.class).values(cap));
     }
 
@@ -739,7 +737,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws Exception throws
      */
     public static String handleHex(String app) throws Exception {
-        return handleHex(d -> d.findElementByName(app));
+        return handleHex(d -> findByName(app));
     }
 
     /**
@@ -749,7 +747,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws Exception throws
      */
     public static String handleHexClass(String appClass) throws Exception {
-        return handleHex(d -> d.findElementByClassName(appClass));
+        return handleHex(d -> findByClass(appClass));
     }
 
     /**
