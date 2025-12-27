@@ -29,12 +29,29 @@ public class WinDriver extends RemoteWebDriver<WindowsDriver<WebElement>> {
     protected static WindowsDriver<WebElement> d;
 
     /**
+     *
+     * @return WindowsDriver {WebElement}
+     */
+    public static WindowsDriver<WebElement> driver() {
+        return d;
+    }
+
+    /**
+     *
+     * @param driver WindowsDriver {WebElement}
+     * @return WindowsDriver {WebElement}
+     */
+    public static WindowsDriver<WebElement> driver(WindowsDriver<WebElement> driver) {
+        return d = driver;
+    }
+
+    /**
      * ClassInitialize
      * @return WindowsDriver {WebElement}
      * @throws Exception throws
      */
     public static WindowsDriver<WebElement> start() throws Exception {
-        return start(cap(c));
+        return driver(start(cap(c)));
     }
 
     /**
@@ -45,7 +62,7 @@ public class WinDriver extends RemoteWebDriver<WindowsDriver<WebElement>> {
      * @throws Exception throws
      */
     public static WindowsDriver<WebElement> start(String app, String... params) throws Exception {
-        return RemoteWebDriver.start(app, params);
+        return driver(RemoteWebDriver.start(app, params));
     }
 
     /**

@@ -5,6 +5,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import static org.project.utils.test.TestWinDriver.setList;
+
 /**
  *
  */
@@ -20,7 +22,7 @@ public class WebElement<T extends RemoteWebDriver> extends Actions<T> {
      * @return WebElement
      */
     public static List<org.openqa.selenium.WebElement> list(List<org.openqa.selenium.WebElement> elList) {
-        return list = elList;
+        return setList(list = elList);
     }
 
     /**

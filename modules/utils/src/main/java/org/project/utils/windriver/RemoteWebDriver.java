@@ -33,6 +33,9 @@ import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
 import static org.project.utils.reflection.Reflection.getCallingClassSimpleName;
 import static org.project.utils.reflection.Reflection.isExtends;
+import static org.project.utils.test.TestWinDriver.remoteDriver;
+import static org.project.utils.test.TestWinDriver.webDriver;
+import static org.project.utils.test.TestWinDriver.winDriver;
 
 import org.project.utils.Process;
 import org.project.utils.base.HashMap;
@@ -627,7 +630,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     @SuppressWarnings("unchecked")
     public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver(DesiredCapabilities cap) throws Exception {
-        return getDriver(windowsDriver, cap);
+        return winDriver(getDriver(windowsDriver, cap));
     }
 
     /**
@@ -638,7 +641,8 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws ReflectiveOperationException throws
      */
     public static ChromeDriver getWebDriver(ChromeOptions options) throws MalformedURLException, ReflectiveOperationException {
-        return start(create(webDriver, options));
+        //return start(create(webDriver, options));
+        return getWebDriver(() -> options);
     }
 
     /**
@@ -649,7 +653,22 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws ReflectiveOperationException throws
      */
     public static ChromeDriver getWebDriver(DesiredCapabilities cap) throws MalformedURLException, ReflectiveOperationException {
-        return start(create(webDriver, new HashMap<>(org.openqa.selenium.Capabilities.class).values(cap)));
+        //return start(create(webDriver, new HashMap<>(org.openqa.selenium.Capabilities.class).values(cap)));
+        return getWebDriver(() -> new HashMap<>(org.openqa.selenium.Capabilities.class).values(cap));
+    }
+
+    /**
+     *
+     * @param cb SupplierWithExceptions {Object, E}
+     * @return ChromeDriver
+     * @param <E> extends Exception
+     * @throws MalformedURLException throws
+     * @throws ReflectiveOperationException throws
+     */
+    public static <E extends Exception> ChromeDriver getWebDriver(SupplierWithExceptions<Object, E> cb)
+        throws MalformedURLException, ReflectiveOperationException, E
+    {
+        return webDriver(start(create(webDriver, cb.get())));
     }
 
     /**
@@ -659,7 +678,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws Exception throws
      */
     public static org.openqa.selenium.remote.RemoteWebDriver getRemoteDriver(DesiredCapabilities cap) throws Exception {
-        return getDriver(remoteDriver, cap);
+        return remoteDriver(getDriver(remoteDriver, cap));
     }
 
     /**

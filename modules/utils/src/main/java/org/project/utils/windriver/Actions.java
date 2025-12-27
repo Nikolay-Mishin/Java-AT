@@ -27,6 +27,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import static org.project.utils.test.TestWinDriver.setAction;
+import static org.project.utils.test.TestWinDriver.setActions;
+import static org.project.utils.test.TestWinDriver.setEl;
+
 import org.project.utils.reflection.Instance;
 
 /**
@@ -87,7 +91,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions action(org.openqa.selenium.interactions.Actions action) {
-        return a = action;
+        return setActions(a = action);
     }
 
     /**
@@ -105,7 +109,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Action
      */
     public static Action getAction() {
-        return action;
+        return setAction(action);
     }
 
     /**
@@ -114,7 +118,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return WebElement
      */
     public static  WebElement el(WebElement elem) {
-        return el = elem;
+        return setEl(el = elem);
     }
 
     /**
