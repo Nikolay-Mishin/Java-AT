@@ -68,8 +68,6 @@ public class Instance<T> extends Register<Class<T>, T> {
         T _instance = register(Instance.class, clazz);
         debug("instance");
         debug(Optional.ofNullable(_instance));
-        T _instance2 = getRegister(clazz);
-        debug(Optional.ofNullable(_instance2));
         return _instance;
     }
 
