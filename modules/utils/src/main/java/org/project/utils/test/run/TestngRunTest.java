@@ -11,7 +11,10 @@ import org.testng.annotations.Parameters;
 
 import static org.project.utils.Helper.debug;
 
-public class TestngRunTest<T extends org.project.utils.config.TestBaseConfig> extends org.project.utils.config.CucumberRunConfig<T> {
+import org.project.utils.config.CucumberRunConfig;
+import org.project.utils.config.TestBaseConfig;
+
+public class TestngRunTest<T extends TestBaseConfig> extends CucumberRunConfig<T> {
 
     /**
      * CucumberRunTest:init
