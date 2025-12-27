@@ -49,8 +49,8 @@ public class TestAuth<T extends TestBaseConfig, W extends WebBaseConfig, D exten
         Auth.req().uri(POST, uri);
         testAuth(authTest);
 
-        printTokens();
         printRegisterMap();
+        printTokens();
 
         debug("token: " + token());
         debug("accessToken: " + accessToken());
