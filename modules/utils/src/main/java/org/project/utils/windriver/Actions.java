@@ -27,14 +27,23 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import static org.project.utils.test.TestWinDriver.setAction;
 import static org.project.utils.test.TestWinDriver.setActions;
 import static org.project.utils.test.TestWinDriver.setEl;
 
 import org.project.utils.reflection.Instance;
+import org.project.utils.test.TestWinDriver;
 
 /**
- *
+ * <p>Также нам может потребоваться имитация ввода клавиш с клавиатуры.
+ * <p>В обычном порядке это делается методом sendKeys(«Последовательность символов») у элемента.
+ * <p>Однако, следует помнить, что некоторые символы используются как служебные и их надо экранировать
+ * <p>(например, "+" это Shift, и для того, чтобы ввести "+", нужно передать последовательность "+=").
+ * <p>Для удобства пользования кодом можно написать обёртку, которая бы автоматически заменяла все "+" на "+=", но тут как кому удобнее.
+ * <p>Подробнее ознакомиться со стандартами передач комбинаций клавиш можно, например, тут.
+ * <p>Тем не менее, возникали проблемы с корректной передачей нажатий стрелок на клавиатуре, так что к сожалению,
+ * <p>при текущей версии драйвера придётся искать обходные пути.
+ * <p>где wrk – имя WebElement, от центра которого будем двигать мышкой;
+ * <p>x, y – расстояние, на которое будем двигать (положительное значение x двигает курсор вправо, положительное y – вниз).
  */
 public class Actions<T extends RemoteWebDriver> extends Instance<T> {
     /**
@@ -109,7 +118,16 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Action
      */
     public static Action getAction() {
-        return setAction(action);
+        return TestWinDriver.setAction(action);
+    }
+
+    /**
+     *
+     * @param a Action
+     * @return Action
+     */
+    public static Action setAction(Action a) {
+        return TestWinDriver.setAction(action = a);
     }
 
     /**
@@ -122,16 +140,33 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
     }
 
     /**
-     * Также нам может потребоваться имитация ввода клавиш с клавиатуры.
-     * <p>В обычном порядке это делается методом sendKeys(«Последовательность символов») у элемента.
-     * <p>Однако, следует помнить, что некоторые символы используются как служебные и их надо экранировать
-     * <p>(например, "+" это Shift, и для того, чтобы ввести "+", нужно передать последовательность "+=").
-     * <p>Для удобства пользования кодом можно написать обёртку, которая бы автоматически заменяла все "+" на "+=", но тут как кому удобнее.
-     * <p>Подробнее ознакомиться со стандартами передач комбинаций клавиш можно, например, тут.
-     * <p>Тем не менее, возникали проблемы с корректной передачей нажатий стрелок на клавиатуре, так что к сожалению,
-     * <p>при текущей версии драйвера придётся искать обходные пути.
-     * <p>где wrk – имя WebElement, от центра которого будем двигать мышкой;
-     * <p>x, y – расстояние, на которое будем двигать (положительное значение x двигает курсор вправо, положительное y – вниз).
+     *
+     * @return Action
+     */
+    public static Action build() {
+        return setAction(a.build());
+    }
+
+    /**
+     *
+     * @return Actions
+     */
+    public static org.openqa.selenium.interactions.Actions perform() {
+        a.perform();
+        return a;
+    }
+
+    /**
+     *
+     * @return Action
+     */
+    public static org.openqa.selenium.interactions.Actions performBuild() {
+        build().perform();
+        return a;
+    }
+
+    /**
+     *
      * @param el WebElement
      * @return Actions
      */
@@ -192,7 +227,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions clickEl() {
-        return a.click(el);
+        return click(el);
     }
 
     /**
@@ -217,7 +252,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions doubleClickEl() {
-        return a.doubleClick(el);
+        return doubleClick(el);
     }
 
     /**
@@ -242,7 +277,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions clickAndHoldEl() {
-        return a.clickAndHold(el);
+        return clickAndHold(el);
     }
 
     /**
@@ -267,7 +302,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions contextClickEl() {
-        return a.contextClick(el);
+        return contextClick(el);
     }
 
     /**
@@ -297,7 +332,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions dragAndDrop(WebElement target) {
-        return a.dragAndDrop(el, target);
+        return dragAndDrop(el, target);
     }
 
     /**
@@ -307,7 +342,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions dragAndDrop(int x, int y) {
-        return a.dragAndDropBy(el, x, y);
+        return dragAndDrop(el, x, y);
     }
 
     /**
@@ -335,7 +370,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions keysToEl(CharSequence... keys) {
-        return a.sendKeys(el, keys);
+        return keys(el, keys);
     }
 
     /**
@@ -382,7 +417,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions chordToEl(CharSequence... keys) {
-        return keys(el, Keys.chord(keys));
+        return chord(el, keys);
     }
 
     /**
@@ -399,7 +434,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @param keys CharSequence[]
      */
     public static void chordEl(CharSequence... keys) {
-        keysEl(el, Keys.chord(keys));
+        chordEl(el, keys);
     }
 
     /**
@@ -426,7 +461,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions downEl(CharSequence key) {
-        return a.keyDown(el, key);
+        return down(el, key);
     }
 
     /**
@@ -454,7 +489,7 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
      * @return Actions
      */
     public static org.openqa.selenium.interactions.Actions upEl(CharSequence key) {
-        return a.keyUp(el, key);
+        return up(el, key);
     }
 
     /**
@@ -649,30 +684,4 @@ public class Actions<T extends RemoteWebDriver> extends Instance<T> {
         return saveFile();
     }
 
-    /**
-     *
-     * @return Action
-     */
-    public static Action build() {
-        return a.build();
-    }
-
-    /**
-     *
-     * @return Actions
-     */
-    public static org.openqa.selenium.interactions.Actions perform() {
-        a.perform();
-        return a;
-    }
-
-    /**
-     *
-     * @return Action
-     */
-    public static Action performBuild() {
-        action = build();
-        action.perform();
-        return action;
-    }
 }

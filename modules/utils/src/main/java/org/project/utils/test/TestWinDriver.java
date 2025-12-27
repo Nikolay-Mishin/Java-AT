@@ -19,6 +19,7 @@ import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.reflection.Reflection.isExtends;
 import static org.project.utils.windriver.Actions.click;
 import static org.project.utils.windriver.Actions.clickEl;
+import static org.project.utils.windriver.Actions.perform;
 import static org.project.utils.windriver.RemoteWebDriver.attachApp;
 import static org.project.utils.windriver.RemoteWebDriver.attachAppClass;
 import static org.project.utils.windriver.RemoteWebDriver.drivers;
@@ -521,8 +522,6 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         debug(app);
         findByAId("num1Button").click();
         debug(el);
-        click(el);
-        clickEl();
 
         findByName("Калькулятор");
         debug(el);
@@ -540,7 +539,10 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         findByName("Равно").click();
         debug(el);
 
-        testHandleApp();
+        findByName("Два").click();
+        click(el);
+        clickEl();
+        perform();
     }
 
     /**
@@ -556,6 +558,8 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         findByName("Плюс").click();
         findByName("Семь").click();
         findByName("Равно").click();
+        findByName("Два");
+        clickEl().perform();
     }
 
 }
