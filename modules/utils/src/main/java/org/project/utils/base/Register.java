@@ -111,7 +111,7 @@ public class Register<K, V> {
      * @throws ClassNotFoundException throws
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> V register(Class<?> clazz, K key) throws ClassNotFoundException {
+    public static <K, V> V register(Class<?> clazz, K key) {
         return (V) registerMap(clazz).register(key);
     }
 
