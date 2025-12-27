@@ -4,7 +4,6 @@ import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -18,7 +17,8 @@ import org.openqa.selenium.interactions.Actions;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.reflection.Reflection.isExtends;
-import static org.project.utils.windriver.Actions.action;
+import static org.project.utils.windriver.Actions.click;
+import static org.project.utils.windriver.Actions.clickEl;
 import static org.project.utils.windriver.RemoteWebDriver.attachApp;
 import static org.project.utils.windriver.RemoteWebDriver.attachAppClass;
 import static org.project.utils.windriver.RemoteWebDriver.drivers;
@@ -26,6 +26,9 @@ import static org.project.utils.windriver.RemoteWebDriver.open;
 import static org.project.utils.windriver.RemoteWebDriver.startAttach;
 import static org.project.utils.windriver.RemoteWebDriver.startAttachClass;
 import static org.project.utils.windriver.WebDriver.ls;
+import static org.project.utils.windriver.WebElement.findByClass;
+import static org.project.utils.windriver.WebElement.findByName;
+import static org.project.utils.windriver.WinDriver.findByAId;
 import static org.project.utils.windriver.WinDriver.start;
 
 import org.project.utils.config.DriverBaseConfig;
@@ -99,19 +102,66 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @return WebDriver
      */
     public static WebDriver driver(WebDriver driver) {
-        return setDriver(() -> d = driver);
+        return d = driver;
     }
 
     /**
-     * @param cb Supplier {T}
-     * @return T
-     * @param <T> extends WebDriver
+     * @param driver RemoteWebDriver
+     * @return RemoteWebDriver
      */
-    public static <T extends WebDriver> T setDriver(Supplier<T> cb) {
-        T d = cb.get();
-        assertNotNull(d);
-        setAction(d);
-        return d;
+    public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver(org.openqa.selenium.remote.RemoteWebDriver driver) {
+        return remote = driver;
+    }
+
+    /**
+     * @param driver ChromeDriver
+     * @return ChromeDriver
+     */
+    public static ChromeDriver webDriver(ChromeDriver driver) {
+        return web = driver;
+    }
+
+    /**
+     *
+     * @param driver WindowsDriver {WebElement}
+     * @return WindowsDriver {WebElement}
+     */
+    public static WindowsDriver<WebElement> winDriver(WindowsDriver<WebElement> driver) {
+        return app = driver;
+    }
+
+    /**
+     * @param action Actions
+     * @return Actions
+     */
+    public static Actions setActions(Actions action) {
+        return a = action;
+    }
+
+    /**
+     * @param a Action
+     * @return Action
+     */
+    public static Action setAction(Action a) {
+        return action = a;
+    }
+
+    /**
+     * You set WebElement
+     * @param elem WebElement
+     * @return WebElement
+     */
+    public static  WebElement setEl(WebElement elem) {
+        return el = elem;
+    }
+
+    /**
+     * You set List {WebElement}
+     * @param elList List {WebElement}
+     * @return WebElement
+     */
+    public static List<org.openqa.selenium.WebElement> setList(List<org.openqa.selenium.WebElement> elList) {
+        return list = elList;
     }
 
     /**
@@ -159,20 +209,12 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     }
 
     /**
-     * @param driver RemoteWebDriver
-     * @return RemoteWebDriver
-     */
-    public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver(org.openqa.selenium.remote.RemoteWebDriver driver) {
-        return setDriver(() -> remote = driver);
-    }
-
-    /**
      *
      * @return RemoteWebDriver
      * @throws Exception throws
      */
     public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver() throws Exception {
-        return remoteDriver(RemoteWebDriver.start());
+        return RemoteWebDriver.start();
     }
 
     /**
@@ -183,7 +225,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @throws Exception throws
      */
     public static org.openqa.selenium.remote.RemoteWebDriver remoteDriver(String app, String... params) throws Exception {
-        return remoteDriver(RemoteWebDriver.start(app, params));
+        return RemoteWebDriver.start(app, params);
     }
 
     /**
@@ -211,22 +253,12 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     }
 
     /**
-     * @param driver ChromeDriver
-     * @return ChromeDriver
-     */
-    public static ChromeDriver webDriver(ChromeDriver driver) {
-        web = driver;
-        assertNotNull(web);
-        return web;
-    }
-
-    /**
      *
      * @return ChromeDriver
      * @throws Exception throws
      */
     public static ChromeDriver webDriver() throws Exception {
-        return webDriver(org.project.utils.windriver.WebDriver.start());
+        return org.project.utils.windriver.WebDriver.start();
     }
 
     /**
@@ -236,16 +268,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @throws Exception throws
      */
     public static ChromeDriver webDriver(String url) throws Exception {
-        return webDriver(org.project.utils.windriver.WebDriver.start(url));
-    }
-
-    /**
-     *
-     * @param driver WindowsDriver {WebElement}
-     * @return WindowsDriver {WebElement}
-     */
-    public static WindowsDriver<WebElement> winDriver(WindowsDriver<WebElement> driver) {
-        return setDriver(() -> app = driver);
+        return org.project.utils.windriver.WebDriver.start(url);
     }
 
     /**
@@ -254,7 +277,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @throws Exception throws
      */
     public static WindowsDriver<WebElement> winDriver() throws Exception {
-        return winDriver(start());
+        return start();
     }
 
     /**
@@ -265,7 +288,7 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      * @throws Exception throws
      */
     public static WindowsDriver<WebElement> winDriver(String app, String... params) throws Exception {
-        return winDriver(start(app, params));
+        return start(app, params);
     }
 
     /**
@@ -290,23 +313,6 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     public static ChromeDriver winDriverUrl(String url, String app, String... params) throws Exception {
         winDriver(app, params);
         return webDriver(url);
-    }
-
-    /**
-     * @param driver T
-     * @return Actions
-     * @param <T> extends WebDriver
-     */
-    public static <T extends WebDriver> Actions setAction(T driver) {
-        return a = action(driver);
-    }
-
-    /**
-     *
-     * @return Action
-     */
-    public static Action getAction() {
-        return action = RemoteWebDriver.getAction();
     }
 
     /**
@@ -495,13 +501,12 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void testAppEdit() throws Exception {
         debug("testAppEdit");
-        //winDriver = WinDriver.start();
         winDriver();
-        el = app.findElementByName("Текстовый редактор");
+        findByName("Текстовый редактор");
         debug(el);
-        el = app.findElementByClassName("Notepad");
+        findByClass("Notepad");
         debug(el);
-        el = app.findElementByClassName("Edit");
+        findByClass("Edit");
         debug(el);
     }
 
@@ -514,29 +519,26 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         debug(calcPath);
         winDriver(calcPath);
         debug(app);
-        el = app.findElementByAccessibilityId("num1Button");
+        findByAId("num1Button").click();
         debug(el);
-        el.click();
+        click(el);
+        clickEl();
 
-        el = app.findElementByName("Калькулятор");
+        findByName("Калькулятор");
         debug(el);
-        el = app.findElementByClassName("ApplicationFrameWindow");
+        findByClass("ApplicationFrameWindow");
         debug(el);
-        el = app.findElementByClassName("Windows.UI.Core.CoreWindow");
+        findByClass("Windows.UI.Core.CoreWindow");
         debug(el);
 
-        el = app.findElementByName("Один");
+        findByName("Один").click();
         debug(el);
-        el.click();
-        el = app.findElementByName("Плюс");
+        findByName("Плюс").click();
         debug(el);
-        el.click();
-        el = app.findElementByName("Семь");
+        findByName("Семь").click();
         debug(el);
-        el.click();
-        el = app.findElementByName("Равно");
+        findByName("Равно").click();
         debug(el);
-        el.click();
 
         testHandleApp();
     }
@@ -550,10 +552,10 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         startHandle("Калькулятор");
         debug("calc: " + app);
         assertNotNull(app);
-        app.findElementByName("Один").click();
-        app.findElementByName("Плюс").click();
-        app.findElementByName("Семь").click();
-        app.findElementByName("Равно").click();
+        findByName("Один").click();
+        findByName("Плюс").click();
+        findByName("Семь").click();
+        findByName("Равно").click();
     }
 
 }
