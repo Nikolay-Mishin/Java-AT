@@ -265,7 +265,8 @@
       <version>7.12.0-SNAPSHOT</version>
       <version>7.12.1-SNAPSHOT</version>
       <version>7.12.2-SNAPSHOT</version>
+      <version>7.12.3-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20251227140004</lastUpdated>
+    <lastUpdated>20251227151149</lastUpdated>
   </versioning>
 </metadata>
