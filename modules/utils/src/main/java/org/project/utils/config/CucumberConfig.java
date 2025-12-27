@@ -2,6 +2,10 @@ package org.project.utils.config;
 
 import io.cucumber.junit.CucumberOptions;
 
+/**
+ *
+ * @param <T> extends TestBaseConfig
+ */
 // настройки Cucumber
 @CucumberOptions(
     //monochrome = true,

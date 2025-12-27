@@ -31,6 +31,10 @@ import static org.project.utils.reflection.Reflection.getGenericClass;
 import org.project.utils.event.CucumberEventListener;
 import org.project.utils.function.FunctionWithExceptions;
 
+/**
+ *
+ * @param <T> extends TestBaseConfig
+ */
 public class CucumberRunConfig<T extends TestBaseConfig> {
 
     /**

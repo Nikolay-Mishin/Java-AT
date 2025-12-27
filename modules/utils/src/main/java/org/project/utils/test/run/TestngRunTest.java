@@ -14,6 +14,10 @@ import static org.project.utils.Helper.debug;
 import org.project.utils.config.CucumberRunConfig;
 import org.project.utils.config.TestBaseConfig;
 
+/**
+ * класс для запуска тестов Testng
+ * @param <T> extends TestBaseConfig
+ */
 public class TestngRunTest<T extends TestBaseConfig> extends CucumberRunConfig<T> {
 
     /**
