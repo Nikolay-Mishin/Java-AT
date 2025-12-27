@@ -1,6 +1,4 @@
 package org.project.utils.test.run;
 
-import org.project.utils.config.TestBaseConfig;
-
-public class CucumberBaseTest extends CucumberRunTest<TestBaseConfig> {
+public class CucumberBaseTest extends org.project.utils.test.run.CucumberRunTest<org.project.utils.config.TestBaseConfig> {
 }
