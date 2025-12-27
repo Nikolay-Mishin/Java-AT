@@ -23,7 +23,7 @@ const _testScripts = async (n = 0, script, args) => {
             await runScript(script, `-c_range=true -vf_range=true -scale_space=false -vf_space=false -space=true -n=4${_args}`);
             if (n >= 2) await runScript(script, `-c_range=true -vf_range=false -scale_space=false -vf_space=false -space=true -n=5${_args}`);
 
-            if (n >= 3 && script === 'metrics') await testScripts(1, `-out_scale_m=false`);
+            if (n == 3 && script === 'metrics') await testScripts(1, `-out_scale_m=false`);
         }
 
         if (n === 4) {
@@ -44,11 +44,11 @@ const _testScripts = async (n = 0, script, args) => {
             await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=false -space=false -vf_sar=true -vf_dar=true -m_sar=true -m_dar=true -n=12${_args}`);
             await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=false -space=false -vf_sar=true -vf_dar=false -m_sar=true -m_dar=false -n=13${_args}`);
 
-            if (n >= 6 && script === 'metrics') await testScripts(5, `-out_scale_m=false`);
+            if (n == 6 && script === 'metrics') await testScripts(5, `-out_scale_m=false`);
         }
 
         if (n == 7) {
-            await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=14${_args}`);
+            await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=14${_args}`);
             await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=15${_args}`);
 
             await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=true -p_space=false -vf_sar=false -vf_dar=false -n=16${_args}`);
@@ -62,6 +62,23 @@ const _testScripts = async (n = 0, script, args) => {
 
             await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=22${_args}`);
             await runScript(script, `-c_range=false -vf_range=true -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=23${_args}`);
+        }
+
+        if (n == 8) {
+            await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=14${_args}`);
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=24${_args}`);
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=25${_args}`);
+
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=true -p_space=false -vf_sar=false -vf_dar=false -n=26${_args}`);
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=true -p_space=true -vf_sar=false -vf_dar=false -n=27${_args}`);
+
+            await runScript(script, `-c_range=true -c_space=false -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=28${_args}`);
+            await runScript(script, `-c_range=true -c_space=true -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=29${_args}`);
+
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=true -n=30${_args}`);
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=true -vf_dar=false -n=31${_args}`);
+
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=32${_args}`);
         }
     }
 };

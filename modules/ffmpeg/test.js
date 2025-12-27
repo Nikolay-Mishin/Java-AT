@@ -71,13 +71,8 @@ export const test = async () => {
         //"G:\\Convert\\files\\FBS NF 124 (1080P AVC).mp4"
     ];
 
-    //await testScripts(4);
-    //await testScripts(5);
-    //await testScripts(7);
+    await testScripts(8);
 
-    //await testScriptsMetrics(3);
-    //await testScriptsMetrics(1, `-out_scale_m=false`);
-    //await testScriptsMetrics(4);
     //await testScriptsMetrics(5);
     //await testScriptsMetrics(5, `-out_scale_m=false`);
 
