@@ -722,9 +722,10 @@ public class Reflection {
 
     /**
      *
-     * @param actual Class T
+     * @param actual Class R
      * @return Class T
      * @param <T> T
+     * @param <R> R
      */
     public static <T, R> Class<R> getGenericClass(Class<T> actual) {
         return getGenericClass(actual, 0);
@@ -734,8 +735,9 @@ public class Reflection {
      *
      * @param actual Class T
      * @param index int
-     * @return Class T
+     * @return Class R
      * @param <T> T
+     * @param <R> R
      */
     public static <T, R> Class<R> getGenericClass(Class<T> actual, int index) {
         return getGenericParameterClass(actual, actual.getSuperclass(), index);
@@ -1760,7 +1762,8 @@ public class Reflection {
     /**
      * Get field value
      * @param className String
-     * @return Object
+     * @return T
+     * @param <T> T
      * @throws ReflectiveOperationException throws
      */
     public static <T> T getField(String className) throws ReflectiveOperationException {
@@ -1771,7 +1774,8 @@ public class Reflection {
      * Get field value
      * @param obj Object
      * @param name String
-     * @return Object
+     * @return T
+     * @param <T> T
      * @throws NoSuchFieldException throws
      * @throws IllegalAccessException throws
      */
@@ -1786,8 +1790,9 @@ public class Reflection {
     /**
      * Set field value
      * @param className String
-     * @param value Object
-     * @return Object
+     * @param value T
+     * @return T
+     * @param <T> T
      * @throws ReflectiveOperationException throws
      */
     public static <T> T setField(String className, T value) throws ReflectiveOperationException {
@@ -1798,8 +1803,10 @@ public class Reflection {
      * Set field value
      * @param obj Object
      * @param name String
-     * @param value Object
-     * @return Object
+     * @param value T
+     * @return R
+     * @param <T> T
+     * @param <R> R
      * @throws NoSuchFieldException throws
      * @throws IllegalAccessException throws
      */
@@ -1819,6 +1826,7 @@ public class Reflection {
      * @param name String
      * @param cb Function {Field, Object}
      * @return Object
+     * @param <T> T
      * @throws NoSuchFieldException throws
      * @throws IllegalAccessException throws
      */

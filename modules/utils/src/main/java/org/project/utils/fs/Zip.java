@@ -405,6 +405,7 @@ public class Zip {
      * @throws IOException throws
      * @throws URISyntaxException throws
      * @throws ReflectiveOperationException throws
+     * @throws E throws
      */
     public static <E extends Exception> JsonSchema loadZip
     (String uri, String endpoint, String key, String k, String v, String urlK, String rootZip, BiFunctionWithExceptions<String, Path, Request, E> setReq)

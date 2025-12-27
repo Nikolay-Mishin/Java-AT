@@ -1,6 +1,5 @@
 package org.project.utils.reflection;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -23,7 +22,6 @@ public class Instance<T> extends Register<Class<T>, T> {
      * @param args Object[]
      * @return T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
     public static <T> T create(Class<T> clazz, Object... args) {
         return create(clazz, () -> Reflection.instance(clazz, args));
@@ -35,7 +33,6 @@ public class Instance<T> extends Register<Class<T>, T> {
      * @param args Map {Class, Object}
      * @return T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
     public static <T> T create(Class<T> clazz, Map<Class<?>, Object> args) {
         return create(clazz, () -> Reflection.instance(clazz, args));
@@ -48,12 +45,6 @@ public class Instance<T> extends Register<Class<T>, T> {
      * @return T
      * @param <T> T
      * @param <E> extends ReflectiveOperationException
-     * @throws NoSuchMethodException throws
-     * @throws InstantiationException throws
-     * @throws IllegalAccessException throws
-     * @throws InvocationTargetException throws
-     * @throws ClassNotFoundException throws
-     * @throws E throws
      */
     public static <T, E extends ReflectiveOperationException> T create(Class<T> clazz, SupplierWithExceptions<T, E> cb) {
         try {

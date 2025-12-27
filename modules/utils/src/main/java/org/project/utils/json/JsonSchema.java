@@ -410,6 +410,7 @@ public class JsonSchema {
 
     /**
      *
+     * @param req Request
      * @return Request
      */
     public Request setReq(Request req) {

@@ -662,6 +662,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @param <E> extends Exception
      * @throws MalformedURLException throws
      * @throws ReflectiveOperationException throws
+     * @throws E throws
      */
     public static <E extends Exception> ChromeDriver getWebDriver(SupplierWithExceptions<Object, E> cb)
         throws MalformedURLException, ReflectiveOperationException, E

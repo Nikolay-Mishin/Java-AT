@@ -213,9 +213,10 @@ public class Config<T extends BaseConfig> implements BaseConfig {
 
     /**
      *
-     * @param cb Supplier {Class T}
+     * @param cb SupplierWithExceptions {Class T, E}
      * @return T
      * @param <T> T
+     * @param <E> extends ClassNotFoundException
      */
     public static <T extends BaseConfig, E extends ClassNotFoundException> T createConfig(SupplierWithExceptions<Class<T>, E> cb) {
         try {

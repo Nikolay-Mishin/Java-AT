@@ -226,6 +226,7 @@ public class Attributes {
      *
      * @param path {@code final} String
      * @return Attributes
+     * @throws ReflectiveOperationException throws
      */
     public static Attributes attrs(final String path) throws ReflectiveOperationException {
         return new Attributes(path);
@@ -235,6 +236,7 @@ public class Attributes {
      *
      * @param file {@code final} File
      * @return Attributes
+     * @throws ReflectiveOperationException throws
      */
     public static Attributes attrs(final java.io.File file) throws ReflectiveOperationException {
         return new Attributes(file);
@@ -244,6 +246,7 @@ public class Attributes {
      *
      * @param path {@code final} Path
      * @return Attributes
+     * @throws ReflectiveOperationException throws
      */
     public static Attributes attrs(final Path path) throws ReflectiveOperationException {
         return new Attributes(path);
@@ -589,6 +592,7 @@ public class Attributes {
      *
      * @param path Path
      * @return String
+     * @throws IOException throws
      */
     public static List<String> userAttrs(Path path) throws IOException {
         debug("Reading user attributes: " + path(path));
@@ -599,6 +603,7 @@ public class Attributes {
      *
      * @param view UserDefinedFileAttributeView
      * @return String
+     * @throws IOException throws
      */
     public static List<String> userAttrs(UserDefinedFileAttributeView view) throws IOException {
         List<String> attrs = view.list();
@@ -941,6 +946,7 @@ public class Attributes {
      *
      * @param path Path
      * @return UserPrincipal
+     * @throws IOException throws
      */
     public static UserPrincipal owner(Path path) throws IOException {
         debug("Reading owner attributes: " + path(path));
@@ -951,6 +957,7 @@ public class Attributes {
      *
      * @param view FileOwnerAttributeView
      * @return UserPrincipal
+     * @throws IOException throws
      */
     public static UserPrincipal owner(FileOwnerAttributeView view) throws IOException {
         UserPrincipal owner = view.getOwner();
@@ -962,6 +969,7 @@ public class Attributes {
      *
      * @param path Path
      * @return String
+     * @throws IOException throws
      */
     public static String ownerName(Path path) throws IOException {
         debug("Reading owner name: " + path(path));
@@ -972,6 +980,7 @@ public class Attributes {
      *
      * @param view FileOwnerAttributeView
      * @return String
+     * @throws IOException throws
      */
     public static String ownerName(FileOwnerAttributeView view) throws IOException {
         String ownerName = owner(view).getName();
@@ -981,6 +990,7 @@ public class Attributes {
 
     /**
      *
+     * @throws IOException throws
      */
     public static void printAttrs() throws IOException {
         printAttrs("");
@@ -989,6 +999,7 @@ public class Attributes {
     /**
      *
      * @param path String
+     * @throws IOException throws
      */
     public static void printAttrs(String path) throws IOException {
         printAttrs(pathStr(path));
@@ -997,6 +1008,7 @@ public class Attributes {
     /**
      *
      * @param file File
+     * @throws IOException throws
      */
     public static void printAttrs(java.io.File file) throws IOException {
         printAttrs(file.toPath());
@@ -1005,6 +1017,7 @@ public class Attributes {
     /**
      *
      * @param path Path
+     * @throws IOException throws
      */
     public static void printAttrs(Path path) throws IOException {
         printBaseAttrs(path);
@@ -1058,6 +1071,7 @@ public class Attributes {
 
     /**
      *
+     * @throws IOException throws
      */
     public static void printDosAttrs() throws IOException {
         printDosAttrs("");
@@ -1066,6 +1080,7 @@ public class Attributes {
     /**
      *
      * @param path String
+     * @throws IOException throws
      */
     public static void printDosAttrs(String path) throws IOException {
         printDosAttrs(pathStr(path));
@@ -1074,6 +1089,7 @@ public class Attributes {
     /**
      *
      * @param file File
+     * @throws IOException throws
      */
     public static void printDosAttrs(java.io.File file) throws IOException {
         printDosAttrs(file.toPath());
@@ -1082,6 +1098,7 @@ public class Attributes {
     /**
      *
      * @param path Path
+     * @throws IOException throws
      */
     public static void printDosAttrs(Path path) throws IOException {
         DosFileAttributes attrs = dosAttrs(path);

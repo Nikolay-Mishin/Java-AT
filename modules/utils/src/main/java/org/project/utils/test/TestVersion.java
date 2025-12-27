@@ -25,6 +25,7 @@ public class TestVersion<T extends TestBaseConfig, W extends WebBaseConfig, D ex
 
     /**
      *
+     * @throws Exception throws
      */
     public static void testVersion() throws Exception {
         debug("testVersion");

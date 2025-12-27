@@ -212,6 +212,7 @@ public class Library {
 
     /**
      *
+     * @param e String
      * @return String
      */
     public static String endpoint(String e) {
@@ -228,6 +229,7 @@ public class Library {
 
     /**
      *
+     * @param k String
      * @return String
      */
     public static String key(String k) {
@@ -236,6 +238,7 @@ public class Library {
 
     /**
      *
+     * @throws Exception throws
      */
     public static void updateLib() throws Exception {
         updateLib(libWrite);
@@ -244,6 +247,7 @@ public class Library {
     /**
      *
      * @param writeLibrary boolean
+     * @throws Exception throws
      */
     public static void updateLib(boolean writeLibrary) throws Exception {
         if (checkLib()) {

@@ -28,9 +28,6 @@ public class SingleInstance<T> extends Instance<T> {
      *
      * @return T
      * @param <T> T
-     * @throws ClassNotFoundException throws
-     * @throws NoSuchFieldException throws
-     * @throws IllegalAccessException throws
      */
     @SuppressWarnings("unchecked")
     public static <T extends SingleInstance<?>> T getInstance() {
@@ -52,7 +49,6 @@ public class SingleInstance<T> extends Instance<T> {
      * @param args Object[]
      * @return T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
     public static <T extends SingleInstance<?>> T instance(Object... args) {
         try {
@@ -69,7 +65,6 @@ public class SingleInstance<T> extends Instance<T> {
      * @param args Map {Class, Object}
      * @return T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
     public static <T extends SingleInstance<?>> T instance(Map<Class<?>, Object> args) {
         try {
@@ -87,7 +82,6 @@ public class SingleInstance<T> extends Instance<T> {
      * @param args Object[]
      * @return T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
     public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Object... args) {
         return instance(clazz, create(clazz, args));
@@ -99,7 +93,6 @@ public class SingleInstance<T> extends Instance<T> {
      * @param args Map {Class, Object}
      * @return T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
     public static <T extends SingleInstance<?>> T instance(Class<T> clazz, Map<Class<?>, Object> args) {
         return instance(clazz, create(clazz, args));
@@ -110,8 +103,6 @@ public class SingleInstance<T> extends Instance<T> {
      * @param obj T
      * @return T
      * @param <T> T
-     * @throws IllegalAccessException throws
-     * @throws NoSuchFieldException throws
      */
     @SuppressWarnings("unchecked")
     public static <T extends SingleInstance<?>> T setInstance(T obj) {
@@ -125,8 +116,6 @@ public class SingleInstance<T> extends Instance<T> {
      * @param value T
      * @return T
      * @param <T> T
-     * @throws IllegalAccessException throws
-     * @throws NoSuchFieldException throws
      */
     protected static <T extends SingleInstance<?>> T instance(Class<T> clazz, T value) {
         try {

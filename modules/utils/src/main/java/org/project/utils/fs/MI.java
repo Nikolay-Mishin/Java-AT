@@ -1,7 +1,13 @@
 package org.project.utils.fs;
 
+/**
+ *
+ */
 public class MI {
 
+    /**
+     *
+     */
     public MI() {
         String fileName = "path/to/my/file";
         java.io.File file = new java.io.File(fileName);

@@ -16,23 +16,65 @@ import static org.project.utils.Helper.join;
 
 /**
  * <p>Source - https://stackoverflow.com/a
- * <p>Posted by GEverding & Antonis Zafiropoulos & Mgamerz, modified by community. See post 'Timeline' for change history
+ * <p>Posted by GEverding, Antonis Zafiropoulos and Mgamerz, modified by community. See post 'Timeline' for change history
  * <p>Retrieved 2025-12-21, License - CC BY-SA 4.0
  */
 public class Version {
+    /**
+     *
+     */
     public static List<Integer> version;
+    /**
+     *
+     */
     public static List<Integer> build;
+    /**
+     *
+     */
     public static int MAJOR = 0;
+    /**
+     *
+     */
     public static int MINOR = 1;
+    /**
+     *
+     */
     public static int BUILD = 2;
+    /**
+     *
+     */
     public static int REVISION = 3;
+    /**
+     *
+     */
     public static IntByReference dwDummy = new IntByReference();
+    /**
+     *
+     */
     public static int versionLength;
+    /**
+     *
+     */
     public static Pointer lpData;
+    /**
+     *
+     */
     public static boolean fileInfoResult;
+    /**
+     *
+     */
     public static boolean verQueryVal;
+    /**
+     *
+     */
     public static PointerByReference lpBuffer = new PointerByReference();
+    /**
+     *
+     */
     public static IntByReference puLen = new IntByReference();
+    /**
+     *
+     */
     public static VS_FIXEDFILEINFO lpBufStructure;
 
     /**
