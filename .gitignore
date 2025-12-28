@@ -5,7 +5,6 @@
 /tests/
 /modules/**/tests/
 .env
-stand.properties
 
 ### NPM ###
 node_modules/
