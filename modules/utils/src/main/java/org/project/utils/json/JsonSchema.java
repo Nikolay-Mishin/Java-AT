@@ -25,6 +25,7 @@ import static org.project.utils.Helper.sb;
 import static org.project.utils.Helper.table;
 import static org.project.utils.Helper.toLowerCaseFirst;
 import static org.project.utils.Helper.toUpperCaseFirst;
+import static org.project.utils.Helper.trim;
 import static org.project.utils.config.WebConfig.config;
 import static org.project.utils.constant.RequestConstants.METHOD.GET;
 import static org.project.utils.fs.FS.readFile;
@@ -87,7 +88,7 @@ public class JsonSchema {
      */
     @ConstructorProperties({"jsonString"})
     public JsonSchema(String jsonString) {
-        data(jsonString);
+        data(trim(jsonString, "'"));
     }
 
     /**
