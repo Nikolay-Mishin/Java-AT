@@ -2,6 +2,7 @@ package org.project.utils.request;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import io.restassured.http.Cookies;
@@ -15,7 +16,9 @@ import static org.project.utils.constant.RequestConstants.METHOD.POST;
 import static org.project.utils.constant.RequestConstants.METHOD.PUT;
 import static org.project.utils.reflection.Reflection.invoke;
 
+import org.json.JSONObject;
 import org.project.utils.constant.RequestConstants.METHOD;
+import org.project.utils.json.JsonSchema;
 
 /**
  *
@@ -160,6 +163,42 @@ public class Response {
      */
     public byte[] bytes() throws ReflectiveOperationException {
         return response().asByteArray();
+    }
+
+    /**
+     * Response: get response as JsonSchema
+     * @return JsonSchema
+     * @throws ReflectiveOperationException throws
+     */
+    public JsonSchema json() throws ReflectiveOperationException {
+        return new JsonSchema(string());
+    }
+
+    /**
+     * Response: get response as JSONObject
+     * @return JSONObject
+     * @throws ReflectiveOperationException throws
+     */
+    public JSONObject getJson() throws ReflectiveOperationException {
+        return json().data();
+    }
+
+    /**
+     * Response: get response as Map
+     * @return Map {String, Object}
+     * @throws ReflectiveOperationException throws
+     */
+    public Map<String, Object> map() throws ReflectiveOperationException {
+        return json().toMap();
+    }
+
+    /**
+     * Response: get response as Table
+     * @return List {List {Object}}
+     * @throws ReflectiveOperationException throws
+     */
+    public List<List<Object>> table() throws ReflectiveOperationException {
+        return json().toTable();
     }
 
     /**
