@@ -48,6 +48,10 @@ public class Response {
      *
      */
     protected io.restassured.response.Response response;
+    /**
+     *
+     */
+    protected JsonSchema json;
 
     /**
      * Builder: get response body
@@ -117,7 +121,7 @@ public class Response {
      * @throws ReflectiveOperationException throws
      */
     public io.restassured.response.Response getResponse() throws ReflectiveOperationException {
-        return notNull(response) ? response : response();
+        return notNull(response, this::response);
     }
 
     /**
@@ -171,7 +175,7 @@ public class Response {
      * @throws ReflectiveOperationException throws
      */
     public JsonSchema json() throws ReflectiveOperationException {
-        return new JsonSchema(string());
+        return notNull(json, () -> json = new JsonSchema(string()));
     }
 
     /**
