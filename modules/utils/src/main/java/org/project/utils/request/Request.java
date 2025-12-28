@@ -10,10 +10,10 @@ import java.util.function.Function;
 import static org.project.utils.Helper.concat;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.lastTrim;
-import static org.project.utils.Helper.map;
 import static org.project.utils.Helper.sb;
 import static org.project.utils.reflection.Reflection.getPropStr;
 
+import org.project.utils.Helper;
 import org.project.utils.config.ApiConfig;
 import org.project.utils.constant.RequestConstants.METHOD;
 
@@ -223,7 +223,7 @@ public class Request extends RequestAuth {
      */
     public static <R> Object[] params(String before, String after, String sep, Function<Object, R> k, BiFunction<Object, String, R> v, Object... args) {
         Object[] _k = {""};
-        Object[] map = map(args, Object[]::new, a -> {
+        Object[] map = Helper.map(args, Object[]::new, a -> {
             if (_k[0].toString().isEmpty()) return _k[0] = k.apply(a);
             else {
                 _k[0] = "";
