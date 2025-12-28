@@ -65,7 +65,6 @@ const _testScripts = async (n = 0, script, args) => {
         }
 
         if (n == 8) {
-            await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=14${_args}`);
             await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=24${_args}`);
             await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=25${_args}`);
 

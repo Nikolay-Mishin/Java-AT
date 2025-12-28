@@ -71,15 +71,15 @@ export const test = async () => {
         //"G:\\Convert\\files\\FBS NF 124 (1080P AVC).mp4"
     ];
 
-    await testScripts(8);
+    //await testScripts(8);
 
     //await testScriptsMetrics(5);
     //await testScriptsMetrics(5, `-out_scale_m=false`);
 
     //setParams(43);
     //await ffmpeg("F:\\Convert\\files\\[DC] Make Heroine ga Oosugiru - 07_Telegram.mp4", `_HEVC(${n})`, true);
-    await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4", `_HEVC(${n > 9 ? n : `0${n}`})`, true);
-    //await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4");
+    //await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4", `_HEVC(${n > 9 ? n : `0${n}`})`, true);
+    await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4");
 
     //await scan("F:\\Convert\\files");
     //await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
