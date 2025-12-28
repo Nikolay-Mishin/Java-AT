@@ -38,6 +38,7 @@ import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.project.utils.function.SupplierWithExceptions;
 import org.testng.collections.Lists;
 
 import static org.project.utils.config.Config.debugLvl;
@@ -759,6 +760,45 @@ public class Helper {
      */
     public static boolean notNull(Object value) {
         return !isNull(value);
+    }
+
+    /**
+     *
+     * @param value Object
+     * @param defaultV SupplierWithExceptions {Object, E}
+     * @return Object
+     * @param <T> T
+     * @param <E> extends Exception
+     * @throws E throws
+     */
+    public static <T, E extends Exception> T isNull(T value, SupplierWithExceptions<T, E> defaultV) throws E {
+        return isNull(value, () -> isNull(value), defaultV);
+    }
+
+    /**
+     *
+     * @param value Object
+     * @param defaultV SupplierWithExceptions {Object, E}
+     * @return Object
+     * @param <T> T
+     * @param <E> extends Exception
+     * @throws E throws
+     */
+    public static <T, E extends Exception> T notNull(T value, SupplierWithExceptions<T, E> defaultV) throws E {
+        return isNull(value, () -> notNull(value), defaultV);
+    }
+
+    /**
+     *
+     * @param value Object
+     * @param defaultV SupplierWithExceptions {Object, E}
+     * @return Object
+     * @param <T> T
+     * @param <E> extends Exception
+     * @throws E throws
+     */
+    public static <T, E extends Exception> T isNull(T value, SupplierWithExceptions<Boolean, E> cb, SupplierWithExceptions<T, E> defaultV) throws E {
+        return cb.get() ? value : defaultV.get();
     }
 
     /**
