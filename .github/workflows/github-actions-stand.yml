@@ -1,0 +1,31 @@
+name: Java Cucumber
+
+on:
+    push:
+    workflow_dispatch:
+
+env:
+    env: stand
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # Клонирование репозитория внутри раннера
+            - name: Checkout
+              uses: actions/checkout@v3
+            # Установить JDK
+            - name: Set up JDK
+              uses: actions/setup-java@v3
+              with:
+                  java-version: 17
+                  distribution: 'adopt'
+            # Запуск тестов
+            - name: Executing Test
+              run: mvn clean test -Denv=${{ env.env }}
+            # Загрузить артефакты
+            - name: Archive code coverage results
+              uses: actions/upload-artifact@v4
+              with:
+                  name: allure-results
+                  path: target/allure-results
