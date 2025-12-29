@@ -25,7 +25,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         new CucumberBaseTest();
-        new BaseTests<>(1, 33);
+        new BaseTests<>(1);
         debug("instance: " + instance());
         debug("sleep: " + getSleep());
         debug("timeout: " + timeout());
