@@ -772,7 +772,7 @@ public class Helper {
      * @throws E throws
      */
     public static <T, E extends Exception> T isNull(T value, SupplierWithExceptions<T, E> defaultV) throws E {
-        return isNull(value, () -> isNull(value), defaultV);
+        return checkNull(value, () -> isNull(value), defaultV);
     }
 
     /**
@@ -785,7 +785,7 @@ public class Helper {
      * @throws E throws
      */
     public static <T, E extends Exception> T notNull(T value, SupplierWithExceptions<T, E> defaultV) throws E {
-        return isNull(value, () -> notNull(value), defaultV);
+        return checkNull(value, () -> notNull(value), defaultV);
     }
 
     /**
@@ -797,7 +797,7 @@ public class Helper {
      * @param <E> extends Exception
      * @throws E throws
      */
-    public static <T, E extends Exception> T isNull(T value, SupplierWithExceptions<Boolean, E> cb, SupplierWithExceptions<T, E> defaultV) throws E {
+    public static <T, E extends Exception> T checkNull(T value, SupplierWithExceptions<Boolean, E> cb, SupplierWithExceptions<T, E> defaultV) throws E {
         return cb.get() ? value : defaultV.get();
     }
 
