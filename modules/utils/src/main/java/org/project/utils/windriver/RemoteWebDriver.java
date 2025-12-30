@@ -25,6 +25,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.SessionId;
 
+import static java.time.Duration.ofSeconds;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Process.run;
 import static org.project.utils.Thread.setTimeout;
@@ -484,7 +487,10 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws Exception throws
      */
     public static <T extends WebDriver, E extends Exception> T start(long sleep, long timeout, SupplierWithExceptions<T, E> cb) throws Exception {
-        return setTimeout(sleep, timeout, () -> { open(); return null; }, o -> cb.get());
+        if (sleep == 0) {
+            open();
+            return cb.get();
+        } else return setTimeout(sleep, timeout, () -> { open(); return null; }, o -> cb.get());
     }
 
     /**
@@ -780,6 +786,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     protected static void quit(String driverName) {
         quit(d, driverName);
+        d = null;
     }
 
     /**
@@ -789,7 +796,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     protected static void quit(WebDriver driver, String driverName) {
         // The instance of WinAppDriver will be freed once last test is complete
-        if (driver != null) quit(driver);
+        quit(driver);
         stop(driverName);
     }
 
@@ -799,7 +806,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     protected static void quit(WebDriver driver) {
         debug("quit: " + driver);
-        driver.quit();
+        if (driver != null) driver.quit();
     }
 
     /**
@@ -814,14 +821,34 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @param driverName String
      */
     protected static void stop(String driverName) {
+        stop(driverName, sleep);
+    }
+
+    /**
+     *
+     * @param sleep long
+     * @param driverName String
+     */
+    protected static void stop(String driverName, long sleep) {
+        stop(driverName, sleep, timeout);
+    }
+
+    /**
+     *
+     * @param driverName String
+     * @param sleep long
+     * @param timeout long
+     */
+    protected static void stop(String driverName, long sleep, long timeout) {
         debug("stop: " + driverName);
-        d = null;
+        debug("stop: " + sleep);
         try {
-            new Process("taskkill ", "/f", "/IM", driverName);
+            if (sleep == 0) {
+                new Process("taskkill ", "/f", "/IM", driverName);
+            } else setTimeout(sleep, timeout, () -> { new Process("taskkill ", "/f", "/IM", driverName); return null; });
         }
         catch (IOException e) {
             e.printStackTrace();
-            //throw new RuntimeException(e);
         }
     }
 
@@ -845,18 +872,33 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
 
     /**
      *
-     * @param t long
      */
-    public static void timeout(long t) {
-        //webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(t));
-        d.manage().timeouts().implicitlyWait(t, TimeUnit.MILLISECONDS);
+    public static void timeout() {
+        timeout(sleep);
     }
 
     /**
      *
+     * @param t long
      */
-    public static void timeout() {
-        timeout(1000);
+    public static void timeout(long t) {
+        timeout(t, MILLISECONDS);
+    }
+
+    /**
+     *
+     * @param t long
+     */
+    public static void timeoutS(long t) {
+        timeout(ofSeconds(t).getSeconds(), SECONDS);
+    }
+
+    /**
+     *
+     * @param t long
+     */
+    public static void timeout(long t, TimeUnit timeUnit) {
+        d.manage().timeouts().implicitlyWait(t, timeUnit);
     }
 
     /**

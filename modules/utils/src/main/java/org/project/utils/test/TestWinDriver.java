@@ -15,7 +15,6 @@ import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 
 import static org.project.utils.Helper.debug;
-import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.reflection.Reflection.isExtends;
 import static org.project.utils.windriver.Actions.click;
 import static org.project.utils.windriver.Actions.clickEl;
@@ -23,7 +22,6 @@ import static org.project.utils.windriver.Actions.perform;
 import static org.project.utils.windriver.RemoteWebDriver.attachApp;
 import static org.project.utils.windriver.RemoteWebDriver.attachAppClass;
 import static org.project.utils.windriver.RemoteWebDriver.drivers;
-import static org.project.utils.windriver.RemoteWebDriver.open;
 import static org.project.utils.windriver.RemoteWebDriver.startAttach;
 import static org.project.utils.windriver.RemoteWebDriver.startAttachClass;
 import static org.project.utils.windriver.WebDriver.ls;
@@ -405,10 +403,9 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
      */
     public static void testTimeout() throws Exception {
         debug("testTimeout");
-        open();
+        driver();
         quitWin();
-        setTimeout(() -> { open(); return null; });
-        webDriver();
+        driver();
     }
 
     /**

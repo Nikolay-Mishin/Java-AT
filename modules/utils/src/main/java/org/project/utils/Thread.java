@@ -75,7 +75,7 @@ public class Thread {
      * @throws InterruptedException throws
      * @throws E throws
      */
-    public static <T, E extends Exception> T setTimeout(SupplierWithExceptions<T, E> cb) throws InterruptedException, E {
+    public static <T, E extends Exception> T setTimeout(SupplierWithExceptions<T, E> cb) throws E {
         return setTimeout(cb, o -> o);
     }
 
@@ -89,7 +89,7 @@ public class Thread {
      * @throws InterruptedException throws
      * @throws E throws
      */
-    public static <T, E extends Exception> T setTimeout(long sleep, SupplierWithExceptions<T, E> cb) throws InterruptedException, E {
+    public static <T, E extends Exception> T setTimeout(long sleep, SupplierWithExceptions<T, E> cb) throws E {
         return setTimeout(sleep, cb, o -> o);
     }
 
@@ -104,7 +104,7 @@ public class Thread {
      * @throws InterruptedException throws
      * @throws E throws
      */
-    public static <T, E extends Exception> T setTimeout(long sleep, long timeout, SupplierWithExceptions<T, E> cb) throws InterruptedException, E {
+    public static <T, E extends Exception> T setTimeout(long sleep, long timeout, SupplierWithExceptions<T, E> cb) throws E {
         return setTimeout(sleep, timeout, cb, o -> o);
     }
 
@@ -119,7 +119,7 @@ public class Thread {
      * @throws InterruptedException throws
      * @throws E throws
      */
-    public static <T, R, E extends Exception> R setTimeout(SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws InterruptedException, E {
+    public static <T, R, E extends Exception> R setTimeout(SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws E {
         return setTimeout(sleep, cb, out);
     }
 
@@ -135,7 +135,7 @@ public class Thread {
      * @throws InterruptedException throws
      * @throws E throws
      */
-    public static <T, R, E extends Exception> R setTimeout(long sleep, SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws InterruptedException, E {
+    public static <T, R, E extends Exception> R setTimeout(long sleep, SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws E {
         return setTimeout(sleep, timeout, cb, out);
     }
 
@@ -152,7 +152,7 @@ public class Thread {
      * @throws InterruptedException throws
      * @throws E throws
      */
-    public static <T, R, E extends Exception> R setTimeout(long sleep, long timeout, SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws InterruptedException, E
+    public static <T, R, E extends Exception> R setTimeout(long sleep, long timeout, SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out) throws E
     {
         return setTimeout(sleep, timeout, MILLISECONDS, cb, out);
     }
@@ -172,15 +172,15 @@ public class Thread {
      * @throws E throws
      */
     public static <T, R, E extends Exception> R setTimeout(long sleep, long timeout, TimeUnit unit, SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out)
-        throws InterruptedException, E
+        throws E
     {
-        Future<T> future = executor().submit(() -> { sleep(sleep); return cb.get(); });
+        Future<T> future = executor().submit(() -> { T v = cb.get(); sleep(sleep); return v; });
         T result = null;
         try { result = future.get(timeout, unit); }
         catch (TimeoutException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        finally { future.cancel(true); sleep(sleep); } // may or may not desire this
+        finally { future.cancel(true); } // may or may not desire this
         return out.apply(result);
     }
 
