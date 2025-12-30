@@ -13,7 +13,8 @@
 		"utils",
         "java", "maven", "auto-qa", "api", "ui", "native",
         "cucumber", "lombok", "pojo", "rest-assured",
-        "selenium", "appium", "web-driver", "win-app-driver"
+        "selenium", "appium", "web-driver", "win-app-driver",
+        "github-deploy", "github-actions"
 	],
 	"repository": {
 		"type": "git",

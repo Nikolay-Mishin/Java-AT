@@ -17,7 +17,8 @@
     "keywords": [
         "java", "maven", "auto-qa", "api", "ui", "native",
         "cucumber", "lombok", "pojo", "rest-assured", "allure",
-        "testng", "selenium", "appium", "web-driver", "win-app-driver"
+        "testng", "selenium", "appium", "web-driver", "win-app-driver",
+        "github-deploy", "github-actions"
     ],
     "repository": {
         "type": "git",
