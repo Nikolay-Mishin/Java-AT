@@ -11,6 +11,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.config;
 
 import org.project.utils.config.BaseConfig;
@@ -174,7 +175,12 @@ public class Thread {
     public static <T, R, E extends Exception> R setTimeout(long sleep, long timeout, TimeUnit unit, SupplierWithExceptions<T, E> cb, FunctionWithExceptions<T, R, E> out)
         throws E
     {
-        Future<T> future = executor().submit(() -> { T v = cb.get(); sleep(sleep); return v; });
+        Future<T> future = executor().submit(() -> {
+            debug("setTimeout: " + sleep);
+            T v = cb.get();
+            sleep(sleep);
+            return v;
+        });
         T result = null;
         try { result = future.get(timeout, unit); }
         catch (TimeoutException | InterruptedException | ExecutionException e) {
