@@ -10,9 +10,10 @@
 	},
 	"description": "Library of development Java automatization",
 	"keywords": [
-		"java",
-		"auto-qa",
-        "utils"
+		"utils",
+        "java", "maven", "auto-qa", "api", "ui", "native",
+        "cucumber", "lombok", "pojo", "rest-assured",
+        "selenium", "appium", "web-driver", "win-app-driver"
 	],
 	"repository": {
 		"type": "git",
@@ -20,7 +21,7 @@
 		"directory": ""
 	},
 	"engines": {
-		"node": ">=16.7.0"
+		"node": ">=20.12.2"
 	},
 	"scripts": {
         "start": "npm run build & npm run deploy",

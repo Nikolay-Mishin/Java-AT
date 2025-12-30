@@ -15,8 +15,7 @@
     },
     "description": "Library of development tools",
     "keywords": [
-        "gulp",
-        "ffmpeg"
+        "npm", "ffmpeg"
     ],
     "repository": {
         "type": "git",

@@ -78,11 +78,11 @@ export const test = async () => {
 
     //setParams(43);
     //await ffmpeg("F:\\Convert\\files\\[DC] Make Heroine ga Oosugiru - 07_Telegram.mp4", `_HEVC(${n})`, true);
-    //await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4", `_HEVC(${n > 9 ? n : `0${n}`})`, true);
+    await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4", `_HEVC(${n > 9 ? n : `0${n}`})`, true);
     //await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4");
 
     //await scan("F:\\Convert\\files");
-    await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
+    //await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
 
     //await testParams2(iList, 31, null, 5, 10, 7, 4, [11, 14], 25, [43, 47], [48, 53], [54, 55], 56, 8, [77, 78], [79, 84], [85, 90], [91, 95], [96, 105], [106, 111], 57, [58, 61], [62, 65], [66, 68], [69, 71], [72, 73], [74, 76], [112, 120], [121, 126], [127, 133], [134, 142], [143, 148], [149, 155], [156, 160]);
 
