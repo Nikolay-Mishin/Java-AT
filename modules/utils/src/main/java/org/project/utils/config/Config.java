@@ -334,7 +334,8 @@ public class Config<T extends BaseConfig> implements BaseConfig {
      * @return String
      */
     public static String set(String k, String v) {
-        return ConfigFactory.setProperty(k, v);
+        ConfigFactory.setProperty(k, v);
+        return get(k);
     }
 
     /**
