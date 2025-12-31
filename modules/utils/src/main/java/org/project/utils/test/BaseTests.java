@@ -6,6 +6,7 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.getSleep;
 import static org.project.utils.Thread.timeout;
 import static org.project.utils.config.Config.env;
+import static org.project.utils.config.DriverConfig.config;
 import static org.project.utils.windriver.RemoteWebDriver.getTimeout;
 import static org.project.utils.windriver.RemoteWebDriver.sleep;
 
@@ -38,6 +39,8 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
         debug("sleepStart: " + sleepStart);
         debug("timeoutStart: " + timeoutStart);
         debug("env: " + env());
+        debug("winDriver: " + config().getWindriver());
+        debug("winDriver: " + DriverBaseConfig.winDriver());
     }
 
     /**

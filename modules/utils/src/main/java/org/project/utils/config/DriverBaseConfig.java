@@ -1,5 +1,6 @@
 package org.project.utils.config;
 
+import static java.lang.String.valueOf;
 import static org.aeonbits.owner.Config.LoadPolicy;
 import static org.aeonbits.owner.Config.LoadType.MERGE;
 import static org.aeonbits.owner.Config.Sources;
@@ -48,7 +49,7 @@ public interface DriverBaseConfig extends BaseConfig {
     /**
      *
      */
-    String WINDRIVER_HOST = IS_WINIUM ? WINIUM_HOST : WINIUM_HOST.replaceAll(String.valueOf(WINIUM_PORT), String.valueOf(WINDRIVER_PORT));
+    String WINDRIVER_HOST = IS_WINIUM ? WINIUM_HOST : WINIUM_HOST.replaceAll(valueOf(WINIUM_PORT), valueOf(WINDRIVER_PORT));
 
     /**
      * app
@@ -194,11 +195,86 @@ public interface DriverBaseConfig extends BaseConfig {
      *
      * @return boolean
      */
+    static boolean isWinium() { return config().getIsWinium(); };
+
+    /**
+     *
+     * @return int
+     */
+    static int winiumPort() { return config().getWiniumPort(); };
+
+    /**
+     *
+     * @return String
+     */
+    static String winiumHost() { return config().getWiniumHost(); };
+
+    /**
+     *
+     * @return String
+     */
+    static String windriverName() { return windriverName(isWinium()); };
+
+    /**
+     *
+     * @return String
+     */
+    static String winDriver() { return winDriver(isWinium()); };
+
+    /**
+     *
+     * @return int
+     */
+    static int winDriverPort() { return winDriverPort(isWinium()); };
+
+    /**
+     *
+     * @return String
+     */
+    static String winDriverHost() {
+        return winDriverHost(isWinium());
+    };
+
+    /**
+     *
+     * @param isWinium boolean
+     * @return String
+     */
+    static String windriverName(boolean isWinium) { return isWinium ? config().getWiniumName() : config().getWindriverName(); };
+
+    /**
+     *
+     * @param isWinium boolean
+     * @return String
+     */
+    static String winDriver(boolean isWinium) { return isWinium ? config().getWinium() : config().getWindriver(); };
+
+    /**
+     *
+     * @param isWinium boolean
+     * @return int
+     */
+    static int winDriverPort(boolean isWinium) { return isWinium ? winiumPort() : config().getWindriverPort(); };
+
+    /**
+     *
+     * @param isWinium boolean
+     * @return String
+     */
+    static String winDriverHost(boolean isWinium) {
+        String winiumHost = winiumHost();
+        return isWinium ? winiumHost : winiumHost.replaceAll(valueOf(winiumPort()), valueOf(winDriverPort(isWinium)));
+    };
+
+    /**
+     *
+     * @return boolean
+     */
     @Key("WIN_HOST")
     boolean getWinHost();
 
     /**
-     *
+     * Winium
      * @return boolean
      */
     @Key("IS_WINIUM")

@@ -54,6 +54,8 @@ public class TestConfig<T extends TestBaseConfig, W extends WebBaseConfig, D ext
         debug("timeoutStart: " + timeoutStart());
         debug("debugLevel: " + WebConfig.config().getDebugLevel());
         debug("env: " + env());
+        debug("winDriver: " + DriverConfig.config().getWindriver());
+        debug("winDriver: " + DriverBaseConfig.winDriver());
     }
 
     /**
