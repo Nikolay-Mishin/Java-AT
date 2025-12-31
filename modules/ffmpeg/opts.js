@@ -8,7 +8,7 @@ import {
     reportDir, logDir, FFreportFile, setMetrics, ffreportDir, setReport, fps,
     mkvMergeRoot, ffmpeg_a_dir as $ffmpeg_a_dir, lang_remove as $lang_remove, codec_remove as $codec_remove, rm_und_a, aReport, mkvExt,
     format_space, vf_space, vf_range, scale_space, chroma_loc, vf_in, scale_range, scale_m, out_scale_m, FFreportCopy, FFreportCopyLog, execute,
-    c_range, c_chroma, m_sar, m_dar, vf_sar, vf_dar, setSpace, vf_flags, c_space, p_space
+    c_range, c_chroma, m_sar, m_dar, vf_sar, vf_dar, setSpace, vf_flags, c_space, p_space, vf_ispace
 } from './ffmpeg.config.js';
 import { miOpts, size } from './mi.js';
 import preset, { isNV } from './presets.js';
@@ -376,6 +376,8 @@ export const
     },
     setParam = (con, v) => !con ? '' : v,
     getChroma = (chroma = default_chroma, p) => getParam('chroma_sample_location', chroma, p),
+    getPrimP = (prim, p) => getParam('color_primaries', prim, p),
+    getTrcP = (trc, p) => getParam('color_trc', trc, p),
     getSpaceP = (space, p) => getParam('colorspace', space, p),
     // colorspace=irange=tv:iprimaries=bt709:itrc=bt709:ispace=bt709:range=tv:primaries=bt709:trc=bt709:space=bt709:fast=0
     setColorspace = (i, format, fast = 0) => {
@@ -390,25 +392,33 @@ export const
         const { range = default_range, primaries = default_primaries(h), trc = default_trc, space = default_matrix(h) } = ffColor;
         const _ffColor = { range, primaries, trc, space, chroma };
         const setChroma = (p, con = c_chroma) => setParam(con, getChroma(chroma, p));
+        const setPrim = (p, con = c_space && iprimaries) => setParam(con, getPrimP(primaries, p));
+        const setTrc = (p, con = c_space && itrc) => setParam(con, getTrcP(trc, p));
         const setCspace = (p, con = c_space && ispace) => setParam(con, getSpaceP(space, p));
         const chromaLoc = setChroma();
-        // -color_range tv -color_primaries bt709 -color_trc bt709 -colorspace bt709 -chroma_sample_location left`;
-        const _range = !irange ? '' : `-color_range ${range} `;
-        const _primaries = !iprimaries ? '' : `-color_primaries ${primaries} `;
-        const _trc = !itrc ? '' : `-color_trc ${trc}`;
-        const cRange = !c_range ? '' : `-color_range ${range} -color_primaries ${primaries} -color_trc ${trc}${setCspace()}${chromaLoc} `;
-        const in_range = !vf_in ? '' : `:in_range=${range}:in_color_matrix=${space}`;
+        // -color_range tv -color_primaries bt709 -color_trc bt709 -colorspace bt709 -chroma_sample_location left`
+        const cRange = !c_range ? '' : `-color_range ${range}${setPrim()}${setTrc()}${setCspace()}${chromaLoc} `;
+        const in_range = !vf_in ? '' : `:in_range=${range}:in_color_matrix=${space}:in_chroma_loc=${chroma_loc}`;
         const _scale_range = !scale_range ? '' : `:out_range=${range}${setCspace('out_color_matrix', scale_space && ispace)}${setChroma('out_chroma_loc', chroma_loc)}`;
         const out_range = !vf_range ? '' : `${in_range}${_scale_range}`;
+        // -vf "colorspace=format=yuv420p10:irange=tv:iprimaries=bt709:itrc=bt709:ispace=bt709:range=tv:primaries=bt709:trc=bt709:space=bt709:fast=0"
         const range_space = range.replace('limited', 'tv');
         const _format_space = !format_space ? '' : `${setMetrics ? '' : 'format='}${getFormat(format)}`;
         const _irange = irange ? '' : `:irange=${range_space}`;
-        const _iprimaries = iprimaries ? '' : `:iprimaries=${primaries}`;
-        const _itrc = itrc ? '' : `:itrc=${trc}`;
-        const in_space = `${_irange}${_iprimaries}${_itrc}${setCspace('ispace', !ispace)}`;
-        const colorspace = !vf_space ? '' : `,colorspace=${_format_space}${in_space}:range=${range_space}:primaries=${primaries}:trc=${trc}:space=${space}:fast=${fast}`;
+        const _iprimaries = setPrim('iprimaries', !iprimaries);
+        const _itrc = setTrc('itrc', !itrc);
+        const _ispace = setCspace('ispace', !ispace);
+        const _oprimaries = setPrim('primaries', iprimaries);
+        const _otrc = setTrc('trc', itrc);
+        const _ospace = setCspace('space', ispace);
+        const in_space = !vf_ispace ? '' : `${_irange}${_iprimaries}${_itrc}${_ispace}`;
+        const colorspace = !(vf_space && (itrc || iprimaries || ispace)) ? '' : `,colorspace=${_format_space}${in_space}:range=${range_space}${_oprimaries}${_otrc}${_ospace}:fast=${fast}`;
         const { c_bsf, chromaLocType } = getBsf(range, primaries, trc, space, chroma);
-        const c_params = !setSpace ? '' : `range=${range}:colorprim=${primaries}:transfer=${trc}${setCspace('colormatrix', p_space && ispace)}:chromaloc=${chromaLocType - 1}`;
+        // -x265-params "range=limited:colorprim=bt709:transfer=bt709:colormatrix=bt709:chromaloc=0"
+        const _pprimaries = setPrim('colorprim', p_space && iprimaries);
+        const _ptrc = setTrc('transfer', p_space && itrc);
+        const _pspace = setCspace('colormatrix', p_space && ispace);
+        const c_params = !setSpace ? '' : `range=${range}${_pprimaries}${_ptrc}${_pspace}:chromaloc=${chromaLocType - 1}`;
         const sarV = !((setMetrics && m_sar) || (!setMetrics && vf_sar)) ? '' : `,setsar=${sar}`;
         const darV = !((setMetrics && m_dar) || (!setMetrics && vf_dar)) ? '' : `,setdar=${dar}`;
         const vf = out_range + sarV + darV + colorspace;
