@@ -33,8 +33,10 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
         debug("instance: " + instance());
         debug("sleep: " + getSleep());
         debug("timeout: " + timeout());
-        debug("sleep: " + sleep());
-        debug("timeout: " + getTimeout());
+        debug("sleepApp: " + sleep);
+        debug("timeoutApp: " + timeout);
+        debug("sleepStart: " + sleepStart);
+        debug("timeoutStart: " + timeoutStart);
         debug("env: " + env());
     }
 

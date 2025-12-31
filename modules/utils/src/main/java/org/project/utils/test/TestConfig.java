@@ -4,11 +4,17 @@ import java.beans.ConstructorProperties;
 
 import static org.project.utils.Helper._equals;
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Thread.getSleep;
+import static org.project.utils.Thread.timeout;
 import static org.project.utils.config.Config.compare;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.configs;
 import static org.project.utils.config.Config.env;
 import static org.project.utils.config.Config.printEnvList;
+import static org.project.utils.windriver.RemoteWebDriver.getTimeout;
+import static org.project.utils.windriver.RemoteWebDriver.sleep;
+import static org.project.utils.windriver.RemoteWebDriver.sleepStart;
+import static org.project.utils.windriver.RemoteWebDriver.timeoutStart;
 
 import org.project.utils.Helper;
 import org.project.utils.base.HashMap;
@@ -40,6 +46,12 @@ public class TestConfig<T extends TestBaseConfig, W extends WebBaseConfig, D ext
         debug("WebConfig: " + WebConfig.config());
         debug("WinConfig: " + DriverConfig.config());
         debug("BaseConfig: " + config());
+        debug("sleep: " + getSleep());
+        debug("timeout: " + timeout());
+        debug("sleepApp: " + sleep());
+        debug("timeoutApp: " + getTimeout());
+        debug("sleepStart: " + sleepStart());
+        debug("timeoutStart: " + timeoutStart());
         debug("debugLevel: " + WebConfig.config().getDebugLevel());
         debug("env: " + env());
     }
