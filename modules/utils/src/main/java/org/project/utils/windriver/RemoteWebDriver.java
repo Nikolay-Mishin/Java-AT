@@ -140,6 +140,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @return WindowsDriver {WebElement}
      */
     public static WindowsDriver<org.openqa.selenium.WebElement> root(WindowsDriver<org.openqa.selenium.WebElement> driver) {
+        debug("setRoot: " + driver);
         return r = driver;
     }
 
