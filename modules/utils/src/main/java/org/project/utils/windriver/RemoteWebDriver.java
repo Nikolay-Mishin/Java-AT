@@ -29,6 +29,7 @@ import static java.time.Duration.ofSeconds;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.project.utils.Helper.debug;
+import static org.project.utils.Helper.notNull;
 import static org.project.utils.Process.run;
 import static org.project.utils.Thread.setTimeout;
 import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
@@ -57,6 +58,10 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
     /**
      *
      */
+    protected static WindowsDriver<org.openqa.selenium.WebElement> r;
+    /**
+     *
+     */
     protected static List<String> drivers = List.of("WinDriver", "WebDriver", "RemoteWebDriver");
     /**
      *
@@ -70,6 +75,14 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      *
      */
     protected static long timeout = c.getTimeout();
+    /**
+     *
+     */
+    protected static long sleepStart = c.getSleepStart();
+    /**
+     *
+     */
+    protected static long timeoutStart = c.getTimeoutStart();
     /**
      *
      */
@@ -119,6 +132,23 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     public static DriverBaseConfig config(DriverBaseConfig config) throws ReflectiveOperationException {
         return init(config);
+    }
+
+    /**
+     *
+     * @param driver  WindowsDriver {WebElement}
+     * @return WindowsDriver {WebElement}
+     */
+    public static WindowsDriver<org.openqa.selenium.WebElement> root(WindowsDriver<org.openqa.selenium.WebElement> driver) {
+        return r = driver;
+    }
+
+    /**
+     *
+     * @return WindowsDriver {WebElement}
+     */
+    public static WindowsDriver<org.openqa.selenium.WebElement> root() {
+        return r;
     }
 
     /**
@@ -210,6 +240,22 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     public static long getTimeout() {
         return timeout;
+    }
+
+    /**
+     *
+     * @return long
+     */
+    public static long sleepStart() {
+        return sleepStart;
+    }
+
+    /**
+     *
+     * @return long
+     */
+    public static long timeoutStart() {
+        return timeoutStart;
     }
 
     /**
@@ -615,7 +661,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @throws Exception throws
      */
     public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver() throws Exception {
-        return getWinDriver(cap("Root"));
+        return notNull(r) ? r : root(getWinDriver(cap("Root")));
     }
 
     /**

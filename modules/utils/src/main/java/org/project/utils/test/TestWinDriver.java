@@ -79,6 +79,22 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     /**
      *
      */
+    protected static long sleep;
+    /**
+     *
+     */
+    protected static long timeout;
+    /**
+     *
+     */
+    protected static long sleepStart;
+    /**
+     *
+     */
+    protected static long timeoutStart;
+    /**
+     *
+     */
     protected static String notepadPath;
     /**
      *
@@ -92,6 +108,10 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     public TestWinDriver() {
         debug("TestWinDriver:init");
         url = w.getBaseUrl();
+        sleep = win.getSleep();
+        timeout = win.getTimeout();
+        sleepStart = win.getSleepStart();
+        timeoutStart = win.getTimeoutStart();
         notepadPath = win.getNotepad();
         calcPath = win.getCalc();
     }
