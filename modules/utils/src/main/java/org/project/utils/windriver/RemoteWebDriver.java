@@ -25,6 +25,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.Response;
 import org.openqa.selenium.remote.SessionId;
 
+import static java.lang.String.valueOf;
 import static java.time.Duration.ofSeconds;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -32,20 +33,17 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.notNull;
 import static org.project.utils.Process.run;
 import static org.project.utils.Thread.setTimeout;
-import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
-import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
-import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
 import static org.project.utils.reflection.Reflection.getCallingClassSimpleName;
 import static org.project.utils.reflection.Reflection.isExtends;
 import static org.project.utils.test.TestWinDriver.remoteDriver;
 import static org.project.utils.test.TestWinDriver.webDriver;
-import static org.project.utils.test.TestWinDriver.winDriver;
 
 import org.project.utils.Process;
 import org.project.utils.base.HashMap;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.DriverConfig;
 import org.project.utils.function.SupplierWithExceptions;
+import org.project.utils.test.TestWinDriver;
 
 /**
  *
@@ -54,7 +52,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
     /**
      *
      */
-    protected static DriverBaseConfig c = DriverConfig.config();
+    protected static DriverBaseConfig c = config(DriverConfig.config());
     /**
      *
      */
@@ -70,31 +68,47 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
     /**
      *
      */
-    protected static long sleep = c.getSleep();
+    protected static long sleep;
     /**
      *
      */
-    protected static long timeout = c.getTimeout();
+    protected static long timeout;
     /**
      *
      */
-    protected static long sleepStart = c.getSleepStart();
+    protected static long sleepStart;
     /**
      *
      */
-    protected static long timeoutStart = c.getTimeoutStart();
+    protected static long timeoutStart;
     /**
      *
      */
-    protected static String winDriver = WINDRIVER;
+    protected static boolean isWinium;
     /**
      *
      */
-    protected static String winDriverName = WINDRIVER_NAME;
+    protected static int winiumPort;
     /**
      *
      */
-    protected static String winDriverHost = WINDRIVER_HOST;
+    protected static String winiumHost;
+    /**
+     *
+     */
+    protected static String winDriverName;
+    /**
+     *
+     */
+    protected static String winDriver;
+    /**
+     *
+     */
+    protected static int winDriverPort;
+    /**
+     *
+     */
+    protected static String winDriverHost;
     /**
      *
      */
@@ -128,9 +142,8 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * ConfigInitialize
      * @param config DriverBaseConfig
      * @return DriverBaseConfig
-     * @throws ReflectiveOperationException throws
      */
-    public static DriverBaseConfig config(DriverBaseConfig config) throws ReflectiveOperationException {
+    public static DriverBaseConfig config(DriverBaseConfig config) {
         return init(config);
     }
 
@@ -189,9 +202,8 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      *
      * @param app String
      * @return Capabilities
-     * @throws ReflectiveOperationException throws
      */
-    public static Capabilities cap(String app) throws ReflectiveOperationException {
+    public static Capabilities cap(String app) {
         return cap(new Capabilities(app));
     }
 
@@ -200,9 +212,8 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @param app String
      * @param handle boolean
      * @return Capabilities
-     * @throws ReflectiveOperationException throws
      */
-    public static Capabilities cap(String app, boolean handle) throws ReflectiveOperationException {
+    public static Capabilities cap(String app, boolean handle) {
         return cap(new Capabilities(app, handle));
     }
 
@@ -210,9 +221,8 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      *
      * @param config DriverBaseConfig
      * @return Capabilities
-     * @throws ReflectiveOperationException throws
      */
-    public static Capabilities cap(DriverBaseConfig config) throws ReflectiveOperationException {
+    public static Capabilities cap(DriverBaseConfig config) {
         return cap(new Capabilities(config));
     }
 
@@ -221,9 +231,8 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @param capabilities T
      * @return Capabilities
      * @param <T> extends DesiredCapabilities
-     * @throws ReflectiveOperationException throws
      */
-    public static <T extends DesiredCapabilities> Capabilities cap(T capabilities) throws ReflectiveOperationException {
+    public static <T extends DesiredCapabilities> Capabilities cap(T capabilities) {
         return cap(new Capabilities(capabilities));
     }
 
@@ -260,18 +269,81 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
     }
 
     /**
+     *
+     * @return boolean
+     */
+    public static boolean isWinium() {
+        return isWinium;
+    }
+
+    /**
+     *
+     * @return int
+     */
+    public static int winiumPort() {
+        return winiumPort;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public static String winiumHost() {
+        return winiumHost;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public static String winDriverName() {
+        return winDriverName;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public static String getWinDriver() {
+        return winDriver;
+    }
+
+    /**
+     *
+     * @return int
+     */
+    public static int winDriverPort() {
+        return winDriverPort;
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public static String winDriverHost() {
+        return winDriverHost;
+    }
+
+    /**
      * ConfigInitialize
      * @param config DriverBaseConfig
      * @return DriverBaseConfig
-     * @throws ReflectiveOperationException throws
      */
-    public static DriverBaseConfig init(DriverBaseConfig config) throws ReflectiveOperationException {
+    public static DriverBaseConfig init(DriverBaseConfig config) {
+        debug("Driver:init" + config);
         c = config;
         cap(config);
-        winDriver = config.getWindriver();
-        winDriverName = config.getWindriverName();
-        winDriverHost = config.getWindriverHost();
-        debug(c);
+        sleep = c.getSleep();
+        timeout = c.getTimeout();
+        sleepStart = c.getSleepStart();
+        timeoutStart = c.getTimeoutStart();
+        isWinium = c.getIsWinium();
+        winiumPort = c.getWiniumPort();
+        winiumHost = c.getWiniumHost();
+        winDriverName = isWinium ? c.getWiniumName() : c.getWindriverName();
+        winDriver = isWinium ? c.getWinium() : c.getWindriver();
+        winDriverPort = isWinium ? winiumPort : c.getWindriverPort();
+        winDriverHost = isWinium ? winiumHost : winiumHost.replaceAll(valueOf(winiumPort), valueOf(winDriverPort));
         debug(cap);
         debug(winDriver);
         debug(winDriverName);
@@ -321,7 +393,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @see WebDriver
      */
     public static <T extends WebDriver> T start() throws Exception {
-        return start(cap(c));
+        return start(cap);
     }
 
     /**
@@ -346,7 +418,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
     @SuppressWarnings("unchecked")
     public static <T extends WebDriver> T startRoot() throws Exception {
         debug("startRoot");
-        return (T) start(getWinDriver());
+        return (T) start(winDriver());
     }
 
     /**
@@ -661,7 +733,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      * @return WindowsDriver {WebElement}
      * @throws Exception throws
      */
-    public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver() throws Exception {
+    public static WindowsDriver<org.openqa.selenium.WebElement> winDriver() throws Exception {
         return notNull(r) ? r : root(getWinDriver(cap("Root")));
     }
 
@@ -683,7 +755,7 @@ public class RemoteWebDriver<T extends org.openqa.selenium.remote.RemoteWebDrive
      */
     @SuppressWarnings("unchecked")
     public static WindowsDriver<org.openqa.selenium.WebElement> getWinDriver(DesiredCapabilities cap) throws Exception {
-        return winDriver(WinDriver.driver(getDriver(windowsDriver, cap)));
+        return TestWinDriver.winDriver(WinDriver.driver(getDriver(windowsDriver, cap)));
     }
 
     /**

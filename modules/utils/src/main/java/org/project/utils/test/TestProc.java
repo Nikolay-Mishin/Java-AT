@@ -19,11 +19,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.entries;
-import static org.project.utils.config.DriverBaseConfig.WINDRIVER;
-import static org.project.utils.config.DriverBaseConfig.WINDRIVER_HOST;
-import static org.project.utils.config.DriverBaseConfig.WINDRIVER_NAME;
 import static org.project.utils.config.DriverConfig.config;
 import static org.project.utils.stream.GobblerStream.stream;
+import static org.project.utils.windriver.RemoteWebDriver.getWinDriver;
+import static org.project.utils.windriver.RemoteWebDriver.winDriverHost;
+import static org.project.utils.windriver.RemoteWebDriver.winDriverName;
 import static org.project.utils.windriver.WinDriver.findByClass;
 import static org.project.utils.windriver.WinDriver.start;
 
@@ -62,7 +62,7 @@ public class TestProc<T extends TestBaseConfig, W extends WebBaseConfig, D exten
         WebElement wrk = findByClass("Edit");
         wrk.sendKeys("Привет Appium!");
         d.quit();
-        pb = new ProcessBuilder("taskkill", "/f", "/IM", WINDRIVER_NAME);//.inheritIO();
+        pb = new ProcessBuilder("taskkill", "/f", "/IM", winDriverName());//.inheritIO();
         p = pb.start();
 
         stream(p);
@@ -76,8 +76,8 @@ public class TestProc<T extends TestBaseConfig, W extends WebBaseConfig, D exten
      * @throws IOException throws
      * @throws ReflectiveOperationException throws
      */
-    public static void testProc() throws IOException, ReflectiveOperationException {
-        pb = new ProcessBuilder(WINDRIVER);//.inheritIO();
+    public static void testProc() throws IOException {
+        pb = new ProcessBuilder(getWinDriver());//.inheritIO();
         p = pb.start();
 
         DesiredCapabilities cap = new DesiredCapabilities();
@@ -96,7 +96,7 @@ public class TestProc<T extends TestBaseConfig, W extends WebBaseConfig, D exten
             }
         }
 
-        d = new RemoteWebDriver(new URL(WINDRIVER_HOST), cap);
+        d = new RemoteWebDriver(new URL(winDriverHost()), cap);
         assertNotNull(d);
 
         WebElement el = d.findElement(By.className("Edit"));

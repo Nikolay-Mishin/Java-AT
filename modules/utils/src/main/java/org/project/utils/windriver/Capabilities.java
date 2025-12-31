@@ -55,17 +55,16 @@ public class Capabilities extends DesiredCapabilities {
      * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({})
-    public Capabilities() throws ReflectiveOperationException {
+    public Capabilities() {
         init();
     }
 
     /**
      *
      * @param app String
-     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"app"})
-    public Capabilities(String app) throws ReflectiveOperationException {
+    public Capabilities(String app) {
         app(app).init();
     }
 
@@ -73,20 +72,18 @@ public class Capabilities extends DesiredCapabilities {
      * You set the Handle as one of the capabilities
      * @param app String
      * @param handle boolean
-     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"app", "handle"})
-    public Capabilities(String app, boolean handle) throws ReflectiveOperationException {
+    public Capabilities(String app, boolean handle) {
         app(app, handle).init();
     }
 
     /**
      *
      * @param config DriverBaseConfig
-     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"config"})
-    public Capabilities(DriverBaseConfig config) throws ReflectiveOperationException {
+    public Capabilities(DriverBaseConfig config) {
         init(config);
     }
 
@@ -94,10 +91,9 @@ public class Capabilities extends DesiredCapabilities {
      *
      * @param cap T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({"cap"})
-    public <T extends DesiredCapabilities> Capabilities(T cap) throws ReflectiveOperationException {
+    public <T extends DesiredCapabilities> Capabilities(T cap) {
         init(cap);
     }
 
@@ -133,9 +129,8 @@ public class Capabilities extends DesiredCapabilities {
     /**
      *
      * @return Capabilities
-     * @throws ReflectiveOperationException throws
      */
-    public Capabilities init() throws ReflectiveOperationException {
+    public Capabilities init() {
         return init(config());
     }
 
@@ -143,9 +138,8 @@ public class Capabilities extends DesiredCapabilities {
      *
      * @param config DriverBaseConfig
      * @return Capabilities
-     * @throws ReflectiveOperationException throws
      */
-    public Capabilities init(DriverBaseConfig config) throws ReflectiveOperationException {
+    public Capabilities init(DriverBaseConfig config) {
         if (isNull(app)) app = config.getApp();
         if (isNull(handle)) handle = config.getHandle();
         launchDelay = config.getLaunchDelay();
@@ -163,17 +157,21 @@ public class Capabilities extends DesiredCapabilities {
      * @param cap T
      * @return T
      * @param <T> T
-     * @throws ReflectiveOperationException throws
      */
-    public static <T extends DesiredCapabilities> T init(T cap) throws ReflectiveOperationException {
-        forEachSort(cap, (k, v) -> {
-            if (!v.equals("") && !k.equals("handle")) {
-                if (_equals(k, "app") && handle()) k = "appTopLevelWindow"; // You set the Handle as one of the capabilities
-                cap.setCapability(notEquals(k, "experimental") ? k : "ms:experimental-webdriver", v);
-            }
-        });
-        debug("cap: " + cap);
-        return cap;
+    public static <T extends DesiredCapabilities> T init(T cap) {
+        try {
+            forEachSort(cap, (k, v) -> {
+                if (!v.equals("") && !k.equals("handle")) {
+                    if (_equals(k, "app") && handle()) k = "appTopLevelWindow"; // You set the Handle as one of the capabilities
+                    cap.setCapability(notEquals(k, "experimental") ? k : "ms:experimental-webdriver", v);
+                }
+            });
+            debug("cap: " + cap);
+            return cap;
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

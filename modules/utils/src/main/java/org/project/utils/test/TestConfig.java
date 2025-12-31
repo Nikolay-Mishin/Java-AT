@@ -12,9 +12,14 @@ import static org.project.utils.config.Config.configs;
 import static org.project.utils.config.Config.env;
 import static org.project.utils.config.Config.printEnvList;
 import static org.project.utils.windriver.RemoteWebDriver.getTimeout;
+import static org.project.utils.windriver.RemoteWebDriver.getWinDriver;
+import static org.project.utils.windriver.RemoteWebDriver.isWinium;
 import static org.project.utils.windriver.RemoteWebDriver.sleep;
 import static org.project.utils.windriver.RemoteWebDriver.sleepStart;
 import static org.project.utils.windriver.RemoteWebDriver.timeoutStart;
+import static org.project.utils.windriver.RemoteWebDriver.winDriverHost;
+import static org.project.utils.windriver.RemoteWebDriver.winDriverName;
+import static org.project.utils.windriver.RemoteWebDriver.winDriverPort;
 
 import org.project.utils.Helper;
 import org.project.utils.base.HashMap;
@@ -55,7 +60,7 @@ public class TestConfig<T extends TestBaseConfig, W extends WebBaseConfig, D ext
         debug("debugLevel: " + WebConfig.config().getDebugLevel());
         debug("env: " + env());
         debug("winDriver: " + DriverConfig.config().getWindriver());
-        debug("winDriver: " + DriverBaseConfig.winDriver());
+        debug("winDriver: " + getWinDriver());
     }
 
     /**
@@ -114,11 +119,11 @@ public class TestConfig<T extends TestBaseConfig, W extends WebBaseConfig, D ext
         debug(DriverConfig.config().getWebdriverParam());
         debug(DriverConfig.config().getChromeDriver());
         debug(DriverConfig.config().getExperimental());
-        debug(DriverBaseConfig.IS_WINIUM);
-        debug(DriverBaseConfig.WINDRIVER_NAME);
-        debug(DriverBaseConfig.WINDRIVER);
-        debug(DriverBaseConfig.WINDRIVER_PORT);
-        debug(DriverBaseConfig.WINDRIVER_HOST);
+        debug(isWinium());
+        debug(winDriverName());
+        debug(getWinDriver());
+        debug(winDriverPort());
+        debug(winDriverHost());
         debug(_equals(DriverConfig.config().getWebdriverParam(), ""));
         printEnvList();
     }
