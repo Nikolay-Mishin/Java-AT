@@ -525,8 +525,12 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
             findByName("Текстовый редактор");
             debug(el);
         } catch (Exception e) {
-            findByName("Notepad");
-            debug(el);
+            try {
+                findByName("Notepad");
+                debug(el);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
 
@@ -552,8 +556,12 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
             findByName("Калькулятор");
             debug(el);
         } catch (Exception e) {
-            findByName("Calculator");
-            debug(el);
+            try {
+                findByName("Calculator");
+                debug(el);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
 
