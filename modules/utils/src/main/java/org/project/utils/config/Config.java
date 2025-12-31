@@ -260,7 +260,8 @@ public class Config<T extends BaseConfig> implements BaseConfig {
      * @param <T> T
      */
     protected static <T extends BaseConfig> String env(T config) {
-        return tryCatchNoArgs(() -> env(config.getEnv()), e -> env);
+        String env = getProperty("env");
+        return tryCatchNoArgs(() -> env(notNull(env) ? env : config.getEnv()), e -> env);
     }
 
     /**
@@ -269,7 +270,7 @@ public class Config<T extends BaseConfig> implements BaseConfig {
      * @return String
      */
     protected static String env(String value) {
-        debug("env: " + value);
+        debug("setEnv: " + value);
         return isNull(value) ? env : (env = set(envKey, value));
     }
 
@@ -297,7 +298,7 @@ public class Config<T extends BaseConfig> implements BaseConfig {
      * @return int
      */
     protected static int debugLvl(int value) {
-        debug("debugLevel: " + value);
+        debug("setDebugLevel: " + value);
         return debugLvl = value;
     }
 
