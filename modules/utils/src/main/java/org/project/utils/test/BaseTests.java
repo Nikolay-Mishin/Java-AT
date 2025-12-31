@@ -5,6 +5,7 @@ import java.beans.ConstructorProperties;
 import static org.project.utils.Helper.debug;
 import static org.project.utils.Thread.getSleep;
 import static org.project.utils.Thread.timeout;
+import static org.project.utils.config.Config.env;
 import static org.project.utils.windriver.RemoteWebDriver.getTimeout;
 import static org.project.utils.windriver.RemoteWebDriver.sleep;
 
@@ -26,11 +27,15 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
     public static void main(String[] args) throws Exception {
         new CucumberBaseTest();
         new BaseTests<>(1);
+        debug("c: " + c());
+        debug("w: " + w());
+        debug("win: " + win());
         debug("instance: " + instance());
         debug("sleep: " + getSleep());
         debug("timeout: " + timeout());
         debug("sleep: " + sleep());
         debug("timeout: " + getTimeout());
+        debug("env: " + env());
     }
 
     /**

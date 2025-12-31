@@ -7,6 +7,7 @@ import static org.project.utils.Helper.debug;
 import static org.project.utils.config.Config.compare;
 import static org.project.utils.config.Config.config;
 import static org.project.utils.config.Config.configs;
+import static org.project.utils.config.Config.env;
 import static org.project.utils.config.Config.printEnvList;
 
 import org.project.utils.Helper;
@@ -40,9 +41,7 @@ public class TestConfig<T extends TestBaseConfig, W extends WebBaseConfig, D ext
         debug("WinConfig: " + DriverConfig.config());
         debug("BaseConfig: " + config());
         debug("debugLevel: " + WebConfig.config().getDebugLevel());
-        debug("c: " + c());
-        debug("w: " + w());
-        debug("win: " + win());
+        debug("env: " + env());
     }
 
     /**

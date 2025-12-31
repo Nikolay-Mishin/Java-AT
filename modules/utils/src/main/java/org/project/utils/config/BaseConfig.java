@@ -56,20 +56,6 @@ public interface BaseConfig extends Config {
     int getDebugLevel();
 
     /**
-     *
-     * @return String
-     */
-    @Key("JAVA_VER")
-    String getJavaVer();
-
-    /**
-     *
-     * @return String
-     */
-    @Key("JAVA_HOME")
-    String getJavaHome();
-
-    /**
      * app
      * @return long
      */
@@ -82,5 +68,19 @@ public interface BaseConfig extends Config {
      */
     @Key("TIMEOUT")
     long getTimeout();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("JAVA_VER")
+    String getJavaVer();
+
+    /**
+     *
+     * @return String
+     */
+    @Key("JAVA_HOME")
+    String getJavaHome();
 
 }
