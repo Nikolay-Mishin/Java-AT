@@ -520,8 +520,16 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
     public static void testAppEdit() throws Exception {
         debug("testAppEdit");
         winDriver();
-        findByName("Текстовый редактор");
-        debug(el);
+
+        try {
+            findByName("Текстовый редактор");
+            debug(el);
+        } catch (Exception e) {
+            findByName("Notepad");
+            debug(el);
+            e.printStackTrace();
+        }
+
         findByClass("Notepad");
         debug(el);
         findByClass("Edit");
@@ -540,8 +548,15 @@ public class TestWinDriver<T extends TestBaseConfig, W extends WebBaseConfig, D 
         findByAId("num1Button").click();
         debug(el);
 
-        findByName("Калькулятор");
-        debug(el);
+        try {
+            findByName("Калькулятор");
+            debug(el);
+        } catch (Exception e) {
+            findByName("Calculator");
+            debug(el);
+            e.printStackTrace();
+        }
+
         findByClass("ApplicationFrameWindow");
         debug(el);
         findByClass("Windows.UI.Core.CoreWindow");
