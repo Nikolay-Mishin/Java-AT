@@ -3,7 +3,7 @@
 /Java/out/
 **/allure-results/
 /tests/
-/modules/**/tests/
+/modules/tests/tests/
 .env
 
 ### NPM ###
