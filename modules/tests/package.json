@@ -1,0 +1,45 @@
+{
+	"name": "maven-at-modules-tests",
+	"version": "7.13.0",
+    "main": "index.js",
+    "type": "module",
+	"license": "ISC",
+	"author": {
+		"name": "Nikolay Mishin",
+		"url": "https://github.com/Nikolay-Mishin"
+	},
+	"description": "Library of development Java automatization",
+	"keywords": [
+		"utils",
+        "java", "maven", "auto-qa", "api", "ui", "native",
+        "cucumber", "lombok", "pojo", "rest-assured",
+        "selenium", "appium", "web-driver", "win-app-driver",
+        "github-deploy", "github-actions"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Nikolay-Mishin/Java-AT/tree/mvn-repo/org/project/utils",
+		"directory": ""
+	},
+	"engines": {
+		"node": ">=20.12.2"
+	},
+	"scripts": {
+        "start": "npm run build & npm run deploy",
+        "build": "mvn clean install",
+        "pkg": "mvn clean package",
+        "deploy": "npm run deploy:src",
+        "deploy:internal": "mvn clean deploy",
+        "deploy:site": "mvn clean deploy -Dsite",
+        "deploy:src": "mvn clean deploy -Dsite -Dsrc",
+        "deploy:doc": "mvn clean deploy -Ddoc",
+        "deploy:src_doc": "mvn clean deploy -Dsite -Dsrc -Ddoc",
+        "deploy:docker": "mvn clean deploy -Ddocker",
+        "deploy:dockerfile": "mvn clean deploy -Ddockerfile",
+        "profiles": "mvn help:active-profiles",
+        "profiles:doc_src": "mvn help:active-profiles -Dsrc -Ddoc",
+        "profiles:doc_src-p": "mvn help:active-profiles -P src -P doc",
+        "deploy-auto": "node index.js -deploy -root",
+        "deploy-manual": "mvn clean deploy:deploy-file -Durl=file:C:/Dev/OSPanel/domains/Java-AT/modules/utils/repo -Dfile=target/utils-3.4.4-SNAPSHOT.jar -DgroupId=org.project -DartifactId=utils -Dpackaging=jar -Dversion=3.4.4-SNAPSHOT -Dsources=target/utils-3.4.4-SNAPSHOT-sources.jar -Djavadoc=target/Jutils-3.4.4-SNAPSHOT-javadoc.jar"
+    }
+}
