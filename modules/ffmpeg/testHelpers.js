@@ -79,6 +79,17 @@ const _testScripts = async (n = 0, script, args) => {
 
             await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=32${_args}`);
         }
+
+        if (n == 9) {
+            await runScript(script, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=false -vf_dar=false -n=42${_args}`);
+            await runScript(script, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=false -vf_sar=false -vf_dar=false -n=43${_args}`);
+            await runScript(script, `-c_range=false -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=false -vf_dar=false -n=44${_args}`);
+            await runScript(script, `-c_range=true -vf_range=false -scale_space=false -vf_space=true -space=true -vf_sar=false -vf_dar=false -n=45${_args}`);
+        }
+
+        if (n == 10) {
+            await runScript(script, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -n=46${_args}`);
+        }
     }
 };
 

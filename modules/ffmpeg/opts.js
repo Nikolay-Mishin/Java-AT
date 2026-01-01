@@ -412,7 +412,7 @@ export const
         const _otrc = setTrc('trc', itrc);
         const _ospace = setCspace('space', ispace);
         const in_space = !vf_ispace ? '' : `${_irange}${_iprimaries}${_itrc}${_ispace}`;
-        const colorspace = !(vf_space && (itrc || iprimaries || ispace)) ? '' : `,colorspace=${_format_space}${in_space}:range=${range_space}${_oprimaries}${_otrc}${_ospace}:fast=${fast}`;
+        const colorspace = !(vf_space && itrc && iprimaries && ispace) ? '' : `,colorspace=${_format_space}${in_space}:range=${range_space}${_oprimaries}${_otrc}${_ospace}:fast=${fast}`;
         const { c_bsf, chromaLocType } = getBsf(range, primaries, trc, space, chroma);
         // -x265-params "range=limited:colorprim=bt709:transfer=bt709:colormatrix=bt709:chromaloc=0"
         const _pprimaries = setPrim('colorprim', p_space && iprimaries);
