@@ -12,7 +12,6 @@ import static org.project.utils.config.DriverConfig.config;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
-import org.project.tests.run.CucumberBaseTest;
 
 /**
  *
