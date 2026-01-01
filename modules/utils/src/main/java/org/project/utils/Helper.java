@@ -38,14 +38,14 @@ import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.project.utils.function.SupplierWithExceptions;
-import org.testng.collections.Lists;
 
 import static org.project.utils.config.Config.debugLvl;
 import static org.project.utils.base.HashMap.getVComp;
 import static org.project.utils.reflection.Reflection.arrInstance;
 import static org.project.utils.reflection.Reflection.fields;
 import static org.project.utils.reflection.Reflection.getClazz;
+
+import org.project.utils.function.SupplierWithExceptions;
 
 /**
  *
@@ -273,16 +273,6 @@ public class Helper {
     @SuppressWarnings("unchecked")
     public static <T, I> List<T> toList(Iterator<I> iterator) {
         return IteratorUtils.toList(iterator);
-    }
-
-    /**
-     *
-     * @param iterator Iterator {T}
-     * @return List {T}
-     * @param <T> T
-     */
-    public static <T> List<T> newList(Iterator<T> iterator) {
-        return Lists.newArrayList(iterator);
     }
 
     /**
