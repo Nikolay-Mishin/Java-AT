@@ -3,27 +3,27 @@
   <groupId>org.project</groupId>
   <artifactId>tests</artifactId>
   <versioning>
-    <lastUpdated>20260101122844</lastUpdated>
+    <lastUpdated>20260101124202</lastUpdated>
     <snapshot>
-      <timestamp>20260101.122844</timestamp>
+      <timestamp>20260101.124202</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>7.14.2-20260101.122844-1</value>
-        <updated>20260101122844</updated>
+        <value>7.14.2-20260101.124202-1</value>
+        <updated>20260101124202</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>7.14.2-20260101.122844-1</value>
-        <updated>20260101122844</updated>
+        <value>7.14.2-20260101.124202-1</value>
+        <updated>20260101124202</updated>
       </snapshotVersion>
       <snapshotVersion>
         <classifier>sources</classifier>
         <extension>jar</extension>
-        <value>7.14.2-20260101.122844-1</value>
-        <updated>20260101122844</updated>
+        <value>7.14.2-20260101.124202-1</value>
+        <updated>20260101124202</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

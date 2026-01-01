@@ -1,4 +1,4 @@
-package org.project.utils.test.run;
+package org.project.tests.run;
 
 import io.cucumber.junit.Cucumber;
 import org.junit.runner.RunWith;

@@ -12,7 +12,7 @@ import static org.project.utils.config.DriverConfig.config;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
-import org.project.utils.test.run.CucumberBaseTest;
+import org.project.tests.run.CucumberBaseTest;
 
 /**
  *
@@ -26,7 +26,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         new CucumberBaseTest();
-        new BaseTests<>(1, 18);
+        new BaseTests<>(1, 33);
         debug("c: " + c());
         debug("w: " + w());
         debug("win: " + win());
