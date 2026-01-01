@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>utils</module>
+        <module>tests</module>
     </modules>
 
     <properties>
