@@ -3,8 +3,6 @@ package org.project.utils.base;
 import static java.lang.Long.valueOf;
 
 import java.beans.ConstructorProperties;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -270,7 +268,7 @@ public class BaseStep<R extends BaseRequests<M>, M> extends Instance<R> {
     protected <E extends Exception> Response req(List<List<String>> dataTable, FunctionWithExceptions<M, Response, E> cb) throws Exception {
         return req(() -> {
             M model = new Model<>(modelClass, dataTable, hashMap, req.baseUrl()).get();
-            Response resp = cb.apply(model);
+            Response resp = req(cb.apply(model));
             //id = resp.jsonPath().get("id");
             //id = parseLong(resp.path("id").toString());
             id = resp.path("id");
@@ -284,13 +282,21 @@ public class BaseStep<R extends BaseRequests<M>, M> extends Instance<R> {
      * @param cb SupplierWithExceptions {Response, E}
      * @return Response
      * @param <E> E
-     * @throws IOException throws
-     * @throws URISyntaxException throws
-     * @throws ReflectiveOperationException throws
      * @throws E throws
      */
-    protected <E extends Exception> Response req(SupplierWithExceptions<Response, E> cb) throws IOException, URISyntaxException, ReflectiveOperationException, E {
-        Response resp = cb.get();
+    protected <E extends Exception> Response req(SupplierWithExceptions<Response, E> cb) throws E {
+        return req(cb.get());
+    }
+
+    /**
+     *
+     * @param resp Response
+     * @return Response
+     * @param <E> E
+     * @throws E throws
+     */
+    protected <E extends Exception> Response req(Response resp) throws E {
+        debug(resp);
         debug(resp.getStatusCode());
         return resp;
     }
