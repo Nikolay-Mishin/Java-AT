@@ -32,7 +32,7 @@
         "start": "npm run tests",
         "build": "mvn clean install",
         "pkg": "mvn package",
-        "test": "npm run tests & npm run allure",
+        "test": "npm run tests & npm run report & npm run allure",
         "tests": "mvn clean test -Denv=stand",
         "allure": "mvn allure:serve",
         "report": "mvn allure:report",
