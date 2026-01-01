@@ -1,6 +1,6 @@
 import org.junit.BeforeClass;
 
-import org.project.utils.test.run.CucumberRunTest;
+import org.project.tests.run.CucumberRunTest;
 
 import config.TestConfig;
 

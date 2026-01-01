@@ -30,7 +30,7 @@ export const {
     */
     fpsMode = 'passthrough', // passthrough
     r: setR = false, c_range = true, c_space = c_range, c_chroma = c_range, vf_flags = 'bicubic', // bicubic|lanczos
-    vf: setVf = true, vf_in = false, vf_range = true, scale_range = vf_range, scale_space = true, chroma_loc = vf_range, vf_space = true, vf_ispace = false, format_space = vf_space,
+    vf: setVf = true, vf_in = false, vf_range = false, scale_range = vf_range, scale_space = true, chroma_loc = vf_range, vf_space = false, vf_ispace = false, format_space = vf_space,
     crop: setCrop = false, border: setBorder = false, bsf: setBsf = false, out_scale_m = true, scale_m = true,
     hw = false, nv = false, crf = null, cq = null, qp = null,
     bv = null, preset = null, type = getPresetType(presetType) || getPresetType(preset), profile = null, level: setLvl = true, tier: setTier = false, tune = null,
