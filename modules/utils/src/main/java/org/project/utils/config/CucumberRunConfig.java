@@ -46,6 +46,7 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
         //initField("BASE_CONFIG");
         //init("BASE_CONFIG");
         init(getClass(), "BASE_CONFIG");
+        out.println("CucumberRunConfig: " + getClass());
         out.println("CucumberRunConfig: " + options(getClass()));
     }
 
@@ -278,8 +279,6 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
             "--plugin", "pretty",
             "--plugin", "json:target/cucumber.json"
         };
-        out.println("CucumberOptions: " + Arrays.toString(_options));
-        out.println("CucumberPlugins: " + Arrays.toString(isNull(options) ? null : options.plugin()));
         return options;
     }
 
