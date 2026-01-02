@@ -46,6 +46,7 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
         //initField("BASE_CONFIG");
         //init("BASE_CONFIG");
         init(getClass(), "BASE_CONFIG");
+        out.println("CucumberRunConfig: " + options(getClass()));
     }
 
     /**
@@ -249,7 +250,47 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
                 }
             }
         });
+        out.println("getOptions: " + options);
+        out.println("getOptions: " + options(CucumberRunConfig.class));
+        out.println("getOptions: " + options(CucumberConfig.class));
         return options.toArray(String[]::new);
+    }
+
+    /**
+     *
+     * @return CucumberOptions
+     */
+    public CucumberOptions options() {
+        return options(getClass());
+    }
+
+    /**
+     *
+     * @param clazz Class
+     * @return CucumberOptions
+     */
+    public static CucumberOptions options(Class<?> clazz) {
+        CucumberOptions options = clazz.getAnnotation(CucumberOptions.class);
+        String[] _options = {
+            "--features", "src/test/resources/features",
+            "--glue", "stepdefinitions",
+            "--tags", "@smoke",
+            "--plugin", "pretty",
+            "--plugin", "json:target/cucumber.json"
+        };
+        out.println("CucumberOptions: " + Arrays.toString(_options));
+        out.println("CucumberPlugins: " + Arrays.toString(options.plugin()));
+        return options;
+    }
+
+    /**
+     *
+     */
+    public void setTagsOptions() {
+        List<String> tagsList = Arrays.asList("@smoke", "@regression");
+        String[] tagsArray = tagsList.toArray(new String[0]);
+        CucumberOptions options = options();
+        //options.tags(tagsArray);
     }
 
     /**
@@ -289,16 +330,6 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     *
-     */
-    public void setTagsOptions() {
-        List<String> tagsList = Arrays.asList("@smoke", "@regression");
-        String[] tagsArray = tagsList.toArray(new String[0]);
-        CucumberOptions options = this.getClass().getAnnotation(CucumberOptions.class);
-        //options.tags(tagsArray);
     }
 
 }
