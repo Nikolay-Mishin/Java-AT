@@ -279,7 +279,7 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
             "--plugin", "json:target/cucumber.json"
         };
         out.println("CucumberOptions: " + Arrays.toString(_options));
-        out.println("CucumberPlugins: " + Arrays.toString(options.plugin()));
+        out.println("CucumberPlugins: " + Arrays.toString(isNull(options) ? null : options.plugin()));
         return options;
     }
 
