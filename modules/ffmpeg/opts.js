@@ -8,7 +8,7 @@ import {
     reportDir, logDir, FFreportFile, setMetrics, ffreportDir, setReport, fps,
     mkvMergeRoot, ffmpeg_a_dir as $ffmpeg_a_dir, lang_remove as $lang_remove, codec_remove as $codec_remove, rm_und_a, aReport, mkvExt,
     format_space, vf_space, vf_range, scale_space, chroma_loc, vf_in, scale_range, scale_m, out_scale_m, FFreportCopy, FFreportCopyLog, execute,
-    c_range, c_chroma, m_sar, m_dar, vf_sar, vf_dar, setSpace, vf_flags, c_space, p_space, vf_ispace
+    c_range, c_chroma, m_sar, m_dar, vf_sar, vf_dar, setSpace, vf_flags, c_space, p_space, vf_ispace, m_fps
 } from './ffmpeg.config.js';
 import { miOpts, size } from './mi.js';
 import preset, { isNV } from './presets.js';
@@ -351,7 +351,8 @@ export const
     setFilter = (format, fps, scale, space = '', flags = vf_flags, sar = false, dar = false) => {
         const _sar = !sar ? '' : `,setsar=${sar}`;
         const _dar = !dar ? '' : `,setdar=${dar}`;
-        return `${format}${format === '' ? '' : ','}fps=${fps},scale=${scale}:${getFlags(flags)}${space}${_sar}${_dar}`;
+        const _fps = !fps ? '' : `fps=${fps},`;
+        return `${format}${format === '' ? '' : ','}${_fps}scale=${scale}:${getFlags(flags)}${space}${_sar}${_dar}`;
     },
     setPrefixLavfi = (endall, filter = '', filter1 = '', noScale = true) => {
         const prefix = !endall ? '' : ',';
@@ -441,7 +442,7 @@ export const getPrefixLavfi = (i, o = {}) => {
     //if (!o) o = i;
     const { parse, setFFmpeg } = i;
     const endall = parse >= 3;
-    const { w, h, space, chroma, bit, fps, fps_mode, fr } = i;
+    const { w, h, space, chroma, bit, fps, setR, fps_mode, fr } = i;
     const { w: w1, h: h1, space: space1, chroma: chroma1, bit: bit1, fps: fps1, fps_mode: fps_mode1, fr: fr1 } = o;
     const noScale = w === w1 && h === h1;
     //log({ w, h, space, chroma, bit, fps, fr, fps_mode });
@@ -449,8 +450,9 @@ export const getPrefixLavfi = (i, o = {}) => {
     const scale = `${w1 || w}:${h1 || h}`; // w:h | WxH
     const format = parse >= 5 || setFFmpeg ? setFormat(space, chroma, bit) : '';
     const format1 = parse >= 5 ? setFormat(space1, chroma1, bit1) : '';
-    const filter = parse >= 4 || !noScale ? setFilter(format, fps, scale, !out_scale_m ? '' : getSpace(i, format)) : parse === 2 ? `[0:v]fps=${fps}[main];` : '';
-    const filter1 = setMetrics && (parse === 6 || !noScale) ? setFilter(format1, fps, scale, getSpace(o, format1)) : parse === 2 ? `[1:v]fps=${fps}[ref];[main][ref]` : '';
+    const _fps = !m_fps ? null : fps;
+    const filter = parse >= 4 || !noScale ? setFilter(format, _fps, scale, !out_scale_m ? '' : getSpace(i, format)) : parse === 2 ? `[0:v]fps=${fps}[main];` : '';
+    const filter1 = setMetrics && (parse === 6 || !noScale) ? setFilter(format1, _fps, scale, getSpace(o, format1)) : parse === 2 ? `[1:v]fps=${fps}[ref];[main][ref]` : '';
     return setPrefixLavfi(endall, filter, filter1, noScale);
 };
 

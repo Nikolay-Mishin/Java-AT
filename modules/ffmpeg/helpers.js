@@ -16,7 +16,7 @@ export const getScript = async (name, path = defaultScripts) => {
     return script;
 };
 
-export const runScript = async (name, args, scriptsArg = true, path = defaultScripts, std = true) => {
+export const run = async (name, args, scriptsArg = true, path = defaultScripts, std = true) => {
     const script = await getScript(name, path);
     if (!script) return;
     const cmd = `${script}${!args ? '' : ` ${!scriptsArg ? '' : '-scripts=false '}${args}`}`;

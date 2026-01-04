@@ -5,7 +5,7 @@ import { root } from './env.config.js';
 import { addPath, getEnv, rename } from './baseHelpers.js';
 import { i, n, out } from './ffmpeg.config.js';
 import { mi, miOpts, size } from './mi.js';
-import { checkFrames, check_sei, check_v, ffmpeg, scan, getMetrics, reportsError } from './core.js';
+import { checkFrames, check_sei, check_v, ffmpeg, scan, getMetrics, reportsError, ffmetrics } from './core.js';
 import testParams2, {
     _mi, arr, img, mkv, opts, params, parse, report, s, testParams0, testAtt, testCopy, testMatrix, testMetrics, testParams, testSingle,
     testFormat, testColor, testEnv, testCheck, testScripts, testError, testArgs, testDirExist, testFileExist, testMI, testScriptsMetrics
@@ -44,7 +44,7 @@ export const test = async () => {
 
     //await testFFmpeg();
 
-    const path = "G:\\Аниме\\[Фильмы]\\[Фильм] Алита - Боевой ангел\\Alita Battle Angel 2019 WEBRip 1080p-LQ.mkv";
+    const path = "F:\\Аниме\\[Фильмы]\\[Фильм] Алита - Боевой ангел\\Alita Battle Angel 2019 WEBRip 1080p-LQ.mkv";
 
     //await testCheck(path);
     //await ffmpeg(path);
@@ -60,28 +60,48 @@ export const test = async () => {
     //for await (const s of series) log(await mi(s2.replace('$1', s)));
     //for await (const s of series) log(await mi(s3.replace('$1', s)));
 
-    //await mi("G:\\Аниме\\Онгоинги\\!_07_Лето_2017\\Семь - верно, три - неверно\\[AniDub]_Nana_Maru_San_Batsu_[11]_[720p_x264_Aac]_[MVO].mp4");
-    //await mi("G:\\Аниме\\Онгоинги\\!_10_Весна_2018\\Потерянная песня\\[SHIZA Project] Lost Song ONA [01] [MVO].mkv");
+    //await mi("F:\\Аниме\\Онгоинги\\!_07_Лето_2017\\Семь - верно, три - неверно\\[AniDub]_Nana_Maru_San_Batsu_[11]_[720p_x264_Aac]_[MVO].mp4");
+    //await mi("F:\\Аниме\\Онгоинги\\!_10_Весна_2018\\Потерянная песня\\[SHIZA Project] Lost Song ONA [01] [MVO].mkv");
 
     const iList = [
-        "G:\\Convert\\files\\[DC] Make Heroine ga Oosugiru - 07_Telegram.mp4",
-        //"G:\\Convert\\files\\[JamClub] Tsue to Tsurugi no Wistoria - 11 [1080p].mp4",
-        //"G:\\Convert\\files\\Nanatsu_no_Maken_ga_Shihai_suru_[02]_[AniLibria_TV]_[WEBRip_1080p].mkv",
-        //"G:\\Аниме\\Новое\\Макен-ки\\ТВ-1\\[AniDub] Maken-ki! [01] [BDrip1080p x264 FLAC] [Ancord].mkv",
-        //"G:\\Convert\\files\\FBS NF 124 (1080P AVC).mp4"
+        "F:\\Convert\\files\\[DC] Make Heroine ga Oosugiru - 07_Telegram.mp4",
+        //"F:\\Convert\\files\\[JamClub] Tsue to Tsurugi no Wistoria - 11 [1080p].mp4",
+        //"F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4",
+        //"F:\\Convert\\files\\Nanatsu_no_Maken_ga_Shihai_suru_[02]_[AniLibria_TV]_[WEBRip_1080p].mkv",
+        //"F:\\Аниме\\Новое\\Макен-ки\\ТВ-1\\[AniDub] Maken-ki! [01] [BDrip1080p x264 FLAC] [Ancord].mkv",
+        //"F:\\Convert\\files\\FBS NF 124 (1080P AVC).mp4"
     ];
 
+    const postfix = `_HEVC(${n > 9 ? n : `0${n}`})`,
+        fname = f => f.replace('.mp4', `${postfix}.mkv`),
+        f0 = "F:\\Convert\\files\\[DC] Make Heroine ga Oosugiru - 07_Telegram.mp4",
+        f1 = fname(f0),
+        f2 = "F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4",
+        f3 = fname(f2),
+        f4 = "F:\\Convert\\files\\JamClub_Ore_dake_Level_Up_na_Ken_Season_2_13_1080p.mp4",
+        f5 = fname(f4),
+        f6 = "F:\\Convert\\files\\Nanatsu_no_Maken_ga_Shihai_suru_[02]_[AniLibria_TV]_[WEBRip_1080p].mkv",
+        f7 = fname(f6);
+
     //setParams(43);
-    //await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4");
-    //await ffmpeg("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4", `_HEVC(${n > 9 ? n : `0${n}`})`, true);
-    //await ffmpeg("F:\\Convert\\files\\[DC] Make Heroine ga Oosugiru - 07_Telegram.mp4", `_HEVC(${n})`, true);
+
+    //await ffmpeg(f2);
+    //await ffmpeg(f2, postfix, true);
+    //await ffmpeg(f0, postfix, true);
+    await ffmpeg(f4, postfix, true);
+    //await ffmpeg(f6, postfix, true);
+
+    await testScripts(11);
 
     //await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
-    await scan("F:\\Convert\\files");
+    //await ffmetrics(f3, f2);
 
-    //await testScripts(9);
+    //await scan("F:\\Convert\\files");
+    //await ffmetrics(f1, f0);
+    //await ffmetrics(f5, f4);
+    //await ffmetrics(f7, f6);
 
-    //await testScriptsMetrics(2);
+    //await testScriptsMetrics(11);
     //await testScriptsMetrics(2, `-out_scale_m=false`);
 
     //await testParams2(iList, 31, null, 5, 10, 7, 4, [11, 14], 25, [43, 47], [48, 53], [54, 55], 56, 8, [77, 78], [79, 84], [85, 90], [91, 95], [96, 105], [106, 111], 57, [58, 61], [62, 65], [66, 68], [69, 71], [72, 73], [74, 76], [112, 120], [121, 126], [127, 133], [134, 142], [143, 148], [149, 155], [156, 160]);
