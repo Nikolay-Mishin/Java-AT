@@ -202,6 +202,8 @@ public class CucumberEventListener implements ConcurrentEventListener {
     public void init(String arg, boolean eventHandler) throws ReflectiveOperationException {
         String[] args = trim(arg.split(argsSep));
         debug("CucumberEventListener: " + Arrays.toString(args));
+        debug("CucumberEventListener: " + c);
+        debug("CucumberEventListener: " + isNull(c));
         String pkg = isNull(c) ? "" : c.getCPluginPkg();
         for (String a : args) {
             BaseConfig _c = init(a, pkg);
