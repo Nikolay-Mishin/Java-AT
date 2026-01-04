@@ -1,5 +1,6 @@
 package org.project.utils.base;
 
+import static java.lang.Long.parseLong;
 import static java.lang.Long.valueOf;
 
 import java.beans.ConstructorProperties;
@@ -270,8 +271,7 @@ public class BaseStep<R extends BaseRequests<M>, M> extends Instance<R> {
             M model = new Model<>(modelClass, dataTable, hashMap, req.baseUrl()).get();
             Response resp = req(cb.apply(model));
             //id = resp.jsonPath().get("id");
-            //id = parseLong(resp.path("id").toString());
-            id = resp.path("id");
+            id = parseLong(resp.path("id").toString());
             debug(id);
             return resp;
         });
