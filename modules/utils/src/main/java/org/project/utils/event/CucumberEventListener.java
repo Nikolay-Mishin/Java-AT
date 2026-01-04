@@ -42,6 +42,7 @@ import static org.project.utils.reflection.Reflection.getClassSimpleName;
 import static org.project.utils.reflection.Reflection.getClazz;
 import static org.project.utils.reflection.Reflection.getField;
 
+import org.project.utils.config.BaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.function.FunctionWithExceptions;
 
@@ -201,9 +202,14 @@ public class CucumberEventListener implements ConcurrentEventListener {
     public void init(String arg, boolean eventHandler) throws ReflectiveOperationException {
         String[] args = trim(arg.split(argsSep));
         debug("CucumberEventListener: " + Arrays.toString(args));
+        String pkg = isNull(c) ? "" : c.getCPluginPkg();
         for (String a : args) {
-            String pkg = config().getCPluginPkg();
-            init(a, pkg);
+            BaseConfig _c = init(a, pkg);
+            debug("TestConfig: " + (_c instanceof TestBaseConfig));
+            if (_c instanceof TestBaseConfig) {
+                c = config();
+                pkg = c.getCPluginPkg();
+            }
         }
         eventHandler(eventHandler);
     }
