@@ -271,7 +271,7 @@ public class BaseStep<R extends BaseRequests<M>, M> extends Instance<R> {
             Response resp = req(cb.apply(model));
             //id = resp.jsonPath().get("id");
             //id = parseLong(resp.path("id").toString());
-            id = valueOf(resp.path("id").toString());
+            id = resp.path("id");
             debug(id);
             return resp;
         });
