@@ -11,6 +11,6 @@ import org.project.utils.config.TestBaseConfig;
  * @param <T> extends TestBaseConfig
  */
 // аннотация: класс для запуска тестов Cucumber
-//@RunWith(Cucumber.class)
+@RunWith(Cucumber.class)
 public class CucumberRunTest<T extends TestBaseConfig> extends CucumberConfig<T> {
 }
