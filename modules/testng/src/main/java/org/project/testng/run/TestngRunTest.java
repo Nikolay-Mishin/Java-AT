@@ -11,7 +11,7 @@ import org.testng.annotations.Parameters;
 
 import static org.project.utils.Helper.debug;
 
-import org.project.utils.config.CucumberRunConfig;
+import org.project.tests.config.CucumberRunConfig;
 import org.project.utils.config.TestBaseConfig;
 
 /**

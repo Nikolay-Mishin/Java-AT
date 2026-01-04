@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.project</groupId>
+  <artifactId>testng</artifactId>
+  <versioning>
+    <lastUpdated>20260104161614</lastUpdated>
+    <snapshot>
+      <timestamp>20260104.161614</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>7.14.3-20260104.161614-1</value>
+        <updated>20260104161614</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>7.14.3-20260104.161614-1</value>
+        <updated>20260104161614</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <classifier>sources</classifier>
+        <extension>jar</extension>
+        <value>7.14.3-20260104.161614-1</value>
+        <updated>20260104161614</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>7.14.3-SNAPSHOT</version>
+</metadata>
