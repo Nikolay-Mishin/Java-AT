@@ -3,27 +3,27 @@
   <groupId>org.project</groupId>
   <artifactId>utils</artifactId>
   <versioning>
-    <lastUpdated>20260104155037</lastUpdated>
+    <lastUpdated>20260104155413</lastUpdated>
     <snapshot>
-      <timestamp>20260104.155037</timestamp>
+      <timestamp>20260104.155413</timestamp>
       <buildNumber>1</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>jar</extension>
-        <value>7.14.8-20260104.155037-1</value>
-        <updated>20260104155037</updated>
+        <value>7.14.8-20260104.155413-1</value>
+        <updated>20260104155413</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>7.14.8-20260104.155037-1</value>
-        <updated>20260104155037</updated>
+        <value>7.14.8-20260104.155413-1</value>
+        <updated>20260104155413</updated>
       </snapshotVersion>
       <snapshotVersion>
         <classifier>sources</classifier>
         <extension>jar</extension>
-        <value>7.14.8-20260104.155037-1</value>
-        <updated>20260104155037</updated>
+        <value>7.14.8-20260104.155413-1</value>
+        <updated>20260104155413</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
