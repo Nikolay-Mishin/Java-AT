@@ -8,7 +8,7 @@ import lombok.Data;
 public class Order {
 	private Long petId;
 	private int quantity;
-	private int id;
+	private Long id;
 	private String shipDate;
 	private boolean complete;
 	private String status;

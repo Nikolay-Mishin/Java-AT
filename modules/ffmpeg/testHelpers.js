@@ -98,7 +98,7 @@ const _testScripts = async (n = 0, s, args) => {
         }
 
         if (n == 11) {
-            //await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=false -fr=false -ifr=false -m_fps=false -r=false -n=53${a}`);
+            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=false -fr=false -ifr=false -m_fps=false -r=false -n=53${a}`);
             await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=true -fr=false -ifr=false -m_fps=true -r=false -n=54${a}`);
             await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=false -fr=true -ifr=true -m_fps=false -r=true -n=55${a}`);
             await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=true -fr=true -ifr=true -m_fps=true -r=true -n=56${a}`);
