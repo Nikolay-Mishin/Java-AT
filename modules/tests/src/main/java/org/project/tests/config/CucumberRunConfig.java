@@ -1,4 +1,4 @@
-package org.project.utils.config;
+package org.project.tests.config;
 
 import static java.lang.System.getProperty;
 import static java.lang.System.out;
@@ -28,6 +28,7 @@ import static org.project.utils.event.CucumberEventListener.initArg;
 import static org.project.utils.reflection.Reflection.getField;
 import static org.project.utils.reflection.Reflection.getGenericClass;
 
+import org.project.utils.config.TestBaseConfig;
 import org.project.utils.event.CucumberEventListener;
 import org.project.utils.function.FunctionWithExceptions;
 
@@ -247,11 +248,9 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
                     else new CucumberEventListener(args[1]);
                 } catch (ReflectiveOperationException e) {
                     e.printStackTrace();
-                    //throw new RuntimeException(e);
                 }
             }
         });
-        out.println("getOptions: " + options);
         out.println("getOptions: " + options(CucumberRunConfig.class));
         out.println("getOptions: " + options(CucumberConfig.class));
         return options.toArray(String[]::new);
@@ -279,6 +278,10 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
             "--plugin", "pretty",
             "--plugin", "json:target/cucumber.json"
         };
+        /*
+        getOptions: @io.cucumber.junit.CucumberOptions(dryRun=false, glue={"com.project"}, extraGlue={}, stepNotifications=false, useFileNameCompatibleName=false, tags="", features={"src/test/resources/features"}, plugin={"pretty", "html:results.html"}, objectFactory=io.cucumber.junit.NoObjectFactory.class, snippets=UNDERSCORE, publish=false, name={}, monochrome=false)
+        options: [--plugin, io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm, --plugin, org.project.utils.event.CucumberEventListener:WebBaseConfig; TestBaseConfig; DriverBaseConfig]
+         */
         return options;
     }
 

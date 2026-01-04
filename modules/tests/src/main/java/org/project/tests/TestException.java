@@ -2,7 +2,6 @@ package org.project.tests;
 
 import java.beans.ConstructorProperties;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collector;

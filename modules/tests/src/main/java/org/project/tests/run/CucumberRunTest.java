@@ -3,7 +3,7 @@ package org.project.tests.run;
 import io.cucumber.junit.Cucumber;
 import org.junit.runner.RunWith;
 
-import org.project.utils.config.CucumberConfig;
+import org.project.tests.config.CucumberConfig;
 import org.project.utils.config.TestBaseConfig;
 
 /**
@@ -11,6 +11,6 @@ import org.project.utils.config.TestBaseConfig;
  * @param <T> extends TestBaseConfig
  */
 // аннотация: класс для запуска тестов Cucumber
-@RunWith(Cucumber.class)
+//@RunWith(Cucumber.class)
 public class CucumberRunTest<T extends TestBaseConfig> extends CucumberConfig<T> {
 }

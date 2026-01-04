@@ -6,14 +6,14 @@
 
     <groupId>org.project</groupId>
     <artifactId>tests</artifactId>
-    <version>7.14.2-SNAPSHOT</version>
+    <version>7.14.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <utils.ver>7.14.2-SNAPSHOT</utils.ver>
+        <utils.ver>7.14.6-SNAPSHOT</utils.ver>
         <src.dir>src/main</src.dir>
         <res.dir>${src.dir}/resources</res.dir>
         <!-- GitHub server corresponds to entry in ~/.m2/settings.xml -->

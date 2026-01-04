@@ -1,7 +1,6 @@
 package org.project.tests;
 
 import java.beans.ConstructorProperties;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import static org.project.utils.Helper.debug;

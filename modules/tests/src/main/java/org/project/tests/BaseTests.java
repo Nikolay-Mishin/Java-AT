@@ -9,10 +9,10 @@ import static org.project.utils.Thread.timeout;
 import static org.project.utils.config.Config.env;
 import static org.project.utils.config.DriverConfig.config;
 
+import org.project.tests.run.CucumberBaseTest;
 import org.project.utils.config.DriverBaseConfig;
 import org.project.utils.config.TestBaseConfig;
 import org.project.utils.config.WebBaseConfig;
-import org.project.tests.run.CucumberBaseTest;
 
 /**
  *
@@ -26,7 +26,7 @@ public class BaseTests<T extends TestBaseConfig, W extends WebBaseConfig, D exte
      */
     public static void main(String[] args) throws Exception {
         new CucumberBaseTest();
-        new BaseTests<>(1, 33);
+        new BaseTests<>(1);
         debug("c: " + c());
         debug("w: " + w());
         debug("win: " + win());

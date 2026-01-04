@@ -1,6 +1,8 @@
-package org.project.utils.config;
+package org.project.tests.config;
 
 import io.cucumber.junit.CucumberOptions;
+
+import org.project.utils.config.TestBaseConfig;
 
 /**
  *
