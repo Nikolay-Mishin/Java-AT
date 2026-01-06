@@ -26,7 +26,6 @@ import io.cucumber.plugin.event.TestStepFinished;
 import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.WriteEvent;
 
-import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.Helper.notNull;
@@ -144,7 +143,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @throws ReflectiveOperationException throws
      */
     @ConstructorProperties({})
-    public CucumberEventListener() throws ReflectiveOperationException {
+    public CucumberEventListener() {
     }
 
     /**
@@ -201,7 +200,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      */
     public void init(String arg, boolean eventHandler) throws ReflectiveOperationException {
         String[] args = trim(arg.split(argsSep));
-        debug("CucumberEventListener: " + Arrays.toString(args));
+        out.println("CucumberEventListener: " + Arrays.toString(args));
         String pkg = isNull(c) ? "" : c.getCPluginPkg();
         for (String a : args) {
             BaseConfig _c = init(a, pkg);
@@ -274,12 +273,12 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @return String
      */
     public static String getPlugin(Class<?> clazz) {
-        debug("pluginClass: " + clazz);
-        debug("pluginClassName: " + getClassName(clazz));
-        debug("pluginName: " + getClassSimpleName(clazz));
+        out.println("pluginClass: " + clazz);
+        out.println("pluginClassName: " + getClassName(clazz));
+        out.println("pluginName: " + getClassSimpleName(clazz));
         String plugin = pluginMap.get(getClassName(clazz));
-        debug("plugin: " + plugin);
-        debug("plugin: " + (notNull(plugin) ? plugin : pluginMap.get(getClassSimpleName(clazz))));
+        out.println("plugin: " + plugin);
+        out.println("plugin: " + (notNull(plugin) ? plugin : pluginMap.get(getClassSimpleName(clazz))));
         return notNull(plugin) ? plugin : pluginMap.get(getClassSimpleName(clazz));
     }
 
@@ -313,7 +312,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
             }
         });
         pluginMap = sort(pluginMap);
-        debug("plugins: " + pluginMap);
+        out.println("plugins: " + pluginMap);
         return pluginMap;
     }
 
@@ -477,7 +476,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event Event
      */
     protected void event(Event event) {
-        debug("Event: " + event);
+        out.println("Event: " + event);
     }
 
     /**
@@ -485,7 +484,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event TestRunStarted
      */
     protected void runStart(TestRunStarted event) {
-        debug("TestRunStarted: " + event);
+        out.println("TestRunStarted: " + event);
     }
 
     /**
@@ -493,7 +492,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event TestSourceRead
      */
     protected void sourceRead(TestSourceRead event) {
-        debug("TestSourceRead: " + event);
+        out.println("TestSourceRead: " + event);
     }
 
     /**
@@ -501,7 +500,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event SnippetsSuggestedEvent
      */
     protected void snippetsSuggested(SnippetsSuggestedEvent event) {
-        debug("SnippetsSuggestedEvent: " + event);
+        out.println("SnippetsSuggestedEvent: " + event);
     }
 
     /**
@@ -509,7 +508,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event TestCaseStarted
      */
     protected void caseStart(TestCaseStarted event) {
-        debug("TestCaseStarted: " + event);
+        out.println("TestCaseStarted: " + event);
     }
 
     /**
@@ -517,7 +516,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event TestStepStarted
      */
     protected void stepStart(TestStepStarted event) {
-        debug("TestStepStarted: " + event);
+        out.println("TestStepStarted: " + event);
     }
 
     /**
@@ -525,7 +524,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event EmbedEvent
      */
     protected void embed(EmbedEvent event) {
-        debug("EmbedEvent: " + event);
+        out.println("EmbedEvent: " + event);
     }
 
     /**
@@ -533,7 +532,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event WriteEvent
      */
     protected void write(WriteEvent event) {
-        debug("WriteEvent: " + event);
+        out.println("WriteEvent: " + event);
     }
 
     /**
@@ -541,7 +540,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event TestStepFinished
      */
     protected void stepFinish(TestStepFinished event) {
-        debug("TestStepFinished: " + event);
+        out.println("TestStepFinished: " + event);
     }
 
     /**
@@ -549,7 +548,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event TestCaseFinished
      */
     protected void caseFinish(TestCaseFinished event) {
-        debug("TestCaseFinished: " + event);
+        out.println("TestCaseFinished: " + event);
     }
 
     /**
@@ -557,7 +556,7 @@ public class CucumberEventListener implements ConcurrentEventListener {
      * @param event TestRunFinished
      */
     protected void runFinish(TestRunFinished event) {
-        debug("TestRunFinished: " + event);
+        out.println("TestRunFinished: " + event);
     }
 
     /**
@@ -566,9 +565,9 @@ public class CucumberEventListener implements ConcurrentEventListener {
      */
     protected void createOutDir(String outputDir) {
         reportDir = new File(outputDir);
-        debug("createOutDir: " + outputDir);
+        out.println("createOutDir: " + outputDir);
         if (!reportDir.exists()/* && !reportDir.mkdirs()*/) {
-            debug("Failed to create dir: " + outputDir);
+            out.println("Failed to create dir: " + outputDir);
             //throw new CucumberException("Failed to create dir: " + outputDir);
         }
     }
