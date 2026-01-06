@@ -19,7 +19,6 @@ import static io.cucumber.core.cli.Main.run;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.BeforeClass;
 
-import static org.project.utils.Helper.debug;
 import static org.project.utils.Helper.forEach;
 import static org.project.utils.Helper.isNull;
 import static org.project.utils.config.TestBaseConfig.BASE_CONFIG;
@@ -301,7 +300,7 @@ public class CucumberRunConfig<T extends TestBaseConfig> {
     public static void setTagsProps() {
         String tags = getProperty("cucumber.tags", "@smoke");
         setProperty("cucumber.tags", tags);
-        debug(tags);
+        out.println(tags);
     }
 
     /**
