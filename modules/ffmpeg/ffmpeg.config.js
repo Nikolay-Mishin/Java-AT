@@ -7,7 +7,7 @@ const {
     root = 'D:/Convert/FFMetrics',
     filesRoot = 'F:/Convert',
     i: input = null, o = true,
-    includeBaseMetrics = false, psnr = true, ssim = true, vmaf = false, hide_banner = false, endall = false, scale = false, format = false, scaleOriginal = true,
+    includeBaseMetrics = false, psnr = true, ssim = true, vmaf = false, hide_banner = false, m_r = false, endall = false, scale = false, format = false, scaleOriginal = true,
     type: presetType = null
 } = args;
 
@@ -18,11 +18,11 @@ export const
     codec_remove = ['AC-3'];
 
 export const {
-    test = false, withMetrics = false, parse = false, n = 59,
+    test = false, withMetrics = false, parse = false, n = 53,
     mi: setInfo = true, metrics: setMetrics = false, exec: execute = false, execS = false, propedit = true, report: setReport = execute || execS,
     vstats = false, map: setMap = true, chapters: setChapters = true, metadata: setMetadata = false, cv = null, fmt = null, bit = null,
     sar_v = '1/1', sar: setSar = true, dar: setDar = true, vf_sar = false, vf_dar = false, m_sar = vf_sar, m_dar = vf_dar,
-    r: setR = false, fr = false, ifr = false, c_range = false, c_space = c_range, c_chroma = c_range, vf_fps = false, m_fps = true, vf_flags = 'bicubic', // bicubic|lanczos
+    fr = false, ifr = false, vf_fps = false, r: setR = false, m_fps = true,
     /*
     passthrough (0) Каждый кадр с меткой времени передаётся из демультиплексора в мультиплексор.
     cfr (1) Кадры будут дублироваться и отбрасываться для достижения заданной постоянной частоты кадров.
@@ -30,6 +30,7 @@ export const {
     auto (-1) Выбор между cfr и vfr зависит от возможностей мультиплексора. Это метод по умолчанию.
     */
     fpsMode = fr || vf_fps ? 'cfr' : 'passthrough', // passthrough|cfr|vfr
+    c_range = false, c_space = c_range, c_chroma = c_range, vf_flags = 'bicubic', // bicubic|lanczos
     vf: setVf = true, vf_in = false, vf_range = false, scale_range = vf_range, scale_space = vf_range, chroma_loc = vf_range, vf_space = false, vf_ispace = false, format_space = vf_space,
     crop: setCrop = false, border: setBorder = false, bsf: setBsf = false, out_scale_m = true, scale_m = true,
     hw = false, nv = false, crf = null, cq = null, qp = null,
@@ -60,7 +61,7 @@ export const
     [a_dir, mkvMergeRoot, ffmpeg_a_root] = [`${out}/a`, `${out}/mkvMerge`, `${out}/${ffmpeg_a_dir}`];
 
 const metricOpts = { psnr, ssim, vmaf };
-const parseOpts = { hide_banner, r: setR, endall, scale, format, scaleOriginal };
+const parseOpts = { hide_banner, m_r, endall, scale, format, scaleOriginal };
 const metricList = Object.entries(metricOpts).map(([k, v]) => v ? k : v).filter(m => m);
 
 export const metrics = [];

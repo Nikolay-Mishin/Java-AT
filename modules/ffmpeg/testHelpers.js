@@ -11,6 +11,8 @@ import { envRoot, root } from './env.config.js';
 import { run } from './helpers.js';
 
 const _testScripts = async (n = 0, s, args) => {
+    const isMetrics = s === 'metrics',
+        notMetrics = !isMetrics;
     if (n === 0) await run('test', '-c_range=false');
     if (n > 0 && s) {
         const a = !args ? '' : ` ${args}`;
@@ -23,17 +25,17 @@ const _testScripts = async (n = 0, s, args) => {
             await run(s, `-c_range=true -vf_range=true -scale_space=false -vf_space=false -space=true -n=4${a}`);
             if (n >= 2) await run(s, `-c_range=true -vf_range=false -scale_space=false -vf_space=false -space=true -n=5${a}`);
 
-            if (n == 3 && s === 'metrics') await testScripts(1, `-out_scale_m=false`);
+            if (n == 3 && isMetrics) await testScripts(1, `-out_scale_m=false`);
         }
 
         if (n === 4) {
-            if (s !== 'metrics') {
+            if (notMetrics) {
                 await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -n=6${a}`);
                 await run(s, `-c_range=true -vf_range=false -scale_space=false -vf_space=false -space=false -n=7${a}`);
                 await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=true -n=8${a}`);
             }
             await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_flags=lanczos -n=9${a}`);
-            if (s === 'metrics') {
+            if (isMetrics) {
                 await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_flags=lanczos -out_scale_m=false -n=9${a}`);
             }
         }
@@ -44,7 +46,7 @@ const _testScripts = async (n = 0, s, args) => {
             await run(s, `-c_range=false -vf_range=true -scale_space=true -vf_space=false -space=false -vf_sar=true -vf_dar=true -m_sar=true -m_dar=true -n=12${a}`);
             await run(s, `-c_range=false -vf_range=true -scale_space=true -vf_space=false -space=false -vf_sar=true -vf_dar=false -m_sar=true -m_dar=false -n=13${a}`);
 
-            if (n == 6 && s === 'metrics') await testScripts(5, `-out_scale_m=false`);
+            if (n == 6 && isMetrics) await testScripts(5, `-out_scale_m=false`);
         }
 
         if (n == 7) {
@@ -98,14 +100,17 @@ const _testScripts = async (n = 0, s, args) => {
         }
 
         if (n == 11) {
-            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=false -fr=false -ifr=false -m_fps=false -r=false -n=53${a}`);
-            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=true -fr=false -ifr=false -m_fps=true -r=false -n=54${a}`);
-            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=false -fr=true -ifr=true -m_fps=false -r=true -n=55${a}`);
-            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=true -fr=true -ifr=true -m_fps=true -r=true -n=56${a}`);
+            if (notMetrics) {
+                await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -fr=false -ifr=false -vf_fps=false -r=false -m_fps=false -n=53${a}`);
+            };
 
-            if (s !== 'metrics') {
-                await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=false -fr=true -ifr=false -m_fps=false -r=true -n=57${a}`);
-                await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -vf_fps=true -fr=true -ifr=false -m_fps=true -r=true -n=58${a}`);
+            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -fr=false -ifr=false -vf_fps=true -r=false -m_fps=true -n=54${a}`);
+            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -fr=true -ifr=true -vf_fps=false -r=true -m_fps=false -n=55${a}`);
+            await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -fr=true -ifr=true -vf_fps=true -r=true -m_fps=true -n=56${a}`);
+
+            if (notMetrics) {
+                await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -fr=true -ifr=false -vf_fps=false -r=true -m_fps=false -n=57${a}`);
+                await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -fr=true -ifr=false -vf_fps=true -r=true -m_fps=true -n=58${a}`);
             };
         }
     }
