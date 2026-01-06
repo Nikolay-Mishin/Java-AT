@@ -25,13 +25,9 @@ public class CucumberRunner {
 
     /**
      *
-     * @param thisPath String
      */
-    @ConstructorProperties({"thisPath"})
-    public CucumberRunner(String thisPath) {
-        // This does all the POI stuff, plus making the data available to
-        //   getCellData(sheet, columnName, row) (which you get to define).
-        // Any way that makes it return a dynamic value will work here.
+    @ConstructorProperties({})
+    public CucumberRunner() {
     }
 
     /**
@@ -40,16 +36,16 @@ public class CucumberRunner {
      * @throws IOException throws
      */
     public static void main(String[] args) throws IOException {
-        CucumberRunner runner = new CucumberRunner("src/main/resources/User Roles.xlsx");
-        runner.run();
+        CucumberRunner runner = new CucumberRunner();
+        String[] tags = { "@LogoutCloseBrowser" };
+        runner.run(tags);
     }
 
     /**
      *
      * @throws IOException throws
      */
-    public void run() throws IOException {
-        String[] tags = { "@LogoutCloseBrowser" };
+    public void run(String[] tags) throws IOException {
         JUnitCore junit = new JUnitCore();
         junit.addListener(new TextListener(out));
         out.println("runOneRow- JUnit/Cucumber test with tags: " + Arrays.toString(tags));
