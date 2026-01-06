@@ -6,10 +6,7 @@ import java.beans.ConstructorProperties;
 import java.io.IOException;
 import java.util.Arrays;
 
-import groovyjarjarantlr4.v4.runtime.misc.Utils;
 import io.cucumber.junit.Cucumber;
-//import io.cucumber.api.CucumberOptions;
-//import io.cucumber.api.SnippetType;
 //import io.cucumber.ClassFinder;
 //import io.cucumber.MultiLoader;
 //import io.cucumber.ResourceLoader;
@@ -52,51 +49,7 @@ public class CucumberRunner {
      * @throws IOException throws
      */
     public void run() throws IOException {
-        String[] newTags = { "@Login" };
-        String sheetName = "Sheet1";
-        /*int rowCount = this.getRowCount(sheetName);
-        String role = "";
-        String userId = "";
-        String password = "";
-        //For each row in the Excel file (row 1 is column names)
-        for (int i = 2; i < rowCount; i++) {
-            out.println("\n run loop i: " + i);
-            int rowNumber = i - 1;
-            role = this.getCellData(sheetName, "User Role", rowNumber).trim();
-            userId = this.getCellData(sheetName, "UserID", rowNumber).trim();
-            password = this.getCellData(sheetName, "Password", rowNumber).trim();
-            String screens = this.getCellData(sheetName, "Screens", rowNumber).trim();
-            out.println(rowNumber + ". runRbac role: '" + role +
-                "', userId: '" + userId + "', password: '" + password +
-                "', screens: '" + screens + "'.");
-            // I had to do some indirection here because customer who edits the
-            // Excel file does not want to see Tags, but uses Screen titles.
-            // So I had to map it.
-            ArrayList<String> tagList = this.screenTitlesToTags(screens);
-            out.println(rowNumber + ". Check " + tagList.size() + " screens.");
-            runOneRow(rowNumber, role, userId, password, tagList);
-        }*/
-        String[] finalTags = { "@LogoutCloseBrowser" };
-        //runOneRow(rowCount+1, role, userId, password, finalTags);
-        runOneRow(0, "role", "userId", "password", finalTags);
-    }
-
-    /**
-     *
-     * @param iteration int
-     * @param role String
-     * @param userId String
-     * @param password String
-     * @param tags String[]
-     * @throws IOException throws
-     */
-    public static void runOneRow(int iteration, String role, String userId, String password, String[] tags) throws IOException {
-        out.println("Starting runOneRow with iteration=" + iteration +
-            ", userid=" + userId + ", " + password + ", role=" + role);
-        // I couldn't figure out a way to inject the UserId and password into JUnit,
-        // so I did it old-school: as a file that the snippet reads. Yuck!
-        Utils.writeFile("target/credential.txt", userId + ", " + password);
-        // !!!!!! Here is the heart of the matter!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        String[] tags = { "@LogoutCloseBrowser" };
         JUnitCore junit = new JUnitCore();
         junit.addListener(new TextListener(out));
         out.println("runOneRow- JUnit/Cucumber test with tags: " + Arrays.toString(tags));
