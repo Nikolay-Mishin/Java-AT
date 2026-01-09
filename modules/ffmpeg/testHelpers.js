@@ -113,6 +113,11 @@ const _testScripts = async (n = 0, s, args) => {
                 await run(s, `-c_range=false -vf_range=false -scale_space=false -vf_space=false -space=false -vf_sar=false -vf_dar=false -fr=true -ifr=false -vf_fps=true -r=true -m_fps=true -n=58${a}`);
             };
         }
+
+
+        if (n == 12) {
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=false -vf_dar=false -n=65${a}`);
+        }
     }
 };
 

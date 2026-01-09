@@ -86,14 +86,14 @@ export const test = async () => {
     //setParams(43);
 
     //await ffmpeg(f2);
-    //await ffmpeg(f2, postfix, true);
+    await ffmpeg(f2, postfix, true);
     //await ffmpeg(f0, postfix, true);
     //await ffmpeg(f4, postfix, true);
     //await ffmpeg(f6, postfix, true);
 
-    //await testScripts(11);
+    //await testScripts(12);
 
-    await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
+    //await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
     //await ffmetrics(f3, f2);
 
     //await scan("F:\\Convert\\files");
@@ -101,7 +101,7 @@ export const test = async () => {
     //await ffmetrics(f5, f4);
     //await ffmetrics(f7, f6);
 
-    await testScriptsMetrics(11);
+    //await testScriptsMetrics(12);
     //await testScriptsMetrics(2, `-out_scale_m=false`);
 
     //await testParams2(iList, 31, null, 5, 10, 7, 4, [11, 14], 25, [43, 47], [48, 53], [54, 55], 56, 8, [77, 78], [79, 84], [85, 90], [91, 95], [96, 105], [106, 111], 57, [58, 61], [62, 65], [66, 68], [69, 71], [72, 73], [74, 76], [112, 120], [121, 126], [127, 133], [134, 142], [143, 148], [149, 155], [156, 160]);

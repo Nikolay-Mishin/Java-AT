@@ -18,7 +18,7 @@ export const
     codec_remove = ['AC-3'];
 
 export const {
-    test = false, withMetrics = false, parse = false, n = 53,
+    test = false, withMetrics = false, parse = false, n = 66,
     mi: setInfo = true, metrics: setMetrics = false, exec: execute = false, execS = false, propedit = true, report: setReport = execute || execS,
     vstats = false, map: setMap = true, chapters: setChapters = true, metadata: setMetadata = false, cv = null, fmt = null, bit = null,
     sar_v = '1/1', sar: setSar = true, dar: setDar = true, vf_sar = false, vf_dar = false, m_sar = vf_sar, m_dar = vf_dar,
@@ -30,12 +30,12 @@ export const {
     auto (-1) Выбор между cfr и vfr зависит от возможностей мультиплексора. Это метод по умолчанию.
     */
     fpsMode = fr || vf_fps ? 'cfr' : 'passthrough', // passthrough|cfr|vfr
-    c_range = false, c_space = c_range, c_chroma = c_range, vf_flags = 'bicubic', // bicubic|lanczos
-    vf: setVf = true, vf_in = false, vf_range = false, scale_range = vf_range, scale_space = vf_range, chroma_loc = vf_range, vf_space = false, vf_ispace = false, format_space = vf_space,
+    c_range = true, c_space = c_range, c_chroma = c_range, vf_flags = 'bicubic', // bicubic|lanczos
+    vf: setVf = true, vf_in = false, vf_range = true, scale_range = vf_range, scale_space = vf_range, chroma_loc = vf_range, vf_space = true, vf_ispace = true, format_space = vf_space,
     crop: setCrop = false, border: setBorder = false, bsf: setBsf = false, out_scale_m = true, scale_m = true,
     hw = false, nv = false, crf = null, cq = null, qp = null,
     bv = null, preset = null, type = getPresetType(presetType) || getPresetType(preset), profile = null, level: setLvl = true, tier: setTier = false, tune = null,
-    params = null, lthreads = 0, space: setSpace = false, p_space = setSpace, ca: setCa = null, ba: setBa = null, cs = null, s = true, y = true, postfix = '_HEVC', t = 0 // 30
+    params = null, lthreads = 0, space: setSpace = true, p_space = setSpace, ca: setCa = null, ba: setBa = null, cs = null, s = true, y = true, postfix = '_HEVC', t = 0 // 30
 } = args;
 
 export const
