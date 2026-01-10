@@ -86,7 +86,7 @@ export const test = async () => {
     //setParams(43);
 
     //await ffmpeg(f2);
-    await ffmpeg(f2, postfix, true);
+    //await ffmpeg(f2, postfix, true);
     //await ffmpeg(f0, postfix, true);
     //await ffmpeg(f4, postfix, true);
     //await ffmpeg(f6, postfix, true);
@@ -98,8 +98,8 @@ export const test = async () => {
 
     //await scan("F:\\Convert\\files");
     //await ffmetrics(f1, f0);
-    //await ffmetrics(f5, f4);
-    //await ffmetrics(f7, f6);
+    await ffmetrics(f5, f4);
+    await ffmetrics(f7, f6);
 
     //await testScriptsMetrics(12);
     //await testScriptsMetrics(2, `-out_scale_m=false`);

@@ -18,11 +18,11 @@ export const
     codec_remove = ['AC-3'];
 
 export const {
-    test = false, withMetrics = false, parse = false, n = 66,
+    test = false, withMetrics = false, parse = false, n = 70,
     mi: setInfo = true, metrics: setMetrics = false, exec: execute = false, execS = false, propedit = true, report: setReport = execute || execS,
     vstats = false, map: setMap = true, chapters: setChapters = true, metadata: setMetadata = false, cv = null, fmt = null, bit = null,
-    sar_v = '1/1', sar: setSar = true, dar: setDar = true, vf_sar = false, vf_dar = false, m_sar = vf_sar, m_dar = vf_dar,
-    fr = false, ifr = false, vf_fps = false, r: setR = false, m_fps = true,
+    sar_v = '1/1', sar: setSar = true, dar: setDar = true, vf_sar = true, vf_dar = true, m_sar = vf_sar, m_dar = vf_dar,
+    fr = true, ifr = fr, vf_fps = false, r: setR = true, m_fps = setR,
     /*
     passthrough (0) Каждый кадр с меткой времени передаётся из демультиплексора в мультиплексор.
     cfr (1) Кадры будут дублироваться и отбрасываться для достижения заданной постоянной частоты кадров.
@@ -31,7 +31,7 @@ export const {
     */
     fpsMode = fr || vf_fps ? 'cfr' : 'passthrough', // passthrough|cfr|vfr
     c_range = true, c_space = c_range, c_chroma = c_range, vf_flags = 'bicubic', // bicubic|lanczos
-    vf: setVf = true, vf_in = false, vf_range = true, scale_range = vf_range, scale_space = vf_range, chroma_loc = vf_range, vf_space = true, vf_ispace = true, format_space = vf_space,
+    vf: setVf = true, vf_in = false, vf_range = true, scale_range = vf_range, scale_space = vf_range, chroma_loc = vf_range, vf_space = true, vf_ispace = vf_space, format_space = vf_space,
     crop: setCrop = false, border: setBorder = false, bsf: setBsf = false, out_scale_m = true, scale_m = true,
     hw = false, nv = false, crf = null, cq = null, qp = null,
     bv = null, preset = null, type = getPresetType(presetType) || getPresetType(preset), profile = null, level: setLvl = true, tier: setTier = false, tune = null,

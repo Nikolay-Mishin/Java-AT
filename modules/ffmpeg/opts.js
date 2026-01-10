@@ -393,14 +393,14 @@ export const
         const { range = default_range, primaries = default_primaries(h), trc = default_trc, space = default_matrix(h) } = ffColor;
         const _ffColor = { range, primaries, trc, space, chroma };
         const setChroma = (p, con = c_chroma) => setParam(con, getChroma(chroma, p));
-        const setPrim = (p, con = c_space && iprimaries) => setParam(con, getPrimP(primaries, p));
-        const setTrc = (p, con = c_space && itrc) => setParam(con, getTrcP(trc, p));
-        const setCspace = (p, con = c_space && ispace) => setParam(con, getSpaceP(space, p));
+        const setPrim = (p, con = c_space/* && iprimaries*/) => setParam(con, getPrimP(primaries, p));
+        const setTrc = (p, con = c_space/* && itrc*/) => setParam(con, getTrcP(trc, p));
+        const setCspace = (p, con = c_space/* && ispace*/) => setParam(con, getSpaceP(space, p));
         const chromaLoc = setChroma();
         // -color_range tv -color_primaries bt709 -color_trc bt709 -colorspace bt709 -chroma_sample_location left`
         const cRange = !c_range ? '' : `-color_range ${range}${setPrim()}${setTrc()}${setCspace()}${chromaLoc} `;
         const in_range = !vf_in ? '' : `:in_range=${range}:in_color_matrix=${space}:in_chroma_loc=${chroma_loc}`;
-        const _scale_range = !scale_range ? '' : `:out_range=${range}${setCspace('out_color_matrix', c_space && ispace)}${setChroma('out_chroma_loc', chroma_loc)}`;
+        const _scale_range = !scale_range ? '' : `:out_range=${range}${setCspace('out_color_matrix', c_space/* && ispace*/)}${setChroma('out_chroma_loc', chroma_loc)}`;
         const out_range = !vf_range ? '' : `${in_range}${_scale_range}`;
         // -vf "colorspace=format=yuv420p10:irange=tv:iprimaries=bt709:itrc=bt709:ispace=bt709:range=tv:primaries=bt709:trc=bt709:space=bt709:fast=0"
         const range_space = range.replace('limited', 'tv');

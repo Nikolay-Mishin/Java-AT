@@ -259,7 +259,7 @@ const getFFmpeg = async (i) => {
     // ${!setR ? '' : `fps=${fps},`}
     const _fps_vf = `,fps=${fps_p ? getR(fps_p) : fps}`;
     const fps_vf = vf_fps || fps_p/* || (ext !== ext_p && (ext == 'mp4' || ext_p == 'mp4'))*/ ? _fps_vf : '';
-    const vf = !setVf ? '' : `${r}-vf "format=${_format}${fps_vf},scale=${scale}:${getFlags()}${$space}${crop}${border}"`;
+    const vf = !setVf ? '' : `-vf "format=${_format}${fps_vf},scale=${scale}:${getFlags()}${$space}${crop}${border}"`;
     // Mark the video as BT.709 "TV range" (Limited range) using bsf filter
     // -bsf:v h264_metadata
     // -bsf:v hevc_metadata=level=5.1:sample_aspect_ratio=1/1:video_full_range_flag=0:colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1:chroma_sample_loc_type=1
@@ -290,7 +290,7 @@ const getFFmpeg = async (i) => {
     const _s = !s ? '' : `-c:s copy `;
     const out = `${!y ? '' : '-y '}"${o}"`;
 
-    const ffmpeg = `${i_a}${_vstats}${map} ${cv} ${format} ${sar}${dar}${fps_mode}${cRange}${vf}${bsf} ${_crf} ${_preset} ${_profile} ${_level}${_tier}${_tune} ${params} ${_a} ${_s}${cut}${out}`;
+    const ffmpeg = `${i_a}${_vstats}${map} ${cv} ${format} ${sar}${dar}${fps_mode}${r}${cRange}${vf}${bsf} ${_crf} ${_preset} ${_profile} ${_level}${_tier}${_tune} ${params} ${_a} ${_s}${cut}${out}`;
 
     //await ffmpegSei(i, ffmpeg);
 
