@@ -18,7 +18,7 @@ export const
     codec_remove = ['AC-3'];
 
 export const {
-    test = false, withMetrics = false, parse = false, n = 70,
+    test = false, withMetrics = false, parse = false, n = 71,
     mi: setInfo = true, metrics: setMetrics = false, exec: execute = false, execS = false, propedit = true, report: setReport = execute || execS,
     vstats = false, map: setMap = true, chapters: setChapters = true, metadata: setMetadata = false, cv = null, fmt = null, bit = null,
     sar_v = '1/1', sar: setSar = true, dar: setDar = true, vf_sar = true, vf_dar = true, m_sar = vf_sar, m_dar = vf_dar,
@@ -30,12 +30,24 @@ export const {
     auto (-1) Выбор между cfr и vfr зависит от возможностей мультиплексора. Это метод по умолчанию.
     */
     fpsMode = fr || vf_fps ? 'cfr' : 'passthrough', // passthrough|cfr|vfr
-    c_range = true, c_space = c_range, c_chroma = c_range, vf_flags = 'bicubic', // bicubic|lanczos
+    c_range = true, c_space = c_range, c_chroma = c_range, vf_flags = 'lanczos', // bicubic|lanczos
     vf: setVf = true, vf_in = false, vf_range = true, scale_range = vf_range, scale_space = vf_range, chroma_loc = vf_range, vf_space = true, vf_ispace = vf_space, format_space = vf_space,
     crop: setCrop = false, border: setBorder = false, bsf: setBsf = false, out_scale_m = true, scale_m = true,
     hw = false, nv = false, crf = null, cq = null, qp = null,
     bv = null, preset = null, type = getPresetType(presetType) || getPresetType(preset), profile = null, level: setLvl = true, tier: setTier = false, tune = null,
-    params = null, lthreads = 0, space: setSpace = true, p_space = setSpace, ca: setCa = null, ba: setBa = null, cs = null, s = true, y = true, postfix = '_HEVC', t = 0 // 30
+    space: setSpace = true, p_space = setSpace, ca: setCa = null, ba: setBa = null, cs = null, s = true, y = true, postfix = '_HEVC', t = 0, // 30
+    // lookahead_threads=0:min-keyint=23:keyint=250:
+    // rc-lookahead=20:rect=0:amp=0:rd=3:psy-rd=1.50:psy-rdoq=1.50:rdoq-level=2:rskip=1:aq-mode=3:aq-strength=0.4:
+    // bframes=6:ref=8:me=1:subme=2:merange=57:strong-intra-smoothing=1:b-intra=1:deblock=0:qcomp=0.60:limit-refs=3:limit-modes=0:sao=1:selective-sao=4:
+    // limit-tu=4:weight-b=1
+    lookahead_threads = 0, min_keyint = 23, keyint = 250,
+    rc_lookahead = 20, rect = 0, amp = 0, rd = 3, psy_rd = "1.50", psy_rdoq = "1.50", rdoq_level = 2, rskip = 1, aq_mode = 3, aq_strength = "0.40",
+    bframes = 6, ref = 8, me = 1, subme = 2, merange = 57, strong_intra_smoothing = 1, deblock = 0, qcomp = "0.60", limit_refs = 3, limit_modes = 0, sao = 1,
+    limit_tu = 0, weight_b = 0, // limit_tu > 0 ? 1 : 0
+    params = {
+        lookahead_threads, min_keyint, keyint, rc_lookahead, rect, amp, rd, psy_rd, psy_rdoq, rdoq_level, rskip, aq_mode, aq_strength,
+        bframes, ref, me, subme, merange, strong_intra_smoothing, deblock, qcomp, limit_refs, limit_modes, sao, weight_b, limit_tu
+    }
 } = args;
 
 export const

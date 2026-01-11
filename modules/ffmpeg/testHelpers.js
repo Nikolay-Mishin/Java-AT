@@ -118,6 +118,45 @@ const _testScripts = async (n = 0, s, args) => {
         if (n == 12) {
             await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=false -vf_dar=false -n=65${a}`);
         }
+
+        if (n == 13) {
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -n=70${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -vf_flags=lanczos -n=71${a}`);
+        }
+
+        if (n == 14) {
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rd=1.57 -n=72${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -aq_mode=2 -n=73${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -bframes=8 -n=74${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=60 -n=75${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rdoq=0.00 -n=76${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rd=1.57 -psy_rdoq=0.00 -n=77${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rdoq=0.00 -rdoq_level=0 -n=78${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -aq_strength=0.8 -n=79${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=60 -aq_strength=0.8 -n=80${a}`);
+        }
+
+        if (n == 15) {
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rdoq=0.00 -strong_intra_smoothing=0 -n=81${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rd=1.57 -psy_rdoq=0.00 -strong_intra_smoothing=0 -n=82${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rdoq=0.00 -strong_intra_smoothing=0 -sao=0 -n=83${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -psy_rd=1.57 -psy_rdoq=0.00 -strong_intra_smoothing=0 -sao=0 -n=84${a}`);
+        }
+
+        if (n == 16) {
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -limit_refs=1 -n=85${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -limit_modes=1 -n=86${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -limit_refs=2 -limit_modes=1 -n=87${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -amp=1 -limit_refs=2 -limit_modes=1 -n=88${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rect=1 -amp=1 -limit_refs=2 -limit_modes=1 -n=89${a}`);
+        }
+
+        if (n == 17) {
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -weight_b=1 -n=90${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -limit_tu=4 -n=91${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -weight_b=1 -limit_tu=4 -n=92${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rect=1 -weight_b=1 -limit_tu=4 -n=93${a}`);
+        }
     }
 };
 

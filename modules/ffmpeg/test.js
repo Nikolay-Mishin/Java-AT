@@ -2,7 +2,7 @@ import { log } from 'console';
 import { env } from 'process';
 import { resolve } from 'path';
 import { root } from './env.config.js';
-import { addPath, getEnv, rename } from './baseHelpers.js';
+import { addPath, ext, getEnv, rename } from './baseHelpers.js';
 import { i, n, out } from './ffmpeg.config.js';
 import { mi, miOpts, size } from './mi.js';
 import { checkFrames, check_sei, check_v, ffmpeg, scan, getMetrics, reportsError, ffmetrics } from './core.js';
@@ -73,7 +73,7 @@ export const test = async () => {
     ];
 
     const postfix = `_HEVC(${n > 9 ? n : `0${n}`})`,
-        fname = f => f.replace('.mp4', `${postfix}.mkv`),
+        fname = f => f.replace(ext(f), `${postfix}.mkv`),
         f0 = "F:\\Convert\\files\\[DC] Make Heroine ga Oosugiru - 07_Telegram.mp4",
         f1 = fname(f0),
         f2 = "F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4\\JamClub_Dr_Stone_Science_Future_03_1080p.mp4",
@@ -81,25 +81,29 @@ export const test = async () => {
         f4 = "F:\\Convert\\files\\JamClub_Ore_dake_Level_Up_na_Ken_Season_2_13_1080p.mp4",
         f5 = fname(f4),
         f6 = "F:\\Convert\\files\\Nanatsu_no_Maken_ga_Shihai_suru_[02]_[AniLibria_TV]_[WEBRip_1080p].mkv",
-        f7 = fname(f6);
+        f7 = fname(f6),
+        f8 = "F:\\Convert\\files\\FBS NF 124 (1080P AVC).mp4",
+        f9 = fname(f8);
 
     //setParams(43);
 
     //await ffmpeg(f2);
     //await ffmpeg(f2, postfix, true);
-    //await ffmpeg(f0, postfix, true);
+    await ffmpeg(f0, postfix, true);
     //await ffmpeg(f4, postfix, true);
     //await ffmpeg(f6, postfix, true);
+    //await ffmpeg(f8, postfix, true);
 
-    //await testScripts(12);
+    await testScripts(17);
 
     //await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
     //await ffmetrics(f3, f2);
 
     //await scan("F:\\Convert\\files");
     //await ffmetrics(f1, f0);
-    await ffmetrics(f5, f4);
-    await ffmetrics(f7, f6);
+    //await ffmetrics(f5, f4);
+    //await ffmetrics(f7, f6);
+    //await ffmetrics(f9, f8);
 
     //await testScriptsMetrics(12);
     //await testScriptsMetrics(2, `-out_scale_m=false`);

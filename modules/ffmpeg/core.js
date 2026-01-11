@@ -8,7 +8,8 @@ import {
     i, out, metrics, reportFile, logFile, FFreportFile, FFreport, FFlog,
     setMetrics, setInfo, setMap, setSar, setDar, chroma_loc, setR, setCrop, setBorder, t, s, y, type, setBsf, setVf, vstats, setTier, setLvl,
     execute, FFcmdLog, execS, postfix, setMetadata, propedit, setReport, test, withMetrics, parse,
-    ffmpeg_a_root, a_dir, a_ext, ca, ba as $ba, ar as $ar, ac as $ac, rm_tmp, fpsMode, lthreads, setSpace, ffreportDir, FFreportErr, v_ext, ffmpeg_c_dir, vf_flags, fr as ff_r, vf_fps, ifr
+    ffmpeg_a_root, a_dir, a_ext, ca, ba as $ba, ar as $ar, ac as $ac, rm_tmp, fpsMode, setSpace, ffreportDir, FFreportErr, v_ext, ffmpeg_c_dir, vf_flags, fr as ff_r, vf_fps, ifr,
+    params as p_list
 } from './ffmpeg.config.js';
 import {
     ffOpts, getR, range, primaries, trc, space, chroma, setFormat, getCrop, getLavfi, reportPath, setFFReport, getReportInfo, mkvReport, parseReports,
@@ -255,7 +256,6 @@ const getFFmpeg = async (i) => {
     //log(wCut);
     //log(hCut);
     //log(scale);
-    //log(scale);
     // ${!setR ? '' : `fps=${fps},`}
     const _fps_vf = `,fps=${fps_p ? getR(fps_p) : fps}`;
     const fps_vf = vf_fps || fps_p/* || (ext !== ext_p && (ext == 'mp4' || ext_p == 'mp4'))*/ ? _fps_vf : '';
@@ -277,9 +277,25 @@ const getFFmpeg = async (i) => {
     const _tier = !setTier ? '' : ` -tier ${tier} `;
     const _tune = tune === 'none' ? '' : ` -tune ${tune}`;
     // -x265-params "range=limited:colorprim=9:transfer=14:colormatrix=9:chromaloc=1"
-    if (lthreads > 0) params = params.replace(/(frame-threads=\d+)/, `$1:lookahead_threads=${lthreads}`);
     if (setSpace) params = params.replace(/(min-keyint=\d+)/, `${c_params}:$1`);
     if (setLslices) params = params.replace(/(lookahead-slices)=\d+/, `$1=${w > 1280 || h > 720 ? 5 : w === 1280 || h === 720 ? 4 : 0}`);
+    if (p_list) {
+        //log(p_list);
+        for (const param in p_list) {
+            const p = param.replaceAll('_', '-');
+            const v = p_list[param];
+            const re = new RegExp(`(:${p})=\\d+(\\.\\d+)?`);
+            //log(re);
+            //log(`${p}: ${v}`);
+            if (p == "lookahead-threads" && v > 0) params = params.replace(/(frame-threads=\d+)/, `$1:lookahead-threads=${v}`);
+            else params = params.replace(re, `$1=${v}`);
+            if (p == "strong-intra-smoothing") params = params.replace(/(b-intra)=\d+/, `$1=${v}`);
+            if (p == "sao") params = params.replace(/(selective-sao)=\d+/, `$1=${v > 0 ? 4 : 0}`);
+            if (p == "weight-b" && v > 0) params = `${params}:weight-b=${v}`
+            if (p == "limit-tu" && v > 0) params = `${params}:limit-tu=${v}`
+                .replace(/(amp)=\d+/, `$1=1`).replace(/(limit-refs)=\d+/, `$1=2`).replace(/(limit-modes)=\d+/, `$1=1`);
+        }
+    }
     const nal_hrd = !(is264 && bv) ? '' : 'nal-hrd=vbr:';
     params = `-x265-params "${nal_hrd}${params.replace(/(:high)/, `${_level.replace(/-(level):v (.+)/, ':$1=$2')}$1`)}"`;
     const cut = t === 0 ? '' : `-t ${t} `;
