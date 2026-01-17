@@ -87,20 +87,25 @@ export const test = async () => {
 
     //setParams(43);
 
+    //await ffmpeg(f0);
     //await ffmpeg(f2);
-    //await ffmpeg(f2, postfix, true);
+    //await ffmpeg(f4);
+    //await ffmpeg(f6);
+    //await ffmpeg(f8);
+
     await ffmpeg(f0, postfix, true);
+    //await ffmpeg(f2, postfix, true);
     //await ffmpeg(f4, postfix, true);
     //await ffmpeg(f6, postfix, true);
     //await ffmpeg(f8, postfix, true);
 
-    await testScripts(17);
+    await testScripts(29);
 
     //await scan("F:\\Аниме\\Онгоинги\\!_37_Зима_2025\\JamClub\\Доктор Стоун\\ТВ-4");
-    //await ffmetrics(f3, f2);
-
     //await scan("F:\\Convert\\files");
+
     //await ffmetrics(f1, f0);
+    //await ffmetrics(f3, f2);
     //await ffmetrics(f5, f4);
     //await ffmetrics(f7, f6);
     //await ffmetrics(f9, f8);

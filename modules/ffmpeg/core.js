@@ -288,7 +288,8 @@ const getFFmpeg = async (i) => {
             //log(re);
             //log(`${p}: ${v}`);
             if (p == "lookahead-threads" && v > 0) params = params.replace(/(frame-threads=\d+)/, `$1:lookahead-threads=${v}`);
-            else params = params.replace(re, `$1=${v}`);
+            else if (p != "lookahead-slices") params = params.replace(re, `$1=${v}`);
+            if (p == "lookahead-slices" && v > 0) params = params.replace(/(lookahead-slices)=\d+/, `$1=${v}`);
             if (p == "strong-intra-smoothing") params = params.replace(/(b-intra)=\d+/, `$1=${v}`);
             if (p == "sao") params = params.replace(/(selective-sao)=\d+/, `$1=${v > 0 ? 4 : 0}`);
             if (p == "weight-b" && v > 0) params = `${params}:weight-b=${v}`

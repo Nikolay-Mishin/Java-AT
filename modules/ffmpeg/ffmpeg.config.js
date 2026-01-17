@@ -4,8 +4,10 @@ import { args, mkdir, writeFile } from './baseHelpers.js';
 import { getPresetType } from './presets.opts.js';
 
 const {
-    root = 'D:/Convert/FFMetrics',
-    filesRoot = 'F:/Convert',
+    filesRootDir = 'Convert',
+    rootDir = `${filesRootDir}/FFMetrics`, // ${filesRootDir}/FFMetrics
+    root = `D:/${rootDir}`, // C:/Dev/OSPanel/domains/Java-AT/modules/ffmpeg // D:/${rootDir}
+    filesRoot = `F:/${filesRootDir}`,
     i: input = null, o = true,
     includeBaseMetrics = false, psnr = true, ssim = true, vmaf = false, hide_banner = false, m_r = false, endall = false, scale = false, format = false, scaleOriginal = true,
     type: presetType = null
@@ -41,12 +43,12 @@ export const {
     // bframes=6:ref=8:me=1:subme=2:merange=57:strong-intra-smoothing=1:b-intra=1:deblock=0:qcomp=0.60:limit-refs=3:limit-modes=0:sao=1:selective-sao=4:
     // limit-tu=4:weight-b=1
     lookahead_threads = 0, min_keyint = 23, keyint = 250,
-    rc_lookahead = 20, rect = 0, amp = 0, rd = 3, psy_rd = "1.50", psy_rdoq = "1.50", rdoq_level = 2, rskip = 1, aq_mode = 3, aq_strength = "0.40",
-    bframes = 6, ref = 8, me = 1, subme = 2, merange = 57, strong_intra_smoothing = 1, deblock = 0, qcomp = "0.60", limit_refs = 3, limit_modes = 0, sao = 1,
+    rc_lookahead = 20, lookahead_slices = 0, rect = 0, amp = 0, rd = 3, psy_rd = "1.50", psy_rdoq = "1.50", rdoq_level = 2, rskip = 1, aq_mode = 3, aq_strength = "0.40",
+    bframes = 6, ref = 8, me = 1, subme = 2, merange = 57, strong_intra_smoothing = 1, deblock = 0, qcomp = "0.60", limit_refs = 3, limit_modes = 0, sao = 1, early_skip = 1,
     limit_tu = 0, weight_b = 0, // limit_tu > 0 ? 1 : 0
     params = {
-        lookahead_threads, min_keyint, keyint, rc_lookahead, rect, amp, rd, psy_rd, psy_rdoq, rdoq_level, rskip, aq_mode, aq_strength,
-        bframes, ref, me, subme, merange, strong_intra_smoothing, deblock, qcomp, limit_refs, limit_modes, sao, weight_b, limit_tu
+        lookahead_threads, min_keyint, keyint, rc_lookahead, lookahead_slices, rect, amp, rd, psy_rd, psy_rdoq, rdoq_level, rskip, aq_mode, aq_strength,
+        bframes, ref, me, subme, merange, strong_intra_smoothing, deblock, qcomp, limit_refs, limit_modes, sao, early_skip, weight_b, limit_tu
     }
 } = args;
 

@@ -400,7 +400,7 @@ export const
         // -color_range tv -color_primaries bt709 -color_trc bt709 -colorspace bt709 -chroma_sample_location left`
         const cRange = !c_range ? '' : `-color_range ${range}${setPrim()}${setTrc()}${setCspace()}${chromaLoc} `;
         const in_range = !vf_in ? '' : `:in_range=${range}:in_color_matrix=${space}:in_chroma_loc=${chroma_loc}`;
-        const _scale_range = !scale_range ? '' : `:out_range=${range}${setCspace('out_color_matrix', c_space/* && ispace*/)}${setChroma('out_chroma_loc', chroma_loc)}`;
+        const _scale_range = !scale_range ? '' : `:out_range=${range}${setCspace('out_color_matrix', scale_space/* && ispace*/)}${setChroma('out_chroma_loc', chroma_loc)}`;
         const out_range = !vf_range ? '' : `${in_range}${_scale_range}`;
         // -vf "colorspace=format=yuv420p10:irange=tv:iprimaries=bt709:itrc=bt709:ispace=bt709:range=tv:primaries=bt709:trc=bt709:space=bt709:fast=0"
         const range_space = range.replace('limited', 'tv');
