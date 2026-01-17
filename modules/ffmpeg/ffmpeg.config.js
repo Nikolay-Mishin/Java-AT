@@ -4,13 +4,16 @@ import { args, mkdir, writeFile } from './baseHelpers.js';
 import { getPresetType } from './presets.opts.js';
 
 const {
-    filesRootDir = 'Convert',
-    rootDir = `${filesRootDir}/FFMetrics`, // ${filesRootDir}/FFMetrics
-    root = `D:/${rootDir}`, // C:/Dev/OSPanel/domains/Java-AT/modules/ffmpeg // D:/${rootDir}
-    filesRoot = `F:/${filesRootDir}`,
     i: input = null, o = true,
     includeBaseMetrics = false, psnr = true, ssim = true, vmaf = false, hide_banner = false, m_r = false, endall = false, scale = false, format = false, scaleOriginal = true,
     type: presetType = null
+} = args;
+
+export const {
+    filesRootDir = 'Convert',
+    rootDir = 'C:/Dev/OSPanel/domains/Java-AT/modules/ffmpeg',
+    root = `${rootDir}/FFMetrics`,
+    filesRoot = `F:/${filesRootDir}`,
 } = args;
 
 export const

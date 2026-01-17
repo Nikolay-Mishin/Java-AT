@@ -1,14 +1,14 @@
 import { log } from 'console';
 import { resolve } from 'path';
 import { fileToArr, getFiles, readFile, writeFile, appendFile, mkdir, sliceTo, min } from './baseHelpers.js';
+import { rootDir } from './ffmpeg.config.js';
 
 const mediaInfoOpts = await fileToArr('mediaInfoOpts.txt');
 const mediaInfo = await fileToArr('mediaInfo.txt');
 
-const rootDir = 'D:/Convert';
-const baseDir = `${rootDir}/MediaInfo`;
+const root = `${rootDir}/MediaInfo`;
 const resultFile = `${rootDir}/.scan.txt`;
-const resultDir = `${baseDir}/out`;
+const resultDir = `${root}/out`;
 
 await mkdir(resultDir);
 
@@ -37,11 +37,13 @@ const parseFile = async (res, name) => {
 
 const getDiff = (data, base = mediaInfo, recursive = true) => {
     const arr = typeof data === 'string' ? data.toArr() : data;
+    //log(base);
     //log(arr);
     //log(arr.length);
     let diff = arr.reduce((acc, item, i, arr) => {
         const baseOpt = base[i];
         let result = item === baseOpt ? '' : `${baseOpt} => ${item}\r\n`;
+        //log(i);
         //log(baseOpt);
         //log(item);
         //log(item === baseOpt);
@@ -53,7 +55,7 @@ const getDiff = (data, base = mediaInfo, recursive = true) => {
             const itemLen = itemList.length;
             const _min = min(baseLen, itemLen);
             const max = baseLen === _min ? itemLen : baseLen;
-            //log(min);
+            //log(_min);
             //log(max);
             //log(baseList);
             //log(itemList);
@@ -69,7 +71,7 @@ const getDiff = (data, base = mediaInfo, recursive = true) => {
     return diff;
 };
 
-await scanDir(baseDir, false);
+await scanDir(root, false);
 
 //log(mediaInfoOpts);
 //log(mediaInfo);

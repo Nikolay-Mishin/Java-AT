@@ -255,18 +255,18 @@ const _testScripts = async (n = 0, s, args) => {
 
         if (n == 29) {
             await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -lookahead_slices=4 -n=156${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=10 -n=157${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=25 -n=158${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=25 -lookahead_slices=4 -n=159${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -early_skip=0 -n=160${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rskip=2 -n=161${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -ref=6 -n=162${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -ref=4 -n=163${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -bframes=4 -n=164${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=3 -subme=3 -n=165${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=2 -subme=3 -n=166${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=3 -subme=3 -merange=24 -n=167${a}`);
-            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=2 -subme=3 -merange=24 -n=168${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=10 -n=157${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=25 -n=158${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=25 -lookahead_slices=4 -n=159${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -early_skip=0 -n=160${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rskip=2 -n=161${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -ref=6 -n=162${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -ref=4 -n=163${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -bframes=4 -n=164${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=3 -subme=3 -n=165${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=2 -subme=3 -n=166${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=3 -subme=3 -merange=24 -n=167${a}`);
+            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -me=2 -subme=3 -merange=24 -n=168${a}`);
         }
 
         if (n == 30) {

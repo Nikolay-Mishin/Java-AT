@@ -1,11 +1,9 @@
 import { log } from 'console';
 import { fileToArr, writeFile, mkdir } from './baseHelpers.js';
+import { root } from './ffmpeg.config.js';
 
-const rootDir = 'D:/Convert/FFMetrics';
-const filePath = `${rootDir}/FFMetrics.csv`;
-const resultFile = `${rootDir}/FFMetrics.txt`;
-
-await mkdir(rootDir);
+const filePath = `${root}/FFMetrics.csv`;
+const resultFile = `${root}/FFMetrics.txt`;
 
 const data = await fileToArr(filePath, '\n', /"/g);
 const opts = data.shift().toArr('\t');

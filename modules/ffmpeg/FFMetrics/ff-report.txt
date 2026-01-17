@@ -15950,3 +15950,47 @@ encoded 34683 frames in 673.39s (51.50 fps), 782.14 kb/s, Avg QP:28.57
 [mkvpropedit] Изменения записаны в файл.
 [mi] s: 173082 KB, b: 980 kb/s, c: 26.036%, fc_o: 34683
 
+F:\Convert\files\[DC] Make Heroine ga Oosugiru - 07_Telegram_HEVC(153).mkv
+frame=34683 fps= 51 q=26.4 Lsize=  173081KiB time=00:24:06.48 bitrate= 980.2kbits/s speed=2.15x   
+encoded 34683 frames in 673.75s (51.48 fps), 782.14 kb/s, Avg QP:28.57
+[i_aCodecs] AAC (und, 192)
+[o_aCodecs] AAC (und, 192)
+[fps] MP4 => MKV fps_mode: cfr, cfr => cfr, 23.976 => 23.976
+[i_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[o_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[mkvpropedit] Изменения записаны в файл.
+[mi] s: 173082 KB, b: 980 kb/s, c: 26.036%, fc_o: 34683
+
+F:\Convert\files\[DC] Make Heroine ga Oosugiru - 07_Telegram_HEVC(154).mkv
+frame=34683 fps= 51 q=26.1 Lsize=  173216KiB time=00:24:06.48 bitrate= 981.0kbits/s speed=2.12x   
+encoded 34683 frames in 681.88s (50.86 fps), 782.91 kb/s, Avg QP:28.57
+[i_aCodecs] AAC (und, 192)
+[o_aCodecs] AAC (und, 192)
+[fps] MP4 => MKV fps_mode: cfr, cfr => cfr, 23.976 => 23.976
+[i_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[o_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[mkvpropedit] Изменения записаны в файл.
+[mi] s: 173217 KB, b: 981 kb/s, c: 26.056%, fc_o: 34683
+
+F:\Convert\files\[DC] Make Heroine ga Oosugiru - 07_Telegram_HEVC(155).mkv
+frame=34683 fps= 49 q=26.1 Lsize=  173212KiB time=00:24:06.48 bitrate= 981.0kbits/s speed=2.03x   
+encoded 34683 frames in 711.13s (48.77 fps), 782.88 kb/s, Avg QP:28.57
+[i_aCodecs] AAC (und, 192)
+[o_aCodecs] AAC (und, 192)
+[fps] MP4 => MKV fps_mode: cfr, cfr => cfr, 23.976 => 23.976
+[i_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[o_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[mkvpropedit] Изменения записаны в файл.
+[mi] s: 173213 KB, b: 981 kb/s, c: 26.055%, fc_o: 34683
+
+F:\Convert\files\[DC] Make Heroine ga Oosugiru - 07_Telegram_HEVC(156).mkv
+frame=34683 fps= 50 q=26.4 Lsize=  173085KiB time=00:24:06.48 bitrate= 980.2kbits/s speed=2.07x   
+encoded 34683 frames in 698.60s (49.65 fps), 782.16 kb/s, Avg QP:28.57
+[i_aCodecs] AAC (und, 192)
+[o_aCodecs] AAC (und, 192)
+[fps] MP4 => MKV fps_mode: cfr, cfr => cfr, 23.976 => 23.976
+[i_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[o_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[mkvpropedit] Изменения записаны в файл.
+[mi] s: 173086 KB, b: 980 kb/s, c: 26.036%, fc_o: 34683
+
