@@ -254,7 +254,7 @@ const _testScripts = async (n = 0, s, args) => {
         }
 
         if (n == 29) {
-            await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -lookahead_slices=4 -n=156${a}`);
+            //await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -lookahead_slices=4 -n=156${a}`);
             await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=10 -n=157${a}`);
             await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=25 -n=158${a}`);
             await run(s, `-c_range=true -vf_range=true -scale_space=true -vf_space=true -space=true -vf_sar=true -vf_dar=true -rc_lookahead=25 -lookahead_slices=4 -n=159${a}`);

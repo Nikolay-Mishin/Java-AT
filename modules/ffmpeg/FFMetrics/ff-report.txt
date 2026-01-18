@@ -15994,3 +15994,36 @@ encoded 34683 frames in 698.60s (49.65 fps), 782.16 kb/s, Avg QP:28.57
 [mkvpropedit] Изменения записаны в файл.
 [mi] s: 173086 KB, b: 980 kb/s, c: 26.036%, fc_o: 34683
 
+F:\Convert\files\[DC] Make Heroine ga Oosugiru - 07_Telegram_HEVC(157).mkv
+frame=34683 fps= 56 q=29.5 Lsize=  162410KiB time=00:24:06.48 bitrate= 919.8kbits/s speed=2.34x   
+encoded 34683 frames in 617.77s (56.14 fps), 721.71 kb/s, Avg QP:28.74
+[i_aCodecs] AAC (und, 192)
+[o_aCodecs] AAC (und, 192)
+[fps] MP4 => MKV fps_mode: cfr, cfr => cfr, 23.976 => 23.976
+[i_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[o_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[mkvpropedit] Изменения записаны в файл.
+[mi] s: 162412 KB, b: 920 kb/s, c: 24.431%, fc_o: 34683
+
+F:\Convert\files\[DC] Make Heroine ga Oosugiru - 07_Telegram_HEVC(158).mkv
+frame=34683 fps= 52 q=29.5 Lsize=  176313KiB time=00:24:06.48 bitrate= 998.5kbits/s speed=2.15x   
+encoded 34683 frames in 671.63s (51.64 fps), 800.44 kb/s, Avg QP:28.43
+[i_aCodecs] AAC (und, 192)
+[o_aCodecs] AAC (und, 192)
+[fps] MP4 => MKV fps_mode: cfr, cfr => cfr, 23.976 => 23.976
+[i_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[o_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[mkvpropedit] Изменения записаны в файл.
+[mi] s: 176314 KB, b: 998 kb/s, c: 26.522%, fc_o: 34683
+
+F:\Convert\files\[DC] Make Heroine ga Oosugiru - 07_Telegram_HEVC(159).mkv
+frame=34683 fps= 50 q=29.4 Lsize=  176183KiB time=00:24:06.48 bitrate= 997.8kbits/s speed=2.09x   
+encoded 34683 frames in 691.02s (50.19 fps), 799.71 kb/s, Avg QP:28.43
+[i_aCodecs] AAC (und, 192)
+[o_aCodecs] AAC (und, 192)
+[fps] MP4 => MKV fps_mode: cfr, cfr => cfr, 23.976 => 23.976
+[i_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[o_color] range: tv, primaries: bt709, trc: bt709, space: bt709, chroma: left
+[mkvpropedit] Изменения записаны в файл.
+[mi] s: 176185 KB, b: 998 kb/s, c: 26.502%, fc_o: 34683
+
